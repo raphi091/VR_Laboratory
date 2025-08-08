@@ -191,7 +191,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b76e9958003494d43aa7a100fd392cce, type: 2}
   m_sharedMaterial: {fileID: 7052977551052517377, guid: b76e9958003494d43aa7a100fd392cce, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 7052977551052517377, guid: b76e9958003494d43aa7a100fd392cce, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -686,7 +687,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -820,7 +822,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b76e9958003494d43aa7a100fd392cce, type: 2}
   m_sharedMaterial: {fileID: 7052977551052517377, guid: b76e9958003494d43aa7a100fd392cce, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 7052977551052517377, guid: b76e9958003494d43aa7a100fd392cce, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -922,7 +925,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f7ba0a46b449b41bb72959161c7a69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiKey: AIzaSyCWzY24B0_W4DPkXHMRe0LbQwf1ubyqS3Q
   chatDisplay: {fileID: 119187164}
   userInputField: {fileID: 1369824895}
   sendButton: {fileID: 305918546}
@@ -1292,7 +1294,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b76e9958003494d43aa7a100fd392cce, type: 2}
   m_sharedMaterial: {fileID: 7052977551052517377, guid: b76e9958003494d43aa7a100fd392cce, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 7052977551052517377, guid: b76e9958003494d43aa7a100fd392cce, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
