@@ -1775,6 +1775,7 @@ GameObject:
   - component: {fileID: 3447021288016449759}
   - component: {fileID: 3474945389674970787}
   - component: {fileID: 2342518439282169916}
+  - component: {fileID: 9041183987938408162}
   m_Layer: 0
   m_Name: Ray Interactor
   m_TagString: Untagged
@@ -2198,6 +2199,32 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 30005
   m_SortAtRoot: 0
+--- !u!114 &9041183987938408162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3123583392937310197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b35d6bd24e195c84f91100151a151684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocityProperty:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Velocity Property
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 0565f7a6-af2f-46dc-84b7-0c96b35641fc
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 55713661957825118, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  velocity: {x: 0, y: 0, z: 0}
+  magnitude: 0
 --- !u!1 &3165545634456684188
 GameObject:
   m_ObjectHideFlags: 0
@@ -4035,6 +4062,7 @@ GameObject:
   - component: {fileID: 7233804626501818572}
   - component: {fileID: 4062629038580358935}
   - component: {fileID: 272976638684665795}
+  - component: {fileID: 6007104461747264120}
   m_Layer: 0
   m_Name: Ray Interactor
   m_TagString: Untagged
@@ -4458,6 +4486,32 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 30005
   m_SortAtRoot: 0
+--- !u!114 &6007104461747264120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6982416056445822590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b35d6bd24e195c84f91100151a151684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocityProperty:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Velocity Property
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 99f294b0-7dd6-4fc2-87ec-f7219db694bb
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -5390227482875353744, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  velocity: {x: 0, y: 0, z: 0}
+  magnitude: 0
 --- !u!1 &7498293219558533919
 GameObject:
   m_ObjectHideFlags: 0
@@ -4596,6 +4650,7 @@ GameObject:
   - component: {fileID: 7751547464272144306}
   - component: {fileID: 4503580919989411475}
   - component: {fileID: 3055818945267247403}
+  - component: {fileID: 8094824960242426354}
   m_Layer: 0
   m_Name: Direct Interactor
   m_TagString: Untagged
@@ -4729,6 +4784,32 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8094824960242426354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7617701422791996797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b35d6bd24e195c84f91100151a151684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocityProperty:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Velocity Property
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 72e512fc-e961-44bd-9e31-ab000a373619
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 55713661957825118, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  velocity: {x: 0, y: 0, z: 0}
+  magnitude: 0
 --- !u!1 &8872463552069113751
 GameObject:
   m_ObjectHideFlags: 0
@@ -4853,6 +4934,7 @@ GameObject:
   - component: {fileID: 2551245566734177397}
   - component: {fileID: 7189538423090852785}
   - component: {fileID: 171916656095338956}
+  - component: {fileID: 3180096674931465317}
   m_Layer: 0
   m_Name: Direct Interactor
   m_TagString: Untagged
@@ -4986,6 +5068,32 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3180096674931465317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8894164390415603923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b35d6bd24e195c84f91100151a151684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocityProperty:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Velocity Property
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: b0301c52-a7f9-429b-b0fd-bc7313b3ea93
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -5390227482875353744, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  velocity: {x: 0, y: 0, z: 0}
+  magnitude: 0
 --- !u!1 &8918979682556564617
 GameObject:
   m_ObjectHideFlags: 0

@@ -445,27 +445,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Sit",
+                    "name": "Primary Button",
                     "type": "Button",
-                    "id": "b433d49c-44e5-4a01-902d-22f3fbc19dd0",
+                    "id": "56ed8078-d5f3-4cc0-8585-3638555e73ba",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Liedown",
+                    "name": "Secondary Button",
                     "type": "Button",
-                    "id": "be182a26-bc3b-45fe-8aeb-8d5292c77097",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Menu",
-                    "type": "Button",
-                    "id": "3f9ef584-1c7c-46a7-8dfc-b175eabffa2c",
+                    "id": "b7fc17fb-eb4e-455c-8540-9f0726e79534",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -706,34 +697,23 @@
                 },
                 {
                     "name": "",
-                    "id": "7b4ca755-9714-4775-850a-c3f3befe67f7",
-                    "path": "<XRController>/primaryButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Sit",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5c2fc458-8ae8-437a-8792-40d3454e8d8a",
-                    "path": "<XRController>/secondaryButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Liedown",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9be855c2-23d5-4ce9-9ac9-e2e1ac53c5df",
+                    "id": "b3aacf74-2b97-4cc2-9d59-1cab8e9a0ad9",
                     "path": "<XRController>{LeftHand}/{PrimaryButton}",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Menu",
+                    "action": "Primary Button",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9a0ebde0-c23d-4b13-9b16-3e4f757b6679",
+                    "path": "<XRController>{LeftHand}/{SecondaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Secondary Button",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -841,33 +821,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "Menu",
-                    "type": "Button",
-                    "id": "ebf6cfd5-43d4-47a5-b50a-509e38430014",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "PrimaryButton",
-                    "type": "Button",
-                    "id": "46818d61-18b7-4faf-89d5-657ec6b74bbb",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SecondaryButton",
-                    "type": "Button",
-                    "id": "66447594-5677-4aaa-b966-24b6786ed95a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1033,61 +986,6 @@
                     "processors": "ScaleVector2(x=0),StickDeadzone",
                     "groups": "Generic XR Controller",
                     "action": "Scale Delta",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8c77e29f-9cc1-47c3-b590-83fbd078d3a8",
-                    "path": "<XRController>{LeftHand}/secondaryButton ",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Generic XR Controller",
-                    "action": "Menu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d3ded52e-4a61-4232-b3ef-97297599f38f",
-                    "path": "<XRSimulatedController>{LeftHand}/secondaryButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SecondaryButton",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9465c61b-0937-45f6-a39d-6ddf7b3072ea",
-                    "path": "<XRController>{LeftHand}/{SecondaryButton}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SecondaryButton",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a32c30eb-1e95-464f-9a56-3f23de36d922",
-                    "path": "<XRSimulatedController>{LeftHand}/primaryButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PrimaryButton",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "cb0ac26a-548e-426e-8680-1c7d5a6fcf90",
-                    "path": "<XRController>{LeftHand}/{PrimaryButton}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PrimaryButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -1383,9 +1281,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Select",
+                    "name": "Primary Button",
                     "type": "Button",
-                    "id": "7bf669a7-efcd-44fc-9856-a44aeac0ab30",
+                    "id": "667701a3-e189-4be7-bebd-78040514ba5c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Secondary Button",
+                    "type": "Button",
+                    "id": "fe1fc6ff-c486-4aec-a7bb-c86978152d4d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -1626,12 +1533,23 @@
                 },
                 {
                     "name": "",
-                    "id": "7554e81d-14dd-4420-8657-e2c692a55515",
-                    "path": "<XRController>/primaryButton",
+                    "id": "8a981c6c-4eec-47a4-a8a2-e59f20173f20",
+                    "path": "<XRController>{RightHand}/{PrimaryButton}",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Generic XR Controller",
-                    "action": "Select",
+                    "groups": "",
+                    "action": "Primary Button",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c2560855-9985-4d0f-830a-c1d2f46d9f1c",
+                    "path": "<XRController>{RightHand}/{SecondaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Secondary Button",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -1739,33 +1657,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "Call Dog",
-                    "type": "Button",
-                    "id": "81210372-ed6d-4084-b9ca-9e3cdec0a97c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "PrimaryButton",
-                    "type": "Button",
-                    "id": "c37a84e2-7b57-420d-8a04-c0bd50a9c2ab",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SecondaryButton",
-                    "type": "Button",
-                    "id": "61a65d8d-7ba3-4139-aaf2-28361d82ccd1",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1931,39 +1822,6 @@
                     "processors": "ScaleVector2(x=0),StickDeadzone",
                     "groups": "Generic XR Controller",
                     "action": "Scale Delta",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "376d6dd1-f06c-4ba4-bffb-b5b75537ec74",
-                    "path": "<XRController>/secondaryButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Call Dog",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "404c2855-52c2-4bc6-8e43-aef51aafa6bd",
-                    "path": "<XRController>{RightHand}/{PrimaryButton}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PrimaryButton",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6f540c8a-746f-4fe2-a915-0d24adb13e15",
-                    "path": "<XRController>{RightHand}/{SecondaryButton}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SecondaryButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
