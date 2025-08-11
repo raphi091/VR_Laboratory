@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3881d5b5e624b804ebc2951f09d53158, type: 3}
+  m_Name: "\uCFE0\uB9C8\uC2DC \uBE14\uB8E8 \uC5FC\uC0C9\uC561"
+  m_EditorClassIdentifier: 
+  liquidName: "\uCFE0\uB9C8\uC2DC \uBE14\uB8E8 \uC5FC\uC0C9\uC561"
+  formula: "C\u2084\u2085H\u2084\u2084N\u2083NaO\u2087S\u2082"
+  description: "\uC804\uAE30\uC601\uB3D9 \uD6C4 \uAC94\uC5D0 \uC788\uB294 \uBAA8\uB4E0
+    \uB2E8\uBC31\uC9C8 \uBC34\uB4DC\uB97C \uC5FC\uC0C9\uD558\uC5EC \uC2DC\uAC01\uD654."
+  colorName: "\uC9C4\uD55C \uD30C\uB780\uC0C9"
+  color: {r: 0, g: 0, b: 0.54509807, a: 1}

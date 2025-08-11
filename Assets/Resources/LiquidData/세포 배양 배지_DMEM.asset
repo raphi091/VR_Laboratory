@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3881d5b5e624b804ebc2951f09d53158, type: 3}
+  m_Name: "\uC138\uD3EC \uBC30\uC591 \uBC30\uC9C0_DMEM"
+  m_EditorClassIdentifier: 
+  liquidName: "\uC138\uD3EC \uBC30\uC591 \uBC30\uC9C0 (DMEM)"
+  formula: '-'
+  description: "\"\uC138\uD3EC \uC131\uC7A5\uC5D0 \uD544\uC694\uD55C \uC601\uC591\uC18C(\uC544\uBBF8\uB178\uC0B0"
+  colorName: " \uBE44\uD0C0\uBBFC \uB4F1)\uB97C \uACF5\uAE09. pH \uC9C0\uC2DC\uC57D
+    \uB54C\uBB38\uC5D0 \uBD89\uC740\uC0C9.\""
+  color: {r: 0, g: 0, b: 0, a: 0}
