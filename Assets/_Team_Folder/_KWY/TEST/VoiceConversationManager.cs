@@ -37,6 +37,10 @@ public class VoiceConversationManager : MonoBehaviour
     [Tooltip("자막이 표시될 시간(초)")]
     [SerializeField] private float subtitleDisplayDuration = 5f;
 
+    [Header("XR 입력 설정")]
+    [Tooltip("음성 인식을 활성화할 입력 액션입니다.")]
+    [SerializeField] private InputActionReference activateVoiceAction;
+
     // 비공개 변수들
     private string apiKey;
     private HttpClient httpClient;
@@ -84,6 +88,8 @@ public class VoiceConversationManager : MonoBehaviour
             appVoiceExperience.VoiceEvents.OnSend.AddListener((_) => Debug.Log("음성 인식 요청 전송됨."));
             appVoiceExperience.VoiceEvents.OnRequestCompleted.AddListener(() => Debug.Log("음성 인식 종료됨."));
         }
+
+        activateVoiceAction.action.Enable();
     }
 
     // 스크립트가 비활성화될 때 호출됩니다.
@@ -94,13 +100,15 @@ public class VoiceConversationManager : MonoBehaviour
         {
             appVoiceExperience.VoiceEvents.OnFullTranscription.RemoveListener(OnTranscriptionReceived);
         }
+
+        activateVoiceAction.action.Disable();
     }
 
     // 매 프레임마다 호출됩니다.
     private void Update()
     {
-        // 로딩 중이 아닐 때, 키보드의 'T' 키를 누르면 음성 인식을 시작/중지합니다.
-        if (!isLoading && Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
+        // 로딩 중이 아닐 때, 지정된 입력 액션(컨트롤러 버튼)이 눌렸는지 확인합니다.
+        if (!isLoading && activateVoiceAction.action.WasPressedThisFrame())
         {
             ToggleVoiceRecognition();
         }
