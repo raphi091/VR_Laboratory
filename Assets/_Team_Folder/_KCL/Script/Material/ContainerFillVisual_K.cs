@@ -6,77 +6,132 @@ public class ContainerFillVisual_K : MonoBehaviour
     public ContentType contentType = ContentType.Liquid;
 
     [Header("Refs")]
-    public Transform fillRoot;     // 병 안 바닥에 피벗 둔 빈 오브젝트
-    public Transform volumeMesh;   // Cylinder 등: 내용물 몸통
-    public Transform surface;      // 윗면(원형): 얇게
+    public Transform fillRoot;     // 병 바닥 기준(로컬 피벗)
+    public Transform volumeMesh;   // 내용물 몸통(실린더 등)
 
     [Header("Capacity/Amount")]
-    public float capacity = 200f;  // mL 또는 g (단위는 자유)
-    public float amount   = 140f;  // 초기 담긴 양
-    public float maxHeight = 0.12f; // volumeMesh가 Y로 커질 최대 높이(씬 스케일에 맞춤)
+    public float capacity  = 300f; // 총 용량
+    public float amount    = 270f; // 현재 양
+    public float maxHeight = 0.14f; // '보이는' 최대 높이(로컬 Y)
 
-    [Header("Liquid surface follow gravity")]
-    public bool keepSurfaceLevel = true; // 액체: 수평 유지
+    [Header("Behaviour")]
+    public bool keepVolumeUpright = false; // 물기둥을 병과 같이 회전(false) / 항상 수직(true)
 
-    float lastShownFill = -1f;
+    [Header("Apply Options")]
+    public bool autoScaleY = true;     // 플레이 중에만 Y 스케일 자동 반영
+    public bool applyInEditor = false; // 에디터에서도 반영(기본 꺼짐)
 
-    public float Fill01 => Mathf.Clamp01(capacity > 0 ? amount / capacity : 0f);
+    [Header("Simple Slosh (optional)")]
+    public bool  enableSlosh     = true;
+    [Range(0f, 3f)] public float sloshResponse = 1.2f;
+    public float sloshHeightAmp  = 0.03f;
+    public float sloshFollow     = 8f;
+    public float sloshReturn     = 4f;
+
+    Rigidbody rb;
+    Quaternion _lastRot;
+    bool _initRot = false;
+    float sloshY;
+
+    public float Fill01 => Mathf.Clamp01(capacity > 0f ? amount / capacity : 0f);
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        _lastRot = transform.rotation;
+        _initRot = true;
+    }
 
     void Reset()
     {
-        if (!fillRoot)  fillRoot  = transform;
-        if (!volumeMesh || !surface)
+        if (!fillRoot) fillRoot = transform;
+        if (!volumeMesh)
         {
-            // 자식 이름 관례로 자동 찾기 (선택)
             foreach (Transform t in GetComponentsInChildren<Transform>(true))
-            {
                 if (!volumeMesh && t.name.ToLower().Contains("volume")) volumeMesh = t;
-                if (!surface   && t.name.ToLower().Contains("surface")) surface   = t;
-            }
         }
+    }
+
+    void OnValidate()
+    {
+        amount = Mathf.Clamp(amount, 0f, Mathf.Max(0f, capacity));
+        // 에디터에서 보정은 선택사항
+        if (applyInEditor) ApplyFillVisual(0f);
     }
 
     void LateUpdate()
     {
-        // 수위/크기 업데이트
-        ApplyFillVisual();
-
-        // 액체면 수평 유지
-        if (keepSurfaceLevel && surface)
-            surface.up = Vector3.up; // 항상 세계의 위쪽을 바라보게
+        // 플레이 중에만 자동스케일(또는 applyInEditor ON이면 에디터에서도)
+        if (Application.isPlaying || applyInEditor)
+            ApplyFillVisual(Time.deltaTime);
     }
 
-    void ApplyFillVisual()
+    void ApplyFillVisual(float dt)
     {
-        if (!volumeMesh) return;
+        if (!fillRoot || !volumeMesh) return;
 
-    // 1) 채움 비율
-    float fill = Fill01; // 0~1
+        // 채움 비율 → 로컬 높이 계산
+        float f      = Fill01;
+        float hLocal = Mathf.Max(0.001f, f * maxHeight);
 
-    // 2) 볼륨 높이(Y) 반영
-    var s = volumeMesh.localScale;
-    s.y = Mathf.Max(0.001f, fill * maxHeight);
-    volumeMesh.localScale = s;
+        // 부모 스케일 보정으로 월드 높이 환산
+        float parentScaleY = volumeMesh.parent ? volumeMesh.parent.lossyScale.y : 1f;
+        float hWorld = hLocal * parentScaleY;
 
-    // 3) 바닥에서 위로만 자라 보이게 위치 보정
-    var vp = volumeMesh.localPosition;
-    vp.y = s.y * 0.5f;
-    volumeMesh.localPosition = vp;
+        Vector3 worldBottom = fillRoot.position;
+        Vector3 worldTop    = keepVolumeUpright
+            ? worldBottom + Vector3.up * hWorld
+            : fillRoot.TransformPoint(new Vector3(0f, hLocal, 0f));
 
-    // 4) 액면(서피스) 위치/표시
-    if (surface)
-    {
-        var p = surface.localPosition;
-        p.y = s.y;                 // 볼륨 꼭대기와 동일 높이
-        surface.localPosition = p;
-        surface.gameObject.SetActive(fill > 0.001f);
-    }
+        // 회전/위치
+        if (keepVolumeUpright)
+        {
+            volumeMesh.up = Vector3.up;
+            volumeMesh.position = (worldBottom + worldTop) * 0.5f;
+        }
+        else
+        {
+            volumeMesh.rotation = fillRoot.rotation;
+            volumeMesh.position = (worldBottom + worldTop) * 0.5f;
+        }
 
-    // 5) 마지막 표시값 저장
-    lastShownFill = fill;
+        // — 여기서부터 스케일 Y 반영(원치 않으면 autoScaleY 끄기) —
+        if (autoScaleY)
+        {
+            var vs = volumeMesh.localScale;
+            vs.y = hLocal;               // **여기만 Y 스케일 조정**
+            volumeMesh.localScale = vs;
+        }
+
+        // 간단 출렁(선택)
+        if (enableSlosh)
+        {
+            float angSpeed = 0f;
+            if (_initRot)
+            {
+                float angleDeg = Quaternion.Angle(_lastRot, transform.rotation);
+                angSpeed = (dt > 0f) ? angleDeg * Mathf.Deg2Rad / dt : 0f;
+                _lastRot = transform.rotation;
+            }
+            else { _lastRot = transform.rotation; _initRot = true; }
+
+            float tilt = Vector3.Angle(fillRoot.up, Vector3.up) * Mathf.Deg2Rad;
+            float target = Mathf.Clamp01(angSpeed * sloshResponse + tilt * 0.2f) * sloshHeightAmp;
+
+            float riseT  = (sloshFollow > 0f) ? (1f - Mathf.Exp(-sloshFollow * dt)) : 1f;
+            float decayT = (sloshReturn > 0f) ? (1f - Mathf.Exp(-sloshReturn * dt)) : 1f;
+            if (target > sloshY) sloshY = Mathf.Lerp(sloshY, target, riseT);
+            else                 sloshY = Mathf.Lerp(sloshY, 0f,     decayT);
+
+            // 슬로시 높이는 월드 위치로만 표현(메시 스케일은 건드리지 않음)
+            if (keepVolumeUpright) volumeMesh.position += Vector3.up * sloshY * 0.0f; // 원하면 0.0f → 0.5f 정도로
+        }
     }
 
     // 외부에서 양 증감
-    public void Add(float delta)  { amount = Mathf.Clamp(amount + delta, 0f, capacity); }
-    public void SetAmount(float v){ amount = Mathf.Clamp(v, 0f, capacity); }
+    public void Add(float delta)       => amount = Mathf.Clamp(amount + delta, 0f, capacity);
+    public void SetAmount(float value) => amount = Mathf.Clamp(value, 0f, capacity);
+
+    [ContextMenu("Force Apply Now")]
+    void ForceApplyNow() => ApplyFillVisual(0f);
 }
