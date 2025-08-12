@@ -5,7 +5,6 @@ public class LiquidData_L : ScriptableObject
 {
     [Header("기본정보")]
     public string liquidName;
-    public string formula;
 
     [TextArea]
     public string description;
