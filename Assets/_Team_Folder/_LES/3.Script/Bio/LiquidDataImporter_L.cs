@@ -31,11 +31,10 @@ public class LiquidDataImporter_L
             LiquidData_L data = ScriptableObject.CreateInstance<LiquidData_L>();
 
             data.liquidName = values[0];
-            data.formula = values[1];
-            data.description = values[2];
-            data.colorName = values[3];
+            data.description = values[1];
+            data.colorName = values[2];
             
-            if (ColorUtility.TryParseHtmlString(values[4], out Color newColor))
+            if (ColorUtility.TryParseHtmlString(values[3], out Color newColor))
             {
                 data.color = newColor;
             }

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3881d5b5e624b804ebc2951f09d53158, type: 3}
+  m_Name: "DNA \uB798\uB354"
+  m_EditorClassIdentifier: 
+  liquidName: "DNA \uB798\uB354"
+  description: "DNA \uD06C\uAE30\uB97C \uD310\uBCC4\uD560 \uC218 \uC788\uB294 \uAE30\uC900\uC120
+    \uC5ED\uD560\uC744 \uD558\uB294 \uC5EC\uB7EC \uD06C\uAE30\uC758 DNA \uC870\uAC01
+    \uD63C\uD569\uBB3C.(\uB85C\uB529 \uC5FC\uB8CC\uC640 \uC11E\uC5EC)"
+  colorName: " \uD30C\uB780\uC0C9/\uBCF4\uB77C\uC0C9"
+  color: {r: 0.5411765, g: 0.16862746, b: 0.8862745, a: 1}
