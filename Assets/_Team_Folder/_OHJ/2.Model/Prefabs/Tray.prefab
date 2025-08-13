@@ -437,6 +437,7 @@ MonoBehaviour:
   filling: 0.1
   stopPos: 0.1
   pos: {x: 0, y: 0, z: 0}
+  isfilling: 0
 --- !u!1 &6024780059460704817
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,7 +556,7 @@ GameObject:
   - component: {fileID: 4448340974215181320}
   - component: {fileID: 8728508616318614492}
   m_Layer: 0
-  m_Name: Gel
+  m_Name: Tray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
