@@ -13,30 +13,8 @@ public class C_Pipette : MonoBehaviour
     
     public LiquidData_L LiquidData { get => liquidData; set => liquidData = value; }
     
-    private ParticleSystem particleSystem;
     private bool isSelected = false;
-
-    private void Awake()
-    {
-        particleSystem=GetComponentInChildren<ParticleSystem>();
-        rightPippetPush.action.performed += OnPippet;
-        leftPippetPush.action.performed += OnPippet;
-    }
-
-    private void OnDisable()
-    {
-        rightPippetPush.action.performed -= OnPippet;
-        leftPippetPush.action.performed -= OnPippet;
-    }
-
-    void OnPippet(InputAction.CallbackContext context)
-    {
-        if (isSelected)
-        {
-            particleSystem.Play();
-        }
-    }
-
+    
     public void OnSelectEntered(SelectEnterEventArgs args)
     {
         isSelected = true;
@@ -45,5 +23,10 @@ public class C_Pipette : MonoBehaviour
     public void OnSelectExited(SelectExitEventArgs args)
     {
         isSelected = false;
+    }
+
+    public void SetLiquidData(LiquidData_L liquidData)
+    {
+        this.liquidData = liquidData;
     }
 }
