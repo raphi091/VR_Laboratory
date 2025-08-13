@@ -59,8 +59,8 @@ public class Tube : MonoBehaviour
                 fillValue -= PourValue;
                 mat.SetFloat("_Fill", fillValue);
 
-                Debug.Log($"현재 양 : {fillValue}");
-                Debug.Log($"액체 흘려나옵니다 angle = {angle}");
+                //Debug.Log($"현재 양 : {fillValue}");
+                //Debug.Log($"액체 흘려나옵니다 angle = {angle}");
 
 
                 if (!ParticleObj.activeInHierarchy)
@@ -98,9 +98,11 @@ public class Tube : MonoBehaviour
 
                 if (Physics.Raycast(ray, out hit))
                 {
+                    Debug.Log($"{hit.transform.name}");
                     if (hit.transform == gelTray)
                     {
                         fill.isfilling = true;
+                        Debug.Log("레이케스트작동 중");
                     }
 
                     else
