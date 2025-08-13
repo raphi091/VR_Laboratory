@@ -726,6 +726,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7415484288189993491, guid: 4c7df76d84c87a44ba57f3ccbebc5de4, type: 3}
+      propertyPath: gelObj
+      value: 
+      objectReference: {fileID: 516626112}
+    - target: {fileID: 7415484288189993491, guid: 4c7df76d84c87a44ba57f3ccbebc5de4, type: 3}
+      propertyPath: stopPos
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 8044365782483350981, guid: 4c7df76d84c87a44ba57f3ccbebc5de4, type: 3}
       propertyPath: m_Name
       value: Tray
