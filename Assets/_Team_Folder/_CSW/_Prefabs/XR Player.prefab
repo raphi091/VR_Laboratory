@@ -5031,6 +5031,7 @@ GameObject:
   - component: {fileID: 6737907479556635813}
   - component: {fileID: 8291959256816621605}
   - component: {fileID: 4150839685739033521}
+  - component: {fileID: 7869104319963907311}
   m_Layer: 2
   m_Name: XR Origin
   m_TagString: Untagged
@@ -5169,6 +5170,20 @@ MonoBehaviour:
   m_AimAssistRequiredSpeed: 0.25
   m_AimAssistPercent: 0.8
   m_AimAssistMaxSpeedPercent: 10
+--- !u!114 &7869104319963907311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7729059135691971195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d49b51c9f2a95724d95d1ede55a7b4ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetNpc: {fileID: 0}
+  startConversationAction: {fileID: -5867158752056224167, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1 &8196344986079315435
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class C_Pipette : MonoBehaviour
+public class C_Pipette : MonoBehaviour, C_ExperimentProp
 {
     [SerializeField] private LiquidData_L liquidData;
     [SerializeField] private InputActionReference rightPippetPush;
@@ -24,9 +24,24 @@ public class C_Pipette : MonoBehaviour
     {
         isSelected = false;
     }
-
-    public void SetLiquidData(LiquidData_L liquidData)
+    
+    public void ImportLiquidData(LiquidData_L liquidData)
     {
         this.liquidData = liquidData;
+    }
+    
+    public LiquidData_L ExportLiquidData()
+    {
+        return liquidData;
+    }
+    
+    public LiquidData_L ExportLiquidData(LiquidData_L liquidData)
+    {
+        return null;
+    }
+
+    public List<LiquidData_L> ExportLiquidDataList()
+    {
+        return null;
     }
 }
