@@ -10,8 +10,6 @@ public class Fill : MonoBehaviour
     public Vector3 Startpos;
     public bool isfilling = false;
 
-    public GameObject gelObj;
-
     private void Awake()
     {
         Startpos = transform.position;
@@ -29,6 +27,7 @@ public class Fill : MonoBehaviour
         {
             if (isfilling)
             {
+                Debug.Log("1");
                 pos.y += filling * Time.deltaTime;
 
                 if (pos.y > stopPos)
@@ -37,6 +36,7 @@ public class Fill : MonoBehaviour
                     yield break;
                 }
                 transform.position = pos;
+                Debug.Log("올라왔습니다");
             }
 
             yield return null;
@@ -56,8 +56,6 @@ public class Fill : MonoBehaviour
     //        transform.position = pos;
     //    }
     //}
-
-    //private IEnumerator
 
     public void OriginPos()
     {
