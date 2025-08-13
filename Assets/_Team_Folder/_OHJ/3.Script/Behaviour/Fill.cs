@@ -7,6 +7,7 @@ public class Fill : MonoBehaviour
     public float filling = 0.1f;
     public float stopPos = 0.5f;
     public Vector3 pos = Vector3.zero;
+    public bool isfilling = false;
 
     private void Start()
     {
@@ -15,12 +16,15 @@ public class Fill : MonoBehaviour
 
     private void Update()
     {
-        pos.y += filling * Time.deltaTime;
-
-        if(pos.y > stopPos)
+        if(isfilling)
         {
-            pos.y = stopPos;
+            pos.y += filling * Time.deltaTime;
+
+            if(pos.y > stopPos)
+            {
+                pos.y = stopPos;
+            }
+            transform.position = pos;
         }
-        transform.position = pos;
     }
 }
