@@ -35,10 +35,9 @@ public class C_Flask : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
-        C_Pipette pipette = other.GetComponent<C_Pipette>();
         if (other.CompareTag("Pippet"))
         {
-            if (liquidData.Contains(pipette.LiquidData))
+            if (liquidData.Contains(GetComponent<C_Pipette>().LiquidData))
             {
                 
             }
