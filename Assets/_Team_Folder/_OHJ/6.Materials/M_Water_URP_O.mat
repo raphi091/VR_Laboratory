@@ -165,7 +165,7 @@ Material:
     - _FoamColor: {r: 0.61960787, g: 0.9960785, b: 0.9450981, a: 1}
     - _FresnelColor: {r: 0.8066038, g: 0.9613677, b: 1, a: 0}
     - _GradientColor: {r: 1, g: 1, b: 1, a: 0}
-    - _LiquidColor: {r: 0.34433952, g: 0.9642616, b: 1, a: 0}
+    - _LiquidColor: {r: 0.8726415, g: 0.9949618, b: 1, a: 0}
     - _MetalColor: {r: 0, g: 1, b: 0, a: 0}
     - _MossColor: {r: 1, g: 1, b: 1, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
