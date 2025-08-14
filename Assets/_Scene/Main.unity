@@ -839,7 +839,7 @@ PrefabInstance:
     - target: {fileID: 1008479721264490940, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
       propertyPath: cultureExperiment
       value: 
-      objectReference: {fileID: 11400000, guid: c4f9390c9e970e941a2ae2bd7e3b89e9, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1032221717268955763, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
       propertyPath: pcrExperiment
       value: 
@@ -855,7 +855,7 @@ PrefabInstance:
     - target: {fileID: 1032221717268955763, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
       propertyPath: cultureExperiment
       value: 
-      objectReference: {fileID: 11400000, guid: c4f9390c9e970e941a2ae2bd7e3b89e9, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1032221717268955763, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
       propertyPath: interestTargetTransform
       value: 

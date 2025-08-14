@@ -69,6 +69,8 @@ public class NpcController_G : MonoBehaviour
             subtitleDisplay.text = "";
             subtitleDisplay.gameObject.SetActive(false);
         }
+
+        previousStateBeforeQuestion = NPCState.Greeting;
     }
 
     private void OnEnable()
@@ -203,7 +205,6 @@ public class NpcController_G : MonoBehaviour
                         Debug.LogWarning($"[NpcController] {currentExperiment.ExperimentName}의 {i + 1}번째 행동에 TargetTransform이 지정되지 않아 Move 행동을 건너뜁니다.");
                     }
                     break;
-
                 case ActionType.Speak:
                     yield return StartCoroutine(ShowSubtitle_co(currentAction.Instruction));
                     break;
@@ -360,7 +361,21 @@ public class NpcController_G : MonoBehaviour
 
         yield return StartCoroutine(ProcessSubtitleQueue_co(sentences));
 
-        ChangeState(previousStateBeforeQuestion);
+        if (previousStateBeforeQuestion == NPCState.None)
+        {
+            if (pcrExperiment != null && cultureExperiment != null)
+            {
+                ChangeState(NPCState.Greeting);
+            }
+            else
+            {
+                ChangeState(NPCState.FreeConversation);
+            }
+        }
+        else
+        {
+            ChangeState(previousStateBeforeQuestion);
+        }
     }
     #endregion
 
