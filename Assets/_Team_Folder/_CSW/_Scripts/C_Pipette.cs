@@ -11,12 +11,12 @@ public class C_Pipette : MonoBehaviour, C_ExperimentTool
     [SerializeField] private InputActionReference rightPippetPush;
     [SerializeField] private InputActionReference leftPippetPush;
     [SerializeField] private ToolType toolType=ToolType.None;
+    [SerializeField] private bool isWritable = false;
     
     public List<LiquidData_L> LiquidDatas { get => liquidDatas; set => liquidDatas = value; }
     public ToolType ToolType { get => toolType; set => toolType = value; }
     public bool IsWritable { get => isWritable; set => isWritable = value; }
     
-    private bool isWritable = false;
 
     void OnEnable()
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class C_Flask : MonoBehaviour, C_ExperimentTool
+public class C_Tray : MonoBehaviour, C_ExperimentTool
 {
     [SerializeField] private List<LiquidData_L> liquidDatas=new List<LiquidData_L>();
     [SerializeField] private ToolType toolType=ToolType.None;
