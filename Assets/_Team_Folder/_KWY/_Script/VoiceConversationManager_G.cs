@@ -78,8 +78,7 @@ public class VoiceConversationManager_G : MonoBehaviour
     private bool isConversationLoading = false;
     private CancellationTokenSource cancellationTokenSource;
     private ListeningMode currentMode = ListeningMode.None;
-    private ExperimentData currentExperiment;
-    private int currentStepIndex;
+    private List<string> currentCompletionKeywords;
 
     #region Unity Lifecycle
     private void Awake()
@@ -189,12 +188,15 @@ public class VoiceConversationManager_G : MonoBehaviour
         ActivateVoiceSDK();
     }
 
-    public void StartListeningForTask(ExperimentData experiment, int stepIndex)
+    public void StartListeningForTask(List<string> completionKeywords)
     {
-        currentExperiment = experiment;
-        currentStepIndex = stepIndex;
+        currentCompletionKeywords = completionKeywords;
         currentMode = ListeningMode.TaskOrQuestion;
         ActivateVoiceSDK();
+    }
+
+    public void HandlePlayerInteraction()
+    {
     }
 
     private void ActivateVoiceSDK()
@@ -244,10 +246,8 @@ public class VoiceConversationManager_G : MonoBehaviour
 
     private void ProcessTaskOrQuestion(string text)
     {
-        List<string> keywords = currentExperiment.Steps[currentStepIndex].CompletionKeywords;
         bool isTaskCompleted = false;
-
-        foreach (string keyword in keywords)
+        foreach (string keyword in currentCompletionKeywords)
         {
             if (text.Contains(keyword))
             {
