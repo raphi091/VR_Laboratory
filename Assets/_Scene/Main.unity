@@ -500,6 +500,10 @@ PrefabInstance:
       propertyPath: targetNpc
       value: 
       objectReference: {fileID: 1510308620}
+    - target: {fileID: 7869104319963907311, guid: 922214bad48a45b44af62c922346f4b9, type: 3}
+      propertyPath: interactionAction
+      value: 
+      objectReference: {fileID: -5867158752056224167, guid: c348712bda248c246b8c49b3db54643f, type: 3}
     - target: {fileID: 7997927522602888799, guid: 922214bad48a45b44af62c922346f4b9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
