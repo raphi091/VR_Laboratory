@@ -16,7 +16,8 @@ public class NpcController_G : MonoBehaviour
         WaitingForChoice,
         ExecutingExperiment,
         Processing,
-        Finishing
+        Finishing,
+        FreeConversation
     }
 
     [Header("플레이어")]
@@ -45,6 +46,7 @@ public class NpcController_G : MonoBehaviour
     private Animator npcAnimator;
     private NavMeshAgent navMeshAgent;
     private NPCState currentState = NPCState.None;
+    private NPCState previousStateBeforeQuestion;
     private Coroutine currentStateCoroutine;
     private ExperimentData currentExperiment;
     private float timeInCurrentState = 0f;
@@ -67,6 +69,8 @@ public class NpcController_G : MonoBehaviour
             subtitleDisplay.text = "";
             subtitleDisplay.gameObject.SetActive(false);
         }
+
+        previousStateBeforeQuestion = NPCState.Greeting;
     }
 
     private void OnEnable()
@@ -77,6 +81,7 @@ public class NpcController_G : MonoBehaviour
             voiceManager.OnResponseReceived += OnGeminiResponseReceived;
             voiceManager.OnExperimentChosen += OnExperimentChosen;
             voiceManager.OnTaskCompleted += OnTaskCompleted;
+            voiceManager.OnChoiceNotUnderstood += OnChoiceNotUnderstood;
         }
     }
 
@@ -88,12 +93,21 @@ public class NpcController_G : MonoBehaviour
             voiceManager.OnResponseReceived -= OnGeminiResponseReceived;
             voiceManager.OnExperimentChosen -= OnExperimentChosen;
             voiceManager.OnTaskCompleted -= OnTaskCompleted;
+            voiceManager.OnChoiceNotUnderstood -= OnChoiceNotUnderstood;
         }
     }
 
     private void Start()
     {
-        ChangeState(NPCState.Greeting);
+        if (pcrExperiment == null || cultureExperiment == null)
+        {
+            Debug.LogWarning("[NpcController] 실험 데이터가 연결되지 않았습니다. '자유 대화 모드'로 시작합니다.");
+            ChangeState(NPCState.FreeConversation);
+        }
+        else
+        {
+            ChangeState(NPCState.Greeting);
+        }
     }
 
     private void Update()
@@ -129,6 +143,9 @@ public class NpcController_G : MonoBehaviour
             case NPCState.Finishing:
                 currentStateCoroutine = StartCoroutine(Finishing_co());
                 break;
+            case NPCState.FreeConversation:
+                currentStateCoroutine = StartCoroutine(FreeConversation_co());
+                break;
         }
     }
     #endregion
@@ -142,7 +159,9 @@ public class NpcController_G : MonoBehaviour
 
         yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
 
-        yield return StartCoroutine(ShowSubtitle_co("안녕하세요, AI 조수 노아입니다. 오늘은 어떤 실험을 도와드릴까요?"));
+        yield return StartCoroutine(ShowSubtitle_co("안녕하세요, 노아입니다. 실험은 1번 PCR, 2번 배양이 준비되어 있습니다."));
+
+        yield return StartCoroutine(ShowSubtitle_co("오늘은 무슨 실험을 하시겠습니까?"));
 
         ChangeState(NPCState.WaitingForChoice);
     }
@@ -176,8 +195,15 @@ public class NpcController_G : MonoBehaviour
             switch (currentAction.Type)
             {
                 case ActionType.Move:
-                    navMeshAgent.SetDestination(currentAction.TargetTransform.position);
-                    yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
+                    if (currentAction.TargetTransform != null)
+                    {
+                        navMeshAgent.SetDestination(currentAction.TargetTransform.position);
+                        yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[NpcController] {currentExperiment.ExperimentName}의 {i + 1}번째 행동에 TargetTransform이 지정되지 않아 Move 행동을 건너뜁니다.");
+                    }
                     break;
                 case ActionType.Speak:
                     yield return StartCoroutine(ShowSubtitle_co(currentAction.Instruction));
@@ -216,39 +242,84 @@ public class NpcController_G : MonoBehaviour
         if (isSuccess)
         {
             SetAnimatorTrigger("Success");
-
             yield return StartCoroutine(ShowSubtitle_co("실험이 성공적으로 끝났습니다! 훌륭해요."));
         }
         else
         {
             SetAnimatorTrigger("Error");
-
             yield return StartCoroutine(ShowSubtitle_co("이런, 이번 샘플은 뭔가 잘못된 것 같네요. 실험에 실패했습니다."));
         }
 
         yield return new WaitForSeconds(3f);
+
         ChangeState(NPCState.Greeting);
+    }
+
+    private IEnumerator FreeConversation_co()
+    {
+        SetAnimatorTrigger("Default");
+        yield return StartCoroutine(ShowSubtitle_co("무엇이든 물어보세요."));
+
+        while (true)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+            
+            if (distanceToPlayer > approachDistance) 
+                navMeshAgent.SetDestination(playerTransform.position);
+            else 
+                navMeshAgent.ResetPath();
+
+            LookAtTarget(playerTransform);
+            yield return null;
+        }
     }
     #endregion
 
     #region Public Control Methods & Event Handlers
     public void OnPlayerInteraction()
     {
-        voiceManager.HandlePlayerInteraction();
+        switch (currentState)
+        {
+            case NPCState.WaitingForChoice:
+                voiceManager.StartListeningForChoice();
+                break;
+            case NPCState.ExecutingExperiment:
+                break;
+            case NPCState.FreeConversation:
+                voiceManager.StartListeningForTask(new List<string>());
+                break;
+            default:
+                Debug.Log($"[NpcController] 현재 상태({currentState})에서는 상호작용이 불가능합니다.");
+                break;
+        }
     }
 
     public void OnExperimentChosen(ExperimentData chosenExperiment)
     {
         if (currentState != NPCState.WaitingForChoice) return;
 
-        if (chosenExperiment == null)
-        {
-            StartCoroutine(ShowSubtitle_co("죄송합니다. 잘 이해하지 못했어요. PCR 또는 배양 중에서 다시 말씀해주시겠어요?"));
-            return;
-        }
-
         currentExperiment = chosenExperiment;
         ChangeState(NPCState.ExecutingExperiment);
+    }
+
+    private void OnChoiceNotUnderstood()
+    {
+        if (currentState != NPCState.WaitingForChoice) return;
+
+        StartCoroutine(RepeatChoiceRequest_co());
+    }
+
+    private IEnumerator RepeatChoiceRequest_co()
+    {
+        if (currentStateCoroutine != null)
+        {
+            StopCoroutine(currentStateCoroutine);
+            currentStateCoroutine = null;
+        }
+
+        yield return StartCoroutine(ShowSubtitle_co("죄송합니다. 잘 이해하지 못했어요. PCR 또는 배양 중에서 다시 말씀해주시겠어요?"));
+
+        ChangeState(NPCState.WaitingForChoice);
     }
 
     public void OnTaskCompleted()
@@ -258,7 +329,9 @@ public class NpcController_G : MonoBehaviour
 
     public void OnFreeQuestionAsked()
     {
-        if (currentState != NPCState.ExecutingExperiment || !isWaitingForTaskCompletion) return;
+        if (currentState != NPCState.ExecutingExperiment && currentState != NPCState.FreeConversation) return;
+
+        previousStateBeforeQuestion = currentState;
 
         if (currentStateCoroutine != null)
         {
@@ -288,7 +361,21 @@ public class NpcController_G : MonoBehaviour
 
         yield return StartCoroutine(ProcessSubtitleQueue_co(sentences));
 
-        ChangeState(NPCState.ExecutingExperiment);
+        if (previousStateBeforeQuestion == NPCState.None)
+        {
+            if (pcrExperiment != null && cultureExperiment != null)
+            {
+                ChangeState(NPCState.Greeting);
+            }
+            else
+            {
+                ChangeState(NPCState.FreeConversation);
+            }
+        }
+        else
+        {
+            ChangeState(previousStateBeforeQuestion);
+        }
     }
     #endregion
 
