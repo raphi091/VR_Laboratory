@@ -16,7 +16,8 @@ public class NpcController_G : MonoBehaviour
         WaitingForChoice,
         ExecutingExperiment,
         Processing,
-        Finishing
+        Finishing,
+        FreeConversation
     }
 
     [Header("플레이어")]
@@ -95,7 +96,15 @@ public class NpcController_G : MonoBehaviour
 
     private void Start()
     {
-        ChangeState(NPCState.Greeting);
+        if (pcrExperiment == null || cultureExperiment == null)
+        {
+            Debug.LogWarning("[NpcController] 실험 데이터가 연결되지 않았습니다. '자유 대화 모드'로 시작합니다.");
+            ChangeState(NPCState.FreeConversation);
+        }
+        else
+        {
+            ChangeState(NPCState.Greeting);
+        }
     }
 
     private void Update()
@@ -130,6 +139,9 @@ public class NpcController_G : MonoBehaviour
                 break;
             case NPCState.Finishing:
                 currentStateCoroutine = StartCoroutine(Finishing_co());
+                break;
+            case NPCState.FreeConversation:
+                currentStateCoroutine = StartCoroutine(FreeConversation_co());
                 break;
         }
     }
@@ -178,8 +190,15 @@ public class NpcController_G : MonoBehaviour
             switch (currentAction.Type)
             {
                 case ActionType.Move:
-                    navMeshAgent.SetDestination(currentAction.TargetTransform.position);
-                    yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
+                    if (currentAction.TargetTransform != null)
+                    {
+                        navMeshAgent.SetDestination(currentAction.TargetTransform.position);
+                        yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
+                    }
+                    else
+                    {
+                        Debug.LogError($"[NpcController] {currentExperiment.ExperimentName}의 {i + 1}번째 행동에 TargetTransform이 지정되지 않아 Move 행동을 건너뜁니다.");
+                    }
                     break;
                 case ActionType.Speak:
                     yield return StartCoroutine(ShowSubtitle_co(currentAction.Instruction));
@@ -231,12 +250,40 @@ public class NpcController_G : MonoBehaviour
         yield return new WaitForSeconds(3f);
         ChangeState(NPCState.Greeting);
     }
+
+    private IEnumerator FreeConversation_co()
+    {
+        yield return StartCoroutine(ShowSubtitle_co("실험 데이터가 연결되지 않았습니다. 자유롭게 질문해주세요."));
+
+        while (true)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+            if (distanceToPlayer > approachDistance) navMeshAgent.SetDestination(playerTransform.position);
+            else navMeshAgent.ResetPath();
+
+            LookAtTarget(playerTransform);
+            yield return null;
+        }
+    }
     #endregion
 
     #region Public Control Methods & Event Handlers
     public void OnPlayerInteraction()
     {
-        voiceManager.HandlePlayerInteraction();
+        switch (currentState)
+        {
+            case NPCState.WaitingForChoice:
+                voiceManager.StartListeningForChoice();
+                break;
+            case NPCState.ExecutingExperiment:
+                break;
+            case NPCState.FreeConversation:
+                voiceManager.StartListeningForTask(new List<string>());
+                break;
+            default:
+                Debug.Log($"[NpcController] 현재 상태({currentState})에서는 상호작용이 불가능합니다.");
+                break;
+        }
     }
 
     public void OnExperimentChosen(ExperimentData chosenExperiment)
@@ -274,7 +321,7 @@ public class NpcController_G : MonoBehaviour
 
     public void OnFreeQuestionAsked()
     {
-        if (currentState != NPCState.ExecutingExperiment || !isWaitingForTaskCompletion) return;
+        if (currentState != NPCState.ExecutingExperiment && currentState != NPCState.FreeConversation) return;
 
         if (currentStateCoroutine != null)
         {
@@ -304,7 +351,14 @@ public class NpcController_G : MonoBehaviour
 
         yield return StartCoroutine(ProcessSubtitleQueue_co(sentences));
 
-        ChangeState(NPCState.ExecutingExperiment);
+        if (currentExperiment != null)
+        {
+            ChangeState(NPCState.ExecutingExperiment);
+        }
+        else
+        {
+            ChangeState(NPCState.FreeConversation);
+        }
     }
     #endregion
 
