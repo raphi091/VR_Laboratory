@@ -29,7 +29,7 @@ public class Pipette : MonoBehaviour
         {
             // 이벤트 해제
             MixAction.action.performed -= OnChangeColor;
-            MixAction.action.Disable();
+            MixAction.action.Disable(); 
         }
     }
 

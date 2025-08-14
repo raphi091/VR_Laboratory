@@ -20,6 +20,8 @@ public class Tube : MonoBehaviour
 
     public bool isPour = false;
 
+    [SerializeField] private ParseEventArgs parseEventArgs = new ParseEventArgs();
+
     private void Awake()
     {
         mat = transform.Find("cotent").GetComponent<MeshRenderer>().material;
@@ -101,6 +103,10 @@ public class Tube : MonoBehaviour
                     Debug.Log($"{hit.transform.name}");
                     if (hit.transform == gelTray)
                     {
+                        parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();
+                        parseEventArgs.toTool = hit.transform.GetComponent<C_ExperimentTool>();
+                        C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
+
                         fill.isfilling = true;
                         Debug.Log("레이케스트작동 중");
                     }
