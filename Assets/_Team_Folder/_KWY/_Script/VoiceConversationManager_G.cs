@@ -240,7 +240,7 @@ public class VoiceConversationManager_G : MonoBehaviour
         }
         else
         {
-            OnExperimentChosen?.Invoke(null);
+            StartListeningForChoice();
         }
     }
 

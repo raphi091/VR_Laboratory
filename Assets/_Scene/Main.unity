@@ -828,6 +828,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1008479721264490940, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
+      propertyPath: pcrExperiment
+      value: 
+      objectReference: {fileID: 11400000, guid: b7a58492c883133498da6bbb0e6cba36, type: 2}
+    - target: {fileID: 1008479721264490940, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
+      propertyPath: cultureExperiment
+      value: 
+      objectReference: {fileID: 11400000, guid: c4f9390c9e970e941a2ae2bd7e3b89e9, type: 2}
+    - target: {fileID: 1032221717268955763, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
+      propertyPath: pcrExperiment
+      value: 
+      objectReference: {fileID: 11400000, guid: b7a58492c883133498da6bbb0e6cba36, type: 2}
     - target: {fileID: 1032221717268955763, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
       propertyPath: playerTransform
       value: 
@@ -836,6 +848,14 @@ PrefabInstance:
       propertyPath: subtitleDisplay
       value: 
       objectReference: {fileID: 1115555762}
+    - target: {fileID: 1032221717268955763, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
+      propertyPath: cultureExperiment
+      value: 
+      objectReference: {fileID: 11400000, guid: c4f9390c9e970e941a2ae2bd7e3b89e9, type: 2}
+    - target: {fileID: 1032221717268955763, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
+      propertyPath: interestTargetTransform
+      value: 
+      objectReference: {fileID: 1510308621}
     - target: {fileID: 2239525827791885823, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
       propertyPath: m_Name
       value: NPCSystem
@@ -940,6 +960,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e584870f0167f479999738e6b2fdc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1510308621 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3619872661582622754, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
+  m_PrefabInstance: {fileID: 1510308619}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1619206435
 GameObject:
   m_ObjectHideFlags: 0
