@@ -496,6 +496,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7090043972025175938, guid: 922214bad48a45b44af62c922346f4b9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7343887963585477024, guid: 922214bad48a45b44af62c922346f4b9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -855,7 +859,7 @@ PrefabInstance:
     - target: {fileID: 1032221717268955763, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
       propertyPath: interestTargetTransform
       value: 
-      objectReference: {fileID: 1510308621}
+      objectReference: {fileID: 8143656353492523130}
     - target: {fileID: 2239525827791885823, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
       propertyPath: m_Name
       value: NPCSystem
@@ -960,11 +964,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e584870f0167f479999738e6b2fdc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1510308621 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3619872661582622754, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
-  m_PrefabInstance: {fileID: 1510308619}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1619206435
 GameObject:
   m_ObjectHideFlags: 0
@@ -19827,6 +19826,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Point_PCR
       objectReference: {fileID: 0}
+    - target: {fileID: 3007977481421113336, guid: cd670bb54e472bb43927f08ece613dba, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8063177735942156667, guid: cd670bb54e472bb43927f08ece613dba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.52
@@ -19872,6 +19875,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd670bb54e472bb43927f08ece613dba, type: 3}
+--- !u!4 &8143656353492523130 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8063177735942156667, guid: cd670bb54e472bb43927f08ece613dba, type: 3}
+  m_PrefabInstance: {fileID: 8143656353492523129}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8145932871870757146
 Transform:
   m_ObjectHideFlags: 0

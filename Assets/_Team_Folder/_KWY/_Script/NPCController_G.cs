@@ -46,6 +46,7 @@ public class NpcController_G : MonoBehaviour
     private Animator npcAnimator;
     private NavMeshAgent navMeshAgent;
     private NPCState currentState = NPCState.None;
+    private NPCState previousStateBeforeQuestion;
     private Coroutine currentStateCoroutine;
     private ExperimentData currentExperiment;
     private float timeInCurrentState = 0f;
@@ -156,7 +157,9 @@ public class NpcController_G : MonoBehaviour
 
         yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
 
-        yield return StartCoroutine(ShowSubtitle_co("안녕하세요, AI 조수 노아입니다. 오늘은 어떤 실험을 도와드릴까요?"));
+        yield return StartCoroutine(ShowSubtitle_co("안녕하세요, 노아입니다. 실험은 1번 PCR, 2번 배양이 준비되어 있습니다."));
+
+        yield return StartCoroutine(ShowSubtitle_co("오늘은 무슨 실험을 하시겠습니까?"));
 
         ChangeState(NPCState.WaitingForChoice);
     }
@@ -197,9 +200,10 @@ public class NpcController_G : MonoBehaviour
                     }
                     else
                     {
-                        Debug.LogError($"[NpcController] {currentExperiment.ExperimentName}의 {i + 1}번째 행동에 TargetTransform이 지정되지 않아 Move 행동을 건너뜁니다.");
+                        Debug.LogWarning($"[NpcController] {currentExperiment.ExperimentName}의 {i + 1}번째 행동에 TargetTransform이 지정되지 않아 Move 행동을 건너뜁니다.");
                     }
                     break;
+
                 case ActionType.Speak:
                     yield return StartCoroutine(ShowSubtitle_co(currentAction.Instruction));
                     break;
@@ -237,29 +241,32 @@ public class NpcController_G : MonoBehaviour
         if (isSuccess)
         {
             SetAnimatorTrigger("Success");
-
             yield return StartCoroutine(ShowSubtitle_co("실험이 성공적으로 끝났습니다! 훌륭해요."));
         }
         else
         {
             SetAnimatorTrigger("Error");
-
             yield return StartCoroutine(ShowSubtitle_co("이런, 이번 샘플은 뭔가 잘못된 것 같네요. 실험에 실패했습니다."));
         }
 
         yield return new WaitForSeconds(3f);
+
         ChangeState(NPCState.Greeting);
     }
 
     private IEnumerator FreeConversation_co()
     {
-        yield return StartCoroutine(ShowSubtitle_co("실험 데이터가 연결되지 않았습니다. 자유롭게 질문해주세요."));
+        SetAnimatorTrigger("Default");
+        yield return StartCoroutine(ShowSubtitle_co("무엇이든 물어보세요."));
 
         while (true)
         {
             float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
-            if (distanceToPlayer > approachDistance) navMeshAgent.SetDestination(playerTransform.position);
-            else navMeshAgent.ResetPath();
+            
+            if (distanceToPlayer > approachDistance) 
+                navMeshAgent.SetDestination(playerTransform.position);
+            else 
+                navMeshAgent.ResetPath();
 
             LookAtTarget(playerTransform);
             yield return null;
@@ -323,6 +330,8 @@ public class NpcController_G : MonoBehaviour
     {
         if (currentState != NPCState.ExecutingExperiment && currentState != NPCState.FreeConversation) return;
 
+        previousStateBeforeQuestion = currentState;
+
         if (currentStateCoroutine != null)
         {
             StopCoroutine(currentStateCoroutine);
@@ -351,14 +360,7 @@ public class NpcController_G : MonoBehaviour
 
         yield return StartCoroutine(ProcessSubtitleQueue_co(sentences));
 
-        if (currentExperiment != null)
-        {
-            ChangeState(NPCState.ExecutingExperiment);
-        }
-        else
-        {
-            ChangeState(NPCState.FreeConversation);
-        }
+        ChangeState(previousStateBeforeQuestion);
     }
     #endregion
 
