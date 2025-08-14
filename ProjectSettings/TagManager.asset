@@ -8,6 +8,8 @@ TagManager:
   - Pippet
   - Flask
   - Left_Hand
+  - Mix
+  - Absorb
   layers:
   - Default
   - TransparentFX

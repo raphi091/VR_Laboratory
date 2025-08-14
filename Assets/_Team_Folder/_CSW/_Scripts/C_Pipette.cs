@@ -5,43 +5,52 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class C_Pipette : MonoBehaviour, C_ExperimentProp
+public class C_Pipette : MonoBehaviour, C_ExperimentTool
 {
-    [SerializeField] private LiquidData_L liquidData;
+    [SerializeField] private List<LiquidData_L> liquidDatas;
     [SerializeField] private InputActionReference rightPippetPush;
     [SerializeField] private InputActionReference leftPippetPush;
+    [SerializeField] private ToolType toolType=ToolType.None;
     
-    public LiquidData_L LiquidData { get => liquidData; set => liquidData = value; }
+    public List<LiquidData_L> LiquidDatas { get => liquidDatas; set => liquidDatas = value; }
+    public ToolType ToolType { get => toolType; set => toolType = value; }
+    public bool IsWritable { get => isWritable; set => isWritable = value; }
     
-    private bool isSelected = false;
-    
-    public void OnSelectEntered(SelectEnterEventArgs args)
+    private bool isWritable = false;
+
+    void OnEnable()
     {
-        isSelected = true;
+        C_ExperimentDataParser.I.DataParsed.AddListener(OnDataParsed);
     }
 
-    public void OnSelectExited(SelectExitEventArgs args)
+    void OnDisable()
     {
-        isSelected = false;
-    }
-    
-    public void ImportLiquidData(LiquidData_L liquidData)
-    {
-        this.liquidData = liquidData;
-    }
-    
-    public LiquidData_L ExportLiquidData()
-    {
-        return liquidData;
-    }
-    
-    public LiquidData_L ExportLiquidData(LiquidData_L liquidData)
-    {
-        return null;
+        C_ExperimentDataParser.I.DataParsed.RemoveListener(OnDataParsed);
     }
 
-    public List<LiquidData_L> ExportLiquidDataList()
+    void OnDataParsed(ParseEventArgs e)
     {
-        return null;
+        if (e.toTool == this&&e.fromTool.ToolType==ToolType.Flask)
+        {
+            if (IsWritable)
+            {
+                ImportLiquidData(e.fromTool.ExportLiquidDatas());
+            }
+        }
+    }
+    
+    public void ImportLiquidData(List<LiquidData_L> liquidData)
+    {
+        this.liquidDatas.AddRange(liquidDatas);
+    }
+
+    public List<LiquidData_L> ExportLiquidDatas()
+    {
+        return liquidDatas;
+    }
+
+    public void ClearData()
+    {
+        liquidDatas.Clear();
     }
 }
