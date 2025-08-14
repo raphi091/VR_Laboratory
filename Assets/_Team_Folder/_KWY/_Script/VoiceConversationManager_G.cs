@@ -70,6 +70,7 @@ public class VoiceConversationManager_G : MonoBehaviour
     public event Action<ExperimentData> OnExperimentChosen;
     public event Action OnTaskCompleted;
     public event Action OnFreeQuestionAsked;
+    public event Action OnChoiceNotUnderstood;
 
     private AppVoiceExperience appVoiceExperience;
     private string apiKey;
@@ -230,17 +231,22 @@ public class VoiceConversationManager_G : MonoBehaviour
 
     private void ProcessExperimentChoice(string text)
     {
-        if (text.Contains("PCR") || text.Contains("1번") || text.Contains("피씨알"))
+        string lowerText = text.ToLower();
+
+        string[] pcrKeywords = { "pcr", "피씨알", "첫 번째", "1번" , "일" , "일번" };
+        string[] cultureKeywords = { "배양", "두 번째", "2번" , "이", "이번" };
+
+        if (pcrKeywords.Any(keyword => lowerText.Contains(keyword)))
         {
             OnExperimentChosen?.Invoke(pcrExperiment);
         }
-        else if (text.Contains("배양") || text.Contains("2번"))
+        else if (cultureKeywords.Any(keyword => lowerText.Contains(keyword)))
         {
             OnExperimentChosen?.Invoke(cultureExperiment);
         }
         else
         {
-            StartListeningForChoice();
+            OnChoiceNotUnderstood?.Invoke();
         }
     }
 

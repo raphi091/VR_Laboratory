@@ -77,6 +77,7 @@ public class NpcController_G : MonoBehaviour
             voiceManager.OnResponseReceived += OnGeminiResponseReceived;
             voiceManager.OnExperimentChosen += OnExperimentChosen;
             voiceManager.OnTaskCompleted += OnTaskCompleted;
+            voiceManager.OnChoiceNotUnderstood += OnChoiceNotUnderstood;
         }
     }
 
@@ -88,6 +89,7 @@ public class NpcController_G : MonoBehaviour
             voiceManager.OnResponseReceived -= OnGeminiResponseReceived;
             voiceManager.OnExperimentChosen -= OnExperimentChosen;
             voiceManager.OnTaskCompleted -= OnTaskCompleted;
+            voiceManager.OnChoiceNotUnderstood -= OnChoiceNotUnderstood;
         }
     }
 
@@ -241,14 +243,28 @@ public class NpcController_G : MonoBehaviour
     {
         if (currentState != NPCState.WaitingForChoice) return;
 
-        if (chosenExperiment == null)
-        {
-            StartCoroutine(ShowSubtitle_co("죄송합니다. 잘 이해하지 못했어요. PCR 또는 배양 중에서 다시 말씀해주시겠어요?"));
-            return;
-        }
-
         currentExperiment = chosenExperiment;
         ChangeState(NPCState.ExecutingExperiment);
+    }
+
+    private void OnChoiceNotUnderstood()
+    {
+        if (currentState != NPCState.WaitingForChoice) return;
+
+        StartCoroutine(RepeatChoiceRequest_co());
+    }
+
+    private IEnumerator RepeatChoiceRequest_co()
+    {
+        if (currentStateCoroutine != null)
+        {
+            StopCoroutine(currentStateCoroutine);
+            currentStateCoroutine = null;
+        }
+
+        yield return StartCoroutine(ShowSubtitle_co("죄송합니다. 잘 이해하지 못했어요. PCR 또는 배양 중에서 다시 말씀해주시겠어요?"));
+
+        ChangeState(NPCState.WaitingForChoice);
     }
 
     public void OnTaskCompleted()
