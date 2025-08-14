@@ -1,36 +1,51 @@
 using UnityEngine;
 
+[DisallowMultipleComponent]
 [RequireComponent(typeof(PourableItem_K))]
 public class WaterPourController_K : MonoBehaviour
 {
-    [Header("Refs")]
-    public PourableItem_K pourable;
-    public ContainerFillVisual_K visual;
-    public Transform spoutTip;
-    public ParticleSystem fx;
+    // ───── Refs ─────
+    public PourableItem_K pourable;              // (옵션) 임계각 참고용
+    public ContainerFillVisual_K visual;         // 용량/잔량
+    public Transform spoutTip;                   // "SpoutPivot"
+    public ParticleSystem fx;                    // "FX" (Particle System)
 
-    [Header("Rates (mL/s)")]
-    [Min(0f)] public float mlPerSecMax = 80f;
-    [Range(0f,180f)] public float minAngleToPour = 60f;
-    [Range(0f,180f)] public float fullRateAngle  = 140f;
+    // ───── Angles & Rate ─────
+    [Min(0f)] public float mlPerSecMax = 80f;    // 최대 유량(ml/s)
+    [Range(0,180)] public float minAngleToPour = 60f;
+    [Range(0,180)] public float fullRateAngle  = 140f;
+    public bool usePourableAngle = false;        // pourable.pourAngle 포함 여부
 
-    [Header("Mouth detection")]
-    public float mouthDetectRadius = 0.035f;
+    // ───── Mouth(detect) 옵션 ─────
     public bool requireMouthToPour = false;
+    public float mouthDetectRadius = 0.035f;
 
-    [Header("Start/FX options")]
-    public bool playFxFromStart = true;           // 시작하자마자 FX를 Play 상태로
-    public bool prewarmFx = true;                 // 첫 프레임부터 안정적으로 보이게
-    public bool forcePourOnStart = false;         // (선택) 시작 직후 강제 붓기 디버그
-    public float startPourDuration = 0.5f;        // 강제 붓기 시간
-    public float startPourRate = 60f;             // 강제 붓기 속도(mL/s)
+    // ───── FX 옵션 ─────
+    public bool playFxFromStart = false;         // 시작은 기본 정지
+    public bool prewarmFx = true;
+    public float fxForwardOffset = 0.03f;        // 주둥이 앞으로 살짝
 
-    float startTimer;
+    // ───── Debug / Test ─────
+    public bool ignoreEmptyCheck = false;        // 잔량 0이면 기본 막음
+    public bool forceFxAlways = false;           // 강제 분사(테스트용)
+    public bool debugOverlay = true;
+
+    // ───── FX 구동 방식 ─────
+    public enum FxDrive { Emission, EmitBurst }
+    public FxDrive fxDrive = FxDrive.EmitBurst;  // 신뢰성 높은 방식
+    public int particlesPer100ml = 60;           // 유량→파티클 매핑
+
+    // ───── 외부에서 읽을 상태 ─────
+    public bool  IsPouring           { get; private set; }
+    public float CurrentRateMlPerSec { get; private set; }
+
+    // ───── 내부 디버그 ─────
+    float _dbgAngle, _dbgT, _dbgRate, _dbgAmt;
 
     void Reset()
     {
         pourable = GetComponent<PourableItem_K>();
-        if (!spoutTip) spoutTip = transform.Find("SpoutPivot/FX");
+        if (!spoutTip) spoutTip = transform.Find("SpoutPivot");
     }
 
     void Awake()
@@ -39,104 +54,162 @@ public class WaterPourController_K : MonoBehaviour
         if (!visual)   visual   = GetComponent<ContainerFillVisual_K>();
         if (!spoutTip) spoutTip = transform;
 
-        // ★ FX를 항상 켜둔 채 Emission만 조절하도록 세팅
+        // fx 자동 탐색(비워뒀을 때)
+        if (!fx)
+        {
+            if (spoutTip) fx = spoutTip.GetComponentInChildren<ParticleSystem>(true);
+            if (!fx)      fx = GetComponentInChildren<ParticleSystem>(true);
+        }
+
         if (fx)
         {
             var main = fx.main;
             main.loop = true;
-            main.playOnAwake = false; // 코드에서 Play 제어
+            main.playOnAwake = false;
             main.prewarm = prewarmFx;
             main.simulationSpace = ParticleSystemSimulationSpace.World;
-            main.emitterVelocityMode = ParticleSystemEmitterVelocityMode.Transform;
+            main.cullingMode = ParticleSystemCullingMode.AlwaysSimulate;
 
-            var e = fx.emission;
-            e.enabled = true;
-            e.rateOverTime = 0f; // 시작은 0 (기울이면 바로 증가)
+            var em = fx.emission;
+            em.enabled = true;
+            em.rateOverTime = 0f;
 
-            if (playFxFromStart) fx.Play(true);   // ← 시작부터 Play 상태 유지
+            // 시작은 완전 정지(요청대로)
+            fx.Clear(true);
+            if (playFxFromStart) fx.Play(true);
+            else fx.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
     }
 
-    void Start()
+    void Update()
     {
-        if (forcePourOnStart) startTimer = startPourDuration;
-    }
-
-        void Update()
-    {
-        // (옵션) 시작 직후 강제 붓기 디버그
-        if (startTimer > 0f)
+        // 강제 테스트: 항상 분사
+        if (forceFxAlways)
         {
-            float startDeltaMl = startPourRate * Time.deltaTime;   // << 이름 변경
-            if (visual) visual.Add(-startDeltaMl);
-            ToggleFx(true, startPourRate);
-            startTimer -= Time.deltaTime;
+            IsPouring = true;
+            CurrentRateMlPerSec = mlPerSecMax;
+            ToggleFx(true, mlPerSecMax);
+            _dbg(0f, 1f, mlPerSecMax);
             return;
         }
 
-        // 빈 병이면 FX만 0으로 유지
-        if (visual && visual.amount <= 0f) { ToggleFx(false); return; }
+        // 잔량 체크
+        if (!ignoreEmptyCheck && visual && visual.amount <= 0f)
+        {
+            IsPouring = false;
+            CurrentRateMlPerSec = 0f;
+            ToggleFx(false);
+            _dbg(0f, 0f, 0f);
+            return;
+        }
 
-        // 세움=0°, 뒤집힘=180°
+        // 세움=0° ~ 뒤집힘=180°
         float tiltAngle = Vector3.Angle(transform.up, Vector3.up);
 
-        float startAngle = Mathf.Max(minAngleToPour, (pourable ? pourable.pourAngle : 0f));
-        float endAngle   = Mathf.Max(fullRateAngle, startAngle + 1f);
+        float startAngle = minAngleToPour;
+        if (usePourableAngle && pourable) startAngle = Mathf.Max(startAngle, pourable.pourAngle);
+        float endAngle = Mathf.Max(fullRateAngle, startAngle + 1f);
         float t = Mathf.Clamp01(Mathf.InverseLerp(startAngle, endAngle, tiltAngle));
 
-        // 입구 감지(필요 시)
-        BaffledFlask_K target = null;
+        // 입구 감지(옵션)
         bool hasMouth = false;
+        BaffledFlask_K target = null;
         if (requireMouthToPour && spoutTip)
         {
             var hits = Physics.OverlapSphere(spoutTip.position, mouthDetectRadius, ~0, QueryTriggerInteraction.Collide);
             for (int i = 0; i < hits.Length; i++)
             {
-                var mouth = hits[i].GetComponent<BaffledFlaskMouth_K>();
-                if (mouth) { target = mouth.flask; hasMouth = true; break; }
+                var m = hits[i].GetComponent<BaffledFlaskMouth_K>();
+                if (m) { hasMouth = true; target = m.flask; break; }
             }
         }
 
         bool canPour = t > 0f && (!requireMouthToPour || hasMouth);
-        if (!canPour) { ToggleFx(false); return; }
+        IsPouring = canPour;
+        CurrentRateMlPerSec = 0f;
 
-        // 이번 프레임 붓는 양(mL)
-        float rate      = mlPerSecMax * t;
-        float deltaMl   = rate * Time.deltaTime;      // << 이름 변경
+        if (!canPour)
+        {
+            ToggleFx(false);
+            _dbg(tiltAngle, t, 0f);
+            return; // 임계각 전에는 절대 분사 X
+        }
 
-        if (visual) visual.Add(-deltaMl);             // 병 수량 감소
-        if (target) target.AddWater(deltaMl);         // 플라스크 증가(있다면)
+        // 유량 계산 & 반영
+        float rateMlPerSec = mlPerSecMax * t;
+        CurrentRateMlPerSec = rateMlPerSec;
 
-        ToggleFx(true, rate);                         // FX는 emission만 조절 (Play 유지)
+        float deltaMl = rateMlPerSec * Time.deltaTime;
+        if (visual) visual.Add(-deltaMl);
+        if (target) target.AddWater(deltaMl);
+
+        // FX
+        ToggleFx(true, rateMlPerSec);
+        _dbg(tiltAngle, t, rateMlPerSec);
     }
 
-    void ToggleFx(bool on, float rate = 0f)
+    void ToggleFx(bool on, float rateMlPerSec = 0f)
     {
         if (!fx) return;
 
-        // 주둥이 위치/방향 맞추기
-        if (spoutTip) fx.transform.SetPositionAndRotation(spoutTip.position, spoutTip.rotation);
+        // 주둥이 위치/방향 + 앞으로 살짝
+        if (spoutTip)
+        {
+            Vector3 pos = spoutTip.position + spoutTip.forward * fxForwardOffset;
+            fx.transform.SetPositionAndRotation(pos, spoutTip.rotation);
+        }
 
-        var e = fx.emission;
-        if (on)
+        var main = fx.main;
+        main.loop = true;
+        main.playOnAwake = false;
+        main.prewarm = prewarmFx;
+        main.simulationSpace = ParticleSystemSimulationSpace.World;
+        main.cullingMode = ParticleSystemCullingMode.AlwaysSimulate;
+
+        var em = fx.emission;
+        em.enabled = true;
+
+        if (!on)
         {
-            e.enabled = true;
-            e.rateOverTime = new ParticleSystem.MinMaxCurve(Mathf.Max(20f, rate * 10f));
-            if (!fx.isPlaying) fx.Play(true);     // 혹시 꺼져 있으면 켜줌
-            // 첫 프레임 끊김 방지
-            fx.Simulate(0f, true, false, true);
+            if (fxDrive == FxDrive.Emission) em.rateOverTime = 0f;
+            else fx.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            return;
         }
-        else
+
+        if (!fx.isPlaying) fx.Play(true);
+        fx.Simulate(0f, true, false, true);
+
+        if (fxDrive == FxDrive.Emission)
         {
-            e.rateOverTime = 0f;                  // 멈출 때도 Stop하지 않음(계속 Play)
-            e.enabled = true;                     // emission만 0으로 유지
+            em.rateOverTime = Mathf.Max(30f, rateMlPerSec * 10f);
         }
+        else // EmitBurst
+        {
+            float particlesPerMl = particlesPer100ml / 100f;
+            float want = rateMlPerSec * particlesPerMl * Time.deltaTime;
+            int count = Mathf.CeilToInt(want);
+            if (count > 0) fx.Emit(count);
+        }
+    }
+
+    // ───── Debug overlay ─────
+    void _dbg(float angle, float t, float rate)
+    {
+        if (!debugOverlay) return;
+        _dbgAngle = angle; _dbgT = t; _dbgRate = rate; _dbgAmt = visual ? visual.amount : -1f;
+    }
+
+    void OnGUI()
+    {
+        if (!debugOverlay) return;
+        GUI.Label(new Rect(10, 10, 900, 24),
+            $"angle={_dbgAngle:F1}  t={_dbgT:F2}  rate={_dbgRate:F1} ml/s  pouring={IsPouring}  amount={_dbgAmt:F1}");
     }
 
     void OnDrawGizmosSelected()
     {
         if (!spoutTip) return;
-        Gizmos.color = new Color(0,1,1,0.25f);
+        Gizmos.color = new Color(0f, 1f, 1f, 0.25f);
         Gizmos.DrawSphere(spoutTip.position, mouthDetectRadius);
     }
 }
