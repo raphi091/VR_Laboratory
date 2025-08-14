@@ -480,6 +480,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3579698138118753201, guid: 922214bad48a45b44af62c922346f4b9, type: 3}
+      propertyPath: m_RequestedTrackingOriginMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3647927653610370522, guid: 922214bad48a45b44af62c922346f4b9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
