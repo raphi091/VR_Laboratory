@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class C_Pipette : MonoBehaviour
+public class C_Pipette : MonoBehaviour, C_ExperimentProp
 {
     [SerializeField] private LiquidData_L liquidData;
     [SerializeField] private InputActionReference rightPippetPush;
@@ -13,30 +13,8 @@ public class C_Pipette : MonoBehaviour
     
     public LiquidData_L LiquidData { get => liquidData; set => liquidData = value; }
     
-    private ParticleSystem particleSystem;
     private bool isSelected = false;
-
-    private void Awake()
-    {
-        particleSystem=GetComponentInChildren<ParticleSystem>();
-        rightPippetPush.action.performed += OnPippet;
-        leftPippetPush.action.performed += OnPippet;
-    }
-
-    private void OnDisable()
-    {
-        rightPippetPush.action.performed -= OnPippet;
-        leftPippetPush.action.performed -= OnPippet;
-    }
-
-    void OnPippet(InputAction.CallbackContext context)
-    {
-        if (isSelected)
-        {
-            particleSystem.Play();
-        }
-    }
-
+    
     public void OnSelectEntered(SelectEnterEventArgs args)
     {
         isSelected = true;
@@ -45,5 +23,25 @@ public class C_Pipette : MonoBehaviour
     public void OnSelectExited(SelectExitEventArgs args)
     {
         isSelected = false;
+    }
+    
+    public void ImportLiquidData(LiquidData_L liquidData)
+    {
+        this.liquidData = liquidData;
+    }
+    
+    public LiquidData_L ExportLiquidData()
+    {
+        return liquidData;
+    }
+    
+    public LiquidData_L ExportLiquidData(LiquidData_L liquidData)
+    {
+        return null;
+    }
+
+    public List<LiquidData_L> ExportLiquidDataList()
+    {
+        return null;
     }
 }

@@ -3,48 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class C_Flask : MonoBehaviour
+public class C_Flask : MonoBehaviour, C_ExperimentProp
 {
-    [SerializeField] private List<LiquidData_L> liquidData=new List<LiquidData_L>();
-    [SerializeField] private Material liquidMaterial;
+    [SerializeField] private List<LiquidData_L> liquidDatas=new List<LiquidData_L>();
     
     private Ch_VelocityInteractable velocityInteractable;
-    private ParticleSystem particleSystem;
     private bool combineFailed = false;
-
-    private void Awake()
+    private bool isWritable = false;
+    
+    public void ImportLiquidData(LiquidData_L liquidData)
     {
-        particleSystem=GetComponentInChildren<ParticleSystem>();
+        this.liquidDatas.Add(liquidData);
     }
-
-    private void Update()
+    
+    public LiquidData_L ExportLiquidData()
     {
-        if (velocityInteractable.velocity.magnitude > 0.06f)
-        {
-            
-        }
+        return null;
     }
-
-    void OnCollisionEnter(Collision collision)
+    public LiquidData_L ExportLiquidData(LiquidData_L liquidData)
     {
-        if (collision.gameObject.CompareTag("Pippet"))
+        if (liquidDatas.Contains(liquidData))
         {
-            
+            return liquidData;
         }
+        return null;
     }
-
-    void OnParticleCollision(GameObject other)
+    
+    public List<LiquidData_L> ExportLiquidDataList()
     {
-        if (other.CompareTag("Pippet"))
-        {
-            if (liquidData.Contains(GetComponent<C_Pipette>().LiquidData))
-            {
-                
-            }
-            else
-            {
-                combineFailed = true;
-            }
-        }
+        return liquidDatas;
     }
 }
