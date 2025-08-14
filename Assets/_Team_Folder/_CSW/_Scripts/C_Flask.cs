@@ -1,36 +1,61 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-public class C_Flask : MonoBehaviour, C_ExperimentProp
+public class C_Flask : MonoBehaviour, C_ExperimentTool
 {
     [SerializeField] private List<LiquidData_L> liquidDatas=new List<LiquidData_L>();
+    [SerializeField] private ToolType toolType=ToolType.None;
+    
+    public List<LiquidData_L> LiquidDatas { get => liquidDatas; set => liquidDatas = value; }
+    public ToolType ToolType { get => toolType; set => toolType = value; }
     
     private Ch_VelocityInteractable velocityInteractable;
     private bool combineFailed = false;
     private bool isWritable = false;
+    public bool IsWritable { get => isWritable; set => isWritable = value; }
     
-    public void ImportLiquidData(LiquidData_L liquidData)
+    void OnEnable()
     {
-        this.liquidDatas.Add(liquidData);
+        C_ExperimentDataParser.I.DataParsed.AddListener(OnDataParsed);
     }
-    
-    public LiquidData_L ExportLiquidData()
+
+    void OnDisable()
     {
-        return null;
+        C_ExperimentDataParser.I.DataParsed.RemoveListener(OnDataParsed);
     }
-    public LiquidData_L ExportLiquidData(LiquidData_L liquidData)
+
+    void OnDataParsed(ParseEventArgs e)
     {
-        if (liquidDatas.Contains(liquidData))
+        if (e.toTool == this)
         {
-            return liquidData;
+            if (IsWritable)
+            {
+                ImportLiquidData(e.fromTool.ExportLiquidDatas());
+                if (e.fromTool.ToolType == ToolType.Pippet)
+                {
+                    e.fromTool.ClearData();
+                }
+            }
         }
-        return null;
     }
     
-    public List<LiquidData_L> ExportLiquidDataList()
+    public void ImportLiquidData(List<LiquidData_L> liquidData)
+    {
+        this.liquidDatas.AddRange(liquidDatas);
+    }
+
+    public List<LiquidData_L> ExportLiquidDatas()
     {
         return liquidDatas;
     }
+    
+    public void ClearData()
+    {
+        liquidDatas.Clear();
+    }
+    
+
 }
