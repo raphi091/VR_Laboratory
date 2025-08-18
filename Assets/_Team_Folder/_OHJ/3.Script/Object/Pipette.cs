@@ -12,6 +12,8 @@ public class Pipette : MonoBehaviour
 
     [Header("입력 설정")]
     [SerializeField] private InputActionReference MixAction;    // 섞기 액션
+    [SerializeField] private ParseEventArgs parseEventArgs = new ParseEventArgs();
+    public bool isEnter = false;
 
     private void OnEnable()
     {
@@ -33,17 +35,32 @@ public class Pipette : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if(other.CompareTag("Mix"))
+        if (other.CompareTag("Mix"))
         {
-            mat= other.GetComponent<MeshRenderer>().material;
-            Debug.Log(other.name);
+            isEnter = true;
+            mat = other.GetComponent<MeshRenderer>().material;
+
+            parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();
+            parseEventArgs.toTool = other.transform.GetComponent<C_ExperimentTool>();
+            C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Mix"))
+            isEnter = false;
     }
 
     private void OnChangeColor(InputAction.CallbackContext context)
     {
+        if(!isEnter)
+        {
+            return;
+        }
+
         if (mat != null)
         {
             //프로퍼티 존재여부
