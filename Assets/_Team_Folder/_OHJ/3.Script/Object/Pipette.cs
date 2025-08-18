@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,14 +11,14 @@ public class Pipette : MonoBehaviour
 
     private Material mat;
 
-    [Header("ÀÔ·Â ¼³Á¤")]
-    [SerializeField] private InputActionReference MixAction;    // ¼¯±â ¾×¼Ç
+    [Header("ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½")]
+    [SerializeField] private InputActionReference MixAction;    // ï¿½ï¿½ï¿½ï¿½ ï¿½×¼ï¿½
     [SerializeField] private ParseEventArgs parseEventArgs = new ParseEventArgs();
     public bool isEnter = false;
 
     private void OnEnable()
     {
-        // ÀÌº¥Æ® µî·Ï
+        // ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½
         if(MixAction != null)
         {
             MixAction.action.Enable();
@@ -29,7 +30,7 @@ public class Pipette : MonoBehaviour
     {
         if (MixAction != null)
         {
-            // ÀÌº¥Æ® ÇØÁ¦
+            // ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½
             MixAction.action.performed -= OnChangeColor;
             MixAction.action.Disable(); 
         }
@@ -39,6 +40,7 @@ public class Pipette : MonoBehaviour
     {
         if (other.CompareTag("Mix"))
         {
+            Debug.Log("TriggerStay");
             isEnter = true;
             mat = other.GetComponent<MeshRenderer>().material;
 
@@ -56,6 +58,7 @@ public class Pipette : MonoBehaviour
 
     private void OnChangeColor(InputAction.CallbackContext context)
     {
+        Debug.Log("OnChangeColor");
         if(!isEnter)
         {
             return;
@@ -63,28 +66,28 @@ public class Pipette : MonoBehaviour
 
         if (mat != null)
         {
-            //ÇÁ·ÎÆÛÆ¼ Á¸Àç¿©ºÎ
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ç¿©ï¿½ï¿½
             if (mat.HasProperty("_LiquidColor"))
             {
                 mat.SetColor("_LiquidColor", liquidColor);
-                Debug.Log("ÀüÃ¼ »ö º¯°æ ¿Ï·á");
+                Debug.Log("ï¿½ï¿½Ã¼ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½");
             }
 
             else
             {
-                Debug.Log("liquidcolor ÇÁ·ÎÆÛÆ¼ ¾øÀ½");
+                Debug.Log("liquidcolor ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½");
             }
 
             if (mat.HasProperty("_FresnelColor"))
             {
                 mat.SetColor("_FresnelColor", fresnelColor);
-                Debug.Log("ºû»ö º¯°æ ¿Ï·á");
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½");
             }
 
         }
             else
             {
-                Debug.Log("º¯°æÇÒ ¾×Ã¼°¡ ¼±ÅÃµÇÁö ¾ÊÀ½");
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
             }
     }
 }
