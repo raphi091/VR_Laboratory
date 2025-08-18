@@ -20,14 +20,24 @@ public class NpcController_G : MonoBehaviour
         FreeConversation
     }
 
+    public enum NpcMode
+    {
+        Tutorial,
+        MainLab
+    }
+
+    [Header("모드 설정")]
+    [Tooltip("NPC가 작동할 모드.")]
+    [SerializeField] private NpcMode currentMode;
+
     [Header("플레이어")]
     [SerializeField] private Transform playerTransform;
 
     [Header("실험 데이터 및 목표물")]
     [Tooltip("PCR 실험 데이터를 연결합니다.")]
-    [SerializeField] private ExperimentData pcrExperiment;
+    [SerializeField] private ExperimentData_G pcrExperiment;
     [Tooltip("배양 실험 데이터를 연결합니다.")]
-    [SerializeField] private ExperimentData cultureExperiment;
+    [SerializeField] private ExperimentData_G cultureExperiment;
     [Tooltip("NPC가 평소에 바라볼 실험대 등의 Transform을 연결합니다.")]
     [SerializeField] private Transform interestTargetTransform;
 
@@ -35,20 +45,22 @@ public class NpcController_G : MonoBehaviour
     [SerializeField] private TMP_Text subtitleDisplay;
     [SerializeField] private float subtitleSentenceDuration = 4f;
     [SerializeField] private int maxCharactersPerSubtitle = 40;
+    [SerializeField] private GameObject choiceUIPanel;
 
     [Header("행동 설정")]
-    [SerializeField] private float approachDistance = 2.5f;
+    [SerializeField] private float followDistance = 2.5f;
     [SerializeField] private float arrivalDistance = 3.0f;
     [SerializeField] private float lookAtThreshold = 0.8f;
     [SerializeField] private float boredTimeout = 120f;
 
     private VoiceConversationManager_G voiceManager;
+    private LocationManager_G locationManager;
     private Animator npcAnimator;
     private NavMeshAgent navMeshAgent;
     private NPCState currentState = NPCState.None;
     private NPCState previousStateBeforeQuestion;
     private Coroutine currentStateCoroutine;
-    private ExperimentData currentExperiment;
+    private ExperimentData_G currentExperiment;
     private float timeInCurrentState = 0f;
     private bool isWaitingForTaskCompletion = false;
 
@@ -68,6 +80,11 @@ public class NpcController_G : MonoBehaviour
         {
             subtitleDisplay.text = "";
             subtitleDisplay.gameObject.SetActive(false);
+        }
+
+        if (choiceUIPanel != null)
+        {
+            choiceUIPanel.SetActive(false);
         }
 
         previousStateBeforeQuestion = NPCState.Greeting;
@@ -99,14 +116,33 @@ public class NpcController_G : MonoBehaviour
 
     private void Start()
     {
-        if (pcrExperiment == null || cultureExperiment == null)
+        if (locationManager == null)
         {
-            Debug.LogWarning("[NpcController] 실험 데이터가 연결되지 않았습니다. '자유 대화 모드'로 시작합니다.");
-            ChangeState(NPCState.FreeConversation);
+            locationManager = FindObjectOfType<LocationManager_G>();
         }
-        else
+        if (locationManager == null)
         {
-            ChangeState(NPCState.Greeting);
+            Debug.LogError("씬에 LocationManager가 없습니다!");
+        }
+
+        switch (currentMode)
+        {
+            case NpcMode.Tutorial:
+                ChangeState(NPCState.None);
+                StartCoroutine(Tutorial_co());
+                break;
+
+            case NpcMode.MainLab:
+                if (pcrExperiment == null || cultureExperiment == null)
+                {
+                    Debug.LogWarning("[NpcController] 실험 데이터가 연결되지 않았습니다. '자유 대화 모드'로 시작합니다.");
+                    ChangeState(NPCState.FreeConversation);
+                }
+                else
+                {
+                    ChangeState(NPCState.Greeting);
+                }
+                break;
         }
     }
 
@@ -154,7 +190,7 @@ public class NpcController_G : MonoBehaviour
     private IEnumerator Greeting_co()
     {
         SetAnimatorTrigger("Default");
-        Vector3 destination = playerTransform.position + playerTransform.forward * approachDistance;
+        Vector3 destination = playerTransform.position + playerTransform.forward * followDistance;
         navMeshAgent.SetDestination(destination);
 
         yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
@@ -169,6 +205,10 @@ public class NpcController_G : MonoBehaviour
     private IEnumerator WaitingForChoice_co()
     {
         SetAnimatorTrigger("Default");
+
+        if (choiceUIPanel != null) 
+            choiceUIPanel.SetActive(true);
+
         voiceManager.StartListeningForChoice();
 
         while (true)
@@ -187,40 +227,40 @@ public class NpcController_G : MonoBehaviour
 
     private IEnumerator ExecutingExperiment_co()
     {
-        for (int i = 0; i < currentExperiment.Actions.Length; i++)
-        {
-            NpcAction currentAction = currentExperiment.Actions[i];
-            Debug.Log($"[NpcController] 행동 실행: {currentAction.Type} (단계: {i + 1}/{currentExperiment.Actions.Length})");
+        //for (int i = 0; i < currentExperiment.Actions.Length; i++)
+        //{
+        //    NpcAction currentAction = currentExperiment.Actions[i];
+        //    Debug.Log($"[NpcController] 행동 실행: {currentAction.Type} (단계: {i + 1}/{currentExperiment.Actions.Length})");
 
-            switch (currentAction.Type)
-            {
-                case ActionType.Move:
-                    if (currentAction.TargetTransform != null)
-                    {
-                        navMeshAgent.SetDestination(currentAction.TargetTransform.position);
-                        yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"[NpcController] {currentExperiment.ExperimentName}의 {i + 1}번째 행동에 TargetTransform이 지정되지 않아 Move 행동을 건너뜁니다.");
-                    }
-                    break;
-                case ActionType.Speak:
-                    yield return StartCoroutine(ShowSubtitle_co(currentAction.Instruction));
-                    break;
-                case ActionType.WaitForPlayer:
-                    LookAtTarget(playerTransform);
-                    yield return new WaitUntil(() => Vector3.Distance(transform.position, playerTransform.position) < arrivalDistance);
-                    break;
-                case ActionType.ListenForCompletion:
-                    isWaitingForTaskCompletion = true;
-                    voiceManager.StartListeningForTask(currentAction.CompletionKeywords);
-                    yield return new WaitUntil(() => !isWaitingForTaskCompletion);
-                    break;
-            }
+        //    switch (currentAction.Type)
+        //    {
+        //        case ActionType.Move:
+        //            Transform targetTransform = locationManager.GetLocation(currentAction.LocationID);
+        //            if (targetTransform != null)
+        //            {
+        //                navMeshAgent.SetDestination(targetTransform.position);
+        //                yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
+        //            }
+        //            break;
+        //        case ActionType.Speak:
+        //            yield return StartCoroutine(ShowSubtitle_co(currentAction.Instruction));
+        //            break;
+        //        case ActionType.WaitForPlayer:
+        //            LookAtTarget(playerTransform);
+        //            yield return new WaitUntil(() => Vector3.Distance(transform.position, playerTransform.position) < arrivalDistance);
+        //            break;
+        //        case ActionType.ListenForCompletion:
+        //            isWaitingForTaskCompletion = true;
+        //            voiceManager.StartListeningForTask(currentAction.CompletionKeywords);
+        //            yield return new WaitUntil(() => !isWaitingForTaskCompletion);
+        //            break;
+        //    }
 
-            yield return new WaitForSeconds(0.5f);
-        }
+        //    yield return new WaitForSeconds(0.5f);
+        //}
+
+        yield return new WaitForSeconds(0.5f);
+
         ChangeState(NPCState.Finishing);
     }
 
@@ -264,7 +304,7 @@ public class NpcController_G : MonoBehaviour
         {
             float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
             
-            if (distanceToPlayer > approachDistance) 
+            if (distanceToPlayer > followDistance) 
                 navMeshAgent.SetDestination(playerTransform.position);
             else 
                 navMeshAgent.ResetPath();
@@ -272,6 +312,32 @@ public class NpcController_G : MonoBehaviour
             LookAtTarget(playerTransform);
             yield return null;
         }
+    }
+
+    private IEnumerator Tutorial_co()
+    {
+        Debug.Log("튜토리얼 모드를 시작합니다.");
+
+        Vector3 destination = playerTransform.position + playerTransform.forward * followDistance;
+        navMeshAgent.SetDestination(destination);
+        yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
+
+        yield return StartCoroutine(ShowSubtitle_co("Affinity Lab에 오신 것을 환영합니다!"));
+        yield return new WaitForSeconds(1f);
+
+        Transform pcrMachine = locationManager.GetLocation("PCR_Machine_1");
+        if (pcrMachine != null)
+        {
+            navMeshAgent.SetDestination(pcrMachine.position);
+            yield return StartCoroutine(ShowSubtitle_co("이쪽으로 와보세요."));
+            yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
+            yield return StartCoroutine(ShowSubtitle_co("이것이 PCR 기계입니다. DNA를 증폭시킬 때 사용하죠."));
+        }
+
+        // 여기에 튜토리얼 단계를 계속해서 추가할 수 있습니다.
+        // ...
+
+        Debug.Log("튜토리얼이 종료되었습니다.");
     }
     #endregion
 
@@ -294,10 +360,18 @@ public class NpcController_G : MonoBehaviour
         }
     }
 
-    public void OnExperimentChosen(ExperimentData chosenExperiment)
+    public void OnExperimentChosen(ExperimentData_G chosenExperiment)
     {
         if (currentState != NPCState.WaitingForChoice) return;
 
+        if (choiceUIPanel != null) 
+            choiceUIPanel.SetActive(false);
+
+        if (chosenExperiment == null)
+        {
+            StartCoroutine(RepeatChoiceRequest_co());
+            return;
+        }
         currentExperiment = chosenExperiment;
         ChangeState(NPCState.ExecutingExperiment);
     }
@@ -305,6 +379,9 @@ public class NpcController_G : MonoBehaviour
     private void OnChoiceNotUnderstood()
     {
         if (currentState != NPCState.WaitingForChoice) return;
+
+        if (choiceUIPanel != null) 
+            choiceUIPanel.SetActive(false);
 
         StartCoroutine(RepeatChoiceRequest_co());
     }
