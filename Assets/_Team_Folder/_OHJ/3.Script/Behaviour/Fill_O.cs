@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fill : MonoBehaviour
+public class Fill_O : MonoBehaviour
 {
     public float filling = 0.1f;
     public float stopPos = 0.5f;
