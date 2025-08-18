@@ -481,8 +481,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3579698138118753201, guid: 922214bad48a45b44af62c922346f4b9, type: 3}
+      propertyPath: m_CameraYOffset
+      value: 1.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579698138118753201, guid: 922214bad48a45b44af62c922346f4b9, type: 3}
       propertyPath: m_RequestedTrackingOriginMode
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3647927653610370522, guid: 922214bad48a45b44af62c922346f4b9, type: 3}
       propertyPath: m_AnchorMax.y
@@ -947,6 +951,10 @@ PrefabInstance:
     - target: {fileID: 7887757330403125701, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9006111523539892052, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
+      propertyPath: m_AgentTypeID
+      value: -1372625422
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19502,10 +19510,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 550a9e04b6775a6449fd409dce230130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fill: {fileID: 0}
+  fill: {fileID: 2468633534510698008}
   particle: {fileID: 5553441003773960835, guid: d802b47bcd259724f812137aaccf5091, type: 3}
   childParticle: {fileID: 0}
-  gelTray: {fileID: 0}
+  gelTray: {fileID: 5516728257781586029}
   MinThreshold: 120
   MaxThreshold: 240
   fillValue: 0

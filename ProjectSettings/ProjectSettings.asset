@@ -160,7 +160,8 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Android: com.DefaultCompany.VR_Laboratory
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -764,8 +765,9 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: CROSS_PLATFORM_INPUT;ISDK_OPENXR_HAND
-    Standalone: CROSS_PLATFORM_INPUT;ISDK_OPENXR_HAND
+    Android: CROSS_PLATFORM_INPUT;ISDK_OPENXR_HAND;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS
+    Standalone: CROSS_PLATFORM_INPUT;ISDK_OPENXR_HAND;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS
+    Windows Store Apps: USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS
     iPhone: CROSS_PLATFORM_INPUT
   additionalCompilerArguments: {}
   platformArchitecture: {}
