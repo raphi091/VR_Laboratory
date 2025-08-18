@@ -39,6 +39,8 @@ public class NpcController_G : MonoBehaviour
     [SerializeField] private ExperimentData_G pcrExperiment;
     [Tooltip("배양 실험 데이터")]
     [SerializeField] private ExperimentData_G cultureExperiment;
+    [Tooltip("튜토리얼 데이터")]
+    [SerializeField] private SampleData_G tutorialData;
 
     [Header("UI 설정")]
     [SerializeField] private TMP_Text subtitleDisplay;
@@ -126,8 +128,15 @@ public class NpcController_G : MonoBehaviour
         switch (currentMode)
         {
             case NpcMode.Tutorial:
-                ChangeState(NPCState.None);
-                StartCoroutine(Tutorial_co());
+                if (tutorialData != null)
+                {
+                    currentSample = tutorialData;
+                    ChangeState(NPCState.ExecutingExperiment);
+                }
+                else
+                {
+                    Debug.LogError("튜토리얼 데이터가 연결되지 않았습니다!");
+                }
                 break;
             case NpcMode.MainLab:
                 if (pcrExperiment == null || cultureExperiment == null)
@@ -334,32 +343,6 @@ public class NpcController_G : MonoBehaviour
 
             yield return null;
         }
-    }
-
-    private IEnumerator Tutorial_co()
-    {
-        Debug.Log("튜토리얼 모드를 시작합니다.");
-
-        Vector3 destination = playerTransform.position + playerTransform.forward * followDistance;
-        navMeshAgent.SetDestination(destination);
-        yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
-
-        yield return StartCoroutine(ShowSubtitle_co("Affinity Lab에 오신 것을 환영합니다!"));
-        yield return new WaitForSeconds(1f);
-
-        Transform pcrMachine = locationManager.GetLocation("PCR_Machine_1");
-        if (pcrMachine != null)
-        {
-            navMeshAgent.SetDestination(pcrMachine.position);
-            yield return StartCoroutine(ShowSubtitle_co("이쪽으로 와보세요."));
-            yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
-            yield return StartCoroutine(ShowSubtitle_co("이것이 PCR 기계입니다. DNA를 증폭시킬 때 사용하죠."));
-        }
-
-        // 여기에 튜토리얼 단계를 계속해서 추가할 수 있습니다.
-        // ...
-
-        Debug.Log("튜토리얼이 종료되었습니다.");
     }
     #endregion
 
