@@ -61,13 +61,13 @@ public class VoiceConversationManager_G : MonoBehaviour
 
     [Header("실험 데이터 참조")]
     [Tooltip("키워드 참조를 위해 PCR 실험 데이터를 연결합니다.")]
-    [SerializeField] private ExperimentData pcrExperiment;
+    [SerializeField] private ExperimentData_G pcrExperiment;
     [Tooltip("키워드 참조를 위해 배양 실험 데이터를 연결합니다.")]
-    [SerializeField] private ExperimentData cultureExperiment;
+    [SerializeField] private ExperimentData_G cultureExperiment;
 
     public event Action OnProcessingStarted;
     public event Action<Queue<string>, string> OnResponseReceived;
-    public event Action<ExperimentData> OnExperimentChosen;
+    public event Action<ExperimentData_G> OnExperimentChosen;
     public event Action OnTaskCompleted;
     public event Action OnFreeQuestionAsked;
     public event Action OnChoiceNotUnderstood;
@@ -131,6 +131,12 @@ public class VoiceConversationManager_G : MonoBehaviour
         항상 친절하고 명확한 존댓말을 사용하며, 사용자를 격려하는 긍정적인 태도를 유지해야 합니다.
         당신은 아래의 두 가지 핵심 실험 절차와 예상 결과를 반드시 숙지하고 있어야 합니다.
 
+        [매우 중요한 대화 규칙]
+        1.  **간결한 답변**: 당신의 모든 답변은 항상 한두 문장으로 짧고 간결해야 합니다. 절대 길게 설명하지 마세요.
+        2.  **단계별 안내**: 실험 절차는 사용자가 '다음 단계 알려줘' 또는 비슷한 요청을 할 때만, 해당하는 다음 단계 '하나만' 설명해야 합니다. 절대로 먼저 전체 절차를 읊어주지 마세요.
+        3.  **일반적인 질문**: 사용자가 'PCR이 뭐야?'처럼 실험 절차가 아닌 일반적인 질문을 하면, 'DNA를 증폭시키는 기술입니다. 실험을 시작해볼까요?' 와 같이 핵심 개념만 짧게 답하고 대화를 유도하세요.
+        4.  **결과에 대한 침묵**: 당신은 실험 결과를 미리 알지 못합니다. 절대로 결과에 대해 먼저 언급하거나 암시하지 마세요. 결과는 실험이 모두 끝난 후에만 이야기할 수 있습니다.
+        
         [핵심 지식: 실험 절차]
         --- [실험 1: PCR (DNA 증폭)] ---
         [cite_start]이 실험은 특정 DNA 조각(A, B, C)을 대량으로 증폭시키는 것을 목표로 합니다. [cite: 1]
@@ -168,13 +174,7 @@ public class VoiceConversationManager_G : MonoBehaviour
 
         당신은 위 정보를 바탕으로 사용자의 질문과 실험 단계에 맞춰 안내해야 합니다. 모르는 내용은 '그 정보는 제 데이터베이스에 없습니다. 매뉴얼을 확인해보시겠어요?' 라고 솔직하게 답변해야 합니다.
 
-    [매우 중요한 대화 규칙]
-    1.  **간결한 답변**: 당신의 모든 답변은 항상 한두 문장으로 짧고 간결해야 합니다. 절대 길게 설명하지 마세요.
-    2.  **단계별 안내**: 실험 절차는 사용자가 '다음 단계 알려줘' 또는 비슷한 요청을 할 때만, 해당하는 다음 단계 '하나만' 설명해야 합니다. 절대로 먼저 전체 절차를 읊어주지 마세요.
-    3.  **일반적인 질문**: 사용자가 'PCR이 뭐야?'처럼 실험 절차가 아닌 일반적인 질문을 하면, 'DNA를 증폭시키는 기술입니다. 실험을 시작해볼까요?' 와 같이 핵심 개념만 짧게 답하고 대화를 유도하세요.
-    4.  **결과에 대한 침묵**: 당신은 실험 결과를 미리 알지 못합니다. 절대로 결과에 대해 먼저 언급하거나 암시하지 마세요. 결과는 실험이 모두 끝난 후에만 이야기할 수 있습니다.
-
-    당신은 위 지식과 규칙을 바탕으로 사용자의 질문과 실험 단계에 맞춰 안내해야 합니다.
+        당신은 위 지식과 규칙을 바탕으로 사용자의 질문과 실험 단계에 맞춰 안내해야 합니다.
         ";
 
         conversationHistory.Add(new Content_VCM { role = "user", parts = new List<Part_VCM> { new Part_VCM { text = initialPrompt } } });
