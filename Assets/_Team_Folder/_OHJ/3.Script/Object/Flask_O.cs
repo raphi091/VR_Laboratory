@@ -1,0 +1,47 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Flask_O : MonoBehaviour
+{
+    public List<LiquidData_L> requiredLiquids = new List<LiquidData_L>();
+    public List<LiquidData_L> receiveddLiquids = new List<LiquidData_L>();  //받은 액체
+
+    public bool ispossibleMix;
+
+    public void ReceiveLiquid(List<LiquidData_L> liquids)
+    {
+        foreach(var liquid in liquids)
+        {
+            if (!receiveddLiquids.Contains(liquid))
+            {
+                receiveddLiquids.Add(liquid);
+                Debug.Log($"{liquid.name} 플라스크 추가");
+            }
+        }
+
+        if (IsComplete())
+        {
+            ispossibleMix = true;
+            Debug.Log("모두 들어있습니다");
+        }
+
+        else
+        {
+            ispossibleMix = false;
+            Debug.Log($"충족안됨 {receiveddLiquids.Count}");
+        }
+
+    }
+
+    private bool IsComplete()
+    {
+        if (requiredLiquids == null || requiredLiquids.Count == 0)
+        {
+            return false;
+        }
+
+
+        return requiredLiquids.TrueForAll(liquid => receiveddLiquids.Contains(liquid));
+    }
+}

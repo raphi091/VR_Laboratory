@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tube : MonoBehaviour
+public class Tube_O : MonoBehaviour
 {
-    public Fill fill;
+    public Fill_O fill;
     private Material mat;
 
     private GameObject ParticleObj;
