@@ -9,7 +9,8 @@ public class Flask_O : MonoBehaviour
 
     public LiquidData_L Dye;
 
-    public bool ispossibleMix;
+    public bool ispossibleMix;  //염색약 섞기 가능여부
+    public bool isFillSample = false; // 샘플 채우기 가능 여부
 
     public void ReceiveLiquid(List<LiquidData_L> liquids)
     {

@@ -181,6 +181,8 @@ public class Pipette_O : MonoBehaviour
         {
             Debug.Log("fresnelcolor 없음");
         }
+        flask.ispossibleMix = false;
+        flask.isFillSample = true;
     }
 
     // 피펫 빨아들이기
