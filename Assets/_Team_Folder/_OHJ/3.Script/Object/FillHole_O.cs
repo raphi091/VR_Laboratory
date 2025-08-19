@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 // 구멍에 넣는다 -> 샘플을 파란색으로 만든다. => tag가 Hole
 public class FillHole_O : MonoBehaviour
 {
-    public Flask_O flask;
+    public SampleFlask_O flask;
     //public Renderer render;
     public GameObject currentHole;
 
@@ -70,7 +70,7 @@ public class FillHole_O : MonoBehaviour
         if(other.CompareTag("Mix"))
         {
             isEnter = true;
-            if (other.TryGetComponent<Flask_O>(out var flaskCom))
+            if (other.TryGetComponent<SampleFlask_O>(out var flaskCom))
             {
                 flask = flaskCom;
                 if(flask.isFillSample)

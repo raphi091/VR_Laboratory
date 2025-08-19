@@ -2,37 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flask_O : MonoBehaviour
+// 겔 만들기 위해 필요한 재료를 넣는다.
+// 중복 불가
+public class GelFlask_O : MonoBehaviour
 {
     public List<LiquidData_L> requiredLiquids = new List<LiquidData_L>();
     public List<LiquidData_L> receiveddLiquids = new List<LiquidData_L>();  //받은 액체
 
-    public LiquidData_L Dye;
-
-    public bool ispossibleMix;  //염색약 섞기 가능여부
-    public bool isFillSample = false; // 샘플 채우기 가능 여부
+    public bool isPossiblePour; // 붓기가능 가능
 
     public void ReceiveLiquid(List<LiquidData_L> liquids)
     {
-        foreach(var liquid in liquids)
+        foreach (var liquid in liquids)
         {
-            if (!receiveddLiquids.Contains(liquid))
+            // 중복 불가
+            if (receiveddLiquids.Contains(liquid))
             {
-                receiveddLiquids.Add(liquid);
-                Debug.Log($"{liquid.name} 플라스크 추가");
+                Debug.LogWarning($"중복된 액체입니다. {liquid.name}는 이미 있습니다.");
+                continue;
             }
+            receiveddLiquids.Add(liquid);
+            Debug.Log($"{liquid.name} 플라스크 추가");
+
         }
 
         if (IsComplete())
         {
-            ispossibleMix = true;
+            isPossiblePour = true;
 
-            Debug.Log("모두 들어있습니다 => 파란염료 섞기 가능");
+            Debug.Log("모두 들어있습니다 => 붓기 가능");
         }
 
         else
         {
-            ispossibleMix = false;
+            isPossiblePour = false;
             Debug.Log($"충족안됨 {receiveddLiquids.Count}");
         }
 
