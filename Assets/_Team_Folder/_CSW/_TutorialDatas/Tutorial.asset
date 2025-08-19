@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2029aec4ce276d84ba1d799c0441c110, type: 3}
+  m_Name: Tutorial
+  m_EditorClassIdentifier: 
+  SampleName: 
+  Actions:
+  - Type: 1
+    LocationID: 
+    Instruction: "\uC548\uB155\uD558\uC138\uC694! \uB300\uD654&\uB3C4\uAD6C \uC0AC\uC6A9
+      \uD29C\uD1A0\uB9AC\uC5BC\uC5D0 \uC624\uC2E0 \uAC78 \uD658\uC601\uD569\uB2C8\uB2E4!
+      \uC800\uB97C \uB530\uB77C\uC640\uC8FC\uC2DC\uACA0\uC5B4\uC694?"
+    CompletionKeywords:
+    - 
+  - Type: 0
+    LocationID: 000
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uC800\uB294 \uC5EC\uB7EC\uBD84\uC758 \uC2E4\uD5D8\uC744 \uB3C4\uC640\uC904
+      AI\uC870\uC218 '\uB178\uC544'\uB77C\uACE0 \uD569\uB2C8\uB2E4."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uC6B0\uC120, \uC778\uC0AC\uBD80\uD130 \uD574 \uBCFC\uAE4C\uC694?
+      '\uC548\uB155' \uC774\uB77C\uACE0 \uB9D0\uD574 \uC8FC\uC138\uC694!"
+    CompletionKeywords: []
+  - Type: 3
+    LocationID: 
+    Instruction: 
+    CompletionKeywords:
+    - "\uC548\uB155"
+  - Type: 1
+    LocationID: 
+    Instruction: "\uC798\uD558\uC168\uC2B5\uB2C8\uB2E4! \uC55E\uC73C\uB85C \uC800\uD55C\uD14C
+      \uC774\uC57C\uAE30\uB97C \uD558\uACE0 \uC2F6\uC73C\uC2DC\uBA74, \uC67C\uCABD
+      \uCEE8\uD2B8\uB864\uB7EC\uC758 X\uD0A4\uB97C \uB204\uB978 \uC0C1\uD0DC\uB85C
+      \uB9D0\uC744 \uD558\uC2E0 \uD6C4, X\uD0A4\uB97C \uB5BC \uC8FC\uC138\uC694!"
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uB2E4\uC74C\uC740 \uB3C4\uAD6C \uC0AC\uC6A9\uBC95\uC744 \uC54C\uC544\uBCFC
+      \uC2DC\uAC04\uC785\uB2C8\uB2E4. \uC800\uB97C \uB530\uB77C\uC640\uC8FC\uC138\uC694!"
+    CompletionKeywords: []
+  - Type: 0
+    LocationID: 001
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []

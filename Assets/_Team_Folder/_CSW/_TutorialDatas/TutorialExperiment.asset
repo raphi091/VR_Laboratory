@@ -9,17 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2029aec4ce276d84ba1d799c0441c110, type: 3}
-  m_Name: New Sample Data
+  m_Script: {fileID: 11500000, guid: a2a55d4fe75ce1f4b83da4c3fb5908ef, type: 3}
+  m_Name: TutorialExperiment
   m_EditorClassIdentifier: 
-  SampleName: 
-  Actions:
-  - Type: 0
-    LocationID: 
-    Instruction: 
-    CompletionKeywords:
-    - 
-  - Type: 0
-    LocationID: 
-    Instruction: 
-    CompletionKeywords: []
+  ExperimentName: 
+  Samples: []
