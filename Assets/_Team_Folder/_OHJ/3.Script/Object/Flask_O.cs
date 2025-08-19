@@ -7,7 +7,7 @@ public class Flask_O : MonoBehaviour
     public List<LiquidData_L> requiredLiquids = new List<LiquidData_L>();
     public List<LiquidData_L> receiveddLiquids = new List<LiquidData_L>();  //받은 액체
 
-    public LiquidData_L Dye;
+    public LiquidData_L Dye;    // 염색약
 
     public bool ispossibleMix;  //염색약 섞기 가능여부
     public bool isFillSample = false; // 샘플 채우기 가능 여부
@@ -16,11 +16,15 @@ public class Flask_O : MonoBehaviour
     {
         foreach(var liquid in liquids)
         {
-            if (!receiveddLiquids.Contains(liquid))
+            // 중복 불가
+            if(receiveddLiquids.Contains(liquid))
             {
-                receiveddLiquids.Add(liquid);
-                Debug.Log($"{liquid.name} 플라스크 추가");
+                Debug.LogWarning($"중복된 액체입니다. {liquid.name}는 이미 있습니다.");
+                continue;
             }
+            receiveddLiquids.Add(liquid);
+            Debug.Log($"{liquid.name} 플라스크 추가");
+
         }
 
         if (IsComplete())

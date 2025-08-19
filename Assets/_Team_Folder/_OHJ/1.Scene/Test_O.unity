@@ -13692,15 +13692,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3f27aa631f9c0344c8b756823d37de1a, type: 2}
   - {fileID: 11400000, guid: cae19d6ba4474924e959c59a10362a81, type: 2}
   - {fileID: 11400000, guid: 1e1dcb0c81a8c904f8d4575975023c37, type: 2}
-  receiveddLiquids:
-  - {fileID: 11400000, guid: fb0517687115c5a4285a6ca4670004df, type: 2}
-  - {fileID: 11400000, guid: 04f63a064ac58ac4685faac9d2868843, type: 2}
-  - {fileID: 11400000, guid: dbea0bc52a162d34c94b7091431cba5f, type: 2}
-  - {fileID: 11400000, guid: 3f27aa631f9c0344c8b756823d37de1a, type: 2}
-  - {fileID: 11400000, guid: cae19d6ba4474924e959c59a10362a81, type: 2}
-  - {fileID: 11400000, guid: 1e1dcb0c81a8c904f8d4575975023c37, type: 2}
+  receiveddLiquids: []
   Dye: {fileID: 0}
-  ispossibleMix: 1
+  ispossibleMix: 0
   isFillSample: 0
 --- !u!65 &6253430857237631214
 BoxCollider:

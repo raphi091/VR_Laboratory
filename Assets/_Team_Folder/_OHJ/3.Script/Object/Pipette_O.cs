@@ -138,9 +138,9 @@ public class Pipette_O : MonoBehaviour
             return;
         }
 
-        if(!flask.ispossibleMix)
+        if (!flask.ispossibleMix || flask.Dye == null)
         {
-            Debug.Log("아직 모든 액체가 들어있지 않습니다.");
+            Debug.Log("아직 모든 액체가 들어있지 않거나 염색약 없음.");
             return;
         }    
 
@@ -152,7 +152,7 @@ public class Pipette_O : MonoBehaviour
 
         if(mat == null)
         {
-            Debug.Log("mat가 null입니다. materal를 설정아 안됨");
+            Debug.Log("mat가 null입니다. materal를 설정이 안됨");
             return;
         }
 
@@ -220,18 +220,21 @@ public class Pipette_O : MonoBehaviour
             flask.ReceiveLiquid(new List<LiquidData_L> {liquidData});
         }
 
+        if(flask.ispossibleMix)
+        {
+            if(liquidData.name == "DNA 로딩 염료")
+            {
+                flask.Dye = liquidData;
+                OnChangeColor(context);
+            }
+        }
+
         // 실험 Tool 정보
         parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();
         parseEventArgs.toTool = flask.transform.GetComponent<C_ExperimentTool>();
         C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
 
         Debug.Log($"{liquidData.name} 방출");
-
-        if(flask != null && flask.ispossibleMix)
-        {
-            OnChangeColor(context);
-            Debug.Log("ChangeColor 발동 갑니다.");
-        }
 
         liquidData = null;
     }
