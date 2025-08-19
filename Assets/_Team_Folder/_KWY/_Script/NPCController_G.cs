@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using TMPro;
+
+
+[System.Serializable]
+public class StatusIcon_G
+{
+    public string name;
+    public Sprite sprite;
+}
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class NpcController_G : MonoBehaviour
@@ -48,6 +55,12 @@ public class NpcController_G : MonoBehaviour
     [SerializeField] private int maxCharactersPerSubtitle = 40;
     [SerializeField] private GameObject choiceUIPanel;
 
+    [Header("상태 표시 UI")]
+    [Tooltip("상태 아이콘")]
+    [SerializeField] private Image statusIconImage;
+    [Tooltip("상태 아이콘 목록")]
+    [SerializeField] private List<StatusIcon_G> statusIcons;
+
     [Header("행동 설정")]
     [SerializeField] private float followDistance = 2.5f;
     [SerializeField] private float arrivalDistance = 3.0f;
@@ -61,8 +74,11 @@ public class NpcController_G : MonoBehaviour
     private NPCState currentState = NPCState.None;
     private NPCState previousStateBeforeQuestion;
     private Coroutine currentStateCoroutine;
+    private Coroutine statusIconCoroutine;
     private ExperimentData_G currentExperiment;
     private SampleData_G currentSample;
+    private int currentActionIndex;
+    private int savedActionIndex;
     private float timeInCurrentState = 0f;
     private bool isWaitingForTaskCompletion = false;
 
@@ -103,6 +119,7 @@ public class NpcController_G : MonoBehaviour
             voiceManager.OnTaskCompleted += OnTaskCompleted;
             voiceManager.OnFreeQuestionAsked += OnFreeQuestionAsked;
             voiceManager.OnChoiceNotUnderstood += OnChoiceNotUnderstood;
+            voiceManager.OnListeningStopped += HideStatusIcon;
         }
     }
 
@@ -117,6 +134,7 @@ public class NpcController_G : MonoBehaviour
             voiceManager.OnTaskCompleted -= OnTaskCompleted;
             voiceManager.OnFreeQuestionAsked -= OnFreeQuestionAsked;
             voiceManager.OnChoiceNotUnderstood -= OnChoiceNotUnderstood;
+            voiceManager.OnListeningStopped -= HideStatusIcon;
         }
     }
 
@@ -156,7 +174,7 @@ public class NpcController_G : MonoBehaviour
         timeInCurrentState += Time.deltaTime;
     }
 
-    public void ChangeState(NPCState newState)
+    public void ChangeState(NPCState newState, int startIndex = 0)
     {
         if (currentState == newState && currentStateCoroutine != null) return;
 
@@ -179,7 +197,7 @@ public class NpcController_G : MonoBehaviour
                 currentStateCoroutine = StartCoroutine(WaitingForSampleChoice_co());
                 break;
             case NPCState.ExecutingExperiment:
-                currentStateCoroutine = StartCoroutine(ExecutingExperiment_co());
+                currentStateCoroutine = StartCoroutine(ExecutingExperiment_co(startIndex));
                 break;
             case NPCState.Processing:
                 currentStateCoroutine = StartCoroutine(Processing_co());
@@ -251,10 +269,22 @@ public class NpcController_G : MonoBehaviour
         }
     }
 
-    private IEnumerator ExecutingExperiment_co()
+    private IEnumerator RepeatChoiceRequest_co()
+    {
+        if (currentStateCoroutine != null)
+            StopCoroutine(currentStateCoroutine);
+
+        ShowStatusIcon("Question", 2f);
+        yield return StartCoroutine(ShowSubtitle_co("죄송합니다. 잘 이해하지 못했어요. 다시 말씀해주시겠어요?"));
+
+        ChangeState(NPCState.WaitingForExperimentChoice);
+    }
+
+    private IEnumerator ExecutingExperiment_co(int startIndex = 0)
     {
         for (int i = 0; i < currentSample.Actions.Length; i++)
         {
+            currentActionIndex = i;
             NpcAction currentAction = currentSample.Actions[i];
             Debug.Log($"[NpcController] 행동 실행: {currentAction.Type} (단계: {i + 1}/{currentSample.Actions.Length})");
 
@@ -292,6 +322,28 @@ public class NpcController_G : MonoBehaviour
         ChangeState(NPCState.Finishing);
     }
 
+    private IEnumerator RespondToFreeQuestion_co(Queue<string> sentences, string rawResponse)
+    {
+        if (rawResponse.Contains("성공"))
+            SetAnimatorTrigger("Success");
+        else if (rawResponse.Contains("실패") || rawResponse.Contains("오류"))
+            SetAnimatorTrigger("Error");
+        else
+            SetAnimatorTrigger("Default");
+
+        yield return StartCoroutine(ProcessSubtitleQueue_co(sentences));
+
+        if (previousStateBeforeQuestion == NPCState.ExecutingExperiment)
+        {
+            ChangeState(previousStateBeforeQuestion, savedActionIndex);
+
+        }
+        else
+        {
+            ChangeState(previousStateBeforeQuestion);
+        }
+    }
+
     private IEnumerator Processing_co()
     {
         SetAnimatorTrigger("Thinking");
@@ -309,11 +361,13 @@ public class NpcController_G : MonoBehaviour
 
         if (isSuccess)
         {
+            ShowStatusIcon("Success", 2f);
             SetAnimatorTrigger("Success");
             yield return StartCoroutine(ShowSubtitle_co("실험이 성공적으로 끝났습니다! 훌륭해요."));
         }
         else
         {
+            ShowStatusIcon("Error", 2f);
             SetAnimatorTrigger("Error");
             yield return StartCoroutine(ShowSubtitle_co("이런, 이번 샘플은 뭔가 잘못된 것 같네요. 실험에 실패했습니다."));
         }
@@ -352,16 +406,18 @@ public class NpcController_G : MonoBehaviour
         switch (currentState)
         {
             case NPCState.WaitingForExperimentChoice:
+                ShowStatusIcon("Listening", 0);
                 voiceManager.StartListeningForChoice();
                 break;
             case NPCState.WaitingForSampleChoice:
+                ShowStatusIcon("Listening", 0);
                 voiceManager.StartListeningForSampleChoice(currentExperiment);
                 break;
-            case NPCState.ExecutingExperiment:
-                // ListenForCompletion 상태일 때만 자유질문/완료 입력을 받음
-                // 이 로직은 VoiceManager에서 처리
-                break;
             case NPCState.FreeConversation:
+                voiceManager.StartListeningForTask(new List<string>());
+                break;
+            case NPCState.ExecutingExperiment:
+                OnFreeQuestionAsked();
                 voiceManager.StartListeningForTask(new List<string>());
                 break;
             default:
@@ -418,16 +474,6 @@ public class NpcController_G : MonoBehaviour
         StartCoroutine(RepeatChoiceRequest_co());
     }
 
-    private IEnumerator RepeatChoiceRequest_co()
-    {
-        if (currentStateCoroutine != null) 
-            StopCoroutine(currentStateCoroutine);
-
-        yield return StartCoroutine(ShowSubtitle_co("죄송합니다. 잘 이해하지 못했어요. 다시 말씀해주시겠어요?"));
-
-        ChangeState(NPCState.WaitingForExperimentChoice);
-    }
-
     public void OnTaskCompleted()
     {
         isWaitingForTaskCompletion = false;
@@ -438,9 +484,13 @@ public class NpcController_G : MonoBehaviour
         if (currentState != NPCState.ExecutingExperiment && currentState != NPCState.FreeConversation) return;
 
         previousStateBeforeQuestion = currentState;
+        savedActionIndex = currentActionIndex;
 
-        if (currentStateCoroutine != null) 
+        if (currentStateCoroutine != null)
+        {
             StopCoroutine(currentStateCoroutine);
+            currentStateCoroutine = null;
+        }
     }
 
     public void OnGeminiProcessingStarted()
@@ -452,36 +502,24 @@ public class NpcController_G : MonoBehaviour
     {
         StartCoroutine(RespondToFreeQuestion_co(sentences, rawResponse));
     }
-
-    private IEnumerator RespondToFreeQuestion_co(Queue<string> sentences, string rawResponse)
-    {
-        if (rawResponse.Contains("성공")) 
-            SetAnimatorTrigger("Success");
-        else if (rawResponse.Contains("실패") || rawResponse.Contains("오류")) 
-            SetAnimatorTrigger("Error");
-        else 
-            SetAnimatorTrigger("Default");
-
-        yield return StartCoroutine(ProcessSubtitleQueue_co(sentences));
-
-        if (previousStateBeforeQuestion == NPCState.None)
-        {
-            ChangeState(pcrExperiment != null ? NPCState.Greeting : NPCState.FreeConversation);
-        }
-        else
-        {
-            ChangeState(previousStateBeforeQuestion);
-        }
-    }
     #endregion
 
     #region Helpers
     private IEnumerator ShowSubtitle_co(string fullText)
     {
-        Queue<string> q = new Queue<string>();
-        q.Enqueue(fullText);
+        if (subtitleDisplay == null) yield break;
 
-        yield return StartCoroutine(ProcessSubtitleQueue_co(q));
+        try
+        {
+            ShowStatusIcon("Speaking");
+            Queue<string> q = new Queue<string>();
+            q.Enqueue(fullText);
+            yield return StartCoroutine(ProcessSubtitleQueue_co(q));
+        }
+        finally
+        {
+            HideStatusIcon();
+        }
     }
 
     private IEnumerator ProcessSubtitleQueue_co(Queue<string> sentences)
@@ -581,6 +619,50 @@ public class NpcController_G : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void ShowStatusIcon(string iconName, float duration = 0f)
+    {
+        if (statusIconImage == null) return;
+
+        Sprite iconSprite = statusIcons.Find(icon => icon.name == iconName)?.sprite;
+
+        if (iconSprite == null)
+        {
+            Debug.LogWarning($"[NpcController] '{iconName}' 이라는 이름의 아이콘을 찾을 수 없습니다.");
+            HideStatusIcon();
+            return;
+        }
+
+        if (statusIconCoroutine != null)
+        {
+            StopCoroutine(statusIconCoroutine);
+        }
+
+        statusIconCoroutine = StartCoroutine(ShowStatusIcon_co(iconSprite, duration));
+    }
+
+    private void HideStatusIcon()
+    {
+        if (statusIconImage == null) return;
+        if (statusIconCoroutine != null)
+        {
+            StopCoroutine(statusIconCoroutine);
+            statusIconCoroutine = null;
+        }
+        statusIconImage.enabled = false;
+    }
+
+    private IEnumerator ShowStatusIcon_co(Sprite icon, float duration)
+    {
+        statusIconImage.sprite = icon;
+        statusIconImage.enabled = true;
+
+        if (duration > 0)
+        {
+            yield return new WaitForSeconds(duration);
+            HideStatusIcon();
+        }
     }
     #endregion
 }
