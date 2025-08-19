@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2a55d4fe75ce1f4b83da4c3fb5908ef, type: 3}
+  m_Name: PCR Experiment Data
+  m_EditorClassIdentifier: 
+  ExperimentName: PCR
+  Samples:
+  - {fileID: 11400000, guid: 71cf660f2235478448b9863ebd4daea6, type: 2}
+  - {fileID: 11400000, guid: 398c8243caeec3f4c9ee98a1163369be, type: 2}
+  - {fileID: 11400000, guid: 4477d574dfa768641b7bda8779df39de, type: 2}
