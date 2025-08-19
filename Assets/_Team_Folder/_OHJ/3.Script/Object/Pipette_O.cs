@@ -73,11 +73,26 @@ public class Pipette_O : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(Keyboard.current.bKey.wasPressedThisFrame)
+        {
+            OnAbsorbLiquid(new InputAction.CallbackContext());
+            Debug.LogWarning("B키 눌림");
+        }
+
+        if(Keyboard.current.nKey.wasPressedThisFrame)
+        {
+            
+            OnReleaseLiquid(new InputAction.CallbackContext());
+            Debug.LogWarning("N키 눌림");
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Mix"))
         {
-            //Debug.Log("TriggerStay");
             isEnter = true;
 
             // 색깔 변하게 하기
@@ -90,12 +105,8 @@ public class Pipette_O : MonoBehaviour
             if(other.TryGetComponent<Flask_O>(out var flaskCom))
             {
                 flask = flaskCom;
+                Debug.Log($"샘플 닿음 : {other.name}");
             }
-
-            // 실험 Tool 정보
-            parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();
-            parseEventArgs.toTool = other.transform.GetComponent<C_ExperimentTool>();
-            C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
         }
 
         else if(other.CompareTag("Absorb"))
@@ -106,7 +117,7 @@ public class Pipette_O : MonoBehaviour
             parseEventArgs.fromTool = other.GetComponent<C_ExperimentTool>();
             parseEventArgs.toTool = this.transform.GetComponent<C_ExperimentTool>();
             C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
-            Debug.Log("Absorb");
+            Debug.Log($"샘플 닿음 : {other.name}");
         }
     }
 
@@ -133,44 +144,63 @@ public class Pipette_O : MonoBehaviour
             return;
         }    
 
-        if (mat != null)
+        if(liquidData == null)
         {
-            //프로퍼티 들어있는지 여부
-            if (mat.HasProperty("_LiquidColor"))
-            {
-                mat.SetColor("_LiquidColor", liquidColor);
-                Debug.Log("액채 색 변경");
-            }
-
-            else
-            {
-                Debug.Log("liquidcolor 가 없습니다");
-            }
-
-            if (mat.HasProperty("_FresnelColor"))
-            {
-                mat.SetColor("_FresnelColor", fresnelColor);
-                Debug.Log("fresnelcolor 변경됨");
-            }
-
+            Debug.Log("피펫에 liquidData가 없습니다. 염료 넣기 실패");
+            return;
         }
-            else
-            {
-                Debug.Log("fresnelcolor 없음");
-            }
+
+        if(mat == null)
+        {
+            Debug.Log("mat가 null입니다. materal를 설정아 안됨");
+            return;
+        }
+
+        //피펫에 있는 용액을 Dye에 넣기
+        flask.Dye = liquidData;
+
+        //프로퍼티 들어있는지 여부
+        if (mat.HasProperty("_LiquidColor"))
+        {
+            mat.SetColor("_LiquidColor", liquidColor);
+            Debug.Log("액채 색 변경");
+        }
+
+        else
+        {
+            Debug.Log("liquidcolor 가 없습니다");
+        }
+
+        if (mat.HasProperty("_FresnelColor"))
+        {
+            mat.SetColor("_FresnelColor", fresnelColor);
+            Debug.Log("fresnelcolor 변경됨");
+        }
+
+        else
+        {
+            Debug.Log("fresnelcolor 없음");
+        }
     }
 
     // 피펫 빨아들이기
     private void OnAbsorbLiquid(InputAction.CallbackContext context)
     {
-        Debug.Log("AbsorbLiquid");
-        if(!isEnter || sample == null || sample.liquidData == null)
+        Debug.Log("AbsorbLiquid 호출");
+        if(!isEnter || sample == null)
         {
+            Debug.Log("흡수할 수 없습니다");
             return;
         }
 
         liquidData = sample.liquidData;
         Debug.Log($"{liquidData.name} 흡수");
+
+        // 실험 Tool 정보
+        parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();
+        parseEventArgs.toTool = sample.transform.GetComponent<C_ExperimentTool>();
+        C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
+
     }
 
     // 피펫에서 액체 내뱉기
@@ -182,9 +212,24 @@ public class Pipette_O : MonoBehaviour
             return;
         }
 
-        // 하나만 담긴 리스트를 receiveliquid 메소드에 넘긴다.
-        flask.ReceiveLiquid(new List<LiquidData_L> {liquidData});
+        if(sample.CompareTag("Absorb"))
+        {
+            // 하나만 담긴 리스트를 receiveliquid 메소드에 넘긴다.
+            flask.ReceiveLiquid(new List<LiquidData_L> {liquidData});
+        }
+
+        // 실험 Tool 정보
+        parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();
+        parseEventArgs.toTool = flask.transform.GetComponent<C_ExperimentTool>();
+        C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
+
         Debug.Log($"{liquidData.name} 방출");
+
+        if(flask != null && flask.ispossibleMix)
+        {
+            OnChangeColor(context);
+            Debug.Log("ChangeColor 발동 갑니다.");
+        }
 
         liquidData = null;
     }
