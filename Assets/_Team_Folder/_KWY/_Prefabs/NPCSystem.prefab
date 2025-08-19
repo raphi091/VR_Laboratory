@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 9006111523539892052}
   - component: {fileID: 8040339671602162980}
   - component: {fileID: 1008479721264490940}
-  - component: {fileID: 1032221717268955763}
+  - component: {fileID: 3796095520978866794}
   m_Layer: 0
   m_Name: NPCSystem
   m_TagString: Untagged
@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pcrExperiment: {fileID: 0}
   cultureExperiment: {fileID: 0}
---- !u!114 &1032221717268955763
+--- !u!114 &3796095520978866794
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -322,14 +322,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e584870f0167f479999738e6b2fdc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentMode: 0
   playerTransform: {fileID: 0}
   pcrExperiment: {fileID: 0}
   cultureExperiment: {fileID: 0}
-  interestTargetTransform: {fileID: 0}
+  tutorialData: {fileID: 0}
   subtitleDisplay: {fileID: 0}
   subtitleSentenceDuration: 4
-  maxCharactersPerSubtitle: 20
-  approachDistance: 2.5
+  maxCharactersPerSubtitle: 40
+  choiceUIPanel: {fileID: 0}
+  statusIconImage: {fileID: 0}
+  statusIcons: []
+  followDistance: 2.5
   arrivalDistance: 3
   lookAtThreshold: 0.8
   boredTimeout: 120

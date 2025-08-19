@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Culture
   m_EditorClassIdentifier: 
   ExperimentName: 
-  Actions: []
+  Samples: []

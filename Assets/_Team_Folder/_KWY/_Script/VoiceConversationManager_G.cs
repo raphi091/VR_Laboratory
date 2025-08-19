@@ -73,6 +73,7 @@ public class VoiceConversationManager_G : MonoBehaviour
     public event Action OnTaskCompleted;
     public event Action OnFreeQuestionAsked;
     public event Action OnChoiceNotUnderstood;
+    public event Action OnListeningStopped;
 
     private AppVoiceExperience appVoiceExperience;
     private string apiKey;
@@ -219,6 +220,8 @@ public class VoiceConversationManager_G : MonoBehaviour
     #region Core Conversation Logic
     private void OnTranscriptionReceived(string transcribedText)
     {
+        OnListeningStopped?.Invoke();
+
         if (isConversationLoading || string.IsNullOrWhiteSpace(transcribedText)) return;
 
         LastTranscription = transcribedText;
