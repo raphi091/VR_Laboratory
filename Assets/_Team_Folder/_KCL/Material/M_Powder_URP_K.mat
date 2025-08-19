@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PowderMesh
-  m_Shader: {fileID: -6465566751694194690, guid: 3ef89d0edfa0b684f8dd53e6fcd3848a, type: 3}
+  m_Name: M_Powder_URP_K
+  m_Shader: {fileID: -6465566751694194690, guid: 016d616958b2cf04c9a48ebaafffe5da, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -38,7 +38,7 @@ Material:
   - TransparentBackface
   - RayTracingPrepass
   - MOTIONVECTORS
-  m_LockedProperties: 
+  m_LockedProperties: _ColorPowder
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -93,6 +93,7 @@ Material:
     - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 2
     - _CullModeForward: 2
+    - _Density: 0.85
     - _DepthOffsetEnable: 0
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
@@ -104,9 +105,9 @@ Material:
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _ExcludeFromTUAndAA: 0
-    - _Fill: -6.35
+    - _Fill: 0
     - _FillAmount: 0.1
-    - _FresnelPower: 5.9
+    - _FresnelPower: 3
     - _GradientContrast: 0
     - _GradientPower: 0
     - _MetalMetallic: 1
@@ -126,6 +127,7 @@ Material:
     - _RequireSplitLighting: 0
     - _Rim: 0.012
     - _RimPower: 0
+    - _SoftEdge: 0.015
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 8
@@ -158,18 +160,19 @@ Material:
     - _BaseMetalColor: {r: 1, g: 1, b: 1, a: 0}
     - _BaseWoodColor: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 0.7709594, g: 0.990566, b: 0.9285542, a: 0}
+    - _ColorPowder: {r: 1, g: 0.9019608, b: 0.47843134, a: 0.8470588}
     - _Colour: {r: 0.740566, g: 1, b: 0.96255594, a: 0.58431375}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EdgesColor: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FoamColor: {r: 0.61960787, g: 0.9960785, b: 0.9450981, a: 1}
-    - _FresnelColor: {r: 0.60784316, g: 0.8392157, b: 1, a: 0.6}
+    - _FresnelColor: {r: 1, g: 1, b: 1, a: 0.05882353}
     - _GradientColor: {r: 1, g: 1, b: 1, a: 0}
-    - _LiquidColor: {r: 0.60784316, g: 0.8392157, b: 1, a: 0.6}
+    - _LiquidColor: {r: 1, g: 0.9019608, b: 0.47843128, a: 0.8509804}
     - _MetalColor: {r: 0, g: 1, b: 0, a: 0}
     - _MossColor: {r: 1, g: 1, b: 1, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SurfaceColor: {r: 0, g: 0, b: 0, a: 0}
+    - _SurfaceColor: {r: 0.7882353, g: 0.6509804, b: 0.22745098, a: 0.6509804}
     - _TopColor: {r: 0.61960787, g: 0.9960785, b: 0.9450981, a: 1}
     - _WoodColor: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
