@@ -90,15 +90,18 @@ Material:
     - _BaseWoodBrightness: 1
     - _BlendMode: 0
     - _ChangeColors: 0
+    - _ColorNoiseScale: 100
     - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 2
     - _CullModeForward: 2
+    - _Cutoff: 0.5
     - _Density: 0.85
     - _DepthOffsetEnable: 0
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
+    - _EdgeJitter: 0.005
     - _EdgesContrast: 0
     - _EdgesPower: 0
     - _Emissive: 0.05
@@ -114,6 +117,8 @@ Material:
     - _MetalSmoothness: 1
     - _MossContrast: 0
     - _MossPower: 0
+    - _MoundHeight: 0.06
+    - _MoundRadius: 0.45
     - _Opacity: 0.8
     - _OpaqueCullMode: 2
     - _QueueControl: 0
