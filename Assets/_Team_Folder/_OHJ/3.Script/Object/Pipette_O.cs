@@ -22,7 +22,7 @@ public class Pipette_O : MonoBehaviour
 
     [Header("Liquid List")]
     public Sample_O sample;
-    public Flask_O flask;
+    public SampleFlask_O flask;
     [SerializeField] private LiquidData_L liquidData;    // 피펫에 들어있는 액체
 
     private void OnEnable()
@@ -102,7 +102,7 @@ public class Pipette_O : MonoBehaviour
             }
 
             // 용액을 플라스크로 방출
-            if(other.TryGetComponent<Flask_O>(out var flaskCom))
+            if(other.TryGetComponent<SampleFlask_O>(out var flaskCom))
             {
                 flask = flaskCom;
                 Debug.Log($"샘플 닿음 : {other.name}");
