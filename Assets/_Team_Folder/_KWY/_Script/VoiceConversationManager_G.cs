@@ -56,18 +56,20 @@ public class VoiceConversationManager_G : MonoBehaviour
     {
         None,
         ExperimentChoice,
+        SampleChoice,
         TaskOrQuestion
     }
 
     [Header("실험 데이터 참조")]
-    [Tooltip("키워드 참조를 위해 PCR 실험 데이터를 연결합니다.")]
+    [Tooltip("키워드 참조를 위해 PCR 실험 데이터")]
     [SerializeField] private ExperimentData_G pcrExperiment;
-    [Tooltip("키워드 참조를 위해 배양 실험 데이터를 연결합니다.")]
+    [Tooltip("키워드 참조를 위해 배양 실험 데이터")]
     [SerializeField] private ExperimentData_G cultureExperiment;
 
     public event Action OnProcessingStarted;
     public event Action<Queue<string>, string> OnResponseReceived;
     public event Action<ExperimentData_G> OnExperimentChosen;
+    public event Action<SampleData_G> OnSampleChosen;
     public event Action OnTaskCompleted;
     public event Action OnFreeQuestionAsked;
     public event Action OnChoiceNotUnderstood;
@@ -77,9 +79,11 @@ public class VoiceConversationManager_G : MonoBehaviour
     private HttpClient httpClient;
     private readonly List<Content_VCM> conversationHistory = new List<Content_VCM>();
     private bool isConversationLoading = false;
-    private CancellationTokenSource cancellationTokenSource;
     private ListeningMode currentMode = ListeningMode.None;
+    private ExperimentData_G currentExperimentForSampleChoice;
     private List<string> currentCompletionKeywords;
+    public string LastTranscription { get; private set; }
+    private CancellationTokenSource cancellationTokenSource;
 
     #region Unity Lifecycle
     private void Awake()
@@ -136,6 +140,7 @@ public class VoiceConversationManager_G : MonoBehaviour
         2.  **단계별 안내**: 실험 절차는 사용자가 '다음 단계 알려줘' 또는 비슷한 요청을 할 때만, 해당하는 다음 단계 '하나만' 설명해야 합니다. 절대로 먼저 전체 절차를 읊어주지 마세요.
         3.  **일반적인 질문**: 사용자가 'PCR이 뭐야?'처럼 실험 절차가 아닌 일반적인 질문을 하면, 'DNA를 증폭시키는 기술입니다. 실험을 시작해볼까요?' 와 같이 핵심 개념만 짧게 답하고 대화를 유도하세요.
         4.  **결과에 대한 침묵**: 당신은 실험 결과를 미리 알지 못합니다. 절대로 결과에 대해 먼저 언급하거나 암시하지 마세요. 결과는 실험이 모두 끝난 후에만 이야기할 수 있습니다.
+        당신은 위 지식과 규칙을 바탕으로 사용자의 질문과 실험 단계에 맞춰 안내해야 합니다.
         
         [핵심 지식: 실험 절차]
         --- [실험 1: PCR (DNA 증폭)] ---
@@ -173,8 +178,6 @@ public class VoiceConversationManager_G : MonoBehaviour
         * **미생물 C**: 성장 속도가 느린 균주로, 매우 작고 반투명한 콜로니들이 소량 형성됩니다.
 
         당신은 위 정보를 바탕으로 사용자의 질문과 실험 단계에 맞춰 안내해야 합니다. 모르는 내용은 '그 정보는 제 데이터베이스에 없습니다. 매뉴얼을 확인해보시겠어요?' 라고 솔직하게 답변해야 합니다.
-
-        당신은 위 지식과 규칙을 바탕으로 사용자의 질문과 실험 단계에 맞춰 안내해야 합니다.
         ";
 
         conversationHistory.Add(new Content_VCM { role = "user", parts = new List<Part_VCM> { new Part_VCM { text = initialPrompt } } });
@@ -189,15 +192,18 @@ public class VoiceConversationManager_G : MonoBehaviour
         ActivateVoiceSDK();
     }
 
+    public void StartListeningForSampleChoice(ExperimentData_G experiment)
+    {
+        currentExperimentForSampleChoice = experiment;
+        currentMode = ListeningMode.SampleChoice;
+        ActivateVoiceSDK();
+    }
+
     public void StartListeningForTask(List<string> completionKeywords)
     {
         currentCompletionKeywords = completionKeywords;
         currentMode = ListeningMode.TaskOrQuestion;
         ActivateVoiceSDK();
-    }
-
-    public void HandlePlayerInteraction()
-    {
     }
 
     private void ActivateVoiceSDK()
@@ -215,15 +221,19 @@ public class VoiceConversationManager_G : MonoBehaviour
     {
         if (isConversationLoading || string.IsNullOrWhiteSpace(transcribedText)) return;
 
-        Debug.Log($"[STT 결과]: {transcribedText}");
+        LastTranscription = transcribedText;
+        Debug.Log($"[STT 결과]: {LastTranscription}");
 
         switch (currentMode)
         {
             case ListeningMode.ExperimentChoice:
-                ProcessExperimentChoice(transcribedText);
+                ProcessExperimentChoice(LastTranscription);
+                break;
+            case ListeningMode.SampleChoice:
+                ProcessSampleChoice(LastTranscription);
                 break;
             case ListeningMode.TaskOrQuestion:
-                ProcessTaskOrQuestion(transcribedText);
+                ProcessTaskOrQuestion(LastTranscription);
                 break;
         }
         currentMode = ListeningMode.None;
@@ -233,8 +243,9 @@ public class VoiceConversationManager_G : MonoBehaviour
     {
         string lowerText = text.ToLower();
 
-        string[] pcrKeywords = { "pcr", "피씨알", "첫 번째", "1번" , "일" , "일번" };
-        string[] cultureKeywords = { "배양", "두 번째", "2번" , "이", "이번" };
+        string[] pcrKeywords = { "pcr", "피씨알", "첫 번째", "첫번째", "1번" , "일" , "일번" };
+        string[] cultureKeywords = { "배양", "두 번째", "두번째", "2번" , "이", "이번" };
+        string[] freeTalkKeywords = { "자유", "대화", "자유대화", "자유 대화" };
 
         if (pcrKeywords.Any(keyword => lowerText.Contains(keyword)))
         {
@@ -244,14 +255,48 @@ public class VoiceConversationManager_G : MonoBehaviour
         {
             OnExperimentChosen?.Invoke(cultureExperiment);
         }
+        else if (freeTalkKeywords.Any(keyword => lowerText.Contains(keyword)))
+        {
+            OnExperimentChosen?.Invoke(null);
+        }
         else
         {
             OnChoiceNotUnderstood?.Invoke();
         }
     }
 
+    private void ProcessSampleChoice(string text)
+    {
+        string lowerText = text.ToLower();
+
+        if (lowerText.Contains("a") || lowerText.Contains("에이") || lowerText.Contains("첫") || lowerText.Contains("1"))
+        {
+            OnSampleChosen?.Invoke(currentExperimentForSampleChoice.Samples[0]);
+        }
+        else if (lowerText.Contains("b") || lowerText.Contains("비") || lowerText.Contains("두") || lowerText.Contains("2"))
+        {
+            OnSampleChosen?.Invoke(currentExperimentForSampleChoice.Samples[1]);
+        }
+        else if (lowerText.Contains("c") || lowerText.Contains("씨") || lowerText.Contains("세") || lowerText.Contains("3"))
+        {
+            OnSampleChosen?.Invoke(currentExperimentForSampleChoice.Samples[2]);
+        }
+        else
+        {
+            OnSampleChosen?.Invoke(null);
+        }
+    }
+
     private void ProcessTaskOrQuestion(string text)
     {
+        if (currentCompletionKeywords == null || currentCompletionKeywords.Count == 0)
+        {
+            OnFreeQuestionAsked?.Invoke();
+            OnProcessingStarted?.Invoke();
+            _ = SendMessageToGeminiAsync(text);
+            return;
+        }
+
         bool isTaskCompleted = false;
         foreach (string keyword in currentCompletionKeywords)
         {
