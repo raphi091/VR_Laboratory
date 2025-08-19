@@ -10,6 +10,7 @@ TagManager:
   - Left_Hand
   - Mix
   - Absorb
+  - Hole
   layers:
   - Default
   - TransparentFX

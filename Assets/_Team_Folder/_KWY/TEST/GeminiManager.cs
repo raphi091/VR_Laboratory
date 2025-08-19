@@ -13,12 +13,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-// [System.Serializable]
-// public class Secrets
-// {
-//     public string apiKey;
-// }
-
 public class GeminiManager : MonoBehaviour
 {
     #region Inspector Variables

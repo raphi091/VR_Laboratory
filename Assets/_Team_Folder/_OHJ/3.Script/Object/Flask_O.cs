@@ -7,7 +7,10 @@ public class Flask_O : MonoBehaviour
     public List<LiquidData_L> requiredLiquids = new List<LiquidData_L>();
     public List<LiquidData_L> receiveddLiquids = new List<LiquidData_L>();  //받은 액체
 
-    public bool ispossibleMix;
+    public LiquidData_L Dye;
+
+    public bool ispossibleMix;  //염색약 섞기 가능여부
+    public bool isFillSample = false; // 샘플 채우기 가능 여부
 
     public void ReceiveLiquid(List<LiquidData_L> liquids)
     {
@@ -23,7 +26,8 @@ public class Flask_O : MonoBehaviour
         if (IsComplete())
         {
             ispossibleMix = true;
-            Debug.Log("모두 들어있습니다");
+
+            Debug.Log("모두 들어있습니다 => 파란염료 섞기 가능");
         }
 
         else
