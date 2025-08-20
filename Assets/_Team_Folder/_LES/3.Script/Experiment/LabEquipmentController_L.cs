@@ -59,7 +59,9 @@ public class LabEquipmentController_L : MonoBehaviour
             currentItem = other.gameObject;
             itemCollider = currentItem.GetComponent<Collider>();
             itemRigidbody = currentItem.GetComponent<Rigidbody>();
-            // itemInteractable = currentItem.GetComponent<XRGrabInteractable>(); // VR용
+            //itemInteractable = currentItem.GetComponent<XRGrabInteractable>(); // VR용
+
+            Debug.Log("들어옴");
 
             // UI 표시
             if (interactionCanvasGroup != null)
@@ -75,6 +77,7 @@ public class LabEquipmentController_L : MonoBehaviour
         // UI에 선택지가 떠 있는 상태에서 아이템을 멀리 떨어뜨렸을 때
         if (other.gameObject == currentItem)
         {
+            Debug.Log("나감");
             ResetState();
         }
     }
@@ -94,6 +97,7 @@ public class LabEquipmentController_L : MonoBehaviour
         }
 
         LockItemInPlace();
+        Debug.Log("잠금.");
 
         if (type == EquipmentType.ShakingIncubator)
         {
