@@ -1,7 +1,5 @@
 using UnityEngine;
 
-// 기기 사용 순서에 따라 다음 기기를 활성화하는 방식으로
-// 실험의 전체 흐름을 간단하게 관리합니다.
 public class ExperimentFlowManager_L : MonoBehaviour
 {
     [Header("PCR Experiment Equipment")]
@@ -13,101 +11,99 @@ public class ExperimentFlowManager_L : MonoBehaviour
     public GameObject autoclave;
     public GameObject shakingIncubator;
     public GameObject airIncubator;
-    //Clean Bench 등 다른 기기들도 필요에 따라 추가
+    
+    [Header("Result Objects")]
+    public GameObject finalPetriDish;
 
     void Start()
     {
-        // 씬 로드 시, 밤새 배양이 진행되었는지 확인
+        Debug.Log("--- ExperimentFlowManager: 시작 ---");
+        
         if (GameStateManager_L.Instance != null && GameStateManager_L.Instance.IsCulturingOvernight)
         {
+            Debug.Log("GameStateManager에서 '밤샘 배양' 상태 확인. 결과 표시를 시도합니다.");
             ShowPetriDishResult();
-            GameStateManager_L.Instance.IsCulturingOvernight = false; // 확인 후 상태 초기화
+            GameStateManager_L.Instance.IsCulturingOvernight = false;
         }
 
-        //PCR 초기 상태
-        // 처음에는 Thermocycler만 사용 가능하도록 설정
+        Debug.Log("초기 장비 상태를 설정합니다.");
         SetEquipmentActive(thermocycler, true);
         SetEquipmentActive(gelElectrophoresis, false);
         SetEquipmentActive(gelDoc, false);
-
-        //미생물 배양 초기 상태
-        // 처음에는 Autoclave만 사용 가능하도록 설정
         SetEquipmentActive(autoclave, true);
         SetEquipmentActive(shakingIncubator, false);
         SetEquipmentActive(airIncubator, false);
     }
-
-    // 각 기기의 OnProcessCompleted 이벤트에 연결할 함수들
+    
     public void OnThermocyclerFinished()
     {
-        Debug.Log("Thermocycler 완료, Gel Electrophoresis 활성화.");
+        Debug.Log(">> 이벤트 수신: Thermocycler 완료. Gel Electrophoresis 활성화.");
         SetEquipmentActive(gelElectrophoresis, true);
     }
 
     public void OnGelElectrophoresisFinished()
     {
-        Debug.Log("Gel Electrophoresis 완료, Gel Doc 활성화.");
+        Debug.Log(">> 이벤트 수신: Gel Electrophoresis 완료. Gel Doc 활성화.");
         SetEquipmentActive(gelDoc, true);
     }
 
     public void OnAutoclaveFinished()
     {
-        Debug.Log("Autoclave 완료, Shaking Incubator 활성화.");
+        Debug.Log(">> 이벤트 수신: Autoclave 완료. Shaking Incubator 활성화.");
         SetEquipmentActive(shakingIncubator, true);
     }
 
     public void OnShakingIncubatorFinished()
     {
-        Debug.Log("Shaking Incubator 완료, Air Incubator 활성화.");
-        // 실제로는 Clean Bench에서 다른 작업을 거친 후 Air Incubator로 가게 됩니다.
-        // 이 부분의 흐름은 필요에 따라 커스터마이징이 가능합니다.
+        Debug.Log(">> 이벤트 수신: Shaking Incubator 완료. Air Incubator 활성화.");
         SetEquipmentActive(airIncubator, true);
     }
 
-    // Air Incubator '시작' 시 호출될 함수
     public void OnAirIncubatorStarted()
     {
-        Debug.Log("Air Incubator 배양 시작. 상태를 저장합니다.");
+        Debug.Log(">> 이벤트 수신: Air Incubator 시작. '밤샘 배양' 상태를 GameStateManager에 저장합니다.");
         if (GameStateManager_L.Instance != null)
         {
             GameStateManager_L.Instance.IsCulturingOvernight = true;
         }
     }
 
-    // 페트리 접시 결과를 보여주는 함수
     private void ShowPetriDishResult()
     {
-        // 결과 페트리 접시를 찾아서 텍스처를 바꿔주는 로직
-        // "FinalPetriDish" 태그를 가진 오브젝트를 찾도록 설정했습니다.
-        GameObject finalPetriDish = GameObject.FindGameObjectWithTag("FinalPetriDish");
-        if (finalPetriDish != null && ResultManager_L.Instance != null)
+        if (finalPetriDish == null)
         {
-            Renderer renderer = finalPetriDish.GetComponentInChildren<Renderer>();
+            Debug.LogError("오류: finalPetriDish 변수가 인스펙터에 할당되지 않았습니다!");
+            return;
+        }
+        
+        Renderer renderer = finalPetriDish.GetComponentInChildren<Renderer>();
+        if (renderer != null && ResultManager_L.Instance != null)
+        {
             renderer.material.mainTexture = ResultManager_L.Instance.GetRandomCulturingResult();
-            Debug.Log("밤새 배양된 페트리 접시 결과를 적용했습니다.");
+            Debug.Log("성공: 밤샘 배양된 페트리 접시 결과 이미지를 적용했습니다.");
+        }
+        else
+        {
+            Debug.LogError("오류: finalPetriDish에서 Renderer 컴포넌트를 찾지 못했거나 ResultManager가 없습니다.");
         }
     }
 
-    // 기기 오브젝트와 그 상호작용 컴포넌트들을 활성화/비활성화합니다.
     private void SetEquipmentActive(GameObject equipment, bool isActive)
     {
         if (equipment == null) return;
-
-        // 기기 자체의 콜라이더나 스크립트를 제어할 수 있습니다.
-        // 예를 들어 LabEquipmentController_L 스크립트를 켜고 끌 수 있습니다.
+        
         var controller = equipment.GetComponent<LabEquipmentController_L>();
         if (controller != null)
         {
             controller.enabled = isActive;
         }
 
-        // 또는 기기와 상호작용하는 UI 캔버스 그룹을 직접 제어할 수도 있습니다.
         var canvasGroup = equipment.GetComponentInChildren<CanvasGroup>();
         if (canvasGroup != null)
         {
             canvasGroup.interactable = isActive;
-            // 비활성화 시 눈에 잘 띄도록 반투명하게 만들 수도 있습니다.
             canvasGroup.alpha = isActive ? 1.0f : 0.3f;
         }
+        Debug.Log($"장비 '{equipment.name}' 상태 변경: {(isActive ? "활성화" : "비활성화")}");
     }
 }
