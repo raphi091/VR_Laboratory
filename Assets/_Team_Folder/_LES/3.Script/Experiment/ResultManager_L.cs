@@ -12,6 +12,9 @@ public class ResultManager_L : MonoBehaviour
     [Header("미생물 배양 결과")]
     [Tooltip("배양이 끝난 페트리 접시에 적용될 랜덤 결과 텍스처 배열")]
     public Texture[] culturingResultTextures; // 배열로 수정
+
+    [Tooltip("배양 전 원본 액체 배지 머티리얼 (맑은 노랑)")]
+    public Material flaskClearLiquidMaterial; // 추가된 부분
     [Tooltip("Shaking Incubator 배양 후 액체 배지 머티리얼 (탁한 노랑)")]
     public Material flaskCloudyLiquidMaterial;
 
