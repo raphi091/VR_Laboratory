@@ -1,23 +1,23 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Linq;
 
 public class Pipette_O : MonoBehaviour
 {
     [Header("샘플 염색약")]
-    private const string DNA_DYE = "DNA 로딩 염료";
+    public LiquidData_L DNA_DYE;
+    //private const string DNA_DYE = "DNA 로딩 염료";
     public Color liquidColor;
     public Color fresnelColor;
 
     [Header("겔 염색약")]
-    private const string SYBR_DYE = "SYBR Safe_DNA 염색약";
+    public LiquidData_L SYBR_DYE;
+    //private const string SYBR_DYE = "SYBR Safe_DNA 염색약";
     public Color gelColor;
     public Color gelfresnelColor;
 
-    private Material mat;
+    public Material mat;
 
     [Header("입력 정보")]
     [SerializeField] private InputActionReference AbsorbAction;    // Absorb Event
@@ -120,10 +120,16 @@ public class Pipette_O : MonoBehaviour
             isEnter = true;
 
             // 색깔 변하게 하기
-            if (other.TryGetComponent<MeshRenderer>(out var renderer))
+            MeshRenderer[] renderers = other.GetComponentsInChildren<MeshRenderer>();
+            foreach (var r in renderers)
             {
-                mat = renderer.material;
+                if(r.CompareTag("Liquid"))
+                {
+                    mat = r.material;
+                    break;
+                }
             }
+  
 
             // 용액을 플라스크로 방출
             if(other.TryGetComponent<SampleFlask_O>(out var flaskCom))
@@ -298,7 +304,7 @@ public class Pipette_O : MonoBehaviour
             //만약 염색했다면 무조건 용액이 나오도록
             if (flask.Dye != null)
             {
-                liquidData.name = DNA_DYE;
+                liquidData = DNA_DYE;
             }
         }
 
@@ -315,7 +321,7 @@ public class Pipette_O : MonoBehaviour
 
         if(sample != null && flask != null && sample.CompareTag("Absorb"))
         {
-            if(liquidData.name == DNA_DYE)
+            if(liquidData == DNA_DYE)
             {
                 if(flask.ispossibleMix)
                 {
@@ -332,7 +338,7 @@ public class Pipette_O : MonoBehaviour
                 }
             }
 
-            else if(liquidData.name == SYBR_DYE)
+            else if(liquidData == SYBR_DYE)
             {
                 if(flask.ispossiblePour)
                 {

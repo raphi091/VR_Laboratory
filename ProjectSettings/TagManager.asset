@@ -12,7 +12,7 @@ TagManager:
   - Absorb
   - Hole
   - ExperimentSample
-  - FinalPetriDish
+  - Liquid
   layers:
   - Default
   - TransparentFX

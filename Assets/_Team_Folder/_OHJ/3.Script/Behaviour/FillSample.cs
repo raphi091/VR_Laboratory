@@ -11,7 +11,7 @@ public class FillSample : MonoBehaviour
     //public Vector3 Startpos;
     public bool isfilling = false;
 
-    [Header("�̺�Ʈ")]
+    [Header("이벤트")]
     [SerializeField] private InputActionReference FillAction;
 
     private void OnEnable()
@@ -53,7 +53,7 @@ public class FillSample : MonoBehaviour
                     yield break;
                 }
                 transform.position = pos;
-                Debug.Log("�ö�Խ��ϴ�");
+                Debug.Log("올라왔습니다");
             }
 
             yield return null;

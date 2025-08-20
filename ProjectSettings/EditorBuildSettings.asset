@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Team_Folder/_CSW/_Scenes/C_Tutorial.unity
+    path: Assets/_Team_Folder/_CSW/_Scenes/C_Tutorial2.unity
     guid: 11f479db6a27f9d439bf33947b08e47e
   - enabled: 1
     path: Assets/_Scene/Main.unity

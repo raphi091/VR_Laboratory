@@ -28,12 +28,12 @@ public class Tube_O : MonoBehaviour
 
         if(mat == null)
         {
-            Debug.Log("���͸��� ã�� �� ����");
+            Debug.Log("머터리얼 찾을 수 없음");
         }
 
         if(fill == null)
         {
-//            Debug.Log("fill�� ������� �ʾҽ��ϴ�");
+            Debug.Log("fill이 연결되지 않았습니다");
         }
 
         ParticleObj = transform.Find("WaterPoint").GetChild(0).gameObject;
@@ -52,7 +52,7 @@ public class Tube_O : MonoBehaviour
         {
             float angle = transform.rotation.eulerAngles.z;
 
-            // ������ ������ ������ ��ƼŬ ����
+            // 각도가 기준을 넘으면 파티클 생성
             if ((angle > MinThreshold && angle < MaxThreshold) || (angle < -MinThreshold && angle > -MaxThreshold))
             {
                 isPour = true;
@@ -61,8 +61,8 @@ public class Tube_O : MonoBehaviour
                 fillValue -= PourValue;
                 mat.SetFloat("_Fill", fillValue);
 
-                //Debug.Log($"���� �� : {fillValue}");
-                //Debug.Log($"��ü ������ɴϴ� angle = {angle}");
+                //Debug.Log($"현재 양 : {fillValue}");
+                //Debug.Log($"액체 흘려나옵니다 angle = {angle}");
 
 
                 if (!ParticleObj.activeInHierarchy)
@@ -92,7 +92,7 @@ public class Tube_O : MonoBehaviour
 
                 // Raycast 
                 //Physics.Raycast(Ray ray, out RaycastHit hitInfo)
-                //�浹�� �߻� �� hitinfo�� ���� => hitinfo�� gelTray��� fill �ǵ���
+                //충돌이 발생 시 hitinfo에 저장 => hitinfo가 gelTray라면 fill 되도록
                 Ray ray = new Ray();
                 ray.origin = ParticleObj.transform.position;
                 RaycastHit hit;
@@ -108,7 +108,7 @@ public class Tube_O : MonoBehaviour
                         C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
 
                         fill.isfilling = true;
-                        Debug.Log("�����ɽ�Ʈ�۵� ��");
+                        Debug.Log("레이케스트작동 중");
                     }
 
                     else
@@ -116,7 +116,7 @@ public class Tube_O : MonoBehaviour
                         fill.isfilling = false;
                     }
                 }
-            }// end  : ���� ������ ��
+            }// end  : 각도 충족할 때
 
             else
             {
@@ -130,17 +130,17 @@ public class Tube_O : MonoBehaviour
     //{
     //    float angle = transform.rotation.eulerAngles.z;
 
-    //    // ������ ������ ������ ��ƼŬ ����
+    //    // 각도가 기준을 넘으면 파티클 생성
     //    if ((angle > MinThreshold && angle < MaxThreshold) || (angle < -MinThreshold && angle > -MaxThreshold))
     //    {
     //        isPour = true;
 
     //        fillValue = mat.GetFloat("_Fill");
-    //        Debug.Log($"���� �� : {fillValue}");
+    //        Debug.Log($"현재 양 : {fillValue}");
     //        fillValue  -= PourValue;
     //        mat.SetFloat("_Fill", fillValue);
-    //        Debug.Log($"fillValue  ���� �� : {fillValue}");
-    //        //Debug.Log($"��ü ������ɴϴ� angle = {angle}");
+    //        Debug.Log($"fillValue  감소 중 : {fillValue}");
+    //        //Debug.Log($"액체 흘려나옵니다 angle = {angle}");
 
             
     //        if(!ParticleObj.activeInHierarchy)
@@ -169,7 +169,7 @@ public class Tube_O : MonoBehaviour
 
     //        // Raycast 
     //        //Physics.Raycast(Ray ray, out RaycastHit hitInfo)
-    //        //�浹�� �߻� �� hitinfo�� ���� => hitinfo�� gelTray��� fill �ǵ���
+    //        //충돌이 발생 시 hitinfo에 저장 => hitinfo가 gelTray라면 fill 되도록
     //        Ray ray = new Ray();
     //        ray.origin = ParticleObj.transform.position;
     //        RaycastHit hit;
@@ -187,7 +187,7 @@ public class Tube_O : MonoBehaviour
     //                fill.isfilling = false;
     //            }
     //        }
-    //    }// end  : ���� ������ ��
+    //    }// end  : 각도 충족할 때
 
     //    else
     //    {
@@ -196,7 +196,7 @@ public class Tube_O : MonoBehaviour
 
     //}
 
-    // �ױ� ���߱�
+    // 붓기 멈추기
     private void StopPouring()
     {
         isPour = false;
