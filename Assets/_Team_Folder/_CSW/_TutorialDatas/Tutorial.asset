@@ -18,7 +18,7 @@ MonoBehaviour:
     LocationID: 
     Instruction: "\uC548\uB155\uD558\uC138\uC694! \uB300\uD654&\uB3C4\uAD6C \uC0AC\uC6A9
       \uD29C\uD1A0\uB9AC\uC5BC\uC5D0 \uC624\uC2E0 \uAC78 \uD658\uC601\uD569\uB2C8\uB2E4!
-      \uC800\uB97C \uB530\uB77C\uC640\uC8FC\uC2DC\uACA0\uC5B4\uC694?"
+      \n\uC800\uB97C \uB530\uB77C\uC640\uC8FC\uC2DC\uACA0\uC5B4\uC694?"
     CompletionKeywords:
     - 
   - Type: 0
@@ -63,4 +63,49 @@ MonoBehaviour:
   - Type: 2
     LocationID: 
     Instruction: 
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uCC45\uC0C1 \uC704\uC758 \uD53C\uD3AB\uACFC \uD50C\uB77C\uC2A4\uD06C\uB97C
+      \uC368\uBCF4\uC138\uC694!"
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uD53C\uD3AB\uC744 \uCEE8\uD2B8\uB864\uB7EC\uB85C \uC7A1\uC544\uBCF4\uC138\uC694."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uD50C\uB77C\uC2A4\uD06C \uC548 \uC6A9\uC561\uC5D0 \uBC14\uB298\uC744
+      \uAF42\uC740 \uD6C4 \uC624\uB978\uCABD \uCEE8\uD2B8\uB864\uB7EC\uC758 A\uD0A4\uB97C
+      \uB20C\uB7EC\uC11C \uCD94\uCD9C\uD569\uB2C8\uB2E4."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uB2E4\uB978 \uD50C\uB77C\uC2A4\uD06C\uC5D0 \uC8FC\uC785\uD558\uACE0
+      \uC2F6\uC73C\uBA74 \uB9C8\uCC2C\uAC00\uC9C0\uB85C \uBC14\uB298\uC744 \uAF42\uC740
+      \uD6C4 \uC624\uB978\uCABD \uCEE8\uD2B8\uB864\uB7EC\uC758 B\uD0A4\uB97C \uB204\uB985\uB2C8\uB2E4."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uD50C\uB77C\uC2A4\uD06C\uB294 \uCEE8\uD2B8\uB864\uB7EC\uB85C \uC7A1\uACE0
+      \uAE30\uC6B8\uC774\uBA74 \uC6A9\uC561\uC774 \uD758\uB7EC\uB098\uC635\uB2C8\uB2E4"
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uB2E4\uC74C \uC7A5\uC18C\uC5D0\uC11C \uAE30\uB2E4\uB9AC\uACA0\uC2B5\uB2C8\uB2E4.
+      \uCDA9\uBD84\uD788 \uC870\uC791\uBC95\uC744 \uC775\uD788\uC168\uB2E4\uBA74
+      \uC800\uB97C \uB530\uB77C\uC640\uC8FC\uC138\uC694!"
+    CompletionKeywords: []
+  - Type: 0
+    LocationID: 002
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uB450\uBC88\uC9F8\uB294 \uAE30\uACC4 \uC870\uC791\uBC95\uC785\uB2C8\uB2E4.(\uAE30\uACC4\uC0AC\uC6A9\uBC95
+      \uC5B4\uCA4C\uAD6C\uC800\uCA4C\uAD6C)"
     CompletionKeywords: []
