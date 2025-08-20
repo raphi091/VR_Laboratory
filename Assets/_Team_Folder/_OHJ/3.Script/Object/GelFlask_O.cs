@@ -2,27 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// °Ö ¸¸µé±â À§ÇØ ÇÊ¿äÇÑ Àç·á¸¦ ³Ö´Â´Ù.
-// Áßº¹ ºÒ°¡
+// ê²” ë§Œë“¤ê¸° ìœ„í•´ í•„ìš”í•œ ì¬ë£Œë¥¼ ë„£ëŠ”ë‹¤.
+// ì¤‘ë³µ ë¶ˆê°€
 public class GelFlask_O : MonoBehaviour
 {
     public List<LiquidData_L> requiredLiquids = new List<LiquidData_L>();
-    public List<LiquidData_L> receiveddLiquids = new List<LiquidData_L>();  //¹ŞÀº ¾×Ã¼
+    public List<LiquidData_L> receiveddLiquids = new List<LiquidData_L>();  //ë°›ì€ ì•¡ì²´
 
-    public bool isPossiblePour; // º×±â°¡´É °¡´É
+    public bool isPossiblePour; // ë¶“ê¸°ê°€ëŠ¥ ê°€ëŠ¥
 
     public void ReceiveLiquid(List<LiquidData_L> liquids)
     {
         foreach (var liquid in liquids)
         {
-            // Áßº¹ ºÒ°¡
+            // ì¤‘ë³µ ë¶ˆê°€
             if (receiveddLiquids.Contains(liquid))
             {
-                Debug.LogWarning($"Áßº¹µÈ ¾×Ã¼ÀÔ´Ï´Ù. {liquid.name}´Â ÀÌ¹Ì ÀÖ½À´Ï´Ù.");
+                Debug.LogWarning($"ì¤‘ë³µëœ ì•¡ì²´ì…ë‹ˆë‹¤. {liquid.name}ëŠ” ì´ë¯¸ ìˆìŠµë‹ˆë‹¤.");
                 continue;
             }
             receiveddLiquids.Add(liquid);
-            Debug.Log($"{liquid.name} ÇÃ¶ó½ºÅ© Ãß°¡");
+            Debug.Log($"{liquid.name} í”Œë¼ìŠ¤í¬ ì¶”ê°€");
 
         }
 
@@ -30,13 +30,13 @@ public class GelFlask_O : MonoBehaviour
         {
             isPossiblePour = true;
 
-            Debug.Log("¸ğµÎ µé¾îÀÖ½À´Ï´Ù => º×±â °¡´É");
+            Debug.Log("ëª¨ë‘ ë“¤ì–´ìˆìŠµë‹ˆë‹¤ => ë¶“ê¸° ê°€ëŠ¥");
         }
 
         else
         {
             isPossiblePour = false;
-            Debug.Log($"ÃæÁ·¾ÈµÊ {receiveddLiquids.Count}");
+            Debug.Log($"ì¶©ì¡±ì•ˆë¨ {receiveddLiquids.Count}");
         }
 
     }

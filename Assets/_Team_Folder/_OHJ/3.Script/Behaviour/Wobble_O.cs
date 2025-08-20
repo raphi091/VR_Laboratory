@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class Wobble_O : MonoBehaviour
 {
-    public Renderer rend;   //·£´õ¸µ
-    private Vector3 lastPos;    //¸¶Áö¸· À§Ä¡ 
-    private Vector3 velocity;   //¼Óµµ
-    private Vector3 lastRot;    //¸¶Áö¸· È¸Àü
-    private Vector3 angularVelocity;    //°¢¼Óµµ
+    public Renderer rend;   //ëœë”ë§
+    private Vector3 lastPos;    //ë§ˆì§€ë§‰ ìœ„ì¹˜ 
+    private Vector3 velocity;   //ì†ë„
+    private Vector3 lastRot;    //ë§ˆì§€ë§‰ íšŒì „
+    private Vector3 angularVelocity;    //ê°ì†ë„
 
-    public float MaxWobble; //Èçµé±â ÃÖ´ë¼Óµµ
-    public float WobbleSpeed;   //Èçµé±â ¼Óµµ
+    public float MaxWobble; //í”ë“¤ê¸° ìµœëŒ€ì†ë„
+    public float WobbleSpeed;   //í”ë“¤ê¸° ì†ë„
     public float Recovery = 1f;
 
-    [SerializeField] private float wobbleAmountX;    //Èçµé ¶§ XÃà
-    [SerializeField] private float wobbleAmountZ;    //Èçµé ¶§ ZÃà
-    [SerializeField] private float wobbleAmountToAddX;   //XÃàÀÌ º¯°æµÉ ¶§ º¯¼ö
-    [SerializeField] private float wobbleAmountToAddZ;   //YÃà º¯°æµÉ ¶§ º¯¼ö
-    public float pulse;    // Áøµ¿ ¼ö
+    [SerializeField] private float wobbleAmountX;    //í”ë“¤ ë•Œ Xì¶•
+    [SerializeField] private float wobbleAmountZ;    //í”ë“¤ ë•Œ Zì¶•
+    [SerializeField] private float wobbleAmountToAddX;   //Xì¶•ì´ ë³€ê²½ë  ë•Œ ë³€ìˆ˜
+    [SerializeField] private float wobbleAmountToAddZ;   //Yì¶• ë³€ê²½ë  ë•Œ ë³€ìˆ˜
+    public float pulse;    // ì§„ë™ ìˆ˜
     private float time;
 
     private void Start()
@@ -30,31 +30,31 @@ public class Wobble_O : MonoBehaviour
     {
         time += Time.deltaTime;
 
-        //½Ã°£ÀÌ Èå¸£¸é¼­  Èçµé±â °¨¼Ò
+        //ì‹œê°„ì´ íë¥´ë©´ì„œ  í”ë“¤ê¸° ê°ì†Œ
         wobbleAmountToAddX = Mathf.Lerp(wobbleAmountToAddX, 0, Time.deltaTime * (Recovery));
         wobbleAmountToAddZ = Mathf.Lerp(wobbleAmountToAddZ, 0, Time.deltaTime * (Recovery));
 
-        // Mathf.sin : ºÎµå·´°Ô Áøµ¿ÇÏ°Å³ª ¿òÁ÷ÀÌ°Ô ÇÒ ¶§ »ç¿ë
-        //Mathf.sin(½Ã°£º¯¼ö);
-        // °¢µµ¿¡ µû¶ó -1, 1 »çÀÌ¸¦ ¹İÈ¯ => ¿ÀºêÁ§Æ®ÀÇ À§Ä¡¸¦ ÁÖ±âÀûÀ¸·Î º¯È­½ÃÄÑ ºÎµå·¯¿î ¿òÁ÷ÀÓÀ» ±¸Çö
-        // ex) Mathf.Sin(Time.time * frequency) * amplitude;    // frequency´Â Áøµ¿ ¼ö, amplitude´Â ¿òÁ÷ÀÓ ¼ö
+        // Mathf.sin : ë¶€ë“œëŸ½ê²Œ ì§„ë™í•˜ê±°ë‚˜ ì›€ì§ì´ê²Œ í•  ë•Œ ì‚¬ìš©
+        //Mathf.sin(ì‹œê°„ë³€ìˆ˜);
+        // ê°ë„ì— ë”°ë¼ -1, 1 ì‚¬ì´ë¥¼ ë°˜í™˜ => ì˜¤ë¸Œì íŠ¸ì˜ ìœ„ì¹˜ë¥¼ ì£¼ê¸°ì ìœ¼ë¡œ ë³€í™”ì‹œì¼œ ë¶€ë“œëŸ¬ìš´ ì›€ì§ì„ì„ êµ¬í˜„
+        // ex) Mathf.Sin(Time.time * frequency) * amplitude;    // frequencyëŠ” ì§„ë™ ìˆ˜, amplitudeëŠ” ì›€ì§ì„ ìˆ˜
         pulse = 2 * Mathf.PI * WobbleSpeed;
         wobbleAmountX = wobbleAmountToAddX * Mathf.Sin(pulse * time);
         wobbleAmountZ = wobbleAmountToAddZ * Mathf.Sin(pulse * time);
 
-        // ¼¼ÀÌ´õ
+        // ì„¸ì´ë”
         rend.material.SetFloat("_WobbleX", wobbleAmountX);
         rend.material.SetFloat("_WobbleZ", wobbleAmountZ);
 
-        // ¼Óµµ = °Å¸® / ½Ã°£
+        // ì†ë„ = ê±°ë¦¬ / ì‹œê°„
         velocity = (lastPos - transform.position) / Time.deltaTime;
         angularVelocity = transform.rotation.eulerAngles - lastRot;
 
-        // Èçµé ¶§ ¼Óµµ
+        // í”ë“¤ ë•Œ ì†ë„
         wobbleAmountToAddX += Mathf.Clamp((velocity.x + (angularVelocity.z * 0.2f)) * MaxWobble, -MaxWobble, MaxWobble);
         wobbleAmountToAddZ += Mathf.Clamp((velocity.z + (angularVelocity.x * 0.2f)) * MaxWobble, -MaxWobble, MaxWobble);
 
-        // ¸¶Áö¸· À§Ä¡
+        // ë§ˆì§€ë§‰ ìœ„ì¹˜
         lastPos = transform.position;
         lastRot = transform.rotation.eulerAngles;
     }

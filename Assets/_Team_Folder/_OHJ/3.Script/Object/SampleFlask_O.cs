@@ -5,32 +5,32 @@ using UnityEngine;
 public class SampleFlask_O : MonoBehaviour
 {
     public List<LiquidData_L> requiredLiquids = new List<LiquidData_L>();
-    public List<LiquidData_L> receiveddLiquids = new List<LiquidData_L>();  //¹ŞÀº ¾×Ã¼
+    public List<LiquidData_L> receiveddLiquids = new List<LiquidData_L>();  //ë°›ì€ ì•¡ì²´
 
-    public LiquidData_L Dye;    // ¿°»ö¾à
+    public LiquidData_L Dye;    // ì—¼ìƒ‰ì•½
 
-    public bool ispossibleMix;  //¿°»ö¾à ¼¯±â °¡´É¿©ºÎ
-    public bool isFillSample = false; // »ùÇÃ Ã¤¿ì±â °¡´É ¿©ºÎ
+    public bool ispossibleMix;  //ì—¼ìƒ‰ì•½ ì„ê¸° ê°€ëŠ¥ì—¬ë¶€
+    public bool isFillSample = false; // ìƒ˜í”Œ ì±„ìš°ê¸° ê°€ëŠ¥ ì—¬ë¶€
 
     public void ReceiveLiquid(List<LiquidData_L> liquids)
     {
         foreach(var liquid in liquids)
         {
-            //requiredliquids¿¡ ¾ø´Â ¾×Ã¼´Â ¹«½Ã
+            //requiredliquidsì— ì—†ëŠ” ì•¡ì²´ëŠ” ë¬´ì‹œ
             if (!requiredLiquids.Contains(liquid))
             {
-                Debug.LogWarning($". {liquid.name}´Â ¿ä±¸µÇÁö ¾Ê´Â ¾×Ã¼ÀÔ´Ï´Ù.");
+                Debug.LogWarning($". {liquid.name}ëŠ” ìš”êµ¬ë˜ì§€ ì•ŠëŠ” ì•¡ì²´ì…ë‹ˆë‹¤.");
                 continue;
             }
 
-            // Áßº¹ ºÒ°¡
+            // ì¤‘ë³µ ë¶ˆê°€
             if (receiveddLiquids.Contains(liquid))
             {
-                Debug.LogWarning($"Áßº¹µÈ ¾×Ã¼ÀÔ´Ï´Ù. {liquid.name}´Â ÀÌ¹Ì ÀÖ½À´Ï´Ù.");
+                Debug.LogWarning($"ì¤‘ë³µëœ ì•¡ì²´ì…ë‹ˆë‹¤. {liquid.name}ëŠ” ì´ë¯¸ ìˆìŠµë‹ˆë‹¤.");
                 continue;
             }
             receiveddLiquids.Add(liquid);
-            Debug.Log($"{liquid.name} ÇÃ¶ó½ºÅ© Ãß°¡");
+            Debug.Log($"{liquid.name} í”Œë¼ìŠ¤í¬ ì¶”ê°€");
 
         }
 
@@ -38,13 +38,13 @@ public class SampleFlask_O : MonoBehaviour
         {
             ispossibleMix = true;
 
-            Debug.Log("¸ğµÎ µé¾îÀÖ½À´Ï´Ù => ÆÄ¶õ¿°·á ¼¯±â °¡´É");
+            Debug.Log("ëª¨ë‘ ë“¤ì–´ìˆìŠµë‹ˆë‹¤ => íŒŒë€ì—¼ë£Œ ì„ê¸° ê°€ëŠ¥");
         }
 
         else
         {
             ispossibleMix = false;
-            Debug.Log($"ÃæÁ·¾ÈµÊ {receiveddLiquids.Count}");
+            Debug.Log($"ì¶©ì¡±ì•ˆë¨ {receiveddLiquids.Count}");
         }
 
     }

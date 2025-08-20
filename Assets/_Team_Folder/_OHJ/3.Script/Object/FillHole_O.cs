@@ -4,23 +4,23 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-// ¶Ç´Ù¸¥ ÇÇÆê
-// ¿ë¾× 5°³ + ÆÄ¶õ ¿°»ö¾à ³ÖÀº ¿ë¾×À» °¡Áö°í => tag°¡ Mix
-// ±¸¸Û¿¡ ³Ö´Â´Ù -> »ùÇÃÀ» ÆÄ¶õ»öÀ¸·Î ¸¸µç´Ù. => tag°¡ Hole
+// ë˜ë‹¤ë¥¸ í”¼í«
+// ìš©ì•¡ 5ê°œ + íŒŒë€ ì—¼ìƒ‰ì•½ ë„£ì€ ìš©ì•¡ì„ ê°€ì§€ê³  => tagê°€ Mix
+// êµ¬ë©ì— ë„£ëŠ”ë‹¤ -> ìƒ˜í”Œì„ íŒŒë€ìƒ‰ìœ¼ë¡œ ë§Œë“ ë‹¤. => tagê°€ Hole
 public class FillHole_O : MonoBehaviour
 {
     public SampleFlask_O flask;
     //public Renderer render;
     public GameObject currentHole;
 
-    [Header("ÀÔ·Â Á¤º¸")]
-    [SerializeField] private InputActionReference AbsorbDyeAction; // ¿°»ö¾à »¡¾ÆµéÀÌ±â
-    [SerializeField] private InputActionReference FillHoleAction;   // Ã¤¿ì±â -> ÆÄ¶õ»öÀ¸·Î ¹°µéÀÌ±â
+    [Header("ì…ë ¥ ì •ë³´")]
+    [SerializeField] private InputActionReference AbsorbDyeAction; // ì—¼ìƒ‰ì•½ ë¹¨ì•„ë“¤ì´ê¸°
+    [SerializeField] private InputActionReference FillHoleAction;   // ì±„ìš°ê¸° -> íŒŒë€ìƒ‰ìœ¼ë¡œ ë¬¼ë“¤ì´ê¸°
 
     [SerializeField] private ParseEventArgs parseEventArgs = new ParseEventArgs();
 
     public bool isEnter = false;
-    public bool isAbsorb = false;   //¿°»ö¾à ³Ö¾ú´Â°¡?
+    public bool isAbsorb = false;   //ì—¼ìƒ‰ì•½ ë„£ì—ˆëŠ”ê°€?
 
     private void OnEnable()
     {
@@ -75,19 +75,19 @@ public class FillHole_O : MonoBehaviour
                 flask = flaskCom;
                 if(flask.isFillSample)
                 {
-                    Debug.Log("¿°»ö¾à Ã¤Ãë °¡´É");
+                    Debug.Log("ì—¼ìƒ‰ì•½ ì±„ì·¨ ê°€ëŠ¥");
                 }
 
                 else
                 {
-                    Debug.Log("¿°»ö¾à Ã¤Ãë ºÒ°¡´É");
+                    Debug.Log("ì—¼ìƒ‰ì•½ ì±„ì·¨ ë¶ˆê°€ëŠ¥");
                 }
             }
 
             parseEventArgs.fromTool = other.GetComponent<C_ExperimentTool>();
             parseEventArgs.toTool = this.GetComponent<C_ExperimentTool>();
             C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
-            Debug.Log($"»ùÇÃ ´êÀ½: {other.name}");
+            Debug.Log($"ìƒ˜í”Œ ë‹¿ìŒ: {other.name}");
         }
 
         if(other.CompareTag("Hole"))
@@ -98,7 +98,7 @@ public class FillHole_O : MonoBehaviour
             parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();
             parseEventArgs.toTool = other.GetComponent<C_ExperimentTool>();
             C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
-            Debug.Log($"»ùÇÃ ´êÀ½: {other.name}");
+            Debug.Log($"ìƒ˜í”Œ ë‹¿ìŒ: {other.name}");
 
         }
     }
@@ -115,7 +115,7 @@ public class FillHole_O : MonoBehaviour
             return;
         }
         isAbsorb = true;
-        Debug.Log("ÆÄ¶õ ¿ë¾× Ã¤Ãë¿Ï·á");
+        Debug.Log("íŒŒë€ ìš©ì•¡ ì±„ì·¨ì™„ë£Œ");
     }
 
     private void FillHoleByDye(InputAction.CallbackContext context)
@@ -129,12 +129,12 @@ public class FillHole_O : MonoBehaviour
         if(holeRender != null)
         {
             holeRender.material.color = Color.blue;
-            Debug.Log("±¸¸Û¿¡ ÆÄ¶õ»ö ¿°»ö¾à ³Ö¾ú½À´Ï´Ù");
+            Debug.Log("êµ¬ë©ì— íŒŒë€ìƒ‰ ì—¼ìƒ‰ì•½ ë„£ì—ˆìŠµë‹ˆë‹¤");
         }
 
         else
         {
-            Debug.Log("Render¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("Renderë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         }
 
         isAbsorb = false;
