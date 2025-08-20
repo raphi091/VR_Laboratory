@@ -28,12 +28,12 @@ public class Tube_O : MonoBehaviour
 
         if(mat == null)
         {
-            Debug.Log("¸ÓÅÍ¸®¾ó Ã£À» ¼ö ¾øÀ½");
+            Debug.Log("ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
         }
 
         if(fill == null)
         {
-            Debug.Log("fillÀÌ ¿¬°áµÇÁö ¾Ê¾Ò½À´Ï´Ù");
+//            Debug.Log("fillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½");
         }
 
         ParticleObj = transform.Find("WaterPoint").GetChild(0).gameObject;
@@ -52,7 +52,7 @@ public class Tube_O : MonoBehaviour
         {
             float angle = transform.rotation.eulerAngles.z;
 
-            // °¢µµ°¡ ±âÁØÀ» ³ÑÀ¸¸é ÆÄÆ¼Å¬ »ý¼º
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼Å¬ ï¿½ï¿½ï¿½ï¿½
             if ((angle > MinThreshold && angle < MaxThreshold) || (angle < -MinThreshold && angle > -MaxThreshold))
             {
                 isPour = true;
@@ -61,8 +61,8 @@ public class Tube_O : MonoBehaviour
                 fillValue -= PourValue;
                 mat.SetFloat("_Fill", fillValue);
 
-                //Debug.Log($"ÇöÀç ¾ç : {fillValue}");
-                //Debug.Log($"¾×Ã¼ Èê·Á³ª¿É´Ï´Ù angle = {angle}");
+                //Debug.Log($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ : {fillValue}");
+                //Debug.Log($"ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É´Ï´ï¿½ angle = {angle}");
 
 
                 if (!ParticleObj.activeInHierarchy)
@@ -92,7 +92,7 @@ public class Tube_O : MonoBehaviour
 
                 // Raycast 
                 //Physics.Raycast(Ray ray, out RaycastHit hitInfo)
-                //Ãæµ¹ÀÌ ¹ß»ý ½Ã hitinfo¿¡ ÀúÀå => hitinfo°¡ gelTray¶ó¸é fill µÇµµ·Ï
+                //ï¿½æµ¹ï¿½ï¿½ ï¿½ß»ï¿½ ï¿½ï¿½ hitinfoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ => hitinfoï¿½ï¿½ gelTrayï¿½ï¿½ï¿½ fill ï¿½Çµï¿½ï¿½ï¿½
                 Ray ray = new Ray();
                 ray.origin = ParticleObj.transform.position;
                 RaycastHit hit;
@@ -108,7 +108,7 @@ public class Tube_O : MonoBehaviour
                         C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
 
                         fill.isfilling = true;
-                        Debug.Log("·¹ÀÌÄÉ½ºÆ®ÀÛµ¿ Áß");
+                        Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½É½ï¿½Æ®ï¿½Ûµï¿½ ï¿½ï¿½");
                     }
 
                     else
@@ -116,7 +116,7 @@ public class Tube_O : MonoBehaviour
                         fill.isfilling = false;
                     }
                 }
-            }// end  : °¢µµ ÃæÁ·ÇÒ ¶§
+            }// end  : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
             else
             {
@@ -130,17 +130,17 @@ public class Tube_O : MonoBehaviour
     //{
     //    float angle = transform.rotation.eulerAngles.z;
 
-    //    // °¢µµ°¡ ±âÁØÀ» ³ÑÀ¸¸é ÆÄÆ¼Å¬ »ý¼º
+    //    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼Å¬ ï¿½ï¿½ï¿½ï¿½
     //    if ((angle > MinThreshold && angle < MaxThreshold) || (angle < -MinThreshold && angle > -MaxThreshold))
     //    {
     //        isPour = true;
 
     //        fillValue = mat.GetFloat("_Fill");
-    //        Debug.Log($"ÇöÀç ¾ç : {fillValue}");
+    //        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ : {fillValue}");
     //        fillValue  -= PourValue;
     //        mat.SetFloat("_Fill", fillValue);
-    //        Debug.Log($"fillValue  °¨¼Ò Áß : {fillValue}");
-    //        //Debug.Log($"¾×Ã¼ Èê·Á³ª¿É´Ï´Ù angle = {angle}");
+    //        Debug.Log($"fillValue  ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ : {fillValue}");
+    //        //Debug.Log($"ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É´Ï´ï¿½ angle = {angle}");
 
             
     //        if(!ParticleObj.activeInHierarchy)
@@ -169,7 +169,7 @@ public class Tube_O : MonoBehaviour
 
     //        // Raycast 
     //        //Physics.Raycast(Ray ray, out RaycastHit hitInfo)
-    //        //Ãæµ¹ÀÌ ¹ß»ý ½Ã hitinfo¿¡ ÀúÀå => hitinfo°¡ gelTray¶ó¸é fill µÇµµ·Ï
+    //        //ï¿½æµ¹ï¿½ï¿½ ï¿½ß»ï¿½ ï¿½ï¿½ hitinfoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ => hitinfoï¿½ï¿½ gelTrayï¿½ï¿½ï¿½ fill ï¿½Çµï¿½ï¿½ï¿½
     //        Ray ray = new Ray();
     //        ray.origin = ParticleObj.transform.position;
     //        RaycastHit hit;
@@ -187,7 +187,7 @@ public class Tube_O : MonoBehaviour
     //                fill.isfilling = false;
     //            }
     //        }
-    //    }// end  : °¢µµ ÃæÁ·ÇÒ ¶§
+    //    }// end  : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
     //    else
     //    {
@@ -196,7 +196,7 @@ public class Tube_O : MonoBehaviour
 
     //}
 
-    // º×±â ¸ØÃß±â
+    // ï¿½×±ï¿½ ï¿½ï¿½ï¿½ß±ï¿½
     private void StopPouring()
     {
         isPour = false;
