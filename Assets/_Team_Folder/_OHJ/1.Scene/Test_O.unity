@@ -12127,7 +12127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &844223805971693223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13628,7 +13628,7 @@ GameObject:
   - component: {fileID: 6247365615273930406}
   - component: {fileID: 6238999606967040058}
   m_Layer: 0
-  m_Name: TestFlask
+  m_Name: SampleFlask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

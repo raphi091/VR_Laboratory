@@ -16,8 +16,15 @@ public class SampleFlask_O : MonoBehaviour
     {
         foreach(var liquid in liquids)
         {
+            //requiredliquids에 없는 액체는 무시
+            if (!requiredLiquids.Contains(liquid))
+            {
+                Debug.LogWarning($". {liquid.name}는 요구되지 않는 액체입니다.");
+                continue;
+            }
+
             // 중복 불가
-            if(receiveddLiquids.Contains(liquid))
+            if (receiveddLiquids.Contains(liquid))
             {
                 Debug.LogWarning($"중복된 액체입니다. {liquid.name}는 이미 있습니다.");
                 continue;
@@ -49,6 +56,8 @@ public class SampleFlask_O : MonoBehaviour
             return false;
         }
 
+
+        
 
         return requiredLiquids.TrueForAll(liquid => receiveddLiquids.Contains(liquid));
     }
