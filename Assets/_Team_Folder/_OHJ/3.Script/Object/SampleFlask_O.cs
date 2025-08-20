@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class SampleFlask_O : MonoBehaviour
 {
+    [Header("액체 담기")]
     public List<LiquidData_L> requiredLiquids = new List<LiquidData_L>();
     public List<LiquidData_L> receiveddLiquids = new List<LiquidData_L>();  //받은 액체
 
     public LiquidData_L Dye;    // 염색약
-
-    public bool ispossibleMix;  //염색약 섞기 가능여부
+    public bool ispossibleMix = false;  //염색약 섞기 가능 여부
     public bool isFillSample = false; // 샘플 채우기 가능 여부
+    public bool ispossiblePour = false; // 붓기 가능 여부
+
+    [Header("플라스크 여부")]
+    public bool isGel;  //겔이 든 플라스크인가?
 
     public void ReceiveLiquid(List<LiquidData_L> liquids)
     {
@@ -37,6 +41,7 @@ public class SampleFlask_O : MonoBehaviour
         if (IsComplete())
         {
             ispossibleMix = true;
+            ispossiblePour = true;
 
             Debug.Log("모두 들어있습니다 => 파란염료 섞기 가능");
         }
@@ -44,6 +49,7 @@ public class SampleFlask_O : MonoBehaviour
         else
         {
             ispossibleMix = false;
+            ispossiblePour = false;
             Debug.Log($"충족안됨 {receiveddLiquids.Count}");
         }
 
@@ -55,9 +61,6 @@ public class SampleFlask_O : MonoBehaviour
         {
             return false;
         }
-
-
-        
 
         return requiredLiquids.TrueForAll(liquid => receiveddLiquids.Contains(liquid));
     }

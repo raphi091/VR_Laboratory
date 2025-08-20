@@ -15,6 +15,13 @@ public class GelFlask_O : MonoBehaviour
     {
         foreach (var liquid in liquids)
         {
+            //requiredliquids에 없는 액체는 무시
+            if (!requiredLiquids.Contains(liquid))
+            {
+                Debug.LogWarning($". {liquid.name}는 요구되지 않는 액체입니다.");
+                continue;
+            }
+
             // 중복 불가
             if (receiveddLiquids.Contains(liquid))
             {
