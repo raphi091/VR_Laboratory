@@ -22,7 +22,8 @@ public class C_TutorialManager : MonoBehaviour
     
     IEnumerator CheckTutorialCompleted()
     {
-        yield return new WaitUntil(()=>isCompleted);
+        yield return new WaitUntil(()=>npc.isTutorialComplete);
+        yield return new WaitForSeconds(3f);
         OnTutorialCompleted();
     }
     

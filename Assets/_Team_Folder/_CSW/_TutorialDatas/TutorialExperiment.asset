@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2a55d4fe75ce1f4b83da4c3fb5908ef, type: 3}
   m_Name: TutorialExperiment
   m_EditorClassIdentifier: 
-  ExperimentName: 
-  Samples: []
+  ExperimentName: TutorialExperiment
+  Samples:
+  - {fileID: 11400000, guid: 49068a8b0bdc6c649ae234907c1a1fbb, type: 2}

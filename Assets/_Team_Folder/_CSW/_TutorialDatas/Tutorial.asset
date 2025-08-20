@@ -17,10 +17,13 @@ MonoBehaviour:
   - Type: 1
     LocationID: 
     Instruction: "\uC548\uB155\uD558\uC138\uC694! \uB300\uD654&\uB3C4\uAD6C \uC0AC\uC6A9
-      \uD29C\uD1A0\uB9AC\uC5BC\uC5D0 \uC624\uC2E0 \uAC78 \uD658\uC601\uD569\uB2C8\uB2E4!
-      \n\uC800\uB97C \uB530\uB77C\uC640\uC8FC\uC2DC\uACA0\uC5B4\uC694?"
+      \uD29C\uD1A0\uB9AC\uC5BC\uC5D0 \uC624\uC2E0 \uAC78 \uD658\uC601\uD569\uB2C8\uB2E4! "
     CompletionKeywords:
     - 
+  - Type: 1
+    LocationID: 
+    Instruction: "\uC800\uB97C \uB530\uB77C\uC640\uC8FC\uC2DC\uACA0\uC5B4\uC694?"
+    CompletionKeywords: []
   - Type: 0
     LocationID: 000
     Instruction: 

@@ -47,7 +47,7 @@ public class NpcController_G : MonoBehaviour
     [Tooltip("배양 실험 데이터")]
     [SerializeField] private ExperimentData_G cultureExperiment;
     [Tooltip("튜토리얼 데이터")]
-    [SerializeField] private SampleData_G tutorialData;
+    [SerializeField] private ExperimentData_G tutorialExperiment;
 
     [Header("UI 설정")]
     [SerializeField] private TMP_Text subtitleDisplay;
@@ -81,6 +81,8 @@ public class NpcController_G : MonoBehaviour
     private int savedActionIndex;
     private float timeInCurrentState = 0f;
     private bool isWaitingForTaskCompletion = false;
+    
+    public bool isTutorialComplete = false;
 
     #region Unity Lifecycle & FSM Core
     private void Awake()
@@ -146,9 +148,10 @@ public class NpcController_G : MonoBehaviour
         switch (currentMode)
         {
             case NpcMode.Tutorial:
-                if (tutorialData != null)
+                if (tutorialExperiment != null)
                 {
-                    currentSample = tutorialData;
+                    currentExperiment = tutorialExperiment;
+                    currentSample = tutorialExperiment.Samples[0];
                     ChangeState(NPCState.ExecutingExperiment);
                 }
                 else
@@ -359,7 +362,15 @@ public class NpcController_G : MonoBehaviour
     {
         bool isSuccess = !currentExperiment.ExperimentName.Contains("C");
 
-        if (isSuccess)
+        if (currentMode == NpcMode.Tutorial)
+        {
+            ShowStatusIcon("Success", 2f);
+            SetAnimatorTrigger("Success");
+            yield return StartCoroutine(ShowSubtitle_co("튜토리얼을 성공적으로 마쳤습니다! 훌륭해요."));
+            isTutorialComplete=true;
+            yield break;
+        }
+        else if (isSuccess)
         {
             ShowStatusIcon("Success", 2f);
             SetAnimatorTrigger("Success");
