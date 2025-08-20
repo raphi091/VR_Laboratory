@@ -12,6 +12,7 @@ TagManager:
   - Absorb
   - Hole
   - ExperimentSample
+  - Liquid
   layers:
   - Default
   - TransparentFX
