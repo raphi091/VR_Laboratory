@@ -23,69 +23,53 @@ public class PouringController_G : MonoBehaviour
     [Tooltip("내용물이 나오는 시작점")]
     public Transform pourOrigin;
 
+    [Tooltip("붓기를 감지할 Raycast의 최대 거리")]
+    public float pourCheckDistance = 0.5f;
+
     [Header("연결 요소")]
     [Tooltip("활성화시킬 파티클 시스템")]
     public ParticleSystem pourParticles;
 
-    private bool isPouring = false;
-    private FlaskLiquidController_G targetFlask;
+    [Tooltip("최대 초당 파티클 개수")]
+    public float maxEmissionRate = 200f;
+
+
+    private void Start()
+    {
+        var emission = pourParticles.emission;
+        emission.rateOverTime = 0;
+    }
 
     private void Update()
     {
         float tiltAngle = Vector3.Angle(transform.up, Vector3.up);
 
+        var emission = pourParticles.emission;
+
         if (tiltAngle > pourAngleThreshold)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(pourOrigin.position, Vector3.down, out hit, 0.2f))
-            {
-                if (hit.collider.CompareTag("FlaskOpening"))
-                {
-                    targetFlask = hit.collider.GetComponentInParent<FlaskLiquidController_G>();
-                    if (targetFlask != null)
-                    {
-                        StartPouring();
-                        return;
-                    }
-                }
-            }
+            float tiltProgress = Mathf.InverseLerp(pourAngleThreshold, 180f, tiltAngle);
+            emission.rateOverTime = Mathf.Lerp(0, maxEmissionRate, tiltProgress);
+            HandleDataTransfer();
         }
-
-        StopPouring();
-    }
-
-    private void StartPouring()
-    {
-        if (!isPouring)
+        else
         {
-            isPouring = true;
-            pourParticles.Play();
-
-            switch (contentType)
-            {
-                case PourableType.LB:
-                    targetFlask.AddPowder();
-                    break;
-                case PourableType.Water:
-                    targetFlask.AddWater();
-                    break;
-                case PourableType.Agar:
-                    targetFlask.AddWater();
-                    break;
-                case PourableType.None:
-                    // None이면 작동 중지
-                    break;
-            }
+            emission.rateOverTime = 0;
         }
     }
 
-    private void StopPouring()
+    private void HandleDataTransfer()
     {
-        if (isPouring)
+        RaycastHit hit;
+        if (Physics.Raycast(pourOrigin.position, Vector3.down, out hit, pourCheckDistance))
         {
-            isPouring = false;
-            pourParticles.Stop();
-            targetFlask = null;
+            Debug.Log("Raycast Hit: " + hit.collider.name);
+
+            FlaskLiquidController_G targetFlask = hit.collider.GetComponentInParent<FlaskLiquidController_G>();
+            if (targetFlask != null && targetFlask.IsWritable)
+            {
+                targetFlask.ReceiveContinuousPour(contentType);
+            }
         }
     }
 }
