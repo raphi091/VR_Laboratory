@@ -17,6 +17,13 @@ public class ExperimentFlowManager_L : MonoBehaviour
 
     void Start()
     {
+        // 씬 로드 시, 밤새 배양이 진행되었는지 확인
+        if (GameStateManager_L.Instance != null && GameStateManager_L.Instance.IsCulturingOvernight)
+        {
+            ShowPetriDishResult();
+            GameStateManager_L.Instance.IsCulturingOvernight = false; // 확인 후 상태 초기화
+        }
+
         //PCR 초기 상태
         // 처음에는 Thermocycler만 사용 가능하도록 설정
         SetEquipmentActive(thermocycler, true);
@@ -55,6 +62,30 @@ public class ExperimentFlowManager_L : MonoBehaviour
         // 실제로는 Clean Bench에서 다른 작업을 거친 후 Air Incubator로 가게 됩니다.
         // 이 부분의 흐름은 필요에 따라 커스터마이징이 가능합니다.
         SetEquipmentActive(airIncubator, true);
+    }
+
+    // Air Incubator '시작' 시 호출될 함수
+    public void OnAirIncubatorStarted()
+    {
+        Debug.Log("Air Incubator 배양 시작. 상태를 저장합니다.");
+        if (GameStateManager_L.Instance != null)
+        {
+            GameStateManager_L.Instance.IsCulturingOvernight = true;
+        }
+    }
+
+    // 페트리 접시 결과를 보여주는 함수
+    private void ShowPetriDishResult()
+    {
+        // 결과 페트리 접시를 찾아서 텍스처를 바꿔주는 로직
+        // "FinalPetriDish" 태그를 가진 오브젝트를 찾도록 설정했습니다.
+        GameObject finalPetriDish = GameObject.FindGameObjectWithTag("FinalPetriDish");
+        if (finalPetriDish != null && ResultManager_L.Instance != null)
+        {
+            Renderer renderer = finalPetriDish.GetComponentInChildren<Renderer>();
+            renderer.material.mainTexture = ResultManager_L.Instance.GetRandomCulturingResult();
+            Debug.Log("밤새 배양된 페트리 접시 결과를 적용했습니다.");
+        }
     }
 
     // 기기 오브젝트와 그 상호작용 컴포넌트들을 활성화/비활성화합니다.
