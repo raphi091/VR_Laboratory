@@ -186,13 +186,23 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
     private void HandlePouring()
     {
-        if (pourParticles == null || liquidDatas.Count == 0) return;
+        if (pourParticles == null || liquidDatas.Count == 0)
+        {
+            StopPouring();
+            return;
+        }
 
-        var emission = pourParticles.emission;
         float tiltAngle = Vector3.Angle(transform.up, Vector3.up);
 
         if (tiltAngle > pourAngleThreshold)
         {
+            if (!isPouring)
+            {
+                isPouring = true;
+                pourParticles.Play();
+            }
+
+            var emission = pourParticles.emission;
             float tiltProgress = Mathf.InverseLerp(pourAngleThreshold, 180f, tiltAngle);
             emission.rateOverTime = Mathf.Lerp(0, maxEmissionRate, tiltProgress);
 
@@ -200,7 +210,16 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         }
         else
         {
-            emission.rateOverTime = 0;
+            StopPouring();
+        }
+    }
+
+    private void StopPouring()
+    {
+        if (isPouring)
+        {
+            isPouring = false;
+            pourParticles.Stop();
         }
     }
 
