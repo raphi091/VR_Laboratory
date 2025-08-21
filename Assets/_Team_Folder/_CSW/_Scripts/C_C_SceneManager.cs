@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class C_TutorialManager : MonoBehaviour
+public class C_SceneManager : MonoBehaviour
 {
     private bool isCompleted = false;
     public bool IsCompleted => isCompleted;
