@@ -8,7 +8,8 @@ public enum PourableType
     None,
     LB,
     Water,
-    Agar
+    Agar,
+    Microbe
 }
 
 public class PouringController_G : MonoBehaviour

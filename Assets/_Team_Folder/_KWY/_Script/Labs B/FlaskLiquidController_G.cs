@@ -255,7 +255,6 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         targetFillAmount = Mathf.Clamp(targetFillAmount, -1f, 0f);
     }
 
-
     public void AddMaterial(PourableType type)
     {
         switch (type)
@@ -276,12 +275,20 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
     public void ImportLiquidData(List<LiquidData_L> receivedDatas)
     {
-        this.liquidDatas.AddRange(receivedDatas);
-        isMixed = false;
-
-        foreach (var data in receivedDatas)
+        if (receivedDatas != null && receivedDatas.Count == 1)
         {
-            AddMaterial(data.type);
+            LiquidData_L singleData = receivedDatas[0];
+
+            if (singleData.type == PourableType.Microbe)
+            {
+                // 데이터 리스트에 미생물 추가
+                this.liquidDatas.Add(singleData);
+                Debug.Log(singleData.liquidName + " 미생물이 플라스크에 접종되었습니다.");
+            }
+            else
+            {
+                Debug.LogWarning("파이펫으로는 미생물만 넣을 수 있습니다. (" + singleData.liquidName + " 넣기 시도)");
+            }
         }
     }
 

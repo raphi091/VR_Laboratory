@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3881d5b5e624b804ebc2951f09d53158, type: 3}
   m_Name: Sample_A
   m_EditorClassIdentifier: 
-  liquidName: "\uB300\uC7A5\uADE0 \uC6A9\uC561 (E. coli stock)"
+  type: 4
+  liquidName: MicrobeSample_A
   description: "\uBC30\uC591\uD558\uACE0\uC790 \uD558\uB294 \uB300\uC7A5\uADE0\uC774
     \uB4E4\uC5B4\uC788\uB294 \uC6D0\uBCF8 \uC6A9\uC561."
   colorName: "\uD0C1\uD55C \uB178\uB780\uC0C9"

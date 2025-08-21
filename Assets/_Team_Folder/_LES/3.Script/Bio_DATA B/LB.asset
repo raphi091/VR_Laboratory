@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3881d5b5e624b804ebc2951f09d53158, type: 3}
   m_Name: LB
   m_EditorClassIdentifier: 
-  type: 0
+  type: 1
   liquidName: LB
   description: "\uB300\uC7A5\uADE0\uC758 \uBC25"
   colorName: "\uB178\uB780\uC0C9"
