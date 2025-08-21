@@ -40,7 +40,7 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
         interactionAction.action.performed -= OnInteractionButtonPressed;
     }
 
-    void Start()
+    private void Start()
     {
         SetPlungerPosition(plungerUpLocalY);
     }
@@ -51,6 +51,16 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
         if (targetTool != null)
         {
             currentTarget = targetTool;
+
+            LiquidSource_G source = other.GetComponent<LiquidSource_G>();
+            if (source != null)
+            {
+                if (source.closedModel != null) 
+                    source.closedModel.SetActive(false);
+
+                if (source.openModel != null) 
+                    source.openModel.SetActive(true);
+            }
         }
     }
     private void OnTriggerExit(Collider other)
@@ -59,6 +69,16 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
 
         if (targetTool == currentTarget)
         {
+            LiquidSource_G source = other.GetComponent<LiquidSource_G>();
+            if (source != null)
+            {
+                if (source.closedModel != null) 
+                    source.closedModel.SetActive(true);
+
+                if (source.openModel != null) 
+                    source.openModel.SetActive(false);
+            }
+
             currentTarget = null;
         }
     }
