@@ -20,9 +20,13 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
     [Tooltip("플런저가 올라와 있을 때 위치")]
     public float plungerUpLocalY = 0.13f;
 
+    [Tooltip("플런저가 움직이는 애니메이션 시간(초)")]
+    public float plungerAnimationDuration = 0.2f;
+
     [SerializeField] private bool isWritable = true;
     [SerializeField] private ToolType toolType = ToolType.Pippet;
     private List<LiquidData_L> liquidDatas = new List<LiquidData_L>();
+    private Coroutine runningPlungerAnimation;
 
     public bool IsWritable { get => isWritable; set => isWritable = value; }
     public ToolType ToolType { get => toolType; set => toolType = value; }
@@ -32,17 +36,19 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
 
     private void OnEnable()
     {
-        interactionAction.action.performed += OnInteractionButtonPressed;
+        interactionAction.action.started += OnInteractionPress;
+        interactionAction.action.canceled += OnInteractionRelease;
     }
 
     private void OnDisable()
     {
-        interactionAction.action.performed -= OnInteractionButtonPressed;
+        interactionAction.action.started -= OnInteractionPress;
+        interactionAction.action.canceled -= OnInteractionRelease;
     }
 
     private void Start()
     {
-        SetPlungerPosition(plungerUpLocalY);
+        plunger.localPosition = new Vector3(plunger.localPosition.x, plungerUpLocalY, plunger.localPosition.z);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -83,23 +89,27 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
         }
     }
 
-    private void OnInteractionButtonPressed(InputAction.CallbackContext context)
+    private void OnInteractionPress(InputAction.CallbackContext context)
     {
+        AnimatePlunger(plungerDownLocalY);
+
         if (currentTarget == null) return;
 
         if (liquidDatas.Count == 0 && currentTarget.ToolType != ToolType.Pippet)
         {
             ImportLiquidData(currentTarget.ExportLiquidDatas());
-
-            currentTarget.ClearData();
         }
         else if (liquidDatas.Count > 0 && currentTarget.IsWritable)
         {
             C_ExperimentDataParser.I.ParseEventArgs = new ParseEventArgs { fromTool = this, toTool = currentTarget };
             C_ExperimentDataParser.I.DataParsed.Invoke(C_ExperimentDataParser.I.ParseEventArgs);
-
             ClearData();
         }
+    }
+
+    private void OnInteractionRelease(InputAction.CallbackContext context)
+    {
+        AnimatePlunger(plungerUpLocalY);
     }
 
     public void ImportLiquidData(List<LiquidData_L> receivedDatas)
@@ -107,8 +117,6 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
         if (receivedDatas == null || receivedDatas.Count == 0) return;
 
         liquidDatas.AddRange(receivedDatas);
-
-        SetPlungerPosition(plungerDownLocalY);
     }
 
     public List<LiquidData_L> ExportLiquidDatas()
@@ -119,15 +127,33 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
     public void ClearData()
     {
         liquidDatas.Clear();
-
-        SetPlungerPosition(plungerUpLocalY);
     }
 
-    private void SetPlungerPosition(float localY)
+    private void AnimatePlunger(float targetY)
     {
-        if (plunger != null)
+        if (runningPlungerAnimation != null)
         {
-            plunger.localPosition = new Vector3(plunger.localPosition.x, localY, plunger.localPosition.z);
+            StopCoroutine(runningPlungerAnimation);
         }
+        runningPlungerAnimation = StartCoroutine(AnimatePlungerRoutine(targetY));
+    }
+
+    private IEnumerator AnimatePlungerRoutine(float targetY)
+    {
+        if (plunger == null) yield break;
+
+        float elapsedTime = 0f;
+        Vector3 startPosition = plunger.localPosition;
+        Vector3 targetPosition = new Vector3(startPosition.x, targetY, startPosition.z);
+
+        while (elapsedTime < plungerAnimationDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            plunger.localPosition = Vector3.Lerp(startPosition, targetPosition, elapsedTime / plungerAnimationDuration);
+            yield return null;
+        }
+
+        plunger.localPosition = targetPosition;
+        runningPlungerAnimation = null;
     }
 }
