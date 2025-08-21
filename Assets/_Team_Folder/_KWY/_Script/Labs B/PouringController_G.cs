@@ -8,11 +8,16 @@ public enum PourableType
     None,
     LB,
     Water,
-    Agar
+    Agar,
+    Microbe
 }
 
 public class PouringController_G : MonoBehaviour
 {
+    [Header("데이터 정보")]
+    [Tooltip("이 병이 담고 있는 액체/재료의 데이터 애셋")]
+    public LiquidData_L liquidDataAsset;
+
     [Header("설정")]
     [Tooltip("붓는 내용물의 종류")]
     public PourableType contentType = PourableType.None;
@@ -63,12 +68,10 @@ public class PouringController_G : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(pourOrigin.position, Vector3.down, out hit, pourCheckDistance))
         {
-            Debug.Log("Raycast Hit: " + hit.collider.name);
-
             FlaskLiquidController_G targetFlask = hit.collider.GetComponentInParent<FlaskLiquidController_G>();
             if (targetFlask != null && targetFlask.IsWritable)
             {
-                targetFlask.ReceiveContinuousPour(contentType);
+                targetFlask.ReceiveContinuousPour(liquidDataAsset);
             }
         }
     }

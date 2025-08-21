@@ -6,13 +6,8 @@ using UnityEngine.Audio;
 public enum BGMTrackName
 {
     None = 0,
-    Lobby,
-    LabIdle,
-    ExperimentPhase,
-    Success,
-    Failure,
-    Discovery,
-    Ending
+    Tutorial,
+    Lobby
 }
 
 [System.Serializable]
@@ -30,7 +25,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private List<MusicTrack> musicTracks;
     [SerializeField] private AudioMixerGroup bgmMixerGroup;
     [SerializeField] private float crossfadeDuration = 1.5f;
-    [SerializeField] private BGMTrackName autoStartTrack = BGMTrackName.LabIdle;
+    [SerializeField] private BGMTrackName autoStartTrack = BGMTrackName.Lobby;
 
     [Header("SFX")]
     [SerializeField] private AudioMixerGroup sfxMixerGroup;
@@ -38,16 +33,16 @@ public class SoundManager : MonoBehaviour
     private AudioSource bgmA;
     private AudioSource bgmB;
     private AudioSource sfxSource;
-    private bool isPlaying = true; // true=A 활성 / false=B 활성
+    private bool isPlaying = true; // true = A 활성, false = B 활성
 
     private Dictionary<BGMTrackName, AudioClip> musicClipDict;
 
     // ---- 볼륨 스케일 ----
-    private float masterVolume = 1.0f;  // 전체(마스터) 0~1
+    private float masterVolume = 1.0f;   // 전체(마스터) 0~1
     private float bgmMasterVolume = 0.8f; // BGM 0~1
     private float sfxMasterVolume = 0.8f; // SFX 0~1
 
-    // BGM 현재 '정규화 볼륨'(0~1). 실제 소스 볼륨은 norm * (master*bgm)
+    // BGM 정규화 볼륨(0~1). 실제 소스 볼륨은 norm * (master*bgm)
     private float bgmANorm = 0f;
     private float bgmBNorm = 0f;
 
@@ -75,18 +70,22 @@ public class SoundManager : MonoBehaviour
 
     private void InitializeSound()
     {
-        // BGM 소스 2개 (교차 페이드)
+        // BGM 소스 2개 (교차 페이드용)
         bgmA = gameObject.AddComponent<AudioSource>();
         bgmB = gameObject.AddComponent<AudioSource>();
-        bgmA.outputAudioMixerGroup = bgmMixerGroup;
-        bgmB.outputAudioMixerGroup = bgmMixerGroup;
+        if (bgmMixerGroup != null)
+        {
+            bgmA.outputAudioMixerGroup = bgmMixerGroup;
+            bgmB.outputAudioMixerGroup = bgmMixerGroup;
+        }
         bgmA.playOnAwake = false; bgmB.playOnAwake = false;
         bgmA.loop = true; bgmB.loop = true;
         bgmA.volume = 0f; bgmB.volume = 0f;
 
         // SFX 소스
         sfxSource = gameObject.AddComponent<AudioSource>();
-        sfxSource.outputAudioMixerGroup = sfxMixerGroup;
+        if (sfxMixerGroup != null)
+            sfxSource.outputAudioMixerGroup = sfxMixerGroup;
         sfxSource.playOnAwake = false; sfxSource.loop = false;
         sfxSource.volume = sfxMasterVolume * masterVolume;
 
@@ -106,6 +105,7 @@ public class SoundManager : MonoBehaviour
         var clipToPlay = musicClipDict[trackName];
         var current = isPlaying ? bgmA : bgmB;
 
+        // 같은 트랙이면 무시
         if (current.isPlaying && current.clip == clipToPlay) return;
 
         StopAllCoroutines();
@@ -119,38 +119,58 @@ public class SoundManager : MonoBehaviour
 
         inactive.clip = newClip;
         inactive.loop = loop;
+        inactive.volume = 0f;
         inactive.Play();
 
+        // 활성 소스가 현재 실제로 재생 중인지(첫 시작이면 false)
+        bool activeHasAudio = active.isPlaying && active.clip != null && active.volume > 0.0001f;
+
         float timer = 0f;
-        while (timer < crossfadeDuration)
+        float dur = Mathf.Max(0f, crossfadeDuration);
+
+        while (timer < dur)
         {
             timer += Time.unscaledDeltaTime;
-            float t = Mathf.Clamp01(timer / crossfadeDuration);
-
-            // 정규화 볼륨(0~1) 갱신
-            float activeNorm   = Mathf.Lerp(1f, 0f, t);
-            float inactiveNorm = Mathf.Lerp(0f, 1f, t);
-
-            // 저장(슬라이더 변경 시 즉시 재적용용)
-            if (isPlaying) { bgmANorm = activeNorm; bgmBNorm = inactiveNorm; }
-            else           { bgmBNorm = activeNorm; bgmANorm = inactiveNorm; }
-
-            // 실제 소스 볼륨 = norm * (마스터 * BGM)
+            float t = Mathf.Clamp01(timer / dur);
             float scale = masterVolume * bgmMasterVolume;
-            active.volume   = activeNorm   * scale;
-            inactive.volume = inactiveNorm * scale;
+
+            if (activeHasAudio)
+            {
+                // 정상적인 교차 페이드
+                float activeNorm = 1f - t;
+                float inactiveNorm = t;
+
+                if (isPlaying) { bgmANorm = activeNorm; bgmBNorm = inactiveNorm; }
+                else           { bgmBNorm = activeNorm; bgmANorm = inactiveNorm; }
+
+                active.volume   = activeNorm   * scale;
+                inactive.volume = inactiveNorm * scale;
+            }
+            else
+            {
+                // 첫 시작: 비활성(inactive)만 부드럽게 페이드 인
+                float inactiveNorm = t;
+
+                if (isPlaying) { bgmBNorm = inactiveNorm; bgmANorm = 0f; }
+                else           { bgmANorm = inactiveNorm; bgmBNorm = 0f; }
+
+                inactive.volume = inactiveNorm * scale;
+            }
 
             yield return null;
         }
 
-        active.Stop();
-        active.clip = null;
+        if (activeHasAudio)
+        {
+            active.Stop();
+            active.clip = null;
+        }
 
         // 최종 상태(새 트랙 1.0, 이전 트랙 0.0)
         if (isPlaying) { bgmANorm = 0f; bgmBNorm = 1f; }
         else           { bgmBNorm = 0f; bgmANorm = 1f; }
 
-        ApplyBgmScaledVolumes(); // 현재 스케일 반영
+        ApplyBgmScaledVolumes();
         isPlaying = !isPlaying;
     }
 
@@ -167,7 +187,7 @@ public class SoundManager : MonoBehaviour
         masterVolume = Mathf.Clamp01(v01);
         ApplyBgmScaledVolumes();
         sfxSource.volume = sfxMasterVolume * masterVolume;
-        AudioListener.volume = 1f; // 혹시 건드렸다면 원복(우린 내부 스케일로만 제어)
+        AudioListener.volume = 1f; // 외부에서 건드렸을 수 있어 원복
     }
 
     public void SetBGMVolume01(float v01)

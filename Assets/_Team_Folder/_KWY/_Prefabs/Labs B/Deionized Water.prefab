@@ -223,7 +223,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0.48584908, g: 0.989399, b: 1, a: 0.34901962}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4855,7 +4855,7 @@ Transform:
   m_GameObject: {fileID: 1795794924489871581}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0192, y: 0.1899, z: 0.0057}
+  m_LocalPosition: {x: -0.018, y: 0.195, z: 0.0059}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5163,9 +5163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0473604513fbd0546b7c0a1023a6bbcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  liquidDataAsset: {fileID: 11400000, guid: ac674436532b48941b65493d587b2184, type: 2}
   contentType: 2
   pourAngleThreshold: 75
   pourOrigin: {fileID: 2616868102981924720}
+  pourCheckDistance: 0.5
   pourParticles: {fileID: 289533478345120173}
   maxEmissionRate: 200
 --- !u!1 &4967530625572990101
