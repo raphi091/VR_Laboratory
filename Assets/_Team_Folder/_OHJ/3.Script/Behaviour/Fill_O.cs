@@ -36,7 +36,7 @@ public class Fill_O : MonoBehaviour
                     yield break;
                 }
                 transform.position = pos;
-                Debug.Log("¿Ã¶ó¿Ô½À´Ï´Ù");
+                Debug.Log("ì˜¬ë¼ì™”ìŠµë‹ˆë‹¤");
             }
 
             yield return null;
