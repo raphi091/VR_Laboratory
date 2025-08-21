@@ -19,10 +19,6 @@ public class LabEquipmentController_L : MonoBehaviour
     public Transform itemPlacementPoint;
     public CanvasGroup interactionCanvasGroup;
     public TMPro.TextMeshProUGUI statusText;
-    public string requiredItemTag = "ExperimentSample";
-
-    [Header("UI 요소")]
-    public GameObject yesNoButtonPanel;
 
     [Header("Optional Visual Components")]
     public Renderer screenRenderer;
@@ -32,9 +28,11 @@ public class LabEquipmentController_L : MonoBehaviour
 
     // 내부 상태 변수
     private GameObject itemInRange;
+    private GameObject itemToProcess; // 처리할 아이템을 저장하는 변수 추가
     private XRGrabInteractable itemInteractable;
     private bool uiVisible = false;
     private bool handInRange = false;
+    private bool readyToProcess = false; // 처리 준비 상태 추가
 
     void Awake()
     {
@@ -45,144 +43,187 @@ public class LabEquipmentController_L : MonoBehaviour
             interactionCanvasGroup.interactable = false;
             interactionCanvasGroup.blocksRaycasts = false;
         }
-        
-        // yesNoButtonPanel도 확실히 비활성화
-        if (yesNoButtonPanel != null)
-        {
-            yesNoButtonPanel.SetActive(false);
-        }
     }
 
     void Start()
     {
         // Start에서도 한 번 더 확인 (Awake 이후 Inspector 설정이 적용될 수 있음)
         SetUIVisible(false, false);
-        
+
         // 디버그 로그
-        Debug.Log($"{gameObject.name}: UI 초기화 완료 - Canvas Alpha: {interactionCanvasGroup?.alpha}, Panel Active: {yesNoButtonPanel?.activeSelf}");
+        Debug.Log($"{gameObject.name}: UI 초기화 완료 - Canvas Alpha: {interactionCanvasGroup?.alpha}");
     }
 
     void Update()
-    {        
-        // 처리 중일 때는 아무 UI 상호작용도 하지 않음
-        if (currentState == MachineState.Processing)
+    {
+        if (handInRange)
         {
-            if (uiVisible) SetUIVisible(false, false);
-            return;
-        }
-
-        // [수정된 로직] 각 상황을 독립적으로 체크
-        bool shouldShowUI = false;
-        bool shouldShowButtons = false;
-        
-        // 아이템을 잡고 있고 범위 안에 있는지 체크
-        bool hasItemInHand = (itemInRange != null && itemInteractable != null && itemInteractable.isSelected);
-        
-        // UI 표시 조건 결정
-        if (hasItemInHand)
-        {
-            // 아이템을 잡고 있을 때 - 버튼과 함께 UI 표시
-            shouldShowUI = true;
-            shouldShowButtons = true;
-            UpdateStatusText(true); // "사용하시겠습니까?" 텍스트
-        }
-        else if (handInRange && currentState != MachineState.Idle)
-        {
-            // 손만 있고 기기가 Idle 상태가 아닐 때만 상태 표시
-            shouldShowUI = true;
-            shouldShowButtons = false;
-            UpdateStatusText(false); // 기기 상태 텍스트
-        }
-        else if (handInRange && itemInRange != null && !itemInteractable.isSelected)
-        {
-            // 손과 아이템이 모두 범위에 있지만 아이템을 잡고 있지 않을 때
-            shouldShowUI = true;
-            shouldShowButtons = false;
-            statusText.text = "아이템을 잡고 가져오세요.";
-        }
-        
-        // UI 상태 업데이트
-        if (shouldShowUI && !uiVisible)
-        {
-            SetUIVisible(true, shouldShowButtons);
-        }
-        else if (!shouldShowUI && uiVisible)
-        {
-            SetUIVisible(false, false);
-        }
-        else if (uiVisible && yesNoButtonPanel != null && yesNoButtonPanel.activeSelf != shouldShowButtons)
-        {
-            // UI는 보이지만 버튼 상태만 변경이 필요한 경우
-            yesNoButtonPanel.SetActive(shouldShowButtons);
+            UpdateInteractionUI();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // 아이템 체크
-        if (other.CompareTag(requiredItemTag))
-        {
-            itemInRange = other.gameObject;
-            itemInteractable = itemInRange.GetComponent<XRGrabInteractable>();
-            Debug.Log($"{gameObject.name}: 아이템 '{other.name}' 감지됨");
-        }
-        // 손 체크
-        else if (other.CompareTag("Right_Hand") || other.CompareTag("Left_Hand"))
+        bool isHand = other.CompareTag("Right_Hand") || other.CompareTag("Left_Hand");
+        ExperimentItem_L experimentItem = other.GetComponent<ExperimentItem_L>();
+
+        if (isHand)
         {
             handInRange = true;
             Debug.Log($"{gameObject.name}: 손 '{other.tag}' 감지됨");
+            UpdateInteractionUI();
+        }
+        else if (experimentItem != null)
+        {
+            itemInRange = other.gameObject;
+            itemInteractable = itemInRange.GetComponent<XRGrabInteractable>();
+            Debug.Log($"{gameObject.name}: 아이템 '{other.name}' (타입: {experimentItem.itemType}) 감지됨");
+            if (handInRange) UpdateInteractionUI();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // 아이템 체크
-        if (other.gameObject == itemInRange)
-        {
-            itemInRange = null;
-            itemInteractable = null;
-            Debug.Log($"{gameObject.name}: 아이템 '{other.name}' 범위 벗어남");
-        }
-        // 손 체크
-        else if (other.CompareTag("Right_Hand") || other.CompareTag("Left_Hand"))
+        bool isHand = other.CompareTag("Right_Hand") || other.CompareTag("Left_Hand");
+        bool isItem = (other.gameObject == itemInRange);
+
+        if (isHand)
         {
             handInRange = false;
+            readyToProcess = false; // 손이 범위를 벗어나면 준비 상태 해제
+            itemToProcess = null;
             Debug.Log($"{gameObject.name}: 손 '{other.tag}' 범위 벗어남");
+            SetUIVisible(false, false); 
+        }
+        else if (isItem)
+        {
+            Debug.Log($"{gameObject.name}: 아이템 '{other.name}' 범위 벗어남");
+            itemInRange = null;
+            itemInteractable = null;
+            readyToProcess = false;
+            itemToProcess = null;
+            if(handInRange) UpdateInteractionUI(); 
+        }
+    }
+
+    private void UpdateInteractionUI()
+    {
+        // 처리 중일 때는 아무것도 표시하지 않음
+        if (currentState == MachineState.Processing)
+        {
+            statusText.text = "처리 중...";
+            SetUIVisible(true, false);
+            return;
+        }
+
+        // isSelected 체크 대신 아이템이 손 근처에 있는지 체크하는 대체 방법
+        bool hasItemInHand = false;
+        
+        if (itemInRange != null && itemInteractable != null)
+        {
+            // 방법 1: isSelected 체크 (원래 방법)
+            hasItemInHand = itemInteractable.isSelected;
+            
+            // 방법 2: 만약 isSelected가 작동하지 않으면, 아이템의 부모가 손인지 체크
+            if (!hasItemInHand && itemInRange.transform.parent != null)
+            {
+                Transform parent = itemInRange.transform.parent;
+                hasItemInHand = parent.CompareTag("Right_Hand") || parent.CompareTag("Left_Hand");
+            }
+            
+            // 방법 3: 아이템이 기기 근처에 있고 손도 근처에 있으면 true
+            if (!hasItemInHand && handInRange && itemInRange != null)
+            {
+                // 단순히 손과 아이템이 모두 범위 내에 있으면 처리 가능으로 판단
+                hasItemInHand = true;
+            }
+        }
+        
+        // 디버깅 로그
+        Debug.Log($"UpdateUI - item: {itemInRange?.name}, interactable: {itemInteractable != null}, " +
+                  $"isSelected: {itemInteractable?.isSelected}, hasItemInHand: {hasItemInHand}");
+
+        if (hasItemInHand && itemInRange != null)  // itemInRange null 체크 추가
+        {
+            // 1순위: 아이템을 손에 들고 있을 때
+            // 처리할 아이템 미리 저장
+            itemToProcess = itemInRange;
+            readyToProcess = true;
+            
+            UpdateStatusText(true); // "이 기기를 사용하시겠습니까?"
+            SetUIVisible(true, true); // 버튼과 함께 UI 표시
+            
+            // 더 자세한 디버깅 정보
+            Debug.Log($"{gameObject.name}: 처리 준비 완료");
+            Debug.Log($"  - itemToProcess 할당됨: {(itemToProcess != null ? "YES" : "NO")}");
+            Debug.Log($"  - itemToProcess 이름: {(itemToProcess != null ? itemToProcess.name : "NULL")}");
+            Debug.Log($"  - readyToProcess: {readyToProcess}");
+        }
+        else if (itemInRange != null)
+        {
+            // 2순위: 아이템은 있지만 손에 들고 있지 않을 때
+            readyToProcess = false;
+            itemToProcess = null;
+            statusText.text = "아이템을 잡고 가져오세요.";
+            SetUIVisible(true, false);
+        }
+        else
+        {
+            // 3순위: 손만 있을 때 (Idle 또는 Complete 상태)
+            readyToProcess = false;
+            itemToProcess = null;
+            UpdateStatusText(false); // 상태에 맞는 텍스트("아이템을 올려주세요" 등)
+            SetUIVisible(true, false);
         }
     }
 
     public void StartProcessing()
     {
-        // 처리 시작 조건 체크
-        if (itemInRange == null || itemInteractable == null || !itemInteractable.isSelected || currentState != MachineState.Idle)
+        Debug.Log($"{gameObject.name}: StartProcessing 호출됨");
+        Debug.Log($"  - readyToProcess: {readyToProcess}");
+        Debug.Log($"  - itemToProcess null 체크: {(itemToProcess != null ? "NOT NULL" : "NULL")}");
+        Debug.Log($"  - itemToProcess 이름: {(itemToProcess != null ? itemToProcess.name : "없음")}");
+        Debug.Log($"  - currentState: {currentState}");
+        
+        // 수정된 조건: readyToProcess와 itemToProcess를 체크
+        if (!readyToProcess || itemToProcess == null || currentState != MachineState.Idle)
         {
             Debug.LogWarning($"{gameObject.name}: 처리 시작 실패 - 조건 미충족");
+            Debug.LogWarning($"  실패 이유: readyToProcess={readyToProcess}, itemToProcess={(itemToProcess != null ? "있음" : "NULL")}, currentState={currentState}");
             return;
         }
 
-        Debug.Log($"{gameObject.name}: 처리 시작");
+        Debug.Log($"{gameObject.name}: 처리 시작 - 아이템: {itemToProcess.name}");
         currentState = MachineState.Processing;
         SetUIVisible(false, false);
 
-        GameObject itemToProcess = itemInRange;
-        
-        ForceDropItem(itemToProcess, itemInteractable);
-        LockItemInPlace(itemToProcess);
+        // 저장해둔 아이템으로 처리 진행
+        GameObject processingItem = itemToProcess;
+        XRGrabInteractable processingInteractable = processingItem.GetComponent<XRGrabInteractable>();
+
+        ForceDropItem(processingItem, processingInteractable);
+        LockItemInPlace(processingItem);
+
+        // 처리 완료 후 상태 초기화
+        readyToProcess = false;
+        itemToProcess = null;
 
         if (type == EquipmentType.ShakingIncubator)
         {
-            StartCoroutine(AnimateLiquidChange(itemToProcess));
+            StartCoroutine(AnimateLiquidChange(processingItem));
         }
         else
         {
-            StartCoroutine(ProcessTimer(itemToProcess));
+            StartCoroutine(ProcessTimer(processingItem));
         }
     }
 
-    // No 버튼 클릭 시 호출될 메서드 추가
+    // No 버튼 클릭 시 호출될 메서드
     public void CancelProcessing()
     {
         Debug.Log($"{gameObject.name}: 처리 취소");
+        readyToProcess = false;
+        itemToProcess = null;
         SetUIVisible(false, false);
     }
 
@@ -205,19 +246,19 @@ public class LabEquipmentController_L : MonoBehaviour
     {
         Debug.Log($"{gameObject.name}: 처리 완료");
         currentState = MachineState.Complete;
-        
+
         HandleVisualResult(targetItem);
         UnlockItem(targetItem);
-        
+
         OnProcessCompleted.Invoke();
-        
+
         // 완료 상태 텍스트 업데이트
         if (statusText != null)
         {
             statusText.text = "완료! 아이템을 회수하세요.";
         }
     }
-    
+
     private void SetUIVisible(bool visible, bool showButtons)
     {
         // Canvas Group 설정
@@ -227,16 +268,8 @@ public class LabEquipmentController_L : MonoBehaviour
             interactionCanvasGroup.interactable = visible;
             interactionCanvasGroup.blocksRaycasts = visible;
         }
-        
-        // Yes/No 버튼 패널 설정
-        if (yesNoButtonPanel != null)
-        {
-            yesNoButtonPanel.SetActive(visible && showButtons); // visible이 true일 때만 showButtons 체크
-        }
-        
+
         uiVisible = visible;
-        
-        // 디버그 로그
         Debug.Log($"{gameObject.name}: UI 상태 변경 - Visible: {visible}, Buttons: {showButtons}");
     }
 
@@ -290,7 +323,7 @@ public class LabEquipmentController_L : MonoBehaviour
 
         if (itemRigidbody != null) itemRigidbody.isKinematic = true;
         if (itemCollider != null) itemCollider.enabled = false;
-        
+
         item.transform.SetParent(itemPlacementPoint);
         item.transform.localPosition = Vector3.zero;
         item.transform.localRotation = Quaternion.identity;
@@ -305,11 +338,11 @@ public class LabEquipmentController_L : MonoBehaviour
 
         var itemCollider = item.GetComponent<Collider>();
         var itemRigidbody = item.GetComponent<Rigidbody>();
-        
+
         item.transform.SetParent(null);
         if (itemRigidbody != null) itemRigidbody.isKinematic = false;
         if (itemCollider != null) itemCollider.enabled = true;
-        
+
         // 아이템 회수 후 상태 리셋
         if (currentState == MachineState.Complete)
         {
@@ -337,7 +370,7 @@ public class LabEquipmentController_L : MonoBehaviour
             ProcessComplete(targetItem);
             yield break;
         }
-        
+
         float elapsedTime = 0f;
         Color startColor = ResultManager_L.Instance.flaskClearLiquidMaterial.color;
         Color endColor = ResultManager_L.Instance.flaskCloudyLiquidMaterial.color;
@@ -352,23 +385,18 @@ public class LabEquipmentController_L : MonoBehaviour
             yield return null;
         }
         newMaterialInstance.color = endColor;
-        
+
         ProcessComplete(targetItem);
     }
-    
+
     // Inspector에서 설정 확인용
     void OnValidate()
     {
         if (!Application.isPlaying) return;
-        
+
         if (interactionCanvasGroup == null)
         {
             Debug.LogWarning($"{gameObject.name}: interactionCanvasGroup이 할당되지 않았습니다!");
-        }
-        
-        if (yesNoButtonPanel == null)
-        {
-            Debug.LogWarning($"{gameObject.name}: yesNoButtonPanel이 할당되지 않았습니다!");
         }
     }
 }
