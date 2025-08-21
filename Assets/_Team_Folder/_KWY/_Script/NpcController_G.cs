@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
 
 
 [System.Serializable]
@@ -81,6 +82,8 @@ public class NpcController_G : MonoBehaviour
     private int savedActionIndex;
     private float timeInCurrentState = 0f;
     private bool isWaitingForTaskCompletion = false;
+    
+    [SerializeField] private UnityAction<NpcMode> ExperimentEnd;
     
     public bool isTutorialComplete = false;
 
