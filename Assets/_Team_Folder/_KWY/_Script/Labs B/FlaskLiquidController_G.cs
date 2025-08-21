@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -17,8 +18,41 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     [Tooltip("액체가 차오르는 속도")]
     public float fillSpeed = 0.5f;
 
+    [Header("액체 색상 설정")]
+    [Tooltip("기본 색상")]
+    public Color baseColor = new Color(0.85f, 1f, 1f);
+
+    [Tooltip("액체 배지 색상")]
+    public Color clearLiquidColor = Color.yellow;
+
+    [Tooltip("고체 배지 색상")]
+    public Color agarMixColor = new Color(1f, 1f, 0.8f);
+
+    [Tooltip("멸균 후 색상")]
+    public Color cloudyLiquidColor = new Color(0.8f, 0.8f, 0.2f);
+
+    [Tooltip("색이 변화하는데 걸리는 시간")]
+    public float colorChangeDuration = 1.5f;
+
+    [Header("섞기(Mixing) 설정")]
+    [Tooltip("흔들기 강도")]
+    public float shakeThreshold = 0.5f;
+
+    [Tooltip("흔들어야 하는 최소 시간(초)")]
+    public float requiredShakeDuration = 2f;
+
+    [Header("지속적인 붓기 설정")]
+    [Tooltip("가루가 채워지는 속도 (초당)")]
+    public float powderFillRate = 0.4f;
+
+    [Tooltip("물이 채워지는 속도 (초당)")]
+    public float waterFillRate = 1.0f;
+
     [Tooltip("붓기를 감지할 Raycast의 최대 거리")]
     public float pourCheckDistance = 0.5f;
+
+    [Tooltip("내용물을 밖으로 부을 때 비워지는 속도 (초당)")]
+    public float pourOutRate = 1.0f;
 
     [Header("출렁임(Wobble) 효과 설정")]
     [Tooltip("최대 출렁임의 강도")]
@@ -43,16 +77,26 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     [Tooltip("최대로 쏟아져 나올 때의 초당 파티클 개수")]
     public float maxEmissionRate = 200f;
 
+    [Header("내부 파티클 효과")]
+    [Tooltip("섞이지 않은 LB 가루 파티클")]
+    public ParticleSystem unmixedLBParticles;
+
+    [Tooltip("섞이지 않은 Agar 가루 파티클")]
+    public ParticleSystem unmixedAgarParticles;
+
     private List<LiquidData_L> liquidDatas = new List<LiquidData_L>();
     private Material liquidMaterial;
     private PetriDishController_G currentTargetDish;
+    private bool isMixed = false;
     private bool isPouring = false;
     private float currentFillAmount = -1f;
     private float targetFillAmount = -1f;
     private float currentWobbleAmount = 0f;
+    private float time = 0.5f;
+    private float timeShaking = 0f;
     private Vector3 lastPos;
     private Quaternion lastRot;
-    private float time = 0.5f;
+    private Coroutine runningColorChange;
 
     public bool IsWritable { get => isWritable; set => isWritable = value; }
     public ToolType ToolType { get => toolType; set => toolType = value; }
@@ -70,7 +114,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         currentFillAmount = -1f;
         targetFillAmount = -1f;
         liquidMaterial = liquidRenderer.material;
-        liquidMaterial.SetFloat("_FillAmount", currentFillAmount);
+        liquidMaterial.SetFloat("_Fill", currentFillAmount);
         lastPos = transform.position;
         lastRot = transform.rotation;
 
@@ -79,6 +123,8 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
             var emission = pourParticles.emission;
             emission.rateOverTime = 0;
         }
+
+        ClearData();
     }
 
     private void Update()
@@ -92,7 +138,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         if (currentFillAmount != targetFillAmount)
         {
             currentFillAmount = Mathf.Lerp(currentFillAmount, targetFillAmount, Time.deltaTime * fillSpeed);
-            liquidMaterial.SetFloat("_FillAmount", currentFillAmount);
+            liquidMaterial.SetFloat("_Fill", currentFillAmount);
         }
 
         float deltaPos = (transform.position - lastPos).magnitude * 100f;
@@ -105,6 +151,32 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
         liquidMaterial.SetFloat("_WobbleX", wobbleX);
         liquidMaterial.SetFloat("_WobbleZ", wobbleZ);
+
+        if (!isMixed)
+        {
+            if (currentWobbleAmount > shakeThreshold)
+            {
+                timeShaking += Time.deltaTime;
+            }
+            else
+            {
+                timeShaking = 0f;
+            }
+
+            if (timeShaking >= requiredShakeDuration)
+            {
+                isMixed = true;
+                Debug.Log("플라스크를 흔들어서 내용물이 섞였습니다!");
+
+                if (unmixedLBParticles != null) 
+                    unmixedLBParticles.Stop();
+
+                if (unmixedAgarParticles != null) 
+                    unmixedAgarParticles.Stop();
+
+                UpdateLiquidColor();
+            }
+        }
 
         currentWobbleAmount = Mathf.Lerp(currentWobbleAmount, 0, Time.deltaTime * wobbleRecoverySpeed);
 
@@ -135,51 +207,67 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     private void HandleDataTransfer()
     {
         RaycastHit hit;
+
         if (Physics.Raycast(pourOrigin.position, Vector3.down, out hit, pourCheckDistance))
         {
             C_ExperimentTool targetTool = hit.collider.GetComponent<C_ExperimentTool>();
-            if (targetTool != null && targetTool.IsWritable && targetTool.ToolType == ToolType.Tray)
+            PetriDishController_G dish = targetTool as PetriDishController_G;
+
+            if (dish != null && dish.currentState == PetriDishController_G.DishState.Empty)
             {
                 C_ExperimentDataParser.I.ParseEventArgs = new ParseEventArgs { fromTool = this, toTool = targetTool };
                 C_ExperimentDataParser.I.DataParsed.Invoke(C_ExperimentDataParser.I.ParseEventArgs);
+            }
+
+            targetFillAmount -= pourOutRate * Time.deltaTime;
+            targetFillAmount = Mathf.Clamp(targetFillAmount, -1f, 0f);
+
+            if (targetFillAmount <= -0.99f)
+            {
                 ClearData();
             }
         }
     }
 
-    public void ReceiveContinuousPour(PourableType type)
+    public void ReceiveContinuousPour(LiquidData_L receivedData)
     {
-        float powderPourRate = 0.01f;
-        float waterPourRate = 0.1f;
+        if (!liquidDatas.Contains(receivedData))
+        {
+            liquidDatas.Add(receivedData);
+            isMixed = false;
+        }
 
-        switch (type)
+        switch (receivedData.type)
         {
             case PourableType.LB:
-                targetFillAmount += powderPourRate * Time.deltaTime;
+                if (unmixedLBParticles != null && !unmixedLBParticles.isPlaying)
+                    unmixedLBParticles.Play();
                 break;
             case PourableType.Agar:
-                targetFillAmount += powderPourRate * Time.deltaTime;
+                if (unmixedAgarParticles != null && !unmixedAgarParticles.isPlaying)
+                    unmixedAgarParticles.Play();
                 break;
             case PourableType.Water:
-                targetFillAmount += waterPourRate * Time.deltaTime;
+                targetFillAmount += waterFillRate * Time.deltaTime;
                 break;
         }
 
         targetFillAmount = Mathf.Clamp(targetFillAmount, -1f, 0f);
     }
 
+
     public void AddMaterial(PourableType type)
     {
         switch (type)
         {
             case PourableType.LB:
-                targetFillAmount += 0.2f;
+                targetFillAmount += 0.05f;
                 break;
             case PourableType.Agar:
-                targetFillAmount += 0.2f;
+                targetFillAmount += 0.05f;
                 break;
             case PourableType.Water:
-                targetFillAmount += 0.5f;
+                targetFillAmount += 0.2f;
                 break;
         }
 
@@ -189,11 +277,75 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     public void ImportLiquidData(List<LiquidData_L> receivedDatas)
     {
         this.liquidDatas.AddRange(receivedDatas);
+        isMixed = false;
 
         foreach (var data in receivedDatas)
         {
             AddMaterial(data.type);
         }
+    }
+
+    private void UpdateLiquidColor()
+    {
+        if (liquidMaterial == null) return;
+
+            Debug.Log(1);
+        var containedTypes = liquidDatas.Select(data => data.type).ToList();
+
+        if (containedTypes.Contains(PourableType.Agar) &&
+            containedTypes.Contains(PourableType.LB) &&
+            containedTypes.Contains(PourableType.Water))
+        {
+            Debug.Log(2);
+            StartColorChange(agarMixColor);
+        }
+        else if (containedTypes.Contains(PourableType.LB) &&
+                 containedTypes.Contains(PourableType.Water))
+        {
+            Debug.Log(3);
+            StartColorChange(clearLiquidColor);
+        }
+    }
+
+    public void SetStateToCloudy()
+    {
+        if (liquidMaterial != null)
+        {
+            StartColorChange(cloudyLiquidColor);
+        }
+    }
+
+    private void StartColorChange(Color targetColor)
+    {
+        if (runningColorChange != null)
+        {
+            StopCoroutine(runningColorChange);
+        }
+        runningColorChange = StartCoroutine(ChangeColorRoutine(targetColor));
+    }
+
+    private IEnumerator ChangeColorRoutine(Color targetColor)
+    {
+        float elapsedTime = 0f;
+        Color startLiquidColor = liquidMaterial.GetColor("_LiquidColor");
+        Color startFresnelColor = liquidMaterial.GetColor("_FresnelColor");
+
+        Color targetFresnelColor = new Color(targetColor.r - 0.05f, targetColor.g - 0.05f, targetColor.b);
+
+        while (elapsedTime < colorChangeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / colorChangeDuration;
+
+            liquidMaterial.SetColor("_LiquidColor", Color.Lerp(startLiquidColor, targetColor, t));
+            liquidMaterial.SetColor("_FresnelColor", Color.Lerp(startFresnelColor, targetFresnelColor, t));
+
+            yield return null;
+        }
+
+        liquidMaterial.SetColor("_LiquidColor", targetColor);
+        liquidMaterial.SetColor("_FresnelColor", targetFresnelColor);
+        runningColorChange = null;
     }
 
     public List<LiquidData_L> ExportLiquidDatas()
@@ -205,5 +357,17 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     {
         this.liquidDatas.Clear();
         targetFillAmount = -1f;
+        isMixed = false;
+        timeShaking = 0f;
+
+        if (unmixedLBParticles != null) 
+            unmixedLBParticles.Stop();
+
+        if (unmixedAgarParticles != null) 
+            unmixedAgarParticles.Stop();
+
+        Color _baseColor = new Color(baseColor.r - 0.05f, baseColor.g - 0.05f, baseColor.b);
+        liquidMaterial.SetColor("_LiquidColor", baseColor);
+        liquidMaterial.SetColor("_FresnelColor", _baseColor);
     }
 }
