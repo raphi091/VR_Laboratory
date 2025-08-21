@@ -98,9 +98,9 @@ public class Tube_O : MonoBehaviour
                 RaycastHit hit;
                 ray.direction = Vector3.down;
 
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                 {
-                    Debug.Log($"{hit.transform.name}");
+                    Debug.Log($"{hit.transform.name}ÀÌ ÂïÇû½À´Ï´Ù.");
                     if (hit.transform == gelTray)
                     {
                         parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();

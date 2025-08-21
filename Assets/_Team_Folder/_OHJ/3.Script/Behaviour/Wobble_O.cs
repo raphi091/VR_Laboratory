@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Wobble_O : MonoBehaviour
 {
-    public Renderer rend;   //랜더링
+    private Renderer rend;   //랜더링
     private Vector3 lastPos;    //마지막 위치 
     private Vector3 velocity;   //속도
     private Vector3 lastRot;    //마지막 회전

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3769721258846252857}
   - component: {fileID: 2931534863063740045}
   - component: {fileID: 4511329578749721492}
-  - component: {fileID: 5898854269670526468}
   - component: {fileID: 634607682535097477}
+  - component: {fileID: 5898854269670526468}
   - component: {fileID: 527496503692744582}
   - component: {fileID: 490250806680718834}
   - component: {fileID: 5229424012893301277}
@@ -112,21 +112,6 @@ MonoBehaviour:
   isFillSample: 0
   ispossiblePour: 0
   isGel: 1
---- !u!114 &5898854269670526468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1424462228008565715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 238beb66635f23d498c1122d11b70c35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  liquidDatas: []
-  toolType: 1
-  isWritable: 1
 --- !u!114 &634607682535097477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +133,21 @@ MonoBehaviour:
   fillValue: 0
   PourValue: 0.00001
   isPour: 0
+--- !u!114 &5898854269670526468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424462228008565715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238beb66635f23d498c1122d11b70c35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  liquidDatas: []
+  toolType: 1
+  isWritable: 1
 --- !u!65 &527496503692744582
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -376,7 +376,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.15, y: 1, z: 0.15}
+  m_LocalScale: {x: 0.15, y: 0.005, z: 0.15}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5808426950597734249}
@@ -5468,8 +5468,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6449930034526611686}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -10621,7 +10621,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b56407267b3e1844b66e02c69dde1af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rend: {fileID: 0}
   MaxWobble: 0.03
   WobbleSpeed: 1
   Recovery: 1
