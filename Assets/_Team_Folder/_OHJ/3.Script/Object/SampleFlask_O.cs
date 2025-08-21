@@ -12,13 +12,15 @@ public class SampleFlask_O : MonoBehaviour
     public bool ispossibleMix = false;  //염색약 섞기 가능 여부
     public bool isFillSample = false; // 샘플 채우기 가능 여부
     public bool ispossiblePour = false; // 붓기 가능 여부
+    public bool isAddsuccess;  // 액체 추가 성공 여부
 
     [Header("플라스크 여부")]
     public bool isGel;  //겔이 든 플라스크인가?
 
     public void ReceiveLiquid(List<LiquidData_L> liquids)
     {
-        foreach(var liquid in liquids)
+        isAddsuccess = false;
+        foreach (var liquid in liquids)
         {
             //requiredliquids에 없는 액체는 무시
             if (!requiredLiquids.Contains(liquid))
@@ -34,6 +36,7 @@ public class SampleFlask_O : MonoBehaviour
                 continue;
             }
             receiveddLiquids.Add(liquid);
+            isAddsuccess = true;
             Debug.Log($"{liquid.name} 플라스크 추가");
 
         }

@@ -31,6 +31,10 @@ public class Pipette_O : MonoBehaviour
     [Header("Liquid List")]
     public Sample_O sample;
     public SampleFlask_O flask; //샘플 플라스크
+
+    //temp
+    public Liquid_O liquid; // 플라스크 속 액체
+
     [SerializeField] private LiquidData_L liquidData;    // 피펫에 들어있는 액체
     public bool isEnter = false;
 
@@ -129,13 +133,25 @@ public class Pipette_O : MonoBehaviour
                     break;
                 }
             }
+
+            Liquid_O findliquid = other.GetComponentInChildren<Liquid_O>();
+            if(findliquid != null)
+            {
+                liquid = findliquid;
+            }
+
+            else
+            {
+                Debug.LogError("자식에 liquid_O 컴포넌트가 없습니다");
+            }
+
+
   
 
             // 용액을 플라스크로 방출
             if(other.TryGetComponent<SampleFlask_O>(out var flaskCom))
             {
                 flask = flaskCom;
-                Debug.Log($"Sample 닿음 : {other.name}");
 
                 if(flask.isFillSample)
                 {
@@ -152,7 +168,6 @@ public class Pipette_O : MonoBehaviour
             parseEventArgs.fromTool = other.GetComponent<C_ExperimentTool>();
             parseEventArgs.toTool = this.transform.GetComponent<C_ExperimentTool>();
             C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
-            Debug.Log($"Absorb 닿음 : {other.name}");
         }
 
         else if (other.CompareTag("Hole"))
@@ -171,6 +186,7 @@ public class Pipette_O : MonoBehaviour
 
             Debug.Log($"Hole 닿음: {other.name}");
         }
+
 
     }
 
@@ -329,9 +345,7 @@ public class Pipette_O : MonoBehaviour
                     OnChangeColor(context);
                     Debug.Log("파란색 염색처리 완료");
                 }
-               
-
-
+ 
                 else
                 {
                     Debug.Log("아직 모든 샘플이 들어가지 않아 염색이 불가능");
@@ -358,6 +372,16 @@ public class Pipette_O : MonoBehaviour
             {
                 // 하나만 담긴 리스트를 receiveliquid 메소드에 넘긴다.
                 flask.ReceiveLiquid(new List<LiquidData_L> {liquidData});
+
+                if(flask.isAddsuccess)
+                {
+                    liquid.FillLiquid();
+                }
+
+                else
+                {
+                    Debug.Log("중복 액체로 채울 수 없습니다.");
+                }
             }
 
             // 실험 Tool 정보
@@ -372,8 +396,6 @@ public class Pipette_O : MonoBehaviour
             FillHoleByDye(context);
             Debug.Log("구멍을 채웠습니다");
         }
-        
-
 
         Debug.Log($"{liquidData.name} 방출");
 

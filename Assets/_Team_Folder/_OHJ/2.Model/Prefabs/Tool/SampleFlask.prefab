@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2794667631215123178}
   - component: {fileID: 3524712662060069443}
   - component: {fileID: 3384744386306593641}
+  - component: {fileID: 7093017730443180448}
   m_Layer: 0
   m_Name: F_Liquid_01
   m_TagString: Liquid
@@ -104,6 +105,21 @@ MonoBehaviour:
   wobbleAmountToAddX: 0
   wobbleAmountToAddZ: 0
   pulse: 0
+--- !u!114 &7093017730443180448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129216563128947840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52595f542f4286c419749ce2a3a7790c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mat: {fileID: 0}
+  fillAmount: 0.01
+  currentAmount: -0.08
 --- !u!1 &3129036513053330947
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,6 +233,7 @@ MonoBehaviour:
   ispossibleMix: 0
   isFillSample: 0
   ispossiblePour: 0
+  isAddsuccess: 0
   isGel: 0
 --- !u!114 &2699638790543904113
 MonoBehaviour:

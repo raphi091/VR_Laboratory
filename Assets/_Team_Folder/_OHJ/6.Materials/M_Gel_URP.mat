@@ -104,7 +104,7 @@ Material:
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _ExcludeFromTUAndAA: 0
-    - _Fill: -0.02
+    - _Fill: -0.1
     - _FresnelPower: 3
     - _GradientContrast: 0
     - _GradientPower: 0

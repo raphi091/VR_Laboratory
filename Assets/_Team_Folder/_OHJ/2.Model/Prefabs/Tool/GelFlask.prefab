@@ -10537,6 +10537,7 @@ GameObject:
   - component: {fileID: 8639297350623497290}
   - component: {fileID: 5896643120671462550}
   - component: {fileID: 9111432700332838172}
+  - component: {fileID: 8891339765657917688}
   m_Layer: 0
   m_Name: cotent
   m_TagString: Liquid
@@ -10629,3 +10630,18 @@ MonoBehaviour:
   wobbleAmountToAddX: 0
   wobbleAmountToAddZ: 0
   pulse: 0
+--- !u!114 &8891339765657917688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6443594208879461713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52595f542f4286c419749ce2a3a7790c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mat: {fileID: 0}
+  fillAmount: 0.9
+  currentAmount: -1

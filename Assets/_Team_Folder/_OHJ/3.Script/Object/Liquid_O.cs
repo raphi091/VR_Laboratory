@@ -2,26 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 플라스크에 sample을 넣을 시 조금씩 차오르도록 구현
 public class Liquid_O : MonoBehaviour
 {
-    public Renderer rend;
+    public Material mat;
     public float fillAmount  = 1f;
-    public float currentAmount = -0.3f;
+    public float currentAmount;
+
+    private void Awake()
+    {
+        mat = GetComponent<MeshRenderer>().material;   
+    }
 
     private void Start()
     {
-        currentAmount = -0.3f;
-        rend = GetComponent<Renderer>();
+        if(mat != null && mat.HasProperty("_Fill"))
+        {
+            mat.SetFloat("_Fill", currentAmount);
+        }
     }
 
-    private void Update()
+    public void FillLiquid()
     {
-        currentAmount += fillAmount * Time.deltaTime;
-        rend.material.SetFloat("_Fill", currentAmount);
+        currentAmount += fillAmount;
 
-        if(currentAmount > 1f)
+        if (currentAmount > 1f)
         {
             currentAmount = 1f;
+        }
+
+        if(mat.HasProperty("_Fill"))
+        {
+            mat.SetFloat("_Fill", currentAmount);
         }
     }
 }
