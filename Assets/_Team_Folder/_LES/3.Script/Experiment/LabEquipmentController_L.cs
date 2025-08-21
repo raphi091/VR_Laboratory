@@ -14,6 +14,13 @@ public class LabEquipmentController_L : MonoBehaviour
     [Header("기기 식별")]
     public EquipmentType type;
 
+    [Header("모델 오브젝트 설정")]
+    [Tooltip("기기가 대기 상태일 때 표시될 모델")]
+    public GameObject idleModelObject;
+
+    [Tooltip("기기가 작동 중일 때 표시될 모델")]
+    public GameObject processingModelObject;
+
     [Header("상태 및 설정")]
     [SerializeField] private float processingTime = 5.0f;
     public Transform itemPlacementPoint;
@@ -52,6 +59,9 @@ public class LabEquipmentController_L : MonoBehaviour
 
         // 디버그 로그
         Debug.Log($"{gameObject.name}: UI 초기화 완료 - Canvas Alpha: {interactionCanvasGroup?.alpha}");
+
+        if (idleModelObject != null) idleModelObject.SetActive(true);
+        if (processingModelObject != null) processingModelObject.SetActive(false);
     }
 
     void Update()
@@ -179,12 +189,8 @@ public class LabEquipmentController_L : MonoBehaviour
 
     public void StartProcessing()
     {
-        Debug.Log($"{gameObject.name}: StartProcessing 호출됨");
-        Debug.Log($"  - readyToProcess: {readyToProcess}");
-        Debug.Log($"  - itemToProcess null 체크: {(itemToProcess != null ? "NOT NULL" : "NULL")}");
-        Debug.Log($"  - itemToProcess 이름: {(itemToProcess != null ? itemToProcess.name : "없음")}");
-        Debug.Log($"  - currentState: {currentState}");
-        
+        Debug.Log(1);
+
         // 수정된 조건: readyToProcess와 itemToProcess를 체크
         if (!readyToProcess || itemToProcess == null || currentState != MachineState.Idle)
         {
@@ -193,8 +199,14 @@ public class LabEquipmentController_L : MonoBehaviour
             return;
         }
 
+        Debug.Log(2);
+
         Debug.Log($"{gameObject.name}: 처리 시작 - 아이템: {itemToProcess.name}");
         currentState = MachineState.Processing;
+
+        if (idleModelObject != null) idleModelObject.SetActive(false);
+        if (processingModelObject != null) processingModelObject.SetActive(true);
+
         SetUIVisible(false, false);
 
         // 저장해둔 아이템으로 처리 진행
@@ -246,6 +258,9 @@ public class LabEquipmentController_L : MonoBehaviour
     {
         Debug.Log($"{gameObject.name}: 처리 완료");
         currentState = MachineState.Complete;
+
+        if (idleModelObject != null) idleModelObject.SetActive(true);
+        if (processingModelObject != null) processingModelObject.SetActive(false);
 
         HandleVisualResult(targetItem);
         UnlockItem(targetItem);
