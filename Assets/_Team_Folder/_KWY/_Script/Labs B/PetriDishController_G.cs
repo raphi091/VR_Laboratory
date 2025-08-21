@@ -30,8 +30,12 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
     [Tooltip("액체가 고체로 굳는 데 걸리는 시간(초)")]
     public float solidificationTime = 5.0f;
 
+    [Tooltip("액체가 페트리 접시에 차오르는 시간(초)")]
+    public float fillDuration = 1.5f;
+
     [SerializeField] private ToolType toolType = ToolType.Tray;
     private List<LiquidData_L> liquidDatas = new List<LiquidData_L>();
+    private Material liquidMaterial;
 
     public bool IsWritable { get => currentState == DishState.Empty || currentState == DishState.Solid; set { } }
     public ToolType ToolType { get => toolType; set => toolType = value; }
@@ -39,6 +43,9 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
 
     private void Start()
     {
+        liquidMaterial = liquidVisual.GetComponent<MeshRenderer>().material;
+        liquidMaterial.SetFloat("_Fill", -1);
+
         UpdateVisuals();
     }
 
@@ -53,7 +60,7 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
                     liquidDatas.AddRange(receivedDatas);
                     currentState = DishState.Liquid;
                     UpdateVisuals();
-                    StartCoroutine(SolidifyRoutine());
+                    StartCoroutine(FillRoutine());
                 }
                 break;
 
@@ -88,6 +95,35 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         this.liquidDatas.Clear();
         currentState = DishState.Empty;
         UpdateVisuals();
+    }
+
+    private IEnumerator FillRoutine()
+    {
+        currentState = DishState.Liquid;
+        if (liquidVisual != null) liquidVisual.SetActive(true);
+
+        float elapsedTime = 0f;
+        float startFill = -1f;
+        float endFill = 0f;
+
+        if (liquidMaterial != null)
+            liquidMaterial.SetFloat("_FillAmount", startFill);
+
+        while (elapsedTime < fillDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float newFillAmount = Mathf.Lerp(startFill, endFill, elapsedTime / fillDuration);
+
+            if (liquidMaterial != null)
+                liquidMaterial.SetFloat("_FillAmount", newFillAmount);
+
+            yield return null;
+        }
+
+        if (liquidMaterial != null)
+            liquidMaterial.SetFloat("_FillAmount", endFill);
+
+        StartCoroutine(SolidifyRoutine());
     }
 
     private IEnumerator SolidifyRoutine()

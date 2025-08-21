@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3881d5b5e624b804ebc2951f09d53158, type: 3}
-  m_Name: "\uB300\uC7A5\uADE0 \uC6A9\uC561_E. coli stock"
+  m_Name: Sample_B
   m_EditorClassIdentifier: 
   liquidName: "\uB300\uC7A5\uADE0 \uC6A9\uC561 (E. coli stock)"
   description: "\uBC30\uC591\uD558\uACE0\uC790 \uD558\uB294 \uB300\uC7A5\uADE0\uC774

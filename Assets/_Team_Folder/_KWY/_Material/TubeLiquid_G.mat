@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LiquidMaterial_G
+  m_Name: TubeLiquid_G
   m_Shader: {fileID: -6465566751694194690, guid: 3ef89d0edfa0b684f8dd53e6fcd3848a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -104,7 +104,7 @@ Material:
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _ExcludeFromTUAndAA: 0
-    - _Fill: -1
+    - _Fill: 0.002
     - _FillAmount: 0.1
     - _FresnelPower: 5.9
     - _GradientContrast: 0

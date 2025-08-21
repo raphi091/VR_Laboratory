@@ -28,12 +28,12 @@ public class Tube_O : MonoBehaviour
 
         if(mat == null)
         {
-            Debug.Log("머터리얼 찾을 수 없음");
+            Debug.Log("���͸����� �����ϴ�");
         }
 
         if(fill == null)
         {
-            Debug.Log("fill이 연결되지 않았습니다");
+            Debug.Log("fill�� �����ϴ�");
         }
 
         ParticleObj = transform.Find("WaterPoint").GetChild(0).gameObject;
@@ -52,7 +52,7 @@ public class Tube_O : MonoBehaviour
         {
             float angle = transform.rotation.eulerAngles.z;
 
-            // 각도가 기준을 넘으면 파티클 생성
+            // ���� ���� ���� �� �ױ�
             if ((angle > MinThreshold && angle < MaxThreshold) || (angle < -MinThreshold && angle > -MaxThreshold))
             {
                 isPour = true;
@@ -60,9 +60,6 @@ public class Tube_O : MonoBehaviour
                 fillValue = mat.GetFloat("_Fill");
                 fillValue -= PourValue;
                 mat.SetFloat("_Fill", fillValue);
-
-                //Debug.Log($"현재 양 : {fillValue}");
-                //Debug.Log($"액체 흘려나옵니다 angle = {angle}");
 
 
                 if (!ParticleObj.activeInHierarchy)
@@ -92,15 +89,14 @@ public class Tube_O : MonoBehaviour
 
                 // Raycast 
                 //Physics.Raycast(Ray ray, out RaycastHit hitInfo)
-                //충돌이 발생 시 hitinfo에 저장 => hitinfo가 gelTray라면 fill 되도록
                 Ray ray = new Ray();
                 ray.origin = ParticleObj.transform.position;
                 RaycastHit hit;
                 ray.direction = Vector3.down;
 
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                 {
-                    Debug.Log($"{hit.transform.name}");
+                    Debug.Log($"{hit.transform.name}�� �������ϴ�.");
                     if (hit.transform == gelTray)
                     {
                         parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();
@@ -108,7 +104,6 @@ public class Tube_O : MonoBehaviour
                         C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
 
                         fill.isfilling = true;
-                        Debug.Log("레이케스트작동 중");
                     }
 
                     else
@@ -116,7 +111,7 @@ public class Tube_O : MonoBehaviour
                         fill.isfilling = false;
                     }
                 }
-            }// end  : 각도 충족할 때
+            }
 
             else
             {
@@ -126,77 +121,7 @@ public class Tube_O : MonoBehaviour
         }
     }
 
-    //private void Update()
-    //{
-    //    float angle = transform.rotation.eulerAngles.z;
-
-    //    // 각도가 기준을 넘으면 파티클 생성
-    //    if ((angle > MinThreshold && angle < MaxThreshold) || (angle < -MinThreshold && angle > -MaxThreshold))
-    //    {
-    //        isPour = true;
-
-    //        fillValue = mat.GetFloat("_Fill");
-    //        Debug.Log($"현재 양 : {fillValue}");
-    //        fillValue  -= PourValue;
-    //        mat.SetFloat("_Fill", fillValue);
-    //        Debug.Log($"fillValue  감소 중 : {fillValue}");
-    //        //Debug.Log($"액체 흘려나옵니다 angle = {angle}");
-
-            
-    //        if(!ParticleObj.activeInHierarchy)
-    //        {
-    //            ParticleObj.SetActive(true);
-    //        }
-
-    //        if(!particle.isPlaying)
-    //        {
-    //            particle.Play();
-    //        }
-
-    //        if(fillValue < -1f)
-    //        {
-    //            fillValue = -1f;
-    //            if (ParticleObj.activeInHierarchy)
-    //            {
-    //                ParticleObj.SetActive(false);
-    //            }
-
-    //            fill.isfilling = false;
-    //            isPour = false;
-
-    //            particle.Stop();
-    //        }
-
-    //        // Raycast 
-    //        //Physics.Raycast(Ray ray, out RaycastHit hitInfo)
-    //        //충돌이 발생 시 hitinfo에 저장 => hitinfo가 gelTray라면 fill 되도록
-    //        Ray ray = new Ray();
-    //        ray.origin = ParticleObj.transform.position;
-    //        RaycastHit hit;
-    //        ray.direction = Vector3.down;
-
-    //        if(Physics.Raycast(ray, out hit))
-    //        {
-    //            if(hit.transform == gelTray)
-    //            {
-    //                fill.isfilling = true;
-    //            }
-
-    //            else
-    //            {
-    //                fill.isfilling = false;
-    //            }
-    //        }
-    //    }// end  : 각도 충족할 때
-
-    //    else
-    //    {
-    //        StopPouring();
-    //    }
-
-    //}
-
-    // 붓기 멈추기
+    // �ױ� ���߱�
     private void StopPouring()
     {
         isPour = false;
