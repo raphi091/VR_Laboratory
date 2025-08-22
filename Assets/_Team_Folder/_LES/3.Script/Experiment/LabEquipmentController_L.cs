@@ -46,6 +46,12 @@ public class LabEquipmentController_L : MonoBehaviour
     [Tooltip("기기 작동 완료 시 재생할 사운드")]
     public AudioClip completeSound;
 
+    [Header("완료 효과 설정")]
+    [Tooltip("완료 시 모델이 깜빡이는 횟수")]
+    public int blinkCount = 3;
+    [Tooltip("깜빡이는 속도 (초 단위)")]
+    public float blinkInterval = 0.5f;
+
     [Header("이벤트")]
     public UnityEvent OnProcessCompleted;
 
@@ -58,6 +64,7 @@ public class LabEquipmentController_L : MonoBehaviour
     private bool handInRange = false;
     private bool readyToProcess = false; // 처리 준비 상태 추가
     private GameObject completedItem;
+    private bool isJustCompleted = false;
 
     void Awake()
     {
@@ -139,6 +146,7 @@ public class LabEquipmentController_L : MonoBehaviour
         if (isHand)
         {
             handInRange = false;
+            isJustCompleted = false;
             readyToProcess = false; // 손이 범위를 벗어나면 준비 상태 해제
             itemToProcess = null;
             Debug.Log($"{gameObject.name}: 손 '{other.tag}' 범위 벗어남");
@@ -157,87 +165,78 @@ public class LabEquipmentController_L : MonoBehaviour
 
     private void UpdateInteractionUI()
     {
-        // 기기 작업이 완료된 상태일 때의 로직
+        // 1. 완료 상태: 깜빡이면서 사용자 확인을 기다립니다.
         if (currentState == MachineState.Complete)
         {
-            // 1. 완료 상태 텍스트("완료! 아이템을 회수하세요.")를 설정합니다.
             UpdateStatusText(false);
-
-            // 2. 텍스트 UI를 화면에 '표시'합니다. (false -> true로 변경)
             SetUIVisible(true, false);
 
-            // 3. 손이 범위 안에 들어왔을 때만 아이템 잠금을 해제합니다.
-            if (handInRange && completedItem != null)
+            if (handInRange && !isJustCompleted && completedItem != null)
             {
-                Debug.Log("손이 감지되어 완료된 아이템을 회수 가능하도록 잠금 해제합니다.");
-                UnlockItem(completedItem); // 아이템 잠금 해제
-                completedItem = null;      // 잠금 해제는 한 번만 실행되도록 초기화
+                Debug.Log("사용자 확인 완료. 아이템을 배출합니다.");
+                StopAllCoroutines();
+                if (idleModelObject != null) idleModelObject.SetActive(true);
+                if (processingModelObject != null) processingModelObject.SetActive(false);
+                if (completedItemPlacementPoint != null)
+                {
+                    completedItem.transform.position = completedItemPlacementPoint.position;
+                    completedItem.transform.rotation = completedItemPlacementPoint.rotation;
+                }
+                UnlockItem(completedItem);
+                completedItem = null;
             }
-            return; // 완료 상태에서는 다른 UI 업데이트 로직을 실행하지 않도록 여기서 종료합니다.
-        }
-
-        // 처리 중일 때는 아무것도 표시하지 않음
-        if (currentState == MachineState.Processing)
-        {
-            statusText.text = "처리 중...";
-            SetUIVisible(true, false);
             return;
         }
 
-        // isSelected 체크 대신 아이템이 손 근처에 있는지 체크하는 대체 방법
-        bool hasItemInHand = false;
-
-        if (itemInRange != null && itemInteractable != null)
+        // 2. 처리 중 상태: 손이 닿으면 "처리 중..." 문구를 표시합니다.
+        if (currentState == MachineState.Processing)
         {
-            // 방법 1: isSelected 체크 (원래 방법)
-            hasItemInHand = itemInteractable.isSelected;
-
-            // 방법 2: 만약 isSelected가 작동하지 않으면, 아이템의 부모가 손인지 체크
-            if (!hasItemInHand && itemInRange.transform.parent != null)
+            // ▼▼▼ 이 부분이 수정되었습니다 ▼▼▼
+            if (statusText != null)
             {
-                Transform parent = itemInRange.transform.parent;
-                hasItemInHand = parent.CompareTag("Right_Hand") || parent.CompareTag("Left_Hand");
+                // ProcessTimer가 초를 업데이트하므로, 여기서는 간단한 텍스트만 표시합니다.
+                statusText.text = "처리 중...";
             }
-
-            // 방법 3: 아이템이 기기 근처에 있고 손도 근처에 있으면 true
-            if (!hasItemInHand && handInRange && itemInRange != null)
-            {
-                // 단순히 손과 아이템이 모두 범위 내에 있으면 처리 가능으로 판단
-                hasItemInHand = true;
-            }
+            SetUIVisible(true, false); // UI를 화면에 표시합니다.
+            return; // 처리 중 로직은 여기서 끝냅니다.
+                    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
         }
 
-        // 디버깅 로그
-        Debug.Log($"UpdateUI - item: {itemInRange?.name}, interactable: {itemInteractable != null}, " +
-                  $"isSelected: {itemInteractable?.isSelected}, hasItemInHand: {hasItemInHand}");
+        // 3. 대기 상태: 아이템을 손에 쥐고 기기와 상호작용합니다.
+        bool hasItemInHand = false;
+        if (itemInRange != null && itemInteractable != null)
+        {
+            hasItemInHand = itemInteractable.isSelected;
+        }
 
-        if (hasItemInHand) // 조건을 단순화: 아이템을 손에 쥐고 있기만 하면 됨
+        if (hasItemInHand)
         {
             itemToProcess = itemInRange;
             readyToProcess = true;
-            UpdateStatusText(true);   // "이 기기를 사용하시겠습니까?"
-            SetUIVisible(true, true); // 텍스트와 '버튼' 모두 표시
+            UpdateStatusText(true);
+
+            SetUIVisible(true, true);
         }
         else if (itemInRange != null)
         {
-            // 아이템은 범위에 있지만 손에 쥐고 있지 않을 때
             readyToProcess = false;
             itemToProcess = null;
             statusText.text = "아이템을 잡고 가져오세요.";
-            SetUIVisible(true, false); // 텍스트만 표시하고 '버튼'은 숨김
+            SetUIVisible(true, false);
         }
         else
         {
-            // 손만 범위에 있을 때
             readyToProcess = false;
             itemToProcess = null;
             UpdateStatusText(false);
-            SetUIVisible(true, false); // 텍스트만 표시하고 '버튼'은 숨김
+            SetUIVisible(true, false);
         }
     }
 
     public void StartProcessing()
     {
+        StopAllCoroutines();
+
         // 수정된 조건: readyToProcess와 itemToProcess를 체크
         if (!readyToProcess || itemToProcess == null || currentState != MachineState.Idle)
         {
@@ -312,44 +311,31 @@ public class LabEquipmentController_L : MonoBehaviour
 
     private void ProcessComplete(GameObject targetItem)
     {
-        Debug.Log($"{gameObject.name}: 처리 완료");
+        Debug.Log($"{gameObject.name}: 처리 완료. 사용자 확인 대기 중...");
         currentState = MachineState.Complete;
+        isJustCompleted = true; // '방금 완료됨' 상태로 설정
+        completedItem = targetItem; // 완료된 아이템 저장
 
+        // 완료 알림 사운드 재생
         if (audioSource != null)
         {
-            // 1. 시끄러운 루프 사운드는 정지
             audioSource.Stop();
             audioSource.loop = false;
-
-            // 2. 완료 알림 사운드 (한 번 재생)
             if (completeSound != null)
             {
                 audioSource.PlayOneShot(completeSound);
             }
         }
 
-        completedItem = targetItem;
+        // 아이템 이동 및 잠금 해제 로직은 여기서 제거하고,
+        // 대신 깜빡임 효과를 시작합니다.
+        StartCoroutine(BlinkEffectCoroutine());
 
-        if (idleModelObject != null) idleModelObject.SetActive(true);
-        if (processingModelObject != null) processingModelObject.SetActive(false);
-
+        // 시각적 결과 처리 (예: GelDoc 스크린)
         HandleVisualResult(targetItem);
-        UnlockItem(targetItem);
 
+        // 실험 흐름 관리 이벤트 호출
         OnProcessCompleted.Invoke();
-
-        if (completedItemPlacementPoint != null)
-        {
-            targetItem.transform.position = completedItemPlacementPoint.position;
-            targetItem.transform.rotation = completedItemPlacementPoint.rotation;
-            Debug.Log($"아이템을 완료 지점 '{completedItemPlacementPoint.name}'으로 이동시켰습니다.");
-        }
-
-        // 완료 상태 텍스트 업데이트
-        if (statusText != null)
-        {
-            statusText.text = "완료! 아이템을 회수하세요.";
-        }
     }
 
     private void SetUIVisible(bool visible, bool showButtons)
@@ -388,13 +374,13 @@ public class LabEquipmentController_L : MonoBehaviour
         switch (currentState)
         {
             case MachineState.Idle:
-                statusText.text = "아이템을 올려주세요.";
+                statusText.text = "샘플을 올려주세요.";
                 break;
             case MachineState.Processing:
                 statusText.text = "처리 중...";
                 break;
             case MachineState.Complete:
-                statusText.text = "완료. 아이템을 회수하세요.";
+                statusText.text = "완료. 샘플을 회수하세요.";
                 break;
         }
     }
@@ -511,6 +497,22 @@ public class LabEquipmentController_L : MonoBehaviour
             audioSource.clip = processingLoopSound;
             audioSource.loop = true;
             audioSource.Play();
+        }
+    }
+
+    private IEnumerator BlinkEffectCoroutine()
+    {
+        while (true) // for문 대신 무한 루프로 변경
+        {
+            // 1. On 모델 켜기 / Off 모델 끄기
+            if (idleModelObject != null) idleModelObject.SetActive(false);
+            if (processingModelObject != null) processingModelObject.SetActive(true);
+            yield return new WaitForSeconds(blinkInterval);
+
+            // 2. On 모델 끄기 / Off 모델 켜기
+            if (idleModelObject != null) idleModelObject.SetActive(true);
+            if (processingModelObject != null) processingModelObject.SetActive(false);
+            yield return new WaitForSeconds(blinkInterval);
         }
     }
 }
