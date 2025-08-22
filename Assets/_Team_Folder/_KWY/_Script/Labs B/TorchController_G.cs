@@ -17,6 +17,8 @@ public class TorchController_G : MonoBehaviour
     [Tooltip("현재 토치가 켜져 있는지 여부")]
     public bool isLit = false;
 
+    private bool isHeld = false;
+
     private void OnEnable()
     {
         interactionAction.action.started += LightTorch;
@@ -42,6 +44,8 @@ public class TorchController_G : MonoBehaviour
 
     private void LightTorch(InputAction.CallbackContext context)
     {
+        if (!isHeld) return;
+
         if (flameVFX != null)
         {
             flameVFX.gameObject.SetActive(true);
@@ -53,11 +57,23 @@ public class TorchController_G : MonoBehaviour
 
     private void ExtinguishTorch(InputAction.CallbackContext context)
     {
+        if (!isHeld) return;
+
         if (flameVFX != null)
         {
             flameVFX.SendEvent("OnStop");
         }
 
         isLit = false;
+    }
+
+    public void OnGrab()
+    {
+        isHeld = true;
+    }
+
+    public void OnRelease()
+    {
+        isHeld = false;
     }
 }
