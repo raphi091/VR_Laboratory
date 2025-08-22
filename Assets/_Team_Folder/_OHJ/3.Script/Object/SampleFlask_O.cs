@@ -46,7 +46,7 @@ public class SampleFlask_O : MonoBehaviour
             ispossibleMix = true;
             ispossiblePour = true;
 
-            Debug.Log("모두 들어있습니다 => 파란염료 섞기 가능");
+            Debug.Log("모두 들어있습니다");
         }
 
         else
