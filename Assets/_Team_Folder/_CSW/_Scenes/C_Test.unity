@@ -358,6 +358,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 312238989032815148, guid: c0d751cca22843c4780a21b7805d64c7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.038
+      objectReference: {fileID: 0}
+    - target: {fileID: 312238989032815148, guid: c0d751cca22843c4780a21b7805d64c7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.07439995
+      objectReference: {fileID: 0}
+    - target: {fileID: 312238989032815148, guid: c0d751cca22843c4780a21b7805d64c7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.015599966
+      objectReference: {fileID: 0}
+    - target: {fileID: 312238989032815148, guid: c0d751cca22843c4780a21b7805d64c7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9904546
+      objectReference: {fileID: 0}
+    - target: {fileID: 312238989032815148, guid: c0d751cca22843c4780a21b7805d64c7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.13783908
+      objectReference: {fileID: 0}
+    - target: {fileID: 312238989032815148, guid: c0d751cca22843c4780a21b7805d64c7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 312238989032815148, guid: c0d751cca22843c4780a21b7805d64c7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 312238989032815148, guid: c0d751cca22843c4780a21b7805d64c7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -15.846
+      objectReference: {fileID: 0}
     - target: {fileID: 2838982970119078798, guid: c0d751cca22843c4780a21b7805d64c7, type: 3}
       propertyPath: m_Name
       value: Torch
@@ -844,6 +876,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8859387239693803640, guid: 639f5a78f118edc46955a111cf3ab79a, type: 3}
   m_PrefabInstance: {fileID: 1359612626}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &903848700 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8866779000286245918, guid: cb1401053052fb248bae792e9f0ce317, type: 3}
+  m_PrefabInstance: {fileID: 1484280815}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &927952385
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1147,9 +1184,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1552275625575292099, guid: cb1401053052fb248bae792e9f0ce317, type: 3}
+      propertyPath: m_AttachTransform
+      value: 
+      objectReference: {fileID: 903848700}
     - target: {fileID: 8832847484393047664, guid: cb1401053052fb248bae792e9f0ce317, type: 3}
       propertyPath: m_Name
       value: AlcoholLamp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866779000286245918, guid: cb1401053052fb248bae792e9f0ce317, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.019
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866779000286245918, guid: cb1401053052fb248bae792e9f0ce317, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.045
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866779000286245918, guid: cb1401053052fb248bae792e9f0ce317, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.057
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
