@@ -1363,7 +1363,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1346366425
 Transform:
   m_ObjectHideFlags: 0
@@ -1407,6 +1407,8 @@ MonoBehaviour:
   startSound: {fileID: 0}
   processingLoopSound: {fileID: 0}
   completeSound: {fileID: 0}
+  blinkCount: 3
+  blinkInterval: 0.5
   OnProcessCompleted:
     m_PersistentCalls:
       m_Calls:
@@ -1730,6 +1732,8 @@ MonoBehaviour:
   startSound: {fileID: 0}
   processingLoopSound: {fileID: 0}
   completeSound: {fileID: 0}
+  blinkCount: 3
+  blinkInterval: 0.5
   OnProcessCompleted:
     m_PersistentCalls:
       m_Calls:
@@ -1849,7 +1853,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
