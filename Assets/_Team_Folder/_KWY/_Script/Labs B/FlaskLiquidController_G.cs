@@ -84,6 +84,11 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     [Tooltip("섞이지 않은 Agar 가루 파티클")]
     public ParticleSystem unmixedAgarParticles;
 
+    [Header("은박지 설정")]
+    [Tooltip("은박지 모델링")]
+    public GameObject foilVisual;
+    public bool IsFoiled = false;
+
     private List<LiquidData_L> liquidDatas = new List<LiquidData_L>();
     private Material liquidMaterial;
     private PetriDishController_G currentTargetDish;
@@ -123,6 +128,9 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
             var emission = pourParticles.emission;
             emission.rateOverTime = 0;
         }
+
+        if (foilVisual != null) 
+            foilVisual.SetActive(false);
 
         ClearData();
     }
@@ -173,6 +181,13 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
                 if (unmixedAgarParticles != null) 
                     unmixedAgarParticles.Stop();
+
+                if (foilVisual != null)
+                {
+                    IsFoiled = true;
+                    foilVisual.SetActive(true);
+                    Debug.Log("은박지가 씌워졌습니다.");
+                }
 
                 UpdateLiquidColor();
             }
@@ -385,6 +400,10 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         targetFillAmount = -1f;
         isMixed = false;
         timeShaking = 0f;
+        IsFoiled = false;
+
+        if (foilVisual != null) 
+            foilVisual.SetActive(false);
 
         if (unmixedLBParticles != null) 
             unmixedLBParticles.Stop();
