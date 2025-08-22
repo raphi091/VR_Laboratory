@@ -388,3 +388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spreadDuration: 2
+  sterilizationDuration: 2
+  sterilizedColor: {r: 1, g: 0.5921569, b: 0.5921569, a: 1}
+  colorChangeDuration: 1
+  spreaderRenderer: {fileID: 4232112011506446923}

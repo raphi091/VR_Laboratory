@@ -389,6 +389,16 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         runningColorChange = null;
     }
 
+    public void RemoveFoil()
+    {
+        if (foilVisual != null)
+        {
+            IsFoiled = false;
+            foilVisual.SetActive(false);
+            Debug.Log("은박지가 제거되었습니다.");
+        }
+    }
+
     public List<LiquidData_L> ExportLiquidDatas()
     {
         return this.liquidDatas;
