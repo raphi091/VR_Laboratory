@@ -382,6 +382,11 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &1615827074 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 130160073064340768, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
+  m_PrefabInstance: {fileID: 1905101630712857684}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1811675833 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2084906593273734502, guid: 4c7df76d84c87a44ba57f3ccbebc5de4, type: 3}
@@ -740,6 +745,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 130160073064340768, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3656179778596412510, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
+      propertyPath: particle
+      value: 
+      objectReference: {fileID: 8840492570964794587, guid: 799903c41635a70468105924ef17e701, type: 3}
+    - target: {fileID: 3656179778596412510, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
+      propertyPath: ParticleObj
+      value: 
+      objectReference: {fileID: 1615827074}
     - target: {fileID: 4987353748522402125, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
       propertyPath: m_Name
       value: Pipette
@@ -2152,7 +2169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8891339765657917688, guid: 55477b3901ac97445a5a2f192e4fb1c1, type: 3}
       propertyPath: fillAmount
-      value: 1
+      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
