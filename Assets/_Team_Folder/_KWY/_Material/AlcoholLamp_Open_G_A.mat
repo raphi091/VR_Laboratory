@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AlcoholLamp_G
+  m_Name: AlcoholLamp_Open_G_A
   m_Shader: {fileID: -6465566751694194690, guid: 3ef89d0edfa0b684f8dd53e6fcd3848a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0

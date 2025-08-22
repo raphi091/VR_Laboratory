@@ -602,7 +602,7 @@ GameObject:
   - component: {fileID: 1552275625575292099}
   - component: {fileID: 2235792914165801504}
   m_Layer: 0
-  m_Name: AlcoholLamp
+  m_Name: AlcoholLamp_Open
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -843,5 +843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flameVFX: {fileID: 6367284240126333747}
+  alcoholLiquidRenderer: {fileID: 6196546374447672217}
   isLit: 0
   burnTime: 2
+  totalBurnDuration: 60
