@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flameVFX: {fileID: 3026097429445028066}
-  interactionAction: {fileID: -1302233565920093163, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  interactionAction: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   isLit: 0
 --- !u!1 &3558633753980141657
 GameObject:
