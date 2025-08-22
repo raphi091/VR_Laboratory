@@ -13,7 +13,10 @@ public class AlcoholLampController_G : MonoBehaviour
     [Tooltip("현재 램프가 켜져 있는지 여부")]
     public bool isLit = false;
 
-    void Start()
+    [Tooltip("불이 붙는데 걸리는 시간")]
+    public float burnTime = 2f;
+
+    private void Start()
     {
         if (flameVFX != null)
         {
@@ -32,12 +35,14 @@ public class AlcoholLampController_G : MonoBehaviour
 
         if (torch != null && torch.isLit)
         {
-            LightLamp();
+            StartCoroutine(LightLamp());
         }
     }
 
-    public void LightLamp()
+    private IEnumerator LightLamp()
     {
+        yield return new WaitForSeconds(burnTime);
+
         if (flameVFX != null)
         {
             flameVFX.gameObject.SetActive(true);
