@@ -29,16 +29,25 @@ public class Pipette_O : MonoBehaviour
     [Header("Liquid List")]
     public Sample_O sample;
     public SampleFlask_O flask; //샘플 플라스크
-
-    //temp
     public Liquid_O liquid; // 플라스크 속 액체
-
     [SerializeField] private LiquidData_L liquidData;    // 피펫에 들어있는 액체
     public bool isEnter = false;
 
     [Header("구멍에 샘플채우기")]
     public GameObject currentHole;
     public bool isAbsorb = false;
+
+    [Header("아웃라인")]
+    [SerializeField] private Outline outline;
+
+    private void Awake()
+    {
+        Outline[] outlines = FindObjectsOfType<Outline>();
+        foreach(Outline o in outlines)
+        {
+            o.enabled = false;
+        }
+    }
 
     private void OnEnable()
     {
@@ -115,11 +124,13 @@ public class Pipette_O : MonoBehaviour
         }
     }
 
+    public Outline currentOutline;
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Mix"))
         {
             isEnter = true;
+            HandleOutline(other);
 
             // 색깔 변하게 하기
             MeshRenderer[] renderers = other.GetComponentsInChildren<MeshRenderer>();
@@ -158,6 +169,8 @@ public class Pipette_O : MonoBehaviour
         else if(other.CompareTag("Absorb"))
         {
             isEnter = true;
+            HandleOutline(other);
+
             sample = other.GetComponent<Sample_O>();
 
             parseEventArgs.fromTool = other.GetComponent<C_ExperimentTool>();
@@ -168,6 +181,8 @@ public class Pipette_O : MonoBehaviour
         else if (other.CompareTag("Hole"))
         {
             isEnter = true;
+            HandleOutline(other);
+
             currentHole = other.gameObject;
 
             if(currentHole == null)
@@ -197,6 +212,30 @@ public class Pipette_O : MonoBehaviour
         if(other.CompareTag("Hole"))
         {
             currentHole = null;
+        }
+
+        if(currentOutline != null)
+        {
+            currentOutline.enabled = false;
+            currentOutline = null;
+        }
+    }
+
+    private void HandleOutline(Collider other)
+    {
+        // 기존 외곽선 비활성화
+        if(currentOutline != null)
+        {
+            currentOutline.enabled = false;
+            currentOutline = null;
+        }
+
+        // 새로운 외곽선
+        Outline o = other.GetComponent<Outline>();
+        if(o != null)
+        {
+            currentOutline = o;
+            currentOutline.enabled = true;
         }
     }
 

@@ -27,6 +27,7 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
     [SerializeField] private ToolType toolType = ToolType.Pippet;
     private List<LiquidData_L> liquidDatas = new List<LiquidData_L>();
     private Coroutine runningPlungerAnimation;
+    private bool isHeld = false;
 
     public bool IsWritable { get => isWritable; set => isWritable = value; }
     public ToolType ToolType { get => toolType; set => toolType = value; }
@@ -91,6 +92,8 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
 
     private void OnInteractionPress(InputAction.CallbackContext context)
     {
+        if (!isHeld) return;
+
         AnimatePlunger(plungerDownLocalY);
 
         if (currentTarget == null) return;
@@ -109,6 +112,8 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
 
     private void OnInteractionRelease(InputAction.CallbackContext context)
     {
+        if (!isHeld) return;
+
         AnimatePlunger(plungerUpLocalY);
     }
 
@@ -155,5 +160,15 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
 
         plunger.localPosition = targetPosition;
         runningPlungerAnimation = null;
+    }
+
+    public void OnGrab()
+    {
+        isHeld = true;
+    }
+
+    public void OnRelease()
+    {
+        isHeld = false;
     }
 }

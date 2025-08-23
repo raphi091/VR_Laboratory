@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 3686180758152272426}
   - component: {fileID: 9052527006662206916}
   m_Layer: 0
-  m_Name: Apparatus_02_Standard
+  m_Name: ShakingIncubator_Off
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 6822757078602211394}
   - component: {fileID: 5855372345385390944}
   m_Layer: 0
-  m_Name: Apparatus_02
+  m_Name: ShakingIncubator_On
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

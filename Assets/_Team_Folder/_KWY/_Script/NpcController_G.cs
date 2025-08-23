@@ -1,10 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Events;
 
 
 [System.Serializable]
@@ -26,7 +26,8 @@ public class NpcController_G : MonoBehaviour
         ExecutingExperiment,
         Processing,
         Finishing,
-        FreeConversation
+        FreeConversation,
+        TutorialGreeting
     }
 
     public enum NpcMode
@@ -83,9 +84,8 @@ public class NpcController_G : MonoBehaviour
     private float timeInCurrentState = 0f;
     private bool isWaitingForTaskCompletion = false;
     
-    [SerializeField] private UnityAction<NpcMode> ExperimentEnd;
+    public event Action<NpcMode> OnExperimentEnd;
     
-    public bool isTutorialComplete = false;
 
     #region Unity Lifecycle & FSM Core
     private void Awake()
@@ -125,6 +125,8 @@ public class NpcController_G : MonoBehaviour
             voiceManager.OnFreeQuestionAsked += OnFreeQuestionAsked;
             voiceManager.OnChoiceNotUnderstood += OnChoiceNotUnderstood;
             voiceManager.OnListeningStopped += HideStatusIcon;
+            voiceManager.OnTutorialChosen += OnTutorialChosen;
+            voiceManager.OnTutorialChoiceNotUnderstood += OnTutorialChoiceNotUnderstood;
         }
     }
 
@@ -140,6 +142,8 @@ public class NpcController_G : MonoBehaviour
             voiceManager.OnFreeQuestionAsked -= OnFreeQuestionAsked;
             voiceManager.OnChoiceNotUnderstood -= OnChoiceNotUnderstood;
             voiceManager.OnListeningStopped -= HideStatusIcon;
+            voiceManager.OnTutorialChosen -= OnTutorialChosen;           
+            voiceManager.OnTutorialChoiceNotUnderstood -= OnTutorialChoiceNotUnderstood;
         }
     }
 
@@ -155,7 +159,7 @@ public class NpcController_G : MonoBehaviour
                 {
                     currentExperiment = tutorialExperiment;
                     currentSample = tutorialExperiment.Samples[0];
-                    ChangeState(NPCState.ExecutingExperiment);
+                    ChangeState(NPCState.TutorialGreeting);
                 }
                 else
                 {
@@ -193,6 +197,9 @@ public class NpcController_G : MonoBehaviour
 
         switch (currentState)
         {
+            case NPCState.TutorialGreeting:
+                currentStateCoroutine = StartCoroutine(Tut_Greeting_co());
+                break;
             case NPCState.Greeting:
                 currentStateCoroutine = StartCoroutine(Greeting_co());
                 break;
@@ -219,6 +226,27 @@ public class NpcController_G : MonoBehaviour
     #endregion
 
     #region State Coroutines
+    
+    private IEnumerator Tut_Greeting_co()
+    {
+        SetAnimatorTrigger("Default");
+        Vector3 destination = playerTransform.position + playerTransform.forward * followDistance;
+        navMeshAgent.SetDestination(destination);
+        yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
+
+        yield return StartCoroutine(ShowSubtitle_co("안녕하세요, 여러분의 AI 비서 노아입니다. 실험실 튜토리얼에 오신 걸 환영합니다."));
+        if (C_SceneManager.I.IsTutorialCompleted)
+        {
+            yield return StartCoroutine(ShowSubtitle_co("튜토리얼을 이미 완료하신 상태입니다. 다시 튜토리얼을 진행하시겠나요?"));
+            yield return StartCoroutine(ShowSubtitle_co("선택에 따라 예, 다시 진행하겠습니다. 혹은 아니오, 실험으로 넘어가겠습니다. 를 말해주세요."));
+            voiceManager.StartListeningForTutorialChoice();
+        }
+        else
+        {
+            ChangeState(NPCState.ExecutingExperiment);
+        }
+    }
+    
     private IEnumerator Greeting_co()
     {
         SetAnimatorTrigger("Default");
@@ -282,6 +310,7 @@ public class NpcController_G : MonoBehaviour
 
         ShowStatusIcon("Question", 2f);
         yield return StartCoroutine(ShowSubtitle_co("죄송합니다. 잘 이해하지 못했어요. 다시 말씀해주시겠어요?"));
+        
 
         ChangeState(NPCState.WaitingForExperimentChoice);
     }
@@ -370,8 +399,6 @@ public class NpcController_G : MonoBehaviour
             ShowStatusIcon("Success", 2f);
             SetAnimatorTrigger("Success");
             yield return StartCoroutine(ShowSubtitle_co("튜토리얼을 성공적으로 마쳤습니다! 훌륭해요."));
-            isTutorialComplete=true;
-            yield break;
         }
         else if (isSuccess)
         {
@@ -387,7 +414,9 @@ public class NpcController_G : MonoBehaviour
         }
 
         yield return new WaitForSeconds(3f);
-
+        
+        
+        OnExperimentEnd?.Invoke(currentMode);
         ChangeState(NPCState.Greeting);
     }
 
@@ -478,6 +507,18 @@ public class NpcController_G : MonoBehaviour
         ChangeState(NPCState.ExecutingExperiment);
     }
 
+    public void OnTutorialChosen(bool isChosen)
+    {
+        if (isChosen)
+        {
+            ChangeState(NPCState.ExecutingExperiment);
+        }
+        else
+        {
+            OnExperimentEnd?.Invoke(NpcMode.Tutorial);
+        }
+    }
+
     private void OnChoiceNotUnderstood()
     {
         if (currentState != NPCState.WaitingForExperimentChoice) return;
@@ -486,6 +527,13 @@ public class NpcController_G : MonoBehaviour
             choiceUIPanel.SetActive(false);
 
         StartCoroutine(RepeatChoiceRequest_co());
+    }
+    
+    private void OnTutorialChoiceNotUnderstood()
+    {
+        if (currentState != NPCState.TutorialGreeting) return;
+        
+        StartCoroutine(Tut_Greeting_co());
     }
 
     public void OnTaskCompleted()

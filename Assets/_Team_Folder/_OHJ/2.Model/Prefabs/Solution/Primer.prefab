@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5340450828414963446}
   - component: {fileID: 5473394152658945509}
   - component: {fileID: 3057305934308391625}
+  - component: {fileID: 2486883763796751759}
   m_Layer: 0
   m_Name: Primer
   m_TagString: Absorb
@@ -318,6 +319,24 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
+--- !u!114 &2486883763796751759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218071988204862071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 0.9811321, g: 0.9811321, b: 0.9811321, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &7496056349062690688
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,7 +433,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b56407267b3e1844b66e02c69dde1af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rend: {fileID: 0}
   MaxWobble: 0.03
   WobbleSpeed: 1
   Recovery: 1

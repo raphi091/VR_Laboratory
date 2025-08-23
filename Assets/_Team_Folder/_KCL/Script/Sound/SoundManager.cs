@@ -25,7 +25,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private List<MusicTrack> musicTracks;
     [SerializeField] private AudioMixerGroup bgmMixerGroup;
     [SerializeField] private float crossfadeDuration = 1.5f;
-    [SerializeField] private BGMTrackName autoStartTrack = BGMTrackName.Lobby;
+
 
     [Header("SFX")]
     [SerializeField] private AudioMixerGroup sfxMixerGroup;
@@ -60,13 +60,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        if (autoStartTrack != BGMTrackName.None)
-        {
-            PlayBGM(autoStartTrack, true);
-        }
-    }
 
     private void InitializeSound()
     {

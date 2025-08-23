@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Newtonsoft.Json;
 using Oculus.Voice;
+using UnityEngine.SceneManagement;
 
 #region Data_Structures_VCM
 [System.Serializable] 
@@ -57,7 +58,8 @@ public class VoiceConversationManager_G : MonoBehaviour
         None,
         ExperimentChoice,
         SampleChoice,
-        TaskOrQuestion
+        TaskOrQuestion,
+        TutorialChoice
     }
 
     [Header("실험 데이터 참조")]
@@ -74,6 +76,8 @@ public class VoiceConversationManager_G : MonoBehaviour
     public event Action OnFreeQuestionAsked;
     public event Action OnChoiceNotUnderstood;
     public event Action OnListeningStopped;
+    public event Action<bool> OnTutorialChosen;
+    public event Action OnTutorialChoiceNotUnderstood;
 
     private AppVoiceExperience appVoiceExperience;
     private string apiKey;
@@ -199,6 +203,12 @@ public class VoiceConversationManager_G : MonoBehaviour
         currentMode = ListeningMode.SampleChoice;
         ActivateVoiceSDK();
     }
+    
+    public void StartListeningForTutorialChoice()
+    {
+        currentMode = ListeningMode.TutorialChoice;
+        ActivateVoiceSDK();
+    }
 
     public void StartListeningForTask(List<string> completionKeywords)
     {
@@ -237,6 +247,9 @@ public class VoiceConversationManager_G : MonoBehaviour
                 break;
             case ListeningMode.TaskOrQuestion:
                 ProcessTaskOrQuestion(LastTranscription);
+                break;
+            case ListeningMode.TutorialChoice:
+                ProcessTutorialChoice(LastTranscription);
                 break;
         }
         currentMode = ListeningMode.None;
@@ -287,6 +300,27 @@ public class VoiceConversationManager_G : MonoBehaviour
         else
         {
             OnSampleChosen?.Invoke(null);
+        }
+    }
+    
+    private void ProcessTutorialChoice(string text)
+    {
+        string lowerText = text.ToLower();
+
+        string[] tutorialKeywords = { "예", "다시", "진행" };
+        string[] mainKeywords = { "아니오", "실험", "넘어" };
+
+        if (tutorialKeywords.Any(keyword => lowerText.Contains(keyword)))
+        {
+            OnTutorialChosen?.Invoke(true);
+        }
+        else if (mainKeywords.Any(keyword => lowerText.Contains(keyword)))
+        {
+            OnTutorialChosen?.Invoke(false);
+        }
+        else
+        {
+            OnTutorialChoiceNotUnderstood?.Invoke();
         }
     }
 
