@@ -99,8 +99,8 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     private bool isPouring = false;
     private bool isInCleanBench = false;
     private bool isHeld = false;
-    private float currentFillAmount = -1f;
-    private float targetFillAmount = -1f;
+    private float currentFillAmount = -0.115f;
+    private float targetFillAmount = -0.115f;
     private float currentWobbleAmount = 0f;
     private float time = 0.5f;
     private float timeShaking = 0f;
@@ -139,8 +139,8 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
             return;
         }
 
-        currentFillAmount = -1f;
-        targetFillAmount = -1f;
+        currentFillAmount = -0.115f;
+        targetFillAmount = -0.115f;
         liquidMaterial = liquidRenderer.material;
         liquidMaterial.SetFloat("_Fill", currentFillAmount);
         lastPos = transform.position;
@@ -344,7 +344,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
                 break;
         }
 
-        targetFillAmount = Mathf.Clamp(targetFillAmount, -1f, 0f);
+        targetFillAmount = Mathf.Clamp(targetFillAmount, -0.115f, 0f);
     }
 
     public void ImportLiquidData(List<LiquidData_L> receivedDatas)

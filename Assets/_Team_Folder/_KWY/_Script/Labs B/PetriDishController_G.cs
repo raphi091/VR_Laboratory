@@ -80,8 +80,8 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         if (inoculationVisual != null)
             inoculationMaterial = inoculationVisual.GetComponent<Renderer>().material;
 
-        liquidMaterial.SetFloat("_Fill", -1);
-        inoculationMaterial.SetFloat("_Fill", -1);
+        liquidMaterial.SetFloat("_Fill", -0.005f);
+        inoculationMaterial.SetFloat("_Fill", -0.0005f);
 
         UpdateVisuals();
     }
@@ -145,7 +145,7 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         inoculationVisual.transform.localScale = new Vector3(0.004f, inoculationVisual.transform.localScale.y, 0.004f);
 
         float elapsedTime = 0f;
-        float startFill = -1f;
+        float startFill = -0.0005f;
         float endFill = 0f;
 
         if (inoculationMaterial != null)
@@ -218,7 +218,7 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         if (liquidVisual != null) liquidVisual.SetActive(true);
 
         float elapsedTime = 0f;
-        float startFill = -1f;
+        float startFill = -0.005f;
         float endFill = 0f;
 
         if (liquidMaterial != null)
