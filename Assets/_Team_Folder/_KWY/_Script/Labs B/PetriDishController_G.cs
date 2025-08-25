@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -39,6 +40,9 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
 
     [Tooltip("미생물이 펴지는 시간(초)")]
     public float spreadAnimationDuration = 5.0f;
+
+    [Header("시각 UI")]
+    public DynamicInfoUI_G infoPanel;
 
     [SerializeField] private ToolType toolType = ToolType.Tray;
     private List<LiquidData_L> liquidDatas = new List<LiquidData_L>();
@@ -103,6 +107,8 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
                 }
                 break;
         }
+
+        UpdateInfoPanel();
     }
 
     public void CompleteSpreading()
@@ -111,6 +117,8 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         {
             StartCoroutine(SpreadRoutine());
         }
+
+        UpdateInfoPanel();
     }
 
     private IEnumerator InoculateRoutine()
@@ -179,6 +187,8 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         this.liquidDatas.Clear();
         currentState = DishState.Empty;
         UpdateVisuals();
+
+        UpdateInfoPanel();
     }
 
     private IEnumerator FillRoutine()
@@ -230,5 +240,33 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
 
         if (inoculationVisual != null)
             inoculationVisual.SetActive(currentState == DishState.Inoculated);
+    }
+
+    public void OnGrab()
+    {
+        if (infoPanel != null)
+            infoPanel.gameObject.SetActive(true);
+    }
+
+    public void OnRelease()
+    {
+        if (infoPanel != null)
+            infoPanel.gameObject.SetActive(false);
+    }
+
+    private void UpdateInfoPanel()
+    {
+        if (infoPanel == null) return;
+        string description;
+        if (liquidDatas != null && liquidDatas.Count > 0)
+        {
+            string contentsName = string.Join(", ", liquidDatas.Select(data => data.liquidName));
+            description = "내용물: " + contentsName;
+        }
+        else
+        {
+            description = "내용물: 없음";
+        }
+        infoPanel.UpdateContent(description);
     }
 }

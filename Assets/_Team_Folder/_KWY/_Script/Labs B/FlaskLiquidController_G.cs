@@ -89,6 +89,9 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     public GameObject foilVisual;
     public bool IsFoiled = false;
 
+    [Header("시각 UI")]
+    public DynamicInfoUI_G infoPanel;
+
     private List<LiquidData_L> liquidDatas = new List<LiquidData_L>();
     private Material liquidMaterial;
     private PetriDishController_G currentTargetDish;
@@ -201,13 +204,6 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
                 if (unmixedAgarParticles != null) 
                     unmixedAgarParticles.Stop();
 
-                if (foilVisual != null)
-                {
-                    IsFoiled = true;
-                    foilVisual.SetActive(true);
-                    Debug.Log("은박지가 씌워졌습니다.");
-                }
-
                 UpdateLiquidColor();
             }
         }
@@ -306,6 +302,8 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         }
 
         targetFillAmount = Mathf.Clamp(targetFillAmount, -1f, 0f);
+
+        UpdateInfoPanel();
     }
 
     public void AddMaterial(PourableType type)
@@ -349,6 +347,8 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
                 Debug.LogWarning("파이펫으로는 미생물만 넣을 수 있습니다. (" + singleData.liquidName + " 넣기 시도)");
             }
         }
+
+        UpdateInfoPanel();
     }
 
     private void UpdateLiquidColor()
@@ -370,6 +370,14 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         {
             Debug.Log(3);
             StartColorChange(clearLiquidColor);
+
+        }
+
+        if (foilVisual != null)
+        {
+            IsFoiled = true;
+            foilVisual.SetActive(true);
+            Debug.Log("은박지가 씌워졌습니다.");
         }
     }
 
@@ -449,5 +457,35 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         Color _baseColor = new Color(baseColor.r - 0.05f, baseColor.g - 0.05f, baseColor.b);
         liquidMaterial.SetColor("_LiquidColor", baseColor);
         liquidMaterial.SetColor("_FresnelColor", _baseColor);
+
+        UpdateInfoPanel();
+    }
+
+    public void OnGrab()
+    {
+        if (infoPanel != null)
+            infoPanel.gameObject.SetActive(true);
+    }
+
+    public void OnRelease()
+    {
+        if (infoPanel != null)
+            infoPanel.gameObject.SetActive(false);
+    }
+
+    private void UpdateInfoPanel()
+    {
+        if (infoPanel == null) return;
+        string description;
+        if (liquidDatas != null && liquidDatas.Count > 0)
+        {
+            string contentsName = string.Join(", ", liquidDatas.Select(data => data.liquidName));
+            description = "내용물: " + contentsName;
+        }
+        else
+        {
+            description = "내용물: 없음";
+        }
+        infoPanel.UpdateContent(description);
     }
 }

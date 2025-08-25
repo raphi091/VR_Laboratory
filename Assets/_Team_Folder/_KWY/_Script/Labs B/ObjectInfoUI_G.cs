@@ -11,11 +11,30 @@ public class ObjectInfoUI_G : MonoBehaviour
     public TextMeshProUGUI descriptionText;
 
     private InfoDisplayable_G infoSource;
+    private Transform cameraTransform;
+
 
     private void OnEnable()
     {
         infoSource = GetComponentInParent<InfoDisplayable_G>();
         UpdateText();
+    }
+
+    private void Start()
+    {
+        if (Camera.main != null)
+        {
+            cameraTransform = Camera.main.transform;
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (cameraTransform != null)
+        {
+            transform.LookAt(transform.position + cameraTransform.rotation * Vector3.forward,
+                             cameraTransform.rotation * Vector3.up);
+        }
     }
 
     private void UpdateText()
