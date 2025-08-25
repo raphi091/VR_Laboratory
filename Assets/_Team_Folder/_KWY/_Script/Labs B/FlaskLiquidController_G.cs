@@ -98,6 +98,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     private bool isMixed = false;
     private bool isPouring = false;
     private bool isInCleanBench = false;
+    private bool isHeld = false;
     private float currentFillAmount = -1f;
     private float targetFillAmount = -1f;
     private float currentWobbleAmount = 0f;
@@ -182,7 +183,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         liquidMaterial.SetFloat("_WobbleX", wobbleX);
         liquidMaterial.SetFloat("_WobbleZ", wobbleZ);
 
-        if (!isMixed)
+        if (!isMixed && isHeld)
         {
             if (currentWobbleAmount > shakeThreshold)
             {
@@ -206,6 +207,10 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
                 UpdateLiquidColor();
             }
+        }
+        else
+        {
+            timeShaking = 0f;
         }
 
         currentWobbleAmount = Mathf.Lerp(currentWobbleAmount, 0, Time.deltaTime * wobbleRecoverySpeed);
@@ -481,12 +486,16 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
     public void OnGrab()
     {
+        isHeld = true;
+
         if (infoPanel != null)
             infoPanel.gameObject.SetActive(true);
     }
 
     public void OnRelease()
     {
+        isHeld = false;
+
         if (infoPanel != null)
             infoPanel.gameObject.SetActive(false);
     }

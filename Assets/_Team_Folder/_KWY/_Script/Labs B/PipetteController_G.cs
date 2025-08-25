@@ -27,6 +27,14 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
     [Header("시각 UI")]
     public DynamicInfoUI_G infoPanel;
 
+    [Header("아웃라인 설정")]
+    [Tooltip("내용물이 없을 때의 아웃라인 색상")]
+    public Color emptyOutlineColor = Color.white;
+    [Tooltip("내용물이 있을 때의 아웃라인 색상")]
+    public Color fullOutlineColor = Color.green;
+
+    private Outline pipetteOutline;
+
     [SerializeField] private bool isWritable = true;
     [SerializeField] private ToolType toolType = ToolType.Pippet;
     private List<LiquidData_L> liquidDatas = new List<LiquidData_L>();
@@ -55,7 +63,11 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
     {
         plunger.localPosition = new Vector3(plunger.localPosition.x, plungerUpLocalY, plunger.localPosition.z);
 
+        if (!TryGetComponent(out pipetteOutline))
+            Debug.Log("PipetteController ] Outline 없음");
+
         UpdateInfoPanel();
+        UpdateOutline();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -141,6 +153,7 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
     {
         liquidDatas.Clear();
         UpdateInfoPanel();
+        UpdateOutline();
     }
 
     private void AnimatePlunger(float targetY)
@@ -201,5 +214,19 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
             description = "내용물: 없음";
         }
         infoPanel.UpdateContent(description);
+    }
+
+    private void UpdateOutline()
+    {
+        if (pipetteOutline == null) return;
+
+        if (liquidDatas.Count > 0)
+        {
+            pipetteOutline.OutlineColor = fullOutlineColor;
+        }
+        else
+        {
+            pipetteOutline.OutlineColor = emptyOutlineColor;
+        }
     }
 }
