@@ -929,8 +929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: "\uC54C\uCF54\uC62C \uB7A8\uD504"
-  objectDescription: "\uBA78\uADE0 \uC791\uC5C5\uACFC \uBBF8\uC0DD\uBB3C \uC624\uC5FC
-    \uBC29\uC9C0\uB97C \uC704\uD574 \uC0AC\uC6A9\uB429\uB2C8\uB2E4."
+  objectDescription: "\uBA78\uADE0 \uC791\uC5C5\uC744 \uC704\uD574 \uC0AC\uC6A9\uB429\uB2C8\uB2E4."
 --- !u!1001 &1950491936680944629
 PrefabInstance:
   m_ObjectHideFlags: 0

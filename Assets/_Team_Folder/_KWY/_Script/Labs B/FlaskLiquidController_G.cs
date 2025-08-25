@@ -99,8 +99,8 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     private bool isPouring = false;
     private bool isInCleanBench = false;
     private bool isHeld = false;
-    private float currentFillAmount = -1f;
-    private float targetFillAmount = -1f;
+    private float currentFillAmount = -0.115f;
+    private float targetFillAmount = -0.115f;
     private float currentWobbleAmount = 0f;
     private float time = 0.5f;
     private float timeShaking = 0f;
@@ -112,6 +112,24 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     public ToolType ToolType { get => toolType; set => toolType = value; }
 
 
+    private void OnEnable()
+    {
+        C_ExperimentDataParser.I.DataParsed.AddListener(OnDataParsed);
+    }
+
+    private void OnDisable()
+    {
+        C_ExperimentDataParser.I.DataParsed.RemoveListener(OnDataParsed);
+    }
+
+    private void OnDataParsed(ParseEventArgs e)
+    {
+        if (e.toTool == this)
+        {
+            ImportLiquidData(e.fromTool.ExportLiquidDatas());
+        }
+    }
+
     private void Start()
     {
         if (liquidRenderer == null)
@@ -121,8 +139,8 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
             return;
         }
 
-        currentFillAmount = -1f;
-        targetFillAmount = -1f;
+        currentFillAmount = -0.115f;
+        targetFillAmount = -0.115f;
         liquidMaterial = liquidRenderer.material;
         liquidMaterial.SetFloat("_Fill", currentFillAmount);
         lastPos = transform.position;
@@ -197,7 +215,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
             if (timeShaking >= requiredShakeDuration)
             {
                 isMixed = true;
-                Debug.Log("플라스크를 흔들어서 내용물이 섞였습니다!");
+                Debug.Log("플라스크를 흔들어서 내용물이 섞였습니다");
 
                 if (unmixedLBParticles != null) 
                     unmixedLBParticles.Stop();
@@ -260,6 +278,12 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
     private void HandleDataTransfer()
     {
+        if (IsFoiled)
+        {
+            Debug.Log("은박지가 있습니다");
+            return;
+        }
+        
         RaycastHit hit;
 
         if (Physics.Raycast(pourOrigin.position, Vector3.down, out hit, pourCheckDistance))
@@ -274,7 +298,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
             }
 
             targetFillAmount -= pourOutRate * Time.deltaTime;
-            targetFillAmount = Mathf.Clamp(targetFillAmount, -1f, 0f);
+            targetFillAmount = Mathf.Clamp(targetFillAmount, -0.115f, 0f);
 
             if (targetFillAmount <= -0.99f)
             {
@@ -326,14 +350,14 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
                 break;
         }
 
-        targetFillAmount = Mathf.Clamp(targetFillAmount, -1f, 0f);
+        targetFillAmount = Mathf.Clamp(targetFillAmount, -0.115f, 0f);
     }
 
     public void ImportLiquidData(List<LiquidData_L> receivedDatas)
     {
         if (!isInCleanBench)
         {
-            UIManager_G.Instance.ShowWarningMessage("멸균 작업은 클린벤치 안에서 진행해주세요.");
+            UIManager_G.Instance.ShowWarningMessage("경고! 클린벤치 안에서 진행해주세요.");
             return;
         }
 
@@ -343,17 +367,15 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
             if (singleData.type == PourableType.Microbe)
             {
-                // 데이터 리스트에 미생물 추가
                 this.liquidDatas.Add(singleData);
                 Debug.Log(singleData.liquidName + " 미생물이 플라스크에 접종되었습니다.");
+                UpdateInfoPanel();
             }
             else
             {
                 Debug.LogWarning("파이펫으로는 미생물만 넣을 수 있습니다. (" + singleData.liquidName + " 넣기 시도)");
             }
         }
-
-        UpdateInfoPanel();
     }
 
     private void UpdateLiquidColor()
@@ -369,27 +391,12 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         {
             Debug.Log(2);
             StartColorChange(agarMixColor);
-
-            if (foilVisual != null)
-            {
-                IsFoiled = true;
-                foilVisual.SetActive(true);
-                Debug.Log("은박지가 씌워졌습니다.");
-            }
         }
         else if (containedTypes.Contains(PourableType.LB) &&
                  containedTypes.Contains(PourableType.Water))
         {
             Debug.Log(3);
             StartColorChange(clearLiquidColor);
-
-            if (foilVisual != null)
-            {
-                IsFoiled = true;
-                foilVisual.SetActive(true);
-                Debug.Log("은박지가 씌워졌습니다.");
-            }
-
         }
     }
 
@@ -411,13 +418,13 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         runningColorChange = StartCoroutine(ChangeColorRoutine(targetColor));
     }
 
-    public void EndAutoclave()
+    public void RemoveFoile()
     {
         if (foilVisual != null)
         {
             IsFoiled = false;
             foilVisual.SetActive(false);
-            Debug.Log("Autoclave 기계 사용 끝");
+            Debug.Log("은박지가 제거되었습니다.");
         }
     }
 
@@ -438,6 +445,13 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
             liquidMaterial.SetColor("_FresnelColor", Color.Lerp(startFresnelColor, targetFresnelColor, t));
 
             yield return null;
+        }
+
+        if (foilVisual != null)
+        {
+            IsFoiled = true;
+            foilVisual.SetActive(true);
+            Debug.Log("은박지가 씌워졌습니다.");
         }
 
         liquidMaterial.SetColor("_LiquidColor", targetColor);
@@ -503,16 +517,18 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     private void UpdateInfoPanel()
     {
         if (infoPanel == null) return;
-        string description;
+
+        string contentList;
         if (liquidDatas != null && liquidDatas.Count > 0)
         {
-            string contentsName = string.Join(", ", liquidDatas.Select(data => data.liquidName));
-            description = "내용물: " + contentsName;
+            var contentNames = liquidDatas.Select(data => data.liquidName);
+            contentList = "- " + string.Join("\n- ", contentNames);
         }
         else
         {
-            description = "내용물: 없음";
+            contentList = "없음";
         }
-        infoPanel.UpdateContent(description);
+
+        infoPanel.UpdateInfo("내용물", contentList);
     }
 }

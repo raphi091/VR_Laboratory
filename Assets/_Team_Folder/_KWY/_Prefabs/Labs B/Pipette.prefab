@@ -425,7 +425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: "\uD30C\uC774\uD3AB"
   objectDescription: "\uC791\uC740 \uC561\uCCB4 \uC591\uC744 \uC815\uBC00\uD558\uAC8C
-    \uC62E\uAE30\uAC70\uB098 \uCE21\uC815\uD558\uB294\uB370 \uC0AC\uC6A9\uB418\uB294
+    \uC62E\uAE30\uAC70\uB098 \uCE21\uC815\uD558\uB294\uB370\\n\uC0AC\uC6A9\uB418\uB294
     \uC2E4\uD5D8 \uB3C4\uAD6C\uC785\uB2C8\uB2E4."
 --- !u!114 &7851836171560046923
 MonoBehaviour:

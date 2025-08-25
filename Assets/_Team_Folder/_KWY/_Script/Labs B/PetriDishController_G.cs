@@ -54,6 +54,24 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
     public ToolType ToolType { get => toolType; set => toolType = value; }
 
 
+    private void OnEnable()
+    {
+        C_ExperimentDataParser.I.DataParsed.AddListener(OnDataParsed);
+    }
+
+    private void OnDisable()
+    {
+        C_ExperimentDataParser.I.DataParsed.RemoveListener(OnDataParsed);
+    }
+
+    private void OnDataParsed(ParseEventArgs e)
+    {
+        if (e.toTool == this)
+        {
+            ImportLiquidData(e.fromTool.ExportLiquidDatas());
+        }
+    }
+
     private void Start()
     {
         if (liquidVisual != null)
@@ -62,8 +80,8 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         if (inoculationVisual != null)
             inoculationMaterial = inoculationVisual.GetComponent<Renderer>().material;
 
-        liquidMaterial.SetFloat("_Fill", -1);
-        inoculationMaterial.SetFloat("_Fill", -1);
+        liquidMaterial.SetFloat("_Fill", -0.005f);
+        inoculationMaterial.SetFloat("_Fill", -0.0005f);
 
         UpdateVisuals();
     }
@@ -127,7 +145,7 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         inoculationVisual.transform.localScale = new Vector3(0.004f, inoculationVisual.transform.localScale.y, 0.004f);
 
         float elapsedTime = 0f;
-        float startFill = -1f;
+        float startFill = -0.0005f;
         float endFill = 0f;
 
         if (inoculationMaterial != null)
@@ -171,6 +189,9 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
 
         inoculationVisual.transform.localScale = endScale;
 
+        if (inoculationVisual != null) 
+            inoculationVisual.SetActive(false);
+
         currentState = DishState.Spread;
         UpdateVisuals();
         UpdateInfoPanel();
@@ -197,7 +218,7 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         if (liquidVisual != null) liquidVisual.SetActive(true);
 
         float elapsedTime = 0f;
-        float startFill = -1f;
+        float startFill = -0.005f;
         float endFill = 0f;
 
         if (liquidMaterial != null)
@@ -257,16 +278,9 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
     private void UpdateInfoPanel()
     {
         if (infoPanel == null) return;
-        string description;
-        if (liquidDatas != null && liquidDatas.Count > 0)
-        {
-            string contentsName = string.Join(", ", liquidDatas.Select(data => data.liquidName));
-            description = "내용물: " + contentsName;
-        }
-        else
-        {
-            description = "내용물: 없음";
-        }
-        infoPanel.UpdateContent(description);
+
+        string currentStateInfo = currentState.ToString();
+
+        infoPanel.UpdateInfo("상태", currentStateInfo);
     }
 }
