@@ -10,7 +10,7 @@ public class LabEquipmentController_L : MonoBehaviour
     private enum MachineState { Idle, Processing, Complete }
     private MachineState currentState = MachineState.Idle;
 
-    public enum EquipmentType { Thermocycler, GelElectrophoresis, GelDoc, Autoclave, ShakingIncubator, AirIncubator, CleanBench }
+    public enum EquipmentType { Thermocycler, GelElectrophoresis, GelDoc, Autoclave, ShakingIncubator, AirIncubator }
 
     [Header("기기 식별")]
     public EquipmentType type;
