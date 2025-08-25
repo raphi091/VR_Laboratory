@@ -235,7 +235,7 @@ public class NpcController_G : MonoBehaviour
         yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
 
         yield return StartCoroutine(ShowSubtitle_co("안녕하세요, 여러분의 AI 비서 노아입니다. 실험실 튜토리얼에 오신 걸 환영합니다."));
-        if (C_SceneManager.I.IsTutorialCompleted)
+        if (C_DataManager.I.gameData.IsTutorialCompleted)
         {
             yield return StartCoroutine(ShowSubtitle_co("튜토리얼을 이미 완료하신 상태입니다. 다시 튜토리얼을 진행하시겠나요?"));
             yield return StartCoroutine(ShowSubtitle_co("선택에 따라 예, 다시 진행하겠습니다. 혹은 아니오, 실험으로 넘어가겠습니다. 를 말해주세요."));

@@ -5,8 +5,8 @@ using UnityEngine;
 [Serializable]
 public class GameData
 {
-    public bool IsTutorialComplete { get => C_SceneManager.I.IsTutorialCompleted; }
-    public bool IsCulturingOvernight { get => GameStateManager_L.Instance.IsCulturingOvernight; }
+    public bool IsTutorialCompleted { get; set; }
+    public bool IsCulturingOvernight { get; set; }
     public ExperimentData_G currentExperimentData;
     public GameData()
     {
@@ -14,8 +14,13 @@ public class GameData
     }
 }
 
-public class C_DataManager : MonoBehaviour
+public class C_DataManager : Ch_BehaviourSingleton<C_DataManager>
 {
+    protected override bool IsDontdestroy()
+    {
+        return true;
+    }
+
     public static C_DataManager instance;
 
     [Header("GameData")]

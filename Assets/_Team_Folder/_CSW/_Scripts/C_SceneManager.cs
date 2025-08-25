@@ -10,26 +10,19 @@ public class C_SceneManager : Ch_BehaviourSingleton<C_SceneManager>
     {
         return true;
     }
-
-    private bool isTutorialCompleted = false;
-    private NpcController_G npc;
     
-    public bool IsTutorialCompleted => isTutorialCompleted;
+    private NpcController_G npc;
 
     protected override void Awake()
     {
         base.Awake();
         npc=FindObjectOfType<NpcController_G>();
     }
-
-    private void Start()
-    {
-        C_DataManager.instance.LoadGameData();
-    }
-
+    
     private void OnEnable()
     {
         npc.OnExperimentEnd += OnExperimentCompleted;
+        C_DataManager.instance.LoadGameData();
     }
     
     private void OnDisable()
@@ -41,7 +34,7 @@ public class C_SceneManager : Ch_BehaviourSingleton<C_SceneManager>
     {
         if (mode.Equals(NpcController_G.NpcMode.Tutorial))
         {
-            isTutorialCompleted = true;
+            C_DataManager.I.gameData.IsTutorialCompleted = true;
             SceneManager.LoadScene("Main");
         }
     }

@@ -20,11 +20,11 @@ public class ExperimentFlowManager_L : MonoBehaviour
     {
         Debug.Log("--- ExperimentFlowManager: 시작 ---");
 
-        if (GameStateManager_L.Instance != null && GameStateManager_L.Instance.IsCulturingOvernight)
+        if (C_DataManager.I.gameData != null && C_DataManager.I.gameData.IsCulturingOvernight)
         {
             Debug.Log("GameStateManager에서 '밤샘 배양' 상태 확인. 결과 표시를 시도합니다.");
             ShowPetriDishResult();
-            GameStateManager_L.Instance.IsCulturingOvernight = false;
+            C_DataManager.I.gameData.IsCulturingOvernight = false;
         }
 
         Debug.Log("초기 장비 상태를 설정합니다.");
@@ -38,7 +38,7 @@ public class ExperimentFlowManager_L : MonoBehaviour
         SetEquipmentLockState(autoclaveController, false);
         SetEquipmentLockState(shakingIncubatorController, true);
 
-        bool airIncubatorLocked = (GameStateManager_L.Instance == null || !GameStateManager_L.Instance.IsCulturingOvernight);
+        bool airIncubatorLocked = (C_DataManager.I.gameData == null || !C_DataManager.I.gameData.IsCulturingOvernight);
         SetEquipmentLockState(airIncubatorController, airIncubatorLocked);
     }
 
@@ -72,9 +72,9 @@ public class ExperimentFlowManager_L : MonoBehaviour
     public void OnAirIncubatorStarted()
     {
         Debug.Log(">> 이벤트 수신: Air Incubator 시작. '밤샘 배양' 상태를 GameStateManager에 저장합니다.");
-        if (GameStateManager_L.Instance != null)
+        if (C_DataManager.I.gameData != null)
         {
-            GameStateManager_L.Instance.IsCulturingOvernight = true;
+            C_DataManager.I.gameData.IsCulturingOvernight = true;
         }
     }
 
