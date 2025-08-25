@@ -16,9 +16,15 @@ public class C_SceneManager : Ch_BehaviourSingleton<C_SceneManager>
     
     public bool IsTutorialCompleted => isTutorialCompleted;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         npc=FindObjectOfType<NpcController_G>();
+    }
+
+    private void Start()
+    {
+        C_DataManager.instance.LoadGameData();
     }
 
     private void OnEnable()
@@ -38,5 +44,10 @@ public class C_SceneManager : Ch_BehaviourSingleton<C_SceneManager>
             isTutorialCompleted = true;
             SceneManager.LoadScene("Main");
         }
+    }
+    
+    void OnApplicationQuit()
+    {
+        C_DataManager.instance.SaveGameData();
     }
 }

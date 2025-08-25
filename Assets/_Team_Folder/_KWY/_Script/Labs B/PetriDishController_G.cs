@@ -107,8 +107,6 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
                 }
                 break;
         }
-
-        UpdateInfoPanel();
     }
 
     public void CompleteSpreading()
@@ -150,6 +148,7 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
             inoculationMaterial.SetFloat("_Fill", endFill);
 
         currentState = DishState.Inoculated;
+        UpdateInfoPanel();
     }
 
     private IEnumerator SpreadRoutine()
@@ -174,6 +173,7 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
 
         currentState = DishState.Spread;
         UpdateVisuals();
+        UpdateInfoPanel();
         Debug.Log("도말 작업이 완료되었습니다.");
     }
 
@@ -201,7 +201,7 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         float endFill = 0f;
 
         if (liquidMaterial != null)
-            liquidMaterial.SetFloat("_FillAmount", startFill);
+            liquidMaterial.SetFloat("_Fill", startFill);
 
         while (elapsedTime < fillDuration)
         {
@@ -209,13 +209,13 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
             float newFillAmount = Mathf.Lerp(startFill, endFill, elapsedTime / fillDuration);
 
             if (liquidMaterial != null)
-                liquidMaterial.SetFloat("_FillAmount", newFillAmount);
+                liquidMaterial.SetFloat("_Fill", newFillAmount);
 
             yield return null;
         }
 
         if (liquidMaterial != null)
-            liquidMaterial.SetFloat("_FillAmount", endFill);
+            liquidMaterial.SetFloat("_Fill", endFill);
 
         StartCoroutine(SolidifyRoutine());
     }
