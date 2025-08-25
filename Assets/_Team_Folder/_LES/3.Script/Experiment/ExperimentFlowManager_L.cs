@@ -7,18 +7,21 @@ public class ExperimentFlowManager_L : MonoBehaviour
     public GameObject gelElectrophoresis;
     public GameObject gelDoc;
 
+    public LabEquipmentController_L gelElectrophoresisController;
+    public GelDocScreenController_L gelDocScreenController;
+
     [Header("Culturing Experiment Equipment")]
     public GameObject autoclave;
     public GameObject shakingIncubator;
     public GameObject airIncubator;
-    
+
     [Header("Result Objects")]
     public GameObject finalPetriDish;
 
     void Start()
     {
         Debug.Log("--- ExperimentFlowManager: 시작 ---");
-        
+
         if (GameStateManager_L.Instance != null && GameStateManager_L.Instance.IsCulturingOvernight)
         {
             Debug.Log("GameStateManager에서 '밤샘 배양' 상태 확인. 결과 표시를 시도합니다.");
@@ -34,7 +37,7 @@ public class ExperimentFlowManager_L : MonoBehaviour
         SetEquipmentActive(shakingIncubator, false);
         SetEquipmentActive(airIncubator, false);
     }
-    
+
     public void OnThermocyclerFinished()
     {
         Debug.Log(">> 이벤트 수신: Thermocycler 완료. Gel Electrophoresis 활성화.");
@@ -75,7 +78,7 @@ public class ExperimentFlowManager_L : MonoBehaviour
             Debug.LogError("오류: finalPetriDish 변수가 인스펙터에 할당되지 않았습니다!");
             return;
         }
-        
+
         Renderer renderer = finalPetriDish.GetComponentInChildren<Renderer>();
         if (renderer != null && ResultManager_L.Instance != null)
         {
@@ -91,7 +94,7 @@ public class ExperimentFlowManager_L : MonoBehaviour
     private void SetEquipmentActive(GameObject equipment, bool isActive)
     {
         if (equipment == null) return;
-        
+
         var controller = equipment.GetComponent<LabEquipmentController_L>();
         if (controller != null)
         {
@@ -105,5 +108,26 @@ public class ExperimentFlowManager_L : MonoBehaviour
             canvasGroup.alpha = isActive ? 1.0f : 0.3f;
         }
         Debug.Log($"장비 '{equipment.name}' 상태 변경: {(isActive ? "활성화" : "비활성화")}");
+    }
+    
+    // GelElectrophoresis가 '작동 시작' 신호를 보내면 호출됩니다.
+    public void OnGelElectrophoresisProcessStarted()
+    {
+        Debug.Log(">> 매니저: GelElectrophoresis 작동 시작 감지. GelDoc에 결과 표시를 명령합니다.");
+        if (ResultManager_L.Instance != null && gelDocScreenController != null)
+        {
+            Texture resultToShow = ResultManager_L.Instance.GetRandomPcrResult();
+            gelDocScreenController.StartAnalysis();
+        }
+    }
+
+    // GelDoc이 '보기 중단' 신호를 보내면 호출됩니다.
+    public void OnGelDocViewingStopped()
+    {
+        Debug.Log(">> 매니저: GelDoc 보기 중단 감지. GelElectrophoresis에 아이템 배출을 명령합니다.");
+        if (gelElectrophoresisController != null)
+        {
+            gelElectrophoresisController.MakeItemAvailable();
+        }
     }
 }
