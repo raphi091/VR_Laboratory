@@ -406,7 +406,7 @@ MonoBehaviour:
   plungerDownLocalY: 0.05
   plungerUpLocalY: 0.13
   plungerAnimationDuration: 0.2
-  infoPanel: {fileID: 0}
+  infoPanel: {fileID: 5402825523567082272}
   emptyOutlineColor: {r: 1, g: 1, b: 1, a: 1}
   fullOutlineColor: {r: 0, g: 1, b: 0, a: 1}
   isWritable: 1
@@ -803,6 +803,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2282c7e32cacb0b4e85febd5228670f7, type: 3}
+--- !u!114 &5402825523567082272 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2778291653986009912, guid: 2282c7e32cacb0b4e85febd5228670f7, type: 3}
+  m_PrefabInstance: {fileID: 7815091955622606872}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e242fd9674d640a408aa79a1bffd845f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &6261277249816139772 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4219959463532261348, guid: 2282c7e32cacb0b4e85febd5228670f7, type: 3}
