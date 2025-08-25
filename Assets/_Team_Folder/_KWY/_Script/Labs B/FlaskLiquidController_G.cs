@@ -112,6 +112,24 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     public ToolType ToolType { get => toolType; set => toolType = value; }
 
 
+    private void OnEnable()
+    {
+        C_ExperimentDataParser.I.DataParsed.AddListener(OnDataParsed);
+    }
+
+    private void OnDisable()
+    {
+        C_ExperimentDataParser.I.DataParsed.RemoveListener(OnDataParsed);
+    }
+
+    private void OnDataParsed(ParseEventArgs e)
+    {
+        if (e.toTool == this)
+        {
+            ImportLiquidData(e.fromTool.ExportLiquidDatas());
+        }
+    }
+
     private void Start()
     {
         if (liquidRenderer == null)
@@ -333,7 +351,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     {
         if (!isInCleanBench)
         {
-            UIManager_G.Instance.ShowWarningMessage("멸균 작업은 클린벤치 안에서 진행해주세요.");
+            UIManager_G.Instance.ShowWarningMessage("클린벤치 안에서 진행해주세요.");
             return;
         }
 
@@ -343,17 +361,15 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
             if (singleData.type == PourableType.Microbe)
             {
-                // 데이터 리스트에 미생물 추가
                 this.liquidDatas.Add(singleData);
                 Debug.Log(singleData.liquidName + " 미생물이 플라스크에 접종되었습니다.");
+                UpdateInfoPanel();
             }
             else
             {
                 Debug.LogWarning("파이펫으로는 미생물만 넣을 수 있습니다. (" + singleData.liquidName + " 넣기 시도)");
             }
         }
-
-        UpdateInfoPanel();
     }
 
     private void UpdateLiquidColor()
@@ -369,27 +385,12 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         {
             Debug.Log(2);
             StartColorChange(agarMixColor);
-
-            if (foilVisual != null)
-            {
-                IsFoiled = true;
-                foilVisual.SetActive(true);
-                Debug.Log("은박지가 씌워졌습니다.");
-            }
         }
         else if (containedTypes.Contains(PourableType.LB) &&
                  containedTypes.Contains(PourableType.Water))
         {
             Debug.Log(3);
             StartColorChange(clearLiquidColor);
-
-            if (foilVisual != null)
-            {
-                IsFoiled = true;
-                foilVisual.SetActive(true);
-                Debug.Log("은박지가 씌워졌습니다.");
-            }
-
         }
     }
 
@@ -411,13 +412,13 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         runningColorChange = StartCoroutine(ChangeColorRoutine(targetColor));
     }
 
-    public void EndAutoclave()
+    public void RemoveFoile()
     {
         if (foilVisual != null)
         {
             IsFoiled = false;
             foilVisual.SetActive(false);
-            Debug.Log("Autoclave 기계 사용 끝");
+            Debug.Log("은박지가 제거되었습니다.");
         }
     }
 
@@ -438,6 +439,13 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
             liquidMaterial.SetColor("_FresnelColor", Color.Lerp(startFresnelColor, targetFresnelColor, t));
 
             yield return null;
+        }
+
+        if (foilVisual != null)
+        {
+            IsFoiled = true;
+            foilVisual.SetActive(true);
+            Debug.Log("은박지가 씌워졌습니다.");
         }
 
         liquidMaterial.SetColor("_LiquidColor", targetColor);

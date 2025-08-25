@@ -128,8 +128,6 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
             C_ExperimentDataParser.I.DataParsed.Invoke(C_ExperimentDataParser.I.ParseEventArgs);
             ClearData();
         }
-
-        
     }
 
     private void OnInteractionRelease(InputAction.CallbackContext context)

@@ -54,6 +54,24 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
     public ToolType ToolType { get => toolType; set => toolType = value; }
 
 
+    private void OnEnable()
+    {
+        C_ExperimentDataParser.I.DataParsed.AddListener(OnDataParsed);
+    }
+
+    private void OnDisable()
+    {
+        C_ExperimentDataParser.I.DataParsed.RemoveListener(OnDataParsed);
+    }
+
+    private void OnDataParsed(ParseEventArgs e)
+    {
+        if (e.toTool == this)
+        {
+            ImportLiquidData(e.fromTool.ExportLiquidDatas());
+        }
+    }
+
     private void Start()
     {
         if (liquidVisual != null)
@@ -170,6 +188,9 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         }
 
         inoculationVisual.transform.localScale = endScale;
+
+        if (inoculationVisual != null) 
+            inoculationVisual.SetActive(false);
 
         currentState = DishState.Spread;
         UpdateVisuals();
