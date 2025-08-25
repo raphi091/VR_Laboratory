@@ -119,6 +119,8 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
         if (liquidDatas.Count == 0 && currentTarget.ToolType != ToolType.Pippet)
         {
             ImportLiquidData(currentTarget.ExportLiquidDatas());
+            UpdateInfoPanel();
+            UpdateOutline();
         }
         else if (liquidDatas.Count > 0 && currentTarget.IsWritable)
         {
@@ -127,7 +129,7 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
             ClearData();
         }
 
-        UpdateInfoPanel();
+        
     }
 
     private void OnInteractionRelease(InputAction.CallbackContext context)
