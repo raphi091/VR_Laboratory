@@ -601,7 +601,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Agarose
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 757996864319996705, guid: 2e8cee1b9d801db42b89d5e269305f7c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -715,7 +716,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: UltraPure
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 745195450600748858, guid: a984cc6a1337683489a45b28a50745b2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -736,10 +738,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3087690477060181780, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
-      propertyPath: outlineWidth
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 4987353748522402125, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
       propertyPath: m_Name
       value: Pipette
@@ -841,7 +839,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: TBEBuffer
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3071802239015272025, guid: 3b0cab242b66bf94ab608380a5634536, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1042,7 +1041,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: SYBR_DNA
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1040327948629006261, guid: 7f2eb610acd42a045986830a10238167, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1269,7 +1269,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: PCRBuffer
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1220844244660639791, guid: d2085ff0eb9ea0c4ab19ef1acad45f56, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1394,15 +1395,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7061994921981029506, guid: f93958db2fcb35043bd042d05cedf8ab, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7061994921981029506, guid: f93958db2fcb35043bd042d05cedf8ab, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7061994921981029506, guid: f93958db2fcb35043bd042d05cedf8ab, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7061994921981029506, guid: f93958db2fcb35043bd042d05cedf8ab, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1481,7 +1482,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2200807249722854793, guid: 72c1d9c28bf0f344bb78b0713bc88a78, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1830,7 +1832,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9159457177447647421, guid: a4a91eb065a453e44b729eda8d47da46, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1992,7 +1995,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: dNTP
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4844725028578659999, guid: 6103104695e805d41a4957a4ed282f8a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2126,7 +2130,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8500953000639618164, guid: 55477b3901ac97445a5a2f192e4fb1c1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2198,7 +2203,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube_1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5518256218511498666, guid: 7459e82a20c74f747bb2852bc6060f97, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2255,7 +2261,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 829651903697603391, guid: 8ef0b525ea402bc4f8012d1b8657e6b2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

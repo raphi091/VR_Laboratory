@@ -1,11 +1,13 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class GrabInteractionEvent : InteractionEventHandler
+public class GrabInteraction : InteractionEventHandler
 {
     private XRRayInteractor rayInteractor = null;
 
-    void Start()
+    private void Start()
     {
         rayInteractor = interactor as XRRayInteractor;
     }

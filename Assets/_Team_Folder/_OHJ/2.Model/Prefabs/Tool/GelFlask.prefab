@@ -18,8 +18,8 @@ GameObject:
   - component: {fileID: 490250806680718834}
   - component: {fileID: 5229424012893301277}
   - component: {fileID: 3747684405645885392}
-  - component: {fileID: 8500953000639618164}
   - component: {fileID: 6270769943403679346}
+  - component: {fileID: 4122891610227716986}
   m_Layer: 0
   m_Name: GelFlask
   m_TagString: Mix
@@ -372,19 +372,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!114 &8500953000639618164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1424462228008565715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68e3bab0b4a37a0449adac66fe42fd6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactor: {fileID: 0}
 --- !u!114 &6270769943403679346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,6 +386,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventHandler: {fileID: 0}
   outline: {fileID: 0}
+--- !u!114 &4122891610227716986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424462228008565715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee50af702d727504da63646107b952e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactor: {fileID: 0}
 --- !u!1 &2844502564719026177
 GameObject:
   m_ObjectHideFlags: 0
