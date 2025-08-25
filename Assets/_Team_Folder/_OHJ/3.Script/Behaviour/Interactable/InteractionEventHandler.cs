@@ -13,34 +13,55 @@ public abstract class InteractionEventHandler : MonoBehaviour
 
     void Awake()
     {
-        interactable = GetComponentInChildren<XRBaseInteractable>();
+        interactable = GetComponent<XRBaseInteractable>();
+
+        if(interactable == null)
+        {
+            interactable = GetComponentInChildren<XRBaseInteractable>();
+        }
     }
 
     void OnEnable()
     {
-        try
+        if(interactable == null)
         {
-            interactable.hoverEntered.AddListener(OnHoverEnter);
-            interactable.hoverExited.AddListener(OnHoverExit);
+            Debug.LogWarning($"{name}] XRBaseInteractable ´©¶ôµÊ!");
+            return;
         }
-        catch
-        {
+
+        interactable.hoverEntered.AddListener(OnHoverEnter);
+        interactable.hoverExited.AddListener(OnHoverExit);
+
+        //try
+        //{
+        //    interactable.hoverEntered.AddListener(OnHoverEnter);
+        //    interactable.hoverExited.AddListener(OnHoverExit);
+        //}
+        //catch
+        //{
             
-        }
+        //}
         
     }
 
     void OnDisable()
     {
-        try
+        if (interactable == null)
         {
-            interactable.hoverEntered.RemoveListener(OnHoverEnter);
-            interactable.hoverExited.RemoveListener(OnHoverExit);
+            return;
         }
-        catch
-        {
 
-        }
+        interactable.hoverEntered.RemoveListener(OnHoverEnter);
+        interactable.hoverExited.RemoveListener(OnHoverExit);
+        //try
+        //{
+        //    interactable.hoverEntered.RemoveListener(OnHoverEnter);
+        //    interactable.hoverExited.RemoveListener(OnHoverExit);
+        //}
+        //catch
+        //{
+
+        //}
         
     }
 

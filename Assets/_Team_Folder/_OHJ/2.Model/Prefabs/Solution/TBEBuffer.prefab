@@ -121,8 +121,8 @@ GameObject:
   - component: {fileID: 806827876054599004}
   - component: {fileID: 3159485056142087662}
   - component: {fileID: 6771476321880646748}
-  - component: {fileID: 3071802239015272025}
   - component: {fileID: 56474803857175683}
+  - component: {fileID: 3661933401598745621}
   m_Layer: 0
   m_Name: TBEBuffer
   m_TagString: Absorb
@@ -443,19 +443,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!114 &3071802239015272025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7600260161773915472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68e3bab0b4a37a0449adac66fe42fd6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactor: {fileID: 0}
 --- !u!114 &56474803857175683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,3 +457,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventHandler: {fileID: 0}
   outline: {fileID: 0}
+--- !u!114 &3661933401598745621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7600260161773915472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee50af702d727504da63646107b952e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactor: {fileID: 0}
