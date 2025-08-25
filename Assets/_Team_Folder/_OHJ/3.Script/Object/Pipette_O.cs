@@ -38,7 +38,7 @@ public class Pipette_O : MonoBehaviour
     public bool isAbsorb = false;
 
     [Header("아웃라인")]
-    [SerializeField] private Outline outline;
+    public Outline currentOutline;  // 현재 선택된 아웃라인
 
     [Header("파티클")]
     [SerializeField] private GameObject ParticleObj;
@@ -127,8 +127,6 @@ public class Pipette_O : MonoBehaviour
             OnReleaseLiquid(new InputAction.CallbackContext());
         }
     }
-
-    public Outline currentOutline;
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Mix"))
@@ -411,6 +409,13 @@ public class Pipette_O : MonoBehaviour
                 {
                     flask.Dye = liquidData;
                     OnChangeColor(context);
+                    
+                    // 플라스크 full particle 없애기
+                    if(flask.fullParticleObj.activeInHierarchy)
+                    {
+                        flask.fullParticleObj.SetActive(false);
+                    }
+                    flask.fullParticle.Stop();
                 }
  
                 else
@@ -437,6 +442,13 @@ public class Pipette_O : MonoBehaviour
                 {
                     flask.Dye = liquidData;
                     OnChangeColor(context);
+
+                    // 플라스크 full particle 없애기
+                    if (flask.fullParticleObj.activeInHierarchy)
+                    {
+                        flask.fullParticleObj.SetActive(false);
+                    }
+                    flask.fullParticle.Stop();
                 }
 
                 else
@@ -445,7 +457,6 @@ public class Pipette_O : MonoBehaviour
                 }
             }
 
-
             else
             {
                 // 하나만 담긴 리스트를 receiveliquid 메소드에 넘긴다.
@@ -453,8 +464,6 @@ public class Pipette_O : MonoBehaviour
 
                 if(flask.isAddsuccess)
                 {
-                    
-
                     liquid.FillLiquid();
                     Debug.Log($"{liquidData.name}추가");
                 }

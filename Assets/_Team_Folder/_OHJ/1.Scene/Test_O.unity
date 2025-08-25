@@ -382,11 +382,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!1 &1615827074 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 130160073064340768, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
-  m_PrefabInstance: {fileID: 1905101630712857684}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1811675833 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2084906593273734502, guid: 4c7df76d84c87a44ba57f3ccbebc5de4, type: 3}
@@ -720,10 +715,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UltraPure
       objectReference: {fileID: 0}
-    - target: {fileID: 6666840513945811584, guid: a984cc6a1337683489a45b28a50745b2, type: 3}
-      propertyPath: outlineWidth
-      value: 7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -745,18 +736,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 130160073064340768, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
-      propertyPath: m_IsActive
-      value: 0
+    - target: {fileID: 3087690477060181780, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
+      propertyPath: outlineWidth
+      value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 3656179778596412510, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
-      propertyPath: particle
-      value: 
-      objectReference: {fileID: 8840492570964794587, guid: 799903c41635a70468105924ef17e701, type: 3}
-    - target: {fileID: 3656179778596412510, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
-      propertyPath: ParticleObj
-      value: 
-      objectReference: {fileID: 1615827074}
     - target: {fileID: 4987353748522402125, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
       propertyPath: m_Name
       value: Pipette
@@ -1189,10 +1172,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Primer
       objectReference: {fileID: 0}
-    - target: {fileID: 2486883763796751759, guid: 7603a50d123952944a02a7708d374c29, type: 3}
-      propertyPath: outlineWidth
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 3863690252215089884, guid: 7603a50d123952944a02a7708d374c29, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.089
@@ -1289,10 +1268,6 @@ PrefabInstance:
     - target: {fileID: 7850429878269405501, guid: d2085ff0eb9ea0c4ab19ef1acad45f56, type: 3}
       propertyPath: m_Name
       value: PCRBuffer
-      objectReference: {fileID: 0}
-    - target: {fileID: 7951955999214667556, guid: d2085ff0eb9ea0c4ab19ef1acad45f56, type: 3}
-      propertyPath: outlineWidth
-      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1441,10 +1416,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8740313425660911458, guid: f93958db2fcb35043bd042d05cedf8ab, type: 3}
-      propertyPath: outlineWidth
-      value: 7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1469,10 +1440,6 @@ PrefabInstance:
     - target: {fileID: 1264921944724828095, guid: 72c1d9c28bf0f344bb78b0713bc88a78, type: 3}
       propertyPath: m_Name
       value: DNAPolymerase
-      objectReference: {fileID: 0}
-    - target: {fileID: 1299194611037443571, guid: 72c1d9c28bf0f344bb78b0713bc88a78, type: 3}
-      propertyPath: outlineWidth
-      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5781857262810180971, guid: 72c1d9c28bf0f344bb78b0713bc88a78, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1819,10 +1786,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4194042170602550784, guid: a4a91eb065a453e44b729eda8d47da46, type: 3}
-      propertyPath: outlineWidth
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 4536559441164467336, guid: a4a91eb065a453e44b729eda8d47da46, type: 3}
       propertyPath: m_Name
       value: Dye
@@ -2025,10 +1988,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4248700293299944499, guid: 6103104695e805d41a4957a4ed282f8a, type: 3}
-      propertyPath: outlineWidth
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 7504733036218546393, guid: 6103104695e805d41a4957a4ed282f8a, type: 3}
       propertyPath: m_Name
       value: dNTP
@@ -2166,10 +2125,6 @@ PrefabInstance:
     - target: {fileID: 7596103568038601574, guid: 55477b3901ac97445a5a2f192e4fb1c1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8891339765657917688, guid: 55477b3901ac97445a5a2f192e4fb1c1, type: 3}
-      propertyPath: fillAmount
-      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -121,6 +121,8 @@ GameObject:
   - component: {fileID: 8995993271019750814}
   - component: {fileID: 7843247319162967136}
   - component: {fileID: 4194042170602550784}
+  - component: {fileID: 9159457177447647421}
+  - component: {fileID: 204692191872459781}
   m_Layer: 0
   m_Name: Dye
   m_TagString: Absorb
@@ -437,7 +439,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
+  outlineWidth: 7
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &9159457177447647421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4536559441164467336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e3bab0b4a37a0449adac66fe42fd6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactor: {fileID: 0}
+--- !u!114 &204692191872459781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4536559441164467336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14aba672bd3c09a40b03e008bb351b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventHandler: {fileID: 0}
+  outline: {fileID: 0}

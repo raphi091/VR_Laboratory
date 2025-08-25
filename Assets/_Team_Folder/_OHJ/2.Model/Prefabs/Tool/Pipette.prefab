@@ -70,6 +70,9 @@ GameObject:
   - component: {fileID: 7681310927664306422}
   - component: {fileID: 7964979038475271719}
   - component: {fileID: 1622591706826864321}
+  - component: {fileID: 3087690477060181780}
+  - component: {fileID: 5385435260607694449}
+  - component: {fileID: 5123652109269859803}
   m_Layer: 0
   m_Name: Pipette
   m_TagString: Untagged
@@ -172,8 +175,12 @@ MonoBehaviour:
   isEnter: 0
   currentHole: {fileID: 0}
   isAbsorb: 0
-  outline: {fileID: 0}
   currentOutline: {fileID: 0}
+  grabColor: {r: 1, g: 1, b: 1, a: 0}
+  fullColor: {r: 0.22957456, g: 0.6175804, b: 0.7264151, a: 0}
+  isGrab: 0
+  ParticleObj: {fileID: 130160073064340768}
+  particle: {fileID: 8840492570964794587, guid: 799903c41635a70468105924ef17e701, type: 3}
 --- !u!65 &4550514202386461091
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -391,6 +398,51 @@ MonoBehaviour:
   leftPippetPush: {fileID: 0}
   toolType: 2
   isWritable: 1
+--- !u!114 &3087690477060181780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4987353748522402125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &5385435260607694449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4987353748522402125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e3bab0b4a37a0449adac66fe42fd6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactor: {fileID: 0}
+--- !u!114 &5123652109269859803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4987353748522402125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14aba672bd3c09a40b03e008bb351b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventHandler: {fileID: 0}
+  outline: {fileID: 0}
 --- !u!1 &6346851476418312169
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,11 +616,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: AddLiquid
       objectReference: {fileID: 0}
+    - target: {fileID: 9009956577996969607, guid: 799903c41635a70468105924ef17e701, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 799903c41635a70468105924ef17e701, type: 3}
+--- !u!1 &130160073064340768 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9009956577996969607, guid: 799903c41635a70468105924ef17e701, type: 3}
+  m_PrefabInstance: {fileID: 8991331243853630375}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6363037915774143391 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2632826107716108344, guid: 799903c41635a70468105924ef17e701, type: 3}

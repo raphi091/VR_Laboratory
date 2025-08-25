@@ -17,6 +17,10 @@ public class SampleFlask_O : MonoBehaviour
     [Header("플라스크 여부")]
     public bool isGel;  //겔이 든 플라스크인가?
 
+    [Header("파티클")]
+    public GameObject fullParticleObj;
+    public ParticleSystem fullParticle;
+
     public void ReceiveLiquid(List<LiquidData_L> liquids)
     {
         isAddsuccess = false;
@@ -45,6 +49,16 @@ public class SampleFlask_O : MonoBehaviour
         {
             ispossibleMix = true;
             ispossiblePour = true;
+
+            if(!fullParticleObj.activeInHierarchy)
+            {
+                fullParticleObj.SetActive(true);
+            }
+
+            if(!fullParticle.isPlaying)
+            {
+                fullParticle.Play();
+            }
 
             Debug.Log("모두 들어있습니다");
         }

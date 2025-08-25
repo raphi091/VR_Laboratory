@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6929227731605585082}
   - component: {fileID: 403777273029367767}
   - component: {fileID: 9043686182154699188}
+  - component: {fileID: 5518256218511498666}
+  - component: {fileID: 7156552101324143332}
   m_Layer: 0
   m_Name: Cube_1
   m_TagString: Hole
@@ -124,3 +126,30 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &5518256218511498666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3249948163102211647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e3bab0b4a37a0449adac66fe42fd6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactor: {fileID: 0}
+--- !u!114 &7156552101324143332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3249948163102211647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14aba672bd3c09a40b03e008bb351b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventHandler: {fileID: 0}
+  outline: {fileID: 0}

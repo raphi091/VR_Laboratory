@@ -234,6 +234,8 @@ GameObject:
   - component: {fileID: 6485789646827698800}
   - component: {fileID: 5943774181678196569}
   - component: {fileID: 4754956362107195619}
+  - component: {fileID: 757996864319996705}
+  - component: {fileID: 2956045358769835596}
   m_Layer: 0
   m_Name: Agarose
   m_TagString: Absorb
@@ -504,3 +506,30 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &757996864319996705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8705264564320726023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e3bab0b4a37a0449adac66fe42fd6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactor: {fileID: 0}
+--- !u!114 &2956045358769835596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8705264564320726023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14aba672bd3c09a40b03e008bb351b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventHandler: {fileID: 0}
+  outline: {fileID: 0}
