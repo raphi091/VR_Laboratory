@@ -44,6 +44,7 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
     private List<LiquidData_L> liquidDatas = new List<LiquidData_L>();
     private Material liquidMaterial;
     private Material inoculationMaterial;
+    private bool isInCleanBench = false;
 
     public bool IsWritable { get => currentState == DishState.Empty || currentState == DishState.Solid; set { } }
     public ToolType ToolType { get => toolType; set => toolType = value; }
@@ -61,6 +62,22 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         inoculationMaterial.SetFloat("_Fill", -1);
 
         UpdateVisuals();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<CleanBenchTrigger_G>() != null)
+        {
+            isInCleanBench = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<CleanBenchTrigger_G>() != null)
+        {
+            isInCleanBench = false;
+        }
     }
 
     public void ImportLiquidData(List<LiquidData_L> receivedDatas)

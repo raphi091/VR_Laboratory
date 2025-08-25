@@ -94,6 +94,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     private PetriDishController_G currentTargetDish;
     private bool isMixed = false;
     private bool isPouring = false;
+    private bool isInCleanBench = false;
     private float currentFillAmount = -1f;
     private float targetFillAmount = -1f;
     private float currentWobbleAmount = 0f;
@@ -133,6 +134,24 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
             foilVisual.SetActive(false);
 
         ClearData();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<CleanBenchTrigger_G>() != null)
+        {
+            isInCleanBench = true;
+            Debug.Log(gameObject.name + "이(가) 클린벤치에 들어왔습니다.");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<CleanBenchTrigger_G>() != null)
+        {
+            isInCleanBench = false;
+            Debug.Log(gameObject.name + "이(가) 클린벤치에서 나갔습니다.");
+        }
     }
 
     private void Update()
@@ -309,6 +328,12 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
     public void ImportLiquidData(List<LiquidData_L> receivedDatas)
     {
+        if (!isInCleanBench)
+        {
+            UIManager_G.Instance.ShowWarningMessage("멸균 작업은 클린벤치 안에서 진행해주세요.");
+            return;
+        }
+
         if (receivedDatas != null && receivedDatas.Count == 1)
         {
             LiquidData_L singleData = receivedDatas[0];
