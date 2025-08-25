@@ -70,13 +70,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 4
+  idleModelObject: {fileID: 0}
+  processingModelObject: {fileID: 0}
   processingTime: 5
   itemPlacementPoint: {fileID: 833017934902524117}
+  completedItemPlacementPoint: {fileID: 0}
   interactionCanvasGroup: {fileID: 0}
   statusText: {fileID: 0}
-  requiredItemTag: ExperimentSample
+  yesNoButtonPanelObject: {fileID: 0}
   screenRenderer: {fileID: 0}
-  liquidRenderer: {fileID: 0}
+  startSound: {fileID: 0}
+  processingLoopSound: {fileID: 0}
+  completeSound: {fileID: 0}
+  blinkCount: 3
+  blinkInterval: 0.5
   OnProcessCompleted:
     m_PersistentCalls:
       m_Calls:
@@ -104,7 +111,7 @@ GameObject:
   - component: {fileID: 3686180758152272426}
   - component: {fileID: 9052527006662206916}
   m_Layer: 0
-  m_Name: Apparatus_02_Standard
+  m_Name: ShakingIncubator_Off
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -219,12 +226,12 @@ GameObject:
   - component: {fileID: 6822757078602211394}
   - component: {fileID: 5855372345385390944}
   m_Layer: 0
-  m_Name: Apparatus_02
+  m_Name: ShakingIncubator_On
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4026078944662430145
 Transform:
   m_ObjectHideFlags: 0

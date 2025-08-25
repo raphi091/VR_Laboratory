@@ -89,11 +89,15 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     public GameObject foilVisual;
     public bool IsFoiled = false;
 
+    [Header("시각 UI")]
+    public DynamicInfoUI_G infoPanel;
+
     private List<LiquidData_L> liquidDatas = new List<LiquidData_L>();
     private Material liquidMaterial;
     private PetriDishController_G currentTargetDish;
     private bool isMixed = false;
     private bool isPouring = false;
+    private bool isInCleanBench = false;
     private float currentFillAmount = -1f;
     private float targetFillAmount = -1f;
     private float currentWobbleAmount = 0f;
@@ -133,6 +137,24 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
             foilVisual.SetActive(false);
 
         ClearData();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<CleanBenchTrigger_G>() != null)
+        {
+            isInCleanBench = true;
+            Debug.Log(gameObject.name + "이(가) 클린벤치에 들어왔습니다.");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<CleanBenchTrigger_G>() != null)
+        {
+            isInCleanBench = false;
+            Debug.Log(gameObject.name + "이(가) 클린벤치에서 나갔습니다.");
+        }
     }
 
     private void Update()
@@ -181,13 +203,6 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
                 if (unmixedAgarParticles != null) 
                     unmixedAgarParticles.Stop();
-
-                if (foilVisual != null)
-                {
-                    IsFoiled = true;
-                    foilVisual.SetActive(true);
-                    Debug.Log("은박지가 씌워졌습니다.");
-                }
 
                 UpdateLiquidColor();
             }
@@ -287,6 +302,8 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         }
 
         targetFillAmount = Mathf.Clamp(targetFillAmount, -1f, 0f);
+
+        UpdateInfoPanel();
     }
 
     public void AddMaterial(PourableType type)
@@ -309,6 +326,12 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
     public void ImportLiquidData(List<LiquidData_L> receivedDatas)
     {
+        if (!isInCleanBench)
+        {
+            UIManager_G.Instance.ShowWarningMessage("멸균 작업은 클린벤치 안에서 진행해주세요.");
+            return;
+        }
+
         if (receivedDatas != null && receivedDatas.Count == 1)
         {
             LiquidData_L singleData = receivedDatas[0];
@@ -324,6 +347,8 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
                 Debug.LogWarning("파이펫으로는 미생물만 넣을 수 있습니다. (" + singleData.liquidName + " 넣기 시도)");
             }
         }
+
+        UpdateInfoPanel();
     }
 
     private void UpdateLiquidColor()
@@ -339,12 +364,27 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         {
             Debug.Log(2);
             StartColorChange(agarMixColor);
+
+            if (foilVisual != null)
+            {
+                IsFoiled = true;
+                foilVisual.SetActive(true);
+                Debug.Log("은박지가 씌워졌습니다.");
+            }
         }
         else if (containedTypes.Contains(PourableType.LB) &&
                  containedTypes.Contains(PourableType.Water))
         {
             Debug.Log(3);
             StartColorChange(clearLiquidColor);
+
+            if (foilVisual != null)
+            {
+                IsFoiled = true;
+                foilVisual.SetActive(true);
+                Debug.Log("은박지가 씌워졌습니다.");
+            }
+
         }
     }
 
@@ -362,7 +402,18 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         {
             StopCoroutine(runningColorChange);
         }
+
         runningColorChange = StartCoroutine(ChangeColorRoutine(targetColor));
+    }
+
+    public void EndAutoclave()
+    {
+        if (foilVisual != null)
+        {
+            IsFoiled = false;
+            foilVisual.SetActive(false);
+            Debug.Log("Autoclave 기계 사용 끝");
+        }
     }
 
     private IEnumerator ChangeColorRoutine(Color targetColor)
@@ -424,5 +475,35 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         Color _baseColor = new Color(baseColor.r - 0.05f, baseColor.g - 0.05f, baseColor.b);
         liquidMaterial.SetColor("_LiquidColor", baseColor);
         liquidMaterial.SetColor("_FresnelColor", _baseColor);
+
+        UpdateInfoPanel();
+    }
+
+    public void OnGrab()
+    {
+        if (infoPanel != null)
+            infoPanel.gameObject.SetActive(true);
+    }
+
+    public void OnRelease()
+    {
+        if (infoPanel != null)
+            infoPanel.gameObject.SetActive(false);
+    }
+
+    private void UpdateInfoPanel()
+    {
+        if (infoPanel == null) return;
+        string description;
+        if (liquidDatas != null && liquidDatas.Count > 0)
+        {
+            string contentsName = string.Join(", ", liquidDatas.Select(data => data.liquidName));
+            description = "내용물: " + contentsName;
+        }
+        else
+        {
+            description = "내용물: 없음";
+        }
+        infoPanel.UpdateContent(description);
     }
 }

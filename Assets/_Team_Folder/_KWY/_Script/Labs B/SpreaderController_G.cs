@@ -25,6 +25,7 @@ public class SpreaderController_G : MonoBehaviour
     private PetriDishController_G currentDish;
     private Color originalColor;
     private bool isSterilized = false;
+    private bool isInCleanBench = false;
     private Coroutine runningColorAnimation;
 
 
@@ -32,14 +33,17 @@ public class SpreaderController_G : MonoBehaviour
     {
         if (spreaderRenderer != null)
         {
-
             originalColor = spreaderRenderer.material.GetColor("_Color");
-
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.GetComponent<CleanBenchTrigger_G>() != null)
+        {
+            isInCleanBench = true;
+        }
+
         PetriDishController_G dish = other.GetComponent<PetriDishController_G>();
         if (dish != null)
         {
@@ -60,6 +64,12 @@ public class SpreaderController_G : MonoBehaviour
     {
         if (isSterilized && currentDish != null && other.gameObject.GetComponent<PetriDishController_G>() == currentDish && currentDish.currentState == PetriDishController_G.DishState.Inoculated)
         {
+            if (!isInCleanBench)
+            {
+                UIManager_G.Instance.ShowWarningMessage("도말 작업은 클린벤치 안에서 진행해주세요.");
+                return;
+            }
+
             spreadingTimeElapsed += Time.deltaTime;
 
             if (spreadingTimeElapsed >= spreadDuration)
@@ -79,6 +89,11 @@ public class SpreaderController_G : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (other.GetComponent<CleanBenchTrigger_G>() != null)
+        {
+            isInCleanBench = false;
+        }
+
         PetriDishController_G dish = other.GetComponent<PetriDishController_G>();
         if (dish == currentDish)
         {

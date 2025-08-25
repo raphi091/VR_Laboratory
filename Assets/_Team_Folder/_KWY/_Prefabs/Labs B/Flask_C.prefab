@@ -16,6 +16,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3b39cc46aa0b16542a623c5f06162e7e, type: 2}
+    - target: {fileID: 5766239956403681040, guid: 1bce3284d86b3ac4589c729f00c115b0, type: 3}
+      propertyPath: cloudyLiquidColor.b
+      value: 0.24554999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5766239956403681040, guid: 1bce3284d86b3ac4589c729f00c115b0, type: 3}
+      propertyPath: cloudyLiquidColor.g
+      value: 0.5849056
+      objectReference: {fileID: 0}
+    - target: {fileID: 5766239956403681040, guid: 1bce3284d86b3ac4589c729f00c115b0, type: 3}
+      propertyPath: cloudyLiquidColor.r
+      value: 0.5849056
+      objectReference: {fileID: 0}
     - target: {fileID: 7181724740576930895, guid: 1bce3284d86b3ac4589c729f00c115b0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

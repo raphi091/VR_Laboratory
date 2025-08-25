@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,6 +23,9 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
 
     [Tooltip("플런저가 움직이는 애니메이션 시간(초)")]
     public float plungerAnimationDuration = 0.2f;
+
+    [Header("시각 UI")]
+    public DynamicInfoUI_G infoPanel;
 
     [SerializeField] private bool isWritable = true;
     [SerializeField] private ToolType toolType = ToolType.Pippet;
@@ -50,6 +54,8 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
     private void Start()
     {
         plunger.localPosition = new Vector3(plunger.localPosition.x, plungerUpLocalY, plunger.localPosition.z);
+
+        UpdateInfoPanel();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -108,6 +114,8 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
             C_ExperimentDataParser.I.DataParsed.Invoke(C_ExperimentDataParser.I.ParseEventArgs);
             ClearData();
         }
+
+        UpdateInfoPanel();
     }
 
     private void OnInteractionRelease(InputAction.CallbackContext context)
@@ -132,6 +140,7 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
     public void ClearData()
     {
         liquidDatas.Clear();
+        UpdateInfoPanel();
     }
 
     private void AnimatePlunger(float targetY)
@@ -165,10 +174,32 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
     public void OnGrab()
     {
         isHeld = true;
+
+        if (infoPanel != null)
+            infoPanel.gameObject.SetActive(true);
     }
 
     public void OnRelease()
     {
         isHeld = false;
+
+        if (infoPanel != null)
+            infoPanel.gameObject.SetActive(false);
+    }
+
+    private void UpdateInfoPanel()
+    {
+        if (infoPanel == null) return;
+        string description;
+        if (liquidDatas != null && liquidDatas.Count > 0)
+        {
+            string contentsName = string.Join(", ", liquidDatas.Select(data => data.liquidName));
+            description = "내용물: " + contentsName;
+        }
+        else
+        {
+            description = "내용물: 없음";
+        }
+        infoPanel.UpdateContent(description);
     }
 }

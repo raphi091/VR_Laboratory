@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.UI;
 
 public class LabEquipmentController_L : MonoBehaviour
 {
@@ -14,6 +15,12 @@ public class LabEquipmentController_L : MonoBehaviour
     [Header("기기 식별")]
     public EquipmentType type;
 
+    [Header("아이템 요구사항")]
+    [Tooltip("체크하면, 아래에 지정된 특정 종류의 아이템만 인식합니다.")]
+    public bool requireSpecificItemType = false;
+    [Tooltip("이 기계가 요구하는 아이템의 종류")]
+    public ItemType requiredItemType = ItemType.Generic;
+
     [Header("모델 오브젝트 설정")]
     [Tooltip("기기가 대기 상태일 때 표시될 모델")]
     public GameObject idleModelObject;
@@ -23,7 +30,17 @@ public class LabEquipmentController_L : MonoBehaviour
 
     [Header("상태 및 설정")]
     [SerializeField] private float processingTime = 5.0f;
+    [Tooltip("체크하면, 외부에서 멈출 때까지 무한히 작동합니다.")]
+    public bool processInfinitely = false;
     public Transform itemPlacementPoint;
+
+    [Header("Air Incubator 전용 설정")]
+    [Tooltip("Air Incubator의 작동 조명")]
+    public Light processingLight;
+    [Tooltip("체크하면 아래에 설정된 시간 후 결과가 나오는 디버그 모드로 작동합니다.")]
+    public bool debugMode = false;
+    [Tooltip("디버그 모드일 때의 처리 시간")]
+    public float debugProcessingTime = 10.0f;
 
     [Tooltip("완료된 아이템이 놓일 위치")]
     public Transform completedItemPlacementPoint;
@@ -36,7 +53,8 @@ public class LabEquipmentController_L : MonoBehaviour
     private CanvasGroup yesNoButtonPanelCanvasGroup;
 
     [Header("Optional Visual Components")]
-    public Renderer screenRenderer;
+    [Tooltip("결과 이미지를 표시할 UI RawImage 컴포넌트")]
+    public RawImage resultRawImage;
 
     [Header("사운드 설정")]
     [Tooltip("기기 작동 시작 시 재생할 사운드")]
@@ -54,11 +72,14 @@ public class LabEquipmentController_L : MonoBehaviour
 
     [Header("이벤트")]
     public UnityEvent OnProcessCompleted;
+    public UnityEvent OnProcessStarted;
+    private bool isLocked = true;
 
     // 내부 상태 변수
     private AudioSource audioSource;
     private GameObject itemInRange;
     private GameObject itemToProcess; // 처리할 아이템을 저장하는 변수 추가
+    private GameObject currentlyProcessingItem;
     private XRGrabInteractable itemInteractable;
     private bool uiVisible = false;
     private bool handInRange = false;
@@ -108,6 +129,11 @@ public class LabEquipmentController_L : MonoBehaviour
 
         if (idleModelObject != null) idleModelObject.SetActive(true);
         if (processingModelObject != null) processingModelObject.SetActive(false);
+
+        if (type == EquipmentType.AirIncubator && processingLight != null)
+        {
+            processingLight.enabled = false;
+        }
     }
 
     void Update()
@@ -121,6 +147,28 @@ public class LabEquipmentController_L : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         bool isHand = other.CompareTag("Right_Hand") || other.CompareTag("Left_Hand");
+
+        // 손이 닿았는데 기계가 잠겨있다면, 안내 문구만 표시하고 종료합니다.
+        if (isLocked)
+        {
+            // 손이 닿았거나, ExperimentItem_L 스크립트를 가진 아이템이 닿았을 때
+            if (other.CompareTag("Right_Hand") || other.CompareTag("Left_Hand") || other.GetComponent<ExperimentItem_L>() != null)
+            {
+                if (statusText != null)
+                {
+                    statusText.text = "이전 실험 단계를 먼저 진행해주세요!";
+                }
+                SetUIVisible(true, false);
+            }
+            return; // 잠겨있으면 아래 로직은 실행하지 않음
+        }
+
+        // 이 스크립트가 비활성화 상태라면, 그 어떤 상호작용도 시작하지 않습니다.
+        if (!this.enabled)
+        {
+            return;
+        }
+
         ExperimentItem_L experimentItem = other.GetComponent<ExperimentItem_L>();
 
         if (isHand)
@@ -131,6 +179,19 @@ public class LabEquipmentController_L : MonoBehaviour
         }
         else if (experimentItem != null)
         {
+            // '특정 아이템 요구'가 체크되어 있을 때만 이 로직이 작동합니다.
+            if (requireSpecificItemType)
+            {
+                // 들어온 아이템의 종류가 이 기계가 요구하는 종류와 다르면,
+                if (experimentItem.itemType != requiredItemType)
+                {
+                    // 유효하지 않은 아이템으로 간주하고 무시합니다.
+                    statusText.text = "올바른 샘플을 넣어주세요!";
+                    Debug.LogWarning($"{gameObject.name}은(는) '{requiredItemType}' 타입의 아이템이 필요하지만, '{experimentItem.itemType}'이(가) 들어왔습니다. 무시합니다.");
+                    return;
+                }
+            }
+
             itemInRange = other.gameObject;
             itemInteractable = itemInRange.GetComponent<XRGrabInteractable>();
             Debug.Log($"{gameObject.name}: 아이템 '{other.name}' (타입: {experimentItem.itemType}) 감지됨");
@@ -191,15 +252,13 @@ public class LabEquipmentController_L : MonoBehaviour
         // 2. 처리 중 상태: 손이 닿으면 "처리 중..." 문구를 표시합니다.
         if (currentState == MachineState.Processing)
         {
-            // ▼▼▼ 이 부분이 수정되었습니다 ▼▼▼
             if (statusText != null)
             {
                 // ProcessTimer가 초를 업데이트하므로, 여기서는 간단한 텍스트만 표시합니다.
                 statusText.text = "처리 중...";
             }
             SetUIVisible(true, false); // UI를 화면에 표시합니다.
-            return; // 처리 중 로직은 여기서 끝냅니다.
-                    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+            return; // 처리 중 로직은 여기서 끝.
         }
 
         // 3. 대기 상태: 아이템을 손에 쥐고 기기와 상호작용합니다.
@@ -221,7 +280,7 @@ public class LabEquipmentController_L : MonoBehaviour
         {
             readyToProcess = false;
             itemToProcess = null;
-            statusText.text = "아이템을 잡고 가져오세요.";
+            statusText.text = "샘플을 가져오세요.";
             SetUIVisible(true, false);
         }
         else
@@ -237,71 +296,106 @@ public class LabEquipmentController_L : MonoBehaviour
     {
         StopAllCoroutines();
 
-        // 수정된 조건: readyToProcess와 itemToProcess를 체크
         if (!readyToProcess || itemToProcess == null || currentState != MachineState.Idle)
         {
-            Debug.LogWarning($"{gameObject.name}: 처리 시작 실패 - 조건 미충족");
-            Debug.LogWarning($"  실패 이유: readyToProcess={readyToProcess}, itemToProcess={(itemToProcess != null ? "있음" : "NULL")}, currentState={currentState}");
+            //Debug.LogWarning($"{gameObject.name}: 처리 시작 실패 - 조건 미충족");
+            //Debug.LogWarning($"  실패 이유: readyToProcess={readyToProcess}, itemToProcess={(itemToProcess != null ? "있음" : "NULL")}, currentState={currentState}");
             return;
         }
 
-        Debug.Log($"{gameObject.name}: 처리 시작 - 아이템: {itemToProcess.name}");
+        currentlyProcessingItem = itemToProcess;
+        OnProcessStarted.Invoke();
+
+        //Debug.Log($"{gameObject.name}: 처리 시작 - 아이템: {itemToProcess.name}");
         currentState = MachineState.Processing;
 
+        // --- 사운드 및 모델 변경 로직 (기존과 동일) ---
         if (audioSource != null)
         {
             audioSource.loop = false;
             audioSource.Stop();
-
-            // 1. 시작 사운드가 있다면 재생
-            if (startSound != null)
-            {
-                audioSource.PlayOneShot(startSound);
-            }
-
-            // 2. 루프 사운드가 있다면, 이어서 재생 (약간의 딜레이를 줘서 시작 사운드와 겹치지 않게 함)
-            if (processingLoopSound != null)
-            {
-                // 이전 코루틴이 있다면 중지
-                StopAllCoroutines();
-                StartCoroutine(PlayLoopSoundAfterDelay(startSound != null ? startSound.length : 0f));
-            }
+            if (startSound != null) audioSource.PlayOneShot(startSound);
+            if (processingLoopSound != null) StartCoroutine(PlayLoopSoundAfterDelay(startSound != null ? startSound.length : 0f));
         }
-
         if (idleModelObject != null) idleModelObject.SetActive(false);
         if (processingModelObject != null) processingModelObject.SetActive(true);
 
         SetUIVisible(false, false);
 
-        // 저장해둔 아이템으로 처리 진행
         GameObject processingItem = itemToProcess;
         XRGrabInteractable processingInteractable = processingItem.GetComponent<XRGrabInteractable>();
-
         ForceDropItem(processingItem, processingInteractable);
         LockItemInPlace(processingItem);
 
-        // 처리 완료 후 상태 초기화
         readyToProcess = false;
         itemToProcess = null;
 
-        if (type == EquipmentType.ShakingIncubator)
+        // 1. '무한 작동'이 체크된 경우
+        if (processInfinitely)
         {
-            StartCoroutine(AnimateLiquidChange(processingItem));
+            Debug.Log($"{gameObject.name}: 무한 작동을 시작합니다. (외부에서 MakeItemAvailable() 호출 필요)");
+            // 타이머 코루틴을 시작하지 않고, Processing 상태를 유지합니다.
         }
+        // 2. 처리 시간이 0초 이하인 경우 (즉시 완료)
+        else if (processingTime <= 0)
+        {
+            Debug.Log($"{gameObject.name}: 처리 시간이 0이므로 즉시 완료합니다.");
+            ProcessComplete(processingItem);
+        }
+        // 3. 일반적인 시간제 작동
         else
         {
-            StartCoroutine(ProcessTimer(processingItem));
+            if (type == EquipmentType.ShakingIncubator)
+            {
+                StartCoroutine(AnimateLiquidChange(processingItem));
+            }
+            else
+            {
+                StartCoroutine(ProcessTimer(processingItem, debugProcessingTime));
+            }
+        }
+
+        if (type == EquipmentType.AirIncubator && debugMode)
+        {
+            Debug.Log($"{gameObject.name}: 디버그 모드로 {debugProcessingTime}초 작동을 시작합니다.");
+            if (processingLight != null) processingLight.enabled = true; // 조명 켜기
+            StartCoroutine(ProcessTimer(processingItem, debugProcessingTime)); // 디버그 시간으로 타이머 시작
+        }
+        // 2. '무한 작동' 모드 (Air Incubator의 기본 모드)
+        else if (processInfinitely)
+        {
+            Debug.Log($"{gameObject.name}: 무한 작동을 시작합니다. (씬 재시작 또는 외부 호출 필요)");
+            if (type == EquipmentType.AirIncubator && processingLight != null) processingLight.enabled = true; // 조명 켜기
+            // 타이머 코루틴을 시작하지 않고, Processing 상태를 유지합니다.
+        }
+        // 3. 처리 시간이 0초 이하인 경우 (즉시 완료)
+        else if (processingTime <= 0)
+        {
+            Debug.Log($"{gameObject.name}: 처리 시간이 0이므로 즉시 완료합니다.");
+            ProcessComplete(processingItem);
+        }
+        // 4. 일반적인 시간제 작동
+        else
+        {
+            if (type == EquipmentType.ShakingIncubator)
+            {
+                StartCoroutine(AnimateLiquidChange(processingItem));
+            }
+            else
+            {
+                StartCoroutine(ProcessTimer(processingItem, processingTime)); // 일반 시간으로 타이머 시작
+            }
         }
     }
 
-    private IEnumerator ProcessTimer(GameObject targetItem)
+    private IEnumerator ProcessTimer(GameObject targetItem, float duration)
     {
         float elapsedTime = 0;
-        while (elapsedTime < processingTime)
+        while (elapsedTime < duration)
         {
             if (statusText != null)
             {
-                statusText.text = $"처리 중... {Mathf.RoundToInt(processingTime - elapsedTime)}초";
+                statusText.text = $"처리 중... {Mathf.RoundToInt(duration - elapsedTime)}초";
             }
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -311,6 +405,11 @@ public class LabEquipmentController_L : MonoBehaviour
 
     private void ProcessComplete(GameObject targetItem)
     {
+        if (type == EquipmentType.AirIncubator && processingLight != null)
+        {
+            processingLight.enabled = false;
+        }
+
         Debug.Log($"{gameObject.name}: 처리 완료. 사용자 확인 대기 중...");
         currentState = MachineState.Complete;
         isJustCompleted = true; // '방금 완료됨' 상태로 설정
@@ -440,39 +539,67 @@ public class LabEquipmentController_L : MonoBehaviour
 
     private void HandleVisualResult(GameObject targetItem)
     {
+        // 장비 타입이 GelDoc일 경우 특별한 로직을 실행합니다.
         if (type == EquipmentType.GelDoc)
         {
-            if (screenRenderer != null && ResultManager_L.Instance != null)
+            // RawImage와 ResultManager가 모두 정상적으로 연결되었는지 확인합니다.
+            if (resultRawImage != null && ResultManager_L.Instance != null)
             {
-                screenRenderer.material.mainTexture = ResultManager_L.Instance.GetRandomPcrResult();
+                // ResultManager에서 랜덤 PCR 결과 텍스처를 가져와
+                // resultRawImage의 텍스처에 적용합니다.
+                resultRawImage.texture = ResultManager_L.Instance.GetRandomPcrResult();
+
+                // 이미지가 확실히 보이도록 RawImage를 활성화합니다.
+                resultRawImage.gameObject.SetActive(true);
+                Debug.Log("성공: GelDoc RawImage에 결과 이미지를 적용했습니다.");
+            }
+            else
+            {
+                Debug.LogError("오류: resultRawImage 또는 ResultManager_L.Instance가 연결되지 않았습니다!");
             }
         }
     }
 
     private IEnumerator AnimateLiquidChange(GameObject targetItem)
     {
-        var liquidRenderer = targetItem.GetComponentInChildren<Renderer>();
-        if (liquidRenderer == null)
+        // 1. 플라스크에 부착된 컨트롤러 스크립트를 찾아옵니다.
+        FlaskLiquidController_G flaskController = targetItem.GetComponent<FlaskLiquidController_G>();
+        if (flaskController == null || flaskController.liquidRenderer == null)
         {
-            ProcessComplete(targetItem);
-            yield break;
+            Debug.LogError("오류: 플라스크에서 FlaskLiquidController_G 또는 liquidRenderer를 찾을 수 없습니다. 일반 타이머로 대체 실행합니다.");
+            // 문제가 생겼으니, 색상 변경 없이 일반 타이머로만 작동시킵니다.
+            yield return StartCoroutine(ProcessTimer(targetItem, debugProcessingTime));
+            yield break; // 코루틴을 여기서 종료합니다.
         }
 
-        float elapsedTime = 0f;
-        Color startColor = ResultManager_L.Instance.flaskClearLiquidMaterial.color;
-        Color endColor = ResultManager_L.Instance.flaskCloudyLiquidMaterial.color;
-        Material newMaterialInstance = new Material(ResultManager_L.Instance.flaskClearLiquidMaterial);
-        liquidRenderer.material = newMaterialInstance;
+        // 2. 플라스크 스크립트에서 필요한 정보(머티리얼, 색상)를 가져옵니다.
+        Material liquidMaterial = flaskController.liquidRenderer.material;
+        Color startLiquidColor = liquidMaterial.GetColor("_LiquidColor");
+        Color startFresnelColor = liquidMaterial.GetColor("_FresnelColor");
 
+        // 목표 색상은 플라스크 스크립트의 cloudyLiquidColor 변수에서 가져옵니다.
+        Color targetLiquidColor = flaskController.cloudyLiquidColor;
+        // 팀원의 스크립트와 동일한 시각적 효과를 위해 Fresnel 색상도 계산합니다.
+        Color targetFresnelColor = new Color(targetLiquidColor.r - 0.05f, targetLiquidColor.g - 0.05f, targetLiquidColor.b);
+
+        Debug.Log("Shaking Incubator: 플라스크 액체 색상 변경을 시작합니다.");
+
+        // 3. 기계의 processingTime 동안 색상을 서서히 변경합니다.
+        float elapsedTime = 0f;
         while (elapsedTime < processingTime)
         {
-            float t = elapsedTime / processingTime;
-            newMaterialInstance.color = Color.Lerp(startColor, endColor, t);
             elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        newMaterialInstance.color = endColor;
+            float t = elapsedTime / processingTime; // 0에서 1까지의 진행률
 
+            // Lerp 함수를 이용해 시작 색상에서 목표 색상으로 점진적으로 변경
+            liquidMaterial.SetColor("_LiquidColor", Color.Lerp(startLiquidColor, targetLiquidColor, t));
+            liquidMaterial.SetColor("_FresnelColor", Color.Lerp(startFresnelColor, targetFresnelColor, t));
+
+            yield return null; // 다음 프레임까지 대기
+        }
+
+        // 4. 색상 변경이 끝나면, 기계의 처리를 완료합니다.
+        Debug.Log("Shaking Incubator: 색상 변경 완료. 기기 처리를 종료합니다.");
         ProcessComplete(targetItem);
     }
 
@@ -514,5 +641,21 @@ public class LabEquipmentController_L : MonoBehaviour
             if (processingModelObject != null) processingModelObject.SetActive(false);
             yield return new WaitForSeconds(blinkInterval);
         }
+    }
+
+    public void MakeItemAvailable()
+    {
+        if (currentState == MachineState.Processing && currentlyProcessingItem != null)
+        {
+            // 타이머를 즉시 종료하고 완료 프로세스를 강제로 실행합니다.
+            StopAllCoroutines();
+            ProcessComplete(currentlyProcessingItem);
+            currentlyProcessingItem = null;
+        }
+    }
+
+    public void SetLockState(bool lockState)
+    {
+        isLocked = lockState;
     }
 }

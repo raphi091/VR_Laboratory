@@ -12,6 +12,15 @@ PrefabInstance:
       propertyPath: liquidDataAsset
       value: 
       objectReference: {fileID: 11400000, guid: dcce75a4f673aff4eb612e4bccb53210, type: 2}
+    - target: {fileID: 6293034506398008416, guid: 646674ea9ac94eb469e140f41ace7fdd, type: 3}
+      propertyPath: objectName
+      value: "\uBBF8\uC0DD\uBB3C \uC0D8\uD50C C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293034506398008416, guid: 646674ea9ac94eb469e140f41ace7fdd, type: 3}
+      propertyPath: objectDescription
+      value: "\uBC30\uC591 \uC2E4\uD5D8\uC5D0 \uC0AC\uC6A9\uB418\uB294 \uBBF8\uC0DD\uBB3C
+        \uC0D8\uD50C C \uC785\uB2C8\uB2E4."
+      objectReference: {fileID: 0}
     - target: {fileID: 8759890120371148325, guid: 646674ea9ac94eb469e140f41ace7fdd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
