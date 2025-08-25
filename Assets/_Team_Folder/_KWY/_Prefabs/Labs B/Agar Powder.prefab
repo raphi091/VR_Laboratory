@@ -5264,8 +5264,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70adf56c8407d0444ab6d18fb49135d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: "\uC624\uBE0C\uC81D\uD2B8 \uC774\uB984"
-  objectDescription: "\uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  objectName: "Agar \uD30C\uC6B0\uB354"
+  objectDescription: "\uACE0\uCCB4 \uBC30\uC9C0\uB97C \uB9CC\uB4E4\uAE30 \uC704\uD574
+    \uC0AC\uC6A9\uB418\uB294 \uC751\uACE0\uC81C\uB85C, \uD574\uC870\uB958\uC5D0\uC11C
+    \uCD94\uCD9C\uB418\uB294 \uD55C\uCC9C\uC758 \uBD84\uB9D0 \uD615\uD0DC\uC785\uB2C8\uB2E4."
 --- !u!114 &6708918749321881262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5362,7 +5364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2446846635260374951, guid: c3e0482473bf65045aee1e24ff8eeb9b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.322
+      value: 0.224
       objectReference: {fileID: 0}
     - target: {fileID: 2446846635260374951, guid: c3e0482473bf65045aee1e24ff8eeb9b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

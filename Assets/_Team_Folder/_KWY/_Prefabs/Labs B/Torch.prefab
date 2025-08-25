@@ -441,8 +441,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70adf56c8407d0444ab6d18fb49135d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: "\uC624\uBE0C\uC81D\uD2B8 \uC774\uB984"
-  objectDescription: "\uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  objectName: "\uD1A0\uCE58"
+  objectDescription: "\uC54C\uCF54\uC62C \uB7A8\uD504\uC5D0 \uBD88\uC744 \uBD99\uC774\uB294\uB370
+    \uC0AC\uC6A9\uB429\uB2C8\uB2E4."
 --- !u!1 &3558633753980141657
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,7 +736,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2446846635260374951, guid: c3e0482473bf65045aee1e24ff8eeb9b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.2897
+      value: 0.201
       objectReference: {fileID: 0}
     - target: {fileID: 2446846635260374951, guid: c3e0482473bf65045aee1e24ff8eeb9b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

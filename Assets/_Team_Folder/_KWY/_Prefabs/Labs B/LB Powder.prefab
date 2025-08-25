@@ -403,8 +403,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70adf56c8407d0444ab6d18fb49135d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: "\uC624\uBE0C\uC81D\uD2B8 \uC774\uB984"
-  objectDescription: "\uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  objectName: "LB \uD30C\uC6B0\uB354"
+  objectDescription: "\uBBF8\uC0DD\uBB3C \uC131\uC7A5 \uBC30\uC9C0(LB \uBC30\uC9C0)\uB97C
+    \uC81C\uC870\uD558\uAE30 \uC704\uD55C \uBD84\uB9D0 \uD615\uD0DC\uC758 \uC2DC\uC57D\uC785\uB2C8\uB2E4."
 --- !u!114 &7247503997100337321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5362,7 +5363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2446846635260374951, guid: c3e0482473bf65045aee1e24ff8eeb9b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.318
+      value: 0.2175
       objectReference: {fileID: 0}
     - target: {fileID: 2446846635260374951, guid: c3e0482473bf65045aee1e24ff8eeb9b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

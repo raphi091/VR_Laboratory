@@ -364,6 +364,13 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         {
             Debug.Log(2);
             StartColorChange(agarMixColor);
+
+            if (foilVisual != null)
+            {
+                IsFoiled = true;
+                foilVisual.SetActive(true);
+                Debug.Log("은박지가 씌워졌습니다.");
+            }
         }
         else if (containedTypes.Contains(PourableType.LB) &&
                  containedTypes.Contains(PourableType.Water))
@@ -371,13 +378,13 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
             Debug.Log(3);
             StartColorChange(clearLiquidColor);
 
-        }
+            if (foilVisual != null)
+            {
+                IsFoiled = true;
+                foilVisual.SetActive(true);
+                Debug.Log("은박지가 씌워졌습니다.");
+            }
 
-        if (foilVisual != null)
-        {
-            IsFoiled = true;
-            foilVisual.SetActive(true);
-            Debug.Log("은박지가 씌워졌습니다.");
         }
     }
 
@@ -395,7 +402,18 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         {
             StopCoroutine(runningColorChange);
         }
+
         runningColorChange = StartCoroutine(ChangeColorRoutine(targetColor));
+    }
+
+    public void EndAutoclave()
+    {
+        if (foilVisual != null)
+        {
+            IsFoiled = false;
+            foilVisual.SetActive(false);
+            Debug.Log("Autoclave 기계 사용 끝");
+        }
     }
 
     private IEnumerator ChangeColorRoutine(Color targetColor)
