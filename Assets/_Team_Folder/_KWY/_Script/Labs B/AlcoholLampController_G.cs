@@ -76,8 +76,8 @@ public class AlcoholLampController_G : MonoBehaviour
     {
         Debug.Log("알코올 램프 연소를 시작합니다.");
         float elapsedTime = 0f;
-        float startFill = 0.2f;
-        float endFill = -1f;
+        float startFill = 0.02f;
+        float endFill = -0.015f;
 
         while (elapsedTime < totalBurnDuration)
         {

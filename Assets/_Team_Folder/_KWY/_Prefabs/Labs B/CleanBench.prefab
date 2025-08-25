@@ -894,8 +894,8 @@ GameObject:
   - component: {fileID: 8709275359060096477}
   - component: {fileID: 4063420643631753630}
   - component: {fileID: 2749278976064423644}
-  - component: {fileID: 2828131041010603855}
   - component: {fileID: 6045024380066480805}
+  - component: {fileID: 2828131041010603855}
   m_Layer: 0
   m_Name: CleanBench
   m_TagString: Untagged
@@ -969,18 +969,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.9287905, y: 1.4996519, z: 0.8239547}
   m_Center: {x: -0.124445856, y: 1.6885414, z: -0.02124685}
---- !u!114 &2828131041010603855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8482452536044225038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a355831bdd3a3b44804577fdf470794, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6045024380066480805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1017,6 +1005,18 @@ MonoBehaviour:
   OnProcessStarted:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2828131041010603855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8482452536044225038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a355831bdd3a3b44804577fdf470794, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8806310541763775559
 GameObject:
   m_ObjectHideFlags: 0
