@@ -278,16 +278,9 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
     private void UpdateInfoPanel()
     {
         if (infoPanel == null) return;
-        string description;
-        if (liquidDatas != null && liquidDatas.Count > 0)
-        {
-            string contentsName = string.Join(", ", liquidDatas.Select(data => data.liquidName));
-            description = "내용물: " + contentsName;
-        }
-        else
-        {
-            description = "내용물: 없음";
-        }
-        infoPanel.UpdateContent(description);
+
+        string currentStateInfo = currentState.ToString();
+
+        infoPanel.UpdateInfo("상태", currentStateInfo);
     }
 }

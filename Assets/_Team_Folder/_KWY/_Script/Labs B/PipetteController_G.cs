@@ -203,17 +203,19 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
     private void UpdateInfoPanel()
     {
         if (infoPanel == null) return;
-        string description;
+
+        string contentList;
         if (liquidDatas != null && liquidDatas.Count > 0)
         {
-            string contentsName = string.Join(", ", liquidDatas.Select(data => data.liquidName));
-            description = "내용물: " + contentsName;
+            var contentNames = liquidDatas.Select(data => data.liquidName);
+            contentList = "- " + string.Join("\n- ", contentNames);
         }
         else
         {
-            description = "내용물: 없음";
+            contentList = "없음";
         }
-        infoPanel.UpdateContent(description);
+
+        infoPanel.UpdateInfo("내용물", contentList);
     }
 
     private void UpdateOutline()

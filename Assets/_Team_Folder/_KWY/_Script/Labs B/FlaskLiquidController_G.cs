@@ -215,7 +215,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
             if (timeShaking >= requiredShakeDuration)
             {
                 isMixed = true;
-                Debug.Log("플라스크를 흔들어서 내용물이 섞였습니다!");
+                Debug.Log("플라스크를 흔들어서 내용물이 섞였습니다");
 
                 if (unmixedLBParticles != null) 
                     unmixedLBParticles.Stop();
@@ -278,6 +278,12 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
     private void HandleDataTransfer()
     {
+        if (IsFoiled)
+        {
+            Debug.Log("은박지가 있습니다");
+            return;
+        }
+        
         RaycastHit hit;
 
         if (Physics.Raycast(pourOrigin.position, Vector3.down, out hit, pourCheckDistance))
@@ -292,7 +298,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
             }
 
             targetFillAmount -= pourOutRate * Time.deltaTime;
-            targetFillAmount = Mathf.Clamp(targetFillAmount, -1f, 0f);
+            targetFillAmount = Mathf.Clamp(targetFillAmount, -0.115f, 0f);
 
             if (targetFillAmount <= -0.99f)
             {
@@ -351,7 +357,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     {
         if (!isInCleanBench)
         {
-            UIManager_G.Instance.ShowWarningMessage("클린벤치 안에서 진행해주세요.");
+            UIManager_G.Instance.ShowWarningMessage("경고! 클린벤치 안에서 진행해주세요.");
             return;
         }
 
@@ -511,16 +517,18 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     private void UpdateInfoPanel()
     {
         if (infoPanel == null) return;
-        string description;
+
+        string contentList;
         if (liquidDatas != null && liquidDatas.Count > 0)
         {
-            string contentsName = string.Join(", ", liquidDatas.Select(data => data.liquidName));
-            description = "내용물: " + contentsName;
+            var contentNames = liquidDatas.Select(data => data.liquidName);
+            contentList = "- " + string.Join("\n- ", contentNames);
         }
         else
         {
-            description = "내용물: 없음";
+            contentList = "없음";
         }
-        infoPanel.UpdateContent(description);
+
+        infoPanel.UpdateInfo("내용물", contentList);
     }
 }

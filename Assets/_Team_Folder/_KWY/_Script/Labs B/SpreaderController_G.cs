@@ -66,7 +66,7 @@ public class SpreaderController_G : MonoBehaviour
         {
             if (!isInCleanBench)
             {
-                UIManager_G.Instance.ShowWarningMessage("도말 작업은 클린벤치 안에서 진행해주세요.");
+                UIManager_G.Instance.ShowWarningMessage("경고! 도말 작업은 클린벤치 안에서 진행해주세요.");
                 return;
             }
 
