@@ -40,6 +40,10 @@ public class Pipette_O : MonoBehaviour
     [Header("아웃라인")]
     [SerializeField] private Outline outline;
 
+    [Header("파티클")]
+    [SerializeField] private GameObject ParticleObj;
+    [SerializeField] private ParticleSystem particle;
+
     private void Awake()
     {
         Outline[] outlines = FindObjectsOfType<Outline>();
@@ -346,6 +350,16 @@ public class Pipette_O : MonoBehaviour
             return;
         }
 
+        if(!ParticleObj.activeInHierarchy)
+        {
+            ParticleObj.SetActive(true);
+        }
+
+        if(!particle.isPlaying)
+        {
+            particle.Play();
+        }
+
         liquidData = sample.liquidData;
 
         // 실험 Tool 정보
@@ -439,8 +453,10 @@ public class Pipette_O : MonoBehaviour
 
                 if(flask.isAddsuccess)
                 {
-                    Debug.Log($"{liquidData.name}추가");
+                    
+
                     liquid.FillLiquid();
+                    Debug.Log($"{liquidData.name}추가");
                 }
 
                 else
@@ -464,6 +480,11 @@ public class Pipette_O : MonoBehaviour
             Debug.Log("구멍을 채웠습니다");
         }
 
+        if (ParticleObj.activeInHierarchy)
+        {
+            ParticleObj.SetActive(false);
+        }
+        particle.Stop();
         liquidData = null;
     }
 

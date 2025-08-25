@@ -40,7 +40,6 @@ public class Tube_O : MonoBehaviour
         ParticleObj.TryGetComponent(out particle);
         childParticle = ParticleObj.transform.GetChild(0);
     }
-
     private void Start()
     {
         StartCoroutine(Pour_co());
@@ -140,6 +139,5 @@ public class Tube_O : MonoBehaviour
         {
             particle.Stop();
         }
-
     }
 }
