@@ -716,6 +716,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UltraPure
       objectReference: {fileID: 0}
+    - target: {fileID: 6666840513945811584, guid: a984cc6a1337683489a45b28a50745b2, type: 3}
+      propertyPath: outlineMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 745195450600748858, guid: a984cc6a1337683489a45b28a50745b2, type: 3}
     m_RemovedGameObjects: []
@@ -738,6 +742,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3656179778596412510, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
+      propertyPath: enterColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3656179778596412510, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
+      propertyPath: enterColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3656179778596412510, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
+      propertyPath: enterColor.g
+      value: 0.08513006
+      objectReference: {fileID: 0}
+    - target: {fileID: 3656179778596412510, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
+      propertyPath: enterColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3656179778596412510, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
+      propertyPath: containColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3656179778596412510, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
+      propertyPath: containColor.b
+      value: 0.93226576
+      objectReference: {fileID: 0}
+    - target: {fileID: 3656179778596412510, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
+      propertyPath: containColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3656179778596412510, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
+      propertyPath: containColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4987353748522402125, guid: 418db4c4fd9a5f1418eb762915aa7e12, type: 3}
       propertyPath: m_Name
       value: Pipette
@@ -1077,6 +1113,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1969877459384662795, guid: d80915ea2a55d8b49892cd18ac954990, type: 3}
+      propertyPath: outlineWidth
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3129036513053330947, guid: d80915ea2a55d8b49892cd18ac954990, type: 3}
       propertyPath: m_Name
       value: SampleFlask
@@ -1269,6 +1309,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PCRBuffer
       objectReference: {fileID: 0}
+    - target: {fileID: 7951955999214667556, guid: d2085ff0eb9ea0c4ab19ef1acad45f56, type: 3}
+      propertyPath: outlineMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1220844244660639791, guid: d2085ff0eb9ea0c4ab19ef1acad45f56, type: 3}
     m_RemovedGameObjects: []
@@ -1417,6 +1461,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8740313425660911458, guid: f93958db2fcb35043bd042d05cedf8ab, type: 3}
+      propertyPath: outlineMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1441,6 +1489,10 @@ PrefabInstance:
     - target: {fileID: 1264921944724828095, guid: 72c1d9c28bf0f344bb78b0713bc88a78, type: 3}
       propertyPath: m_Name
       value: DNAPolymerase
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299194611037443571, guid: 72c1d9c28bf0f344bb78b0713bc88a78, type: 3}
+      propertyPath: outlineMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5781857262810180971, guid: 72c1d9c28bf0f344bb78b0713bc88a78, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1989,6 +2041,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2526181153349565741, guid: 6103104695e805d41a4957a4ed282f8a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4248700293299944499, guid: 6103104695e805d41a4957a4ed282f8a, type: 3}
+      propertyPath: outlineMode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7504733036218546393, guid: 6103104695e805d41a4957a4ed282f8a, type: 3}

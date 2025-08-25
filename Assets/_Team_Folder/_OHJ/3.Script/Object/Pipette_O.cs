@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -38,14 +37,26 @@ public class Pipette_O : MonoBehaviour
     public bool isAbsorb = false;
 
     [Header("아웃라인")]
-    public Outline currentOutline;  // 현재 선택된 아웃라인
+    public Outline targetOutline;  // 타겟아웃라인
+    public Outline selfOutline; // 자신 아웃라인
+    public Color enterColor;    //용액 추출 가능할 때 아웃라인 색깔
+    public Color containColor;  // 피펫에 액체가 들어있을 때 아웃라인 색깔
+    private Color originColor = Color.white;    // 원래 색깔 (흰색)
 
-    [Header("파티클")]
-    [SerializeField] private GameObject ParticleObj;
-    [SerializeField] private ParticleSystem particle;
+    //[Header("파티클")]
+    //[SerializeField] private GameObject ParticleObj;
+    //[SerializeField] private ParticleSystem particle;
 
     private void Awake()
     {
+        selfOutline = GetComponent<Outline>();
+
+        if(selfOutline != null)
+        {
+            selfOutline.enabled = false;
+            selfOutline.OutlineColor = originColor;
+        }
+
         Outline[] outlines = FindObjectsOfType<Outline>();
         foreach(Outline o in outlines)
         {
@@ -216,28 +227,70 @@ public class Pipette_O : MonoBehaviour
             currentHole = null;
         }
 
-        if(currentOutline != null)
+        Outline exitOutline = other.GetComponent<Outline>();
+        if(exitOutline != null && targetOutline == exitOutline)
         {
-            currentOutline.enabled = false;
-            currentOutline = null;
+            Debug.Log($"1. {exitOutline.gameObject.name}");
+            targetOutline.OutlineColor = originColor;
+            targetOutline.enabled = false;
+
+            if (targetOutline != null)
+            {
+                Debug.Log($"Outline ] {targetOutline.gameObject.name}, OFF color {enterColor}");
+            }
+            else
+            {
+                Debug.Log("Outline OFF: targetOutline is already null");
+            }
+
+            targetOutline = null;
         }
     }
 
     private void HandleOutline(Collider other)
     {
-        // 기존 외곽선 비활성화
-        if(currentOutline != null)
+        Outline o = other.GetComponent<Outline>();
+
+        if(o == null)
         {
-            currentOutline.enabled = false;
-            currentOutline = null;
+            o = other.GetComponentInChildren<Outline>();
         }
 
-        // 새로운 외곽선
-        Outline o = other.GetComponent<Outline>();
+        if(o == null)
+        {
+            targetOutline = null;
+            return;
+        }    
+
+        Debug.Log("Outline 있다");
+
+        // 같은 오브젝트라면 enabled만 다시 켜줄지 확인
+        if(targetOutline == o)
+        {
+            if(!targetOutline.enabled)
+            {
+                targetOutline.enabled = true;
+                targetOutline.OutlineColor = enterColor;
+
+                Debug.Log($"Outline ] {targetOutline.gameObject.name}, ON color {enterColor}");
+            }
+            return;
+        }
+
+        // 이전 오브젝트 끄기
+        if(targetOutline != null)
+        {
+            targetOutline.enabled = false;
+        }
+
+        // 새로운 외곽선 적용
         if(o != null)
         {
-            currentOutline = o;
-            currentOutline.enabled = true;
+            targetOutline = o;
+            targetOutline.OutlineColor = enterColor;
+            targetOutline.enabled = true;
+
+            Debug.Log($"Outline ] {targetOutline.gameObject.name}, ON color {enterColor}");
         }
     }
 
@@ -348,15 +401,28 @@ public class Pipette_O : MonoBehaviour
             return;
         }
 
-        if(!ParticleObj.activeInHierarchy)
+        // 자기 자신의 아웃라인
+        if (selfOutline != null && !selfOutline.enabled)
         {
-            ParticleObj.SetActive(true);
+            selfOutline.enabled = true;
         }
 
-        if(!particle.isPlaying)
+        if(selfOutline != null)
         {
-            particle.Play();
+            selfOutline.OutlineColor = containColor;
+            Debug.Log($"Outline ] {selfOutline.gameObject.name}, ON color {enterColor}");
         }
+
+        // 파티클
+        //if(!ParticleObj.activeInHierarchy)
+        //{
+        //    ParticleObj.SetActive(true);
+        //}
+
+        //if(!particle.isPlaying)
+        //{
+        //    particle.Play();
+        //}
 
         liquidData = sample.liquidData;
 
@@ -389,6 +455,12 @@ public class Pipette_O : MonoBehaviour
             return;
         }
 
+        if(flask == null)
+        {
+            Debug.LogWarning("플라스크가 아닙니다");
+            return;
+        }
+
         if(sample != null && flask != null && sample.CompareTag("Absorb"))
         {
             if(liquidData == DNA_DYE)
@@ -410,12 +482,13 @@ public class Pipette_O : MonoBehaviour
                     flask.Dye = liquidData;
                     OnChangeColor(context);
                     
+                    // 파티클
                     // 플라스크 full particle 없애기
-                    if(flask.fullParticleObj.activeInHierarchy)
-                    {
-                        flask.fullParticleObj.SetActive(false);
-                    }
-                    flask.fullParticle.Stop();
+                    //if(flask.fullParticleObj.activeInHierarchy)
+                    //{
+                    //    flask.fullParticleObj.SetActive(false);
+                    //}
+                    //flask.fullParticle.Stop();
                 }
  
                 else
@@ -444,11 +517,11 @@ public class Pipette_O : MonoBehaviour
                     OnChangeColor(context);
 
                     // 플라스크 full particle 없애기
-                    if (flask.fullParticleObj.activeInHierarchy)
-                    {
-                        flask.fullParticleObj.SetActive(false);
-                    }
-                    flask.fullParticle.Stop();
+                    //if (flask.fullParticleObj.activeInHierarchy)
+                    //{
+                    //    flask.fullParticleObj.SetActive(false);
+                    //}
+                    //flask.fullParticle.Stop();
                 }
 
                 else
@@ -489,11 +562,18 @@ public class Pipette_O : MonoBehaviour
             Debug.Log("구멍을 채웠습니다");
         }
 
-        if (ParticleObj.activeInHierarchy)
+        //if (ParticleObj.activeInHierarchy)
+        //{
+        //    ParticleObj.SetActive(false);
+        //}
+        //particle.Stop();
+
+        if(selfOutline != null)
         {
-            ParticleObj.SetActive(false);
+            selfOutline.enabled = false;
+            selfOutline.OutlineColor = originColor;
+            Debug.Log($"Outline ] {selfOutline.gameObject.name}, OFF color {originColor}");
         }
-        particle.Stop();
         liquidData = null;
     }
 
