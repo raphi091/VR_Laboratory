@@ -34,6 +34,7 @@ public class GelDocScreenController_L : MonoBehaviour
 
     private bool isHandInRange = false;
     private Texture pendingResultTexture;
+    private bool isLocked = true;
 
     void Awake()
     {
@@ -57,12 +58,16 @@ public class GelDocScreenController_L : MonoBehaviour
         }
     }
 
+    public void SetLockState(bool lockState)
+    {
+        isLocked = lockState;
+        Debug.Log($"장비 '{name}' 상태 변경: {(isLocked ? "잠김" : "활성화")}");
+    }
+
     // 1. 분석 시작
     public void StartAnalysis()
     {
         currentState = GelDocState.Analyzing;
-        Debug.Log("GelDoc: 분석 시작...");
-        // 분석 시작 시에는 상태만 변경하고, UI 표시는 손이 닿았을 때로 넘깁니다.
         StartCoroutine(AnalysisCoroutine());
     }
 
@@ -77,7 +82,6 @@ public class GelDocScreenController_L : MonoBehaviour
         }
 
         currentState = GelDocState.ReadyToShow;
-        Debug.Log("GelDoc: 분석 완료. 사용자 확인 대기 중.");
 
         if (audioSource != null && computerBootSound != null)
         {
@@ -179,8 +183,17 @@ public class GelDocScreenController_L : MonoBehaviour
     {
         if (other.CompareTag("Right_Hand") || other.CompareTag("Left_Hand"))
         {
-            isHandInRange = true;
+            // 기계가 잠겨있다면, 안내 문구만 표시하고 더 이상 진행하지 않습니다.
+            if (isLocked)
+            {
+                interactionText.text = "Gel Electrophoresis를 먼저 사용해주세요.";
+                yesButton.gameObject.SetActive(false);
+                SetInteractionUIVisible(true);
+                return;
+            }
 
+            // 잠겨있지 않을 때만 정상 로직 실행
+            isHandInRange = true;
             if (currentState == GelDocState.ReadyToShow || currentState == GelDocState.Displaying)
             {
                 if (audioSource != null && keyboardSound != null)
@@ -188,7 +201,6 @@ public class GelDocScreenController_L : MonoBehaviour
                     audioSource.PlayOneShot(keyboardSound);
                 }
             }
-            
             UpdateInteractionUI();
         }
     }
@@ -198,6 +210,15 @@ public class GelDocScreenController_L : MonoBehaviour
         if (other.CompareTag("Right_Hand") || other.CompareTag("Left_Hand"))
         {
             isHandInRange = false;
+
+            // 잠겨있을 때는 손이 떠나면 안내 문구를 그냥 숨깁니다.
+            if (isLocked)
+            {
+                SetInteractionUIVisible(false);
+                return;
+            }
+
+            // 잠겨있지 않을 때만 정상 로직 실행
             UpdateInteractionUI();
         }
     }
