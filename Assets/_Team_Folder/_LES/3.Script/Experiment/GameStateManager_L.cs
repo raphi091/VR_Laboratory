@@ -1,7 +1,7 @@
 using UnityEngine;
 
-/// 씬 전환 시에도 유지되어야 하는 게임의 전반적인 상태를 저장합니다.
-/// (예: Air Incubator 배양 시작 여부)
+// 씬 전환 시에도 유지되어야 하는 게임의 전반적인 상태를 저장합니다.
+// (예: Air Incubator 배양 시작 여부)
 public class GameStateManager_L : MonoBehaviour
 {
     public static GameStateManager_L Instance { get; private set; }
