@@ -243,6 +243,18 @@ public class LabEquipmentController_L : MonoBehaviour
                     completedItem.transform.position = completedItemPlacementPoint.position;
                     completedItem.transform.rotation = completedItemPlacementPoint.rotation;
                 }
+
+                // Autoclave 작업 완료 시 은박지 제거
+                if (type == EquipmentType.Autoclave)
+                {
+                    FlaskLiquidController_G flaskController = completedItem.GetComponent<FlaskLiquidController_G>();
+                    if (flaskController != null)
+                    {
+                        flaskController.RemoveFoil();
+                        Debug.Log($"Autoclave 완료: '{completedItem.name}'에서 은박지를 제거합니다.");
+                    }
+                }
+                
                 UnlockItem(completedItem);
                 completedItem = null;
             }

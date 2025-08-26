@@ -5428,8 +5428,8 @@ MonoBehaviour:
   m_Camera: {fileID: 2550902972315463632}
   m_OriginBaseGameObject: {fileID: 7729059135691971195}
   m_CameraFloorOffsetObject: {fileID: 6399610486605578456}
-  m_RequestedTrackingOriginMode: 2
-  m_CameraYOffset: 1.85
+  m_RequestedTrackingOriginMode: 1
+  m_CameraYOffset: 1.65
 --- !u!143 &3590283947974789420
 CharacterController:
   m_ObjectHideFlags: 0
