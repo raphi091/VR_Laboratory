@@ -12,6 +12,11 @@ public class Tube_O : MonoBehaviour
     public Transform childParticle;
 
     public Transform gelTray;
+    public GameObject gelLiquid;
+    public GameObject gelSolid;
+
+    private Rigidbody gel_rb;
+    private Rigidbody tray_rb;
 
     public float MinThreshold = 120f;
     public float MaxThreshold = 240f;
@@ -39,6 +44,10 @@ public class Tube_O : MonoBehaviour
         ParticleObj = transform.Find("WaterPoint").GetChild(0).gameObject;
         ParticleObj.TryGetComponent(out particle);
         childParticle = ParticleObj.transform.GetChild(0);
+
+        // Rigidbody 접근
+        gel_rb = gelSolid.GetComponent<Rigidbody>();
+        tray_rb = gelTray.GetComponent<Rigidbody>();
     }
     private void Start()
     {
@@ -138,6 +147,31 @@ public class Tube_O : MonoBehaviour
         if(particle.isPlaying)
         {
             particle.Stop();
+        }
+
+        // 가득 채워졌다면 굳기 시작
+        if(fill.isfull)
+        {
+            StartCoroutine(Harden_co());
+        }
+    }
+
+    // 굳기
+    private IEnumerator Harden_co()
+    {
+        Debug.Log("굳고 있습니다.");
+        yield return new WaitForSeconds(1f);
+
+        if (gelLiquid.activeInHierarchy)
+        {
+            gelLiquid.SetActive(false);
+        }
+
+        if(!gelSolid.activeInHierarchy)
+        {
+            gelSolid.SetActive(true);
+            gel_rb.isKinematic = false;
+            tray_rb.isKinematic = false;
         }
     }
 }
