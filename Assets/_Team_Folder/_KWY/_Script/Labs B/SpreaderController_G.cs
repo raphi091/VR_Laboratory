@@ -53,7 +53,7 @@ public class SpreaderController_G : MonoBehaviour
         AlcoholLampController_G lamp = other.GetComponentInParent<AlcoholLampController_G>();
         if (lamp != null && lamp.isLit && !isSterilized)
         {
-            if (runningColorAnimation != null) 
+            if (runningColorAnimation != null)
                 StopCoroutine(runningColorAnimation);
 
             runningColorAnimation = StartCoroutine(SterilizeRoutine());
