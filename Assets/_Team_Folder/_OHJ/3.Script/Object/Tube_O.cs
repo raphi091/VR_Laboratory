@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Tube_O : MonoBehaviour
 {
@@ -11,12 +12,14 @@ public class Tube_O : MonoBehaviour
     public ParticleSystem particle;
     public Transform childParticle;
 
+    [Header("Tray 구조")]
     public Transform gelTray;
+    public GameObject Dam;
     public GameObject gelLiquid;
     public GameObject gelSolid;
 
-    private Rigidbody gel_rb;
-    private Rigidbody tray_rb;
+    public Rigidbody gel_rb;
+    public Rigidbody tray_rb;
 
     public float MinThreshold = 120f;
     public float MaxThreshold = 240f;
@@ -24,6 +27,9 @@ public class Tube_O : MonoBehaviour
     public float PourValue = 0.001f; 
 
     public bool isPour = false;
+
+    public Ch_VelocityInteractable gelGrabinteractable;
+    public Ch_VelocityInteractable trayGrabinteractable;
 
     [SerializeField] private ParseEventArgs parseEventArgs = new ParseEventArgs();
 
@@ -52,6 +58,38 @@ public class Tube_O : MonoBehaviour
     private void Start()
     {
         StartCoroutine(Pour_co());
+    }
+
+    private void OnEnable()
+    {
+        // 이벤트 등록
+        if (gelGrabinteractable != null)
+        {
+            gelGrabinteractable.selectEntered.AddListener(OnGelGrabbed);
+            gelGrabinteractable.selectExited.AddListener(OnGelReleased);
+        }
+
+        if (trayGrabinteractable != null)
+        {
+            trayGrabinteractable.selectEntered.AddListener(onTrayGrabbed);
+            trayGrabinteractable.selectExited.AddListener(onTrayReleased);
+        }
+    }
+
+    private void OnDisable()
+    {
+        // 이벤트 등록 해제
+        if (gelGrabinteractable != null)
+        {
+            gelGrabinteractable.selectEntered.RemoveListener(OnGelGrabbed);
+            gelGrabinteractable.selectExited.RemoveListener(OnGelReleased);
+        }
+
+        if (trayGrabinteractable != null)
+        {
+            trayGrabinteractable.selectEntered.RemoveListener(onTrayGrabbed);
+            trayGrabinteractable.selectExited.RemoveListener(onTrayReleased);
+        }
     }
 
     private IEnumerator Pour_co()
@@ -170,8 +208,46 @@ public class Tube_O : MonoBehaviour
         if(!gelSolid.activeInHierarchy)
         {
             gelSolid.SetActive(true);
-            gel_rb.isKinematic = false;
-            tray_rb.isKinematic = false;
+            Dam.GetComponent<Ch_VelocityInteractable>().enabled = true;    // Dam grab 활성화
+
+            //부모로 부터 분리
+            gelSolid.transform.SetParent(null);
+
         }
+    }
+
+    private void OnGelGrabbed(SelectEnterEventArgs args)
+    {
+        if(gel_rb != null)
+        {
+            gel_rb.isKinematic = true;
+            gel_rb.useGravity = false;
+            Debug.Log("gel 잡기");
+        }
+    }
+    
+    private void OnGelReleased(SelectExitEventArgs args)
+    {
+        gel_rb.isKinematic = false;
+        gel_rb.useGravity = true;
+        Debug.Log("gel 놓음");
+    }
+
+    private void onTrayGrabbed(SelectEnterEventArgs args)
+    {
+        if (tray_rb != null)
+        {
+            Dam.transform.SetParent(gelTray);
+            Debug.Log("Tray 잡을 시 Dam 부모로 부터 넣기 잡기");
+        }
+    }
+
+    private void onTrayReleased(SelectExitEventArgs args)
+    {
+        //if (tray_rb != null)
+        //{
+        //    Dam.transform.SetParent(gelTray);
+        //    Debug.Log("dam의 kinematic 해제");
+        //}
     }
 }
