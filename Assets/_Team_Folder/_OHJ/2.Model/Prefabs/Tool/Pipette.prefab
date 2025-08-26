@@ -175,9 +175,10 @@ MonoBehaviour:
   isEnter: 0
   currentHole: {fileID: 0}
   isAbsorb: 0
-  currentOutline: {fileID: 0}
-  ParticleObj: {fileID: 130160073064340768}
-  particle: {fileID: 8840492570964794587, guid: 799903c41635a70468105924ef17e701, type: 3}
+  targetOutline: {fileID: 0}
+  selfOutline: {fileID: 0}
+  enterColor: {r: 1, g: 0.08513006, b: 0, a: 1}
+  containColor: {r: 1, g: 0, b: 0.93226576, a: 1}
 --- !u!65 &4550514202386461091
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -622,11 +623,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 799903c41635a70468105924ef17e701, type: 3}
---- !u!1 &130160073064340768 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9009956577996969607, guid: 799903c41635a70468105924ef17e701, type: 3}
-  m_PrefabInstance: {fileID: 8991331243853630375}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6363037915774143391 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2632826107716108344, guid: 799903c41635a70468105924ef17e701, type: 3}

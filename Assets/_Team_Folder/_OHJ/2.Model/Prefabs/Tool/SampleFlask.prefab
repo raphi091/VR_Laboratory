@@ -239,8 +239,6 @@ MonoBehaviour:
   ispossiblePour: 0
   isAddsuccess: 0
   isGel: 0
-  fullParticleObj: {fileID: 5854834245047108291}
-  fullParticle: {fileID: 1538599257641616726, guid: e74a52ac09f04f44c88512b8a80d9139, type: 3}
 --- !u!114 &2699638790543904113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,8 +273,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.06639976, y: 0.22180974, z: 0.066398926}
-  m_Center: {x: 0, y: -0.01657021, z: 0}
+  m_Size: {x: 0.06639976, y: 0.25770316, z: 0.066398926}
+  m_Center: {x: 0, y: 0.0013765055, z: 0}
 --- !u!54 &4949391912120623065
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -470,7 +468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 8
+  outlineWidth: 7
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -573,10 +571,5 @@ PrefabInstance:
 --- !u!4 &127982448487710776 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5184253364133804593, guid: e74a52ac09f04f44c88512b8a80d9139, type: 3}
-  m_PrefabInstance: {fileID: 5058815257259670025}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5854834245047108291 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1689985749117221066, guid: e74a52ac09f04f44c88512b8a80d9139, type: 3}
   m_PrefabInstance: {fileID: 5058815257259670025}
   m_PrefabAsset: {fileID: 0}
