@@ -4,16 +4,11 @@ using UnityEngine;
 
 public class Fill_O : MonoBehaviour
 {
-    public float filling = 0.1f;
-    public float stopPos = 0.5f;
+    public float filling = 0.01f;
+    public float stopPos = 0.1f;
     public Vector3 pos;
-    public Vector3 Startpos;
-    public bool isfilling = false;
-
-    private void Awake()
-    {
-        Startpos = transform.position;
-    }
+    public bool isfilling = false;  // Ã¤¿öÁö´Â Áß
+    public bool isfull = false; //°¡µæÃ¤¿öÁü
 
     private void Start()
     {
@@ -27,38 +22,20 @@ public class Fill_O : MonoBehaviour
         {
             if (isfilling)
             {
-                Debug.Log("1");
                 pos.y += filling * Time.deltaTime;
 
                 if (pos.y > stopPos)
                 {
                     pos.y = stopPos;
+                    isfilling = false;
+                    isfull = true;
                     yield break;
                 }
                 transform.position = pos;
-                Debug.Log("ì˜¬ë¼ì™”ìŠµë‹ˆë‹¤");
             }
 
             yield return null;
         }
     }
 
-    //private void Update()
-    //{
-    //    if(isfilling)
-    //    {
-    //        pos.y += filling * Time.deltaTime;
-
-    //        if(pos.y > stopPos)
-    //        {
-    //            pos.y = stopPos;
-    //        }
-    //        transform.position = pos;
-    //    }
-    //}
-
-    public void OriginPos()
-    {
-        transform.position = Startpos;
-    }
 }
