@@ -20,14 +20,47 @@ public class TubeRackController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // 1. 손에 Tube가 있고, Tube Rack에 빈 슬롯이 있을 때
+        // 참고: Ch_VelocityInteractable은 XRGrabInteractable을 대체하는 사용자 정의 스크립트로 보입니다.
         Ch_VelocityInteractable grabInteractable = other.GetComponent<Ch_VelocityInteractable>();
         RackableTube rackableTube = other.GetComponent<RackableTube>();
 
-        // 들어온 것이 잡을 수 있는 RackableTube이고, 현재 손에 들려있는 상태일 때
+        // ▼▼▼ 디버깅을 위한 상세 로그 추가 ▼▼▼
+        Debug.Log($"--- Tube Rack 감지 검사 시작: '{other.name}' ---");
+
+        // 1. RackableTube 스크립트 검사
+        if (rackableTube != null)
+            Debug.Log("<color=green>1. RackableTube 스크립트: 있음 (성공)</color>");
+        else
+            Debug.Log("<color=red>1. RackableTube 스크립트: 없음 (실패!)</color>");
+
+        // 2. Ch_VelocityInteractable 스크립트 검사
+        if (grabInteractable != null)
+            Debug.Log("<color=green>2. Ch_VelocityInteractable 스크립트: 있음 (성공)</color>");
+        else
+            Debug.Log("<color=red>2. Ch_VelocityInteractable 스크립트: 없음 (실패!)</color>");
+
+        // 3. isSelected 상태 검사 (grabInteractable이 있을 때만)
+        if (grabInteractable != null)
+        {
+            if (grabInteractable.isSelected)
+                Debug.Log("<color=green>3. 손에 들려있는 상태(isSelected): 네 (성공)</color>");
+            else
+                Debug.Log("<color=red>3. 손에 들려있는 상태(isSelected): 아니오 (실패!)</color>");
+        }
+        else
+        {
+            Debug.Log("3. 손에 들려있는 상태(isSelected): (Ch_VelocityInteractable이 없어 확인 불가)");
+        }
+
+        Debug.Log("--- 감지 검사 종료 ---");
+        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
+        // 최종 조건문
         if (rackableTube != null && grabInteractable != null && grabInteractable.isSelected)
         {
-            PlaceTube(other.gameObject, grabInteractable);
+            Debug.Log(3); // 성공적으로 모든 조건을 통과
+                          // PlaceTube 함수가 Ch_VelocityInteractable 타입을 받도록 수정해야 할 수 있습니다.
+                          // PlaceTube(other.gameObject, grabInteractable); 
         }
     }
 
@@ -53,14 +86,14 @@ public class TubeRackController : MonoBehaviour
                 {
                     rackableTube.PlaceInRack(this, i);
                 }
-                
+
                 tubesInSlots[i] = tubeObject;
                 Debug.Log($"Tube '{tubeObject.name}'가 {i}번 슬롯에 배치되었습니다.");
 
                 return;
             }
         }
-        
+
         Debug.LogWarning("Tube Rack이 가득 찼습니다!");
     }
 
