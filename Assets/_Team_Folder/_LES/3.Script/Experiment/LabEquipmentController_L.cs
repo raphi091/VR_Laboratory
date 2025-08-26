@@ -29,6 +29,9 @@ public class LabEquipmentController_L : MonoBehaviour
     public GameObject processingModelObject;
 
     [Header("상태 및 설정")]
+    [Tooltip("이 기계를 최대 몇 번 사용할 수 있는지 설정합니다.")]
+    public int maxUsageCount = 1;
+    private int usageCount = 0; // 내부적으로 사용 횟수를 세는 변수
     [SerializeField] private float processingTime = 5.0f;
     [Tooltip("체크하면, 외부에서 멈출 때까지 무한히 작동합니다.")]
     public bool processInfinitely = false;
@@ -254,7 +257,7 @@ public class LabEquipmentController_L : MonoBehaviour
                         Debug.Log($"Autoclave 완료: '{completedItem.name}'에서 은박지를 제거합니다.");
                     }
                 }
-                
+
                 UnlockItem(completedItem);
                 completedItem = null;
             }
@@ -314,6 +317,9 @@ public class LabEquipmentController_L : MonoBehaviour
             //Debug.LogWarning($"  실패 이유: readyToProcess={readyToProcess}, itemToProcess={(itemToProcess != null ? "있음" : "NULL")}, currentState={currentState}");
             return;
         }
+
+        usageCount++; // 사용 횟수 증가
+        Debug.Log($"{gameObject.name}: 사용 시작 ({usageCount}/{maxUsageCount})");
 
         currentlyProcessingItem = itemToProcess;
         OnProcessStarted.Invoke();
@@ -545,7 +551,16 @@ public class LabEquipmentController_L : MonoBehaviour
         // 아이템 회수 후 상태 리셋
         if (currentState == MachineState.Complete)
         {
-            Debug.Log($"{gameObject.name}: 기기 상태가 'Complete'로 유지됩니다.");
+            // 최대 사용 횟수에 도달하지 않았다면, 다시 'Idle' 상태로 돌아가 재사용 가능하게 만듭니다.
+            if (usageCount < maxUsageCount)
+            {
+                currentState = MachineState.Idle;
+                Debug.Log($"{gameObject.name}: 기기 상태를 Idle로 리셋합니다. ({usageCount}/{maxUsageCount}회 사용 완료)");
+            }
+            else
+            {
+                Debug.Log($"{gameObject.name}: 최대 사용 횟수({maxUsageCount})에 도달하여 기기를 영구적으로 비활성화합니다.");
+            }
         }
     }
 

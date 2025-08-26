@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 [RequireComponent(typeof(XRGrabInteractable))]
-public class RackableTube : MonoBehaviour
+public class RackableTube_L : MonoBehaviour
 {
-    private TubeRackController currentRack = null;
+    private TubeRackController_L currentRack = null;
     private int currentSlotIndex = -1;
     private XRGrabInteractable grabInteractable;
     private Rigidbody rb;
@@ -27,7 +27,7 @@ public class RackableTube : MonoBehaviour
     }
 
     // 랙이 이 Tube를 등록할 때 호출할 함수
-    public void PlaceInRack(TubeRackController rack, int slotIndex)
+    public void PlaceInRack(TubeRackController_L rack, int slotIndex)
     {
         currentRack = rack;
         currentSlotIndex = slotIndex;
