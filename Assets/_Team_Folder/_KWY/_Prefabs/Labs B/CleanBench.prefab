@@ -894,6 +894,7 @@ GameObject:
   - component: {fileID: 8709275359060096477}
   - component: {fileID: 4063420643631753630}
   - component: {fileID: 2749278976064423644}
+  - component: {fileID: 7576873574675740084}
   - component: {fileID: 6045024380066480805}
   - component: {fileID: 2828131041010603855}
   m_Layer: 0
@@ -969,6 +970,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.9287905, y: 1.4996519, z: 0.8239547}
   m_Center: {x: -0.124445856, y: 1.6885414, z: -0.02124685}
+--- !u!54 &7576873574675740084
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8482452536044225038}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &6045024380066480805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -989,6 +1017,9 @@ MonoBehaviour:
   processingTime: 5
   processInfinitely: 0
   itemPlacementPoint: {fileID: 0}
+  processingLight: {fileID: 0}
+  debugMode: 0
+  debugProcessingTime: 10
   completedItemPlacementPoint: {fileID: 0}
   interactionCanvasGroup: {fileID: 0}
   statusText: {fileID: 0}
