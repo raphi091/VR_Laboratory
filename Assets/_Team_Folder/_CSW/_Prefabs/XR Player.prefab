@@ -1035,7 +1035,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.02
+    widthMultiplier: 0.01
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1717,7 +1717,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3202417827372818395}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 3.5}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -3582,7 +3582,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.02
+    widthMultiplier: 0.01
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -4328,7 +4328,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.02
+    widthMultiplier: 0.005
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -5046,7 +5046,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.02
+    widthMultiplier: 0.005
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -5428,8 +5428,8 @@ MonoBehaviour:
   m_Camera: {fileID: 2550902972315463632}
   m_OriginBaseGameObject: {fileID: 7729059135691971195}
   m_CameraFloorOffsetObject: {fileID: 6399610486605578456}
-  m_RequestedTrackingOriginMode: 2
-  m_CameraYOffset: 1.85
+  m_RequestedTrackingOriginMode: 1
+  m_CameraYOffset: 1.65
 --- !u!143 &3590283947974789420
 CharacterController:
   m_ObjectHideFlags: 0

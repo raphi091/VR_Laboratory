@@ -16,6 +16,8 @@ public class ExperimentFlowManager_L : MonoBehaviour
     [Header("Result Objects")]
     public GameObject finalPetriDish;
 
+    private FlaskLiquidController_G _G;
+
     void Start()
     {
         Debug.Log("--- ExperimentFlowManager: 시작 ---");

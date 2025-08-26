@@ -215,7 +215,7 @@ public class PipetteController_G : MonoBehaviour, C_ExperimentTool
             contentList = "없음";
         }
 
-        infoPanel.UpdateInfo("내용물", contentList);
+        infoPanel.UpdateInfo(contentList);
     }
 
     private void UpdateOutline()

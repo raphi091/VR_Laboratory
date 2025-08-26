@@ -516,6 +516,6 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
             contentList = "없음";
         }
 
-        infoPanel.UpdateInfo("내용물", contentList);
+        infoPanel.UpdateInfo(contentList);
     }
 }

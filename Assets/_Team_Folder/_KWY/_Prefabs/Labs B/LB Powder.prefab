@@ -405,7 +405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: "LB \uD30C\uC6B0\uB354"
   objectDescription: "\uBBF8\uC0DD\uBB3C \uC131\uC7A5 \uBC30\uC9C0(LB \uBC30\uC9C0)\uB97C
-    \uC81C\uC870\uD558\uAE30 \uC704\uD55C\\n\uBD84\uB9D0 \uD615\uD0DC\uC758 \uC2DC\uC57D\uC785\uB2C8\uB2E4."
+    \uC81C\uC870\uD558\uAE30 \uC704\uD55C\n\uBD84\uB9D0 \uD615\uD0DC\uC758 \uC2DC\uC57D\uC785\uB2C8\uB2E4."
 --- !u!114 &7247503997100337321
 MonoBehaviour:
   m_ObjectHideFlags: 0

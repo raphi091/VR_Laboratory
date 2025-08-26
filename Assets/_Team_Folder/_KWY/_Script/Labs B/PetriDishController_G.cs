@@ -105,6 +105,12 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
 
     public void ImportLiquidData(List<LiquidData_L> receivedDatas)
     {
+        if (!isInCleanBench)
+        {
+            UIManager_G.Instance.ShowWarningMessage("경고! 작업은 클린벤치 안에서 진행해주세요.");
+            return;
+        }
+
         switch (currentState)
         {
             case DishState.Empty:
@@ -130,6 +136,12 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
 
     public void CompleteSpreading()
     {
+        if (!isInCleanBench)
+        {
+            UIManager_G.Instance.ShowWarningMessage("경고! 도말 작업은 클린벤치 안에서 진행해주세요.");
+            return;
+        }
+
         if (currentState == DishState.Inoculated)
         {
             StartCoroutine(SpreadRoutine());
@@ -281,7 +293,6 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         if (infoPanel == null) return;
 
         string currentStateInfo = currentState.ToString();
-
-        infoPanel.UpdateInfo("상태", currentStateInfo);
+        infoPanel.UpdateInfo(currentStateInfo);
     }
 }

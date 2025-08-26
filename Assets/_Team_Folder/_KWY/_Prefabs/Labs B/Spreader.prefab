@@ -458,9 +458,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spreadDuration: 2
   sterilizationDuration: 2
-  sterilizedColor: {r: 1, g: 0.5921569, b: 0.5921569, a: 1}
-  colorChangeDuration: 1
-  spreaderRenderer: {fileID: 4232112011506446923}
+  sterilizedOutlineColor: {r: 1, g: 0, b: 0, a: 1}
+  spreaderOutline: {fileID: 2053203246236556285}
 --- !u!114 &3376384495634287261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,7 +474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: "\uC2A4\uD504\uB808\uB354"
   objectDescription: "\uBC30\uC591\uC561\uC744 \uD398\uD2B8\uB9AC \uC811\uC2DC\uC5D0
-    \uB2F4\uAE34 \uBC30\uC9C0 \uC704\uC5D0\\n\uACE8\uACE0\uB8E8 \uD3BC\uCCD0\uC8FC\uB294
+    \uB2F4\uAE34 \uBC30\uC9C0 \uC704\uC5D0\n\uACE8\uACE0\uB8E8 \uD3BC\uCCD0\uC8FC\uB294
     \uB3C4\uB9D0 \uAE30\uAD6C\uC785\uB2C8\uB2E4."
 --- !u!1001 &5190702532746062076
 PrefabInstance:
