@@ -83,6 +83,7 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         liquidMaterial.SetFloat("_Fill", -0.005f);
         inoculationMaterial.SetFloat("_Fill", -0.0005f);
 
+        UpdateInfoPanel();
         UpdateVisuals();
     }
 
