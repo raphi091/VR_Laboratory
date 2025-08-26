@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Deionized Water
   m_EditorClassIdentifier: 
   type: 2
-  liquidName: "\uC99D\uB958\uC218 (Deionized water)"
+  liquidName: "\uC99D\uB958\uC218"
   description: "\uBC30\uC9C0\uB97C \uB9CC\uB4DC\uB294 \uB370 \uC0AC\uC6A9\uB418\uB294
     \uAE68\uB057\uD55C \uBB3C."
   colorName: "\uBB34\uC0C9 \uD22C\uBA85"

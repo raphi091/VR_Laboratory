@@ -163,9 +163,9 @@ Material:
     - _EdgesColor: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FoamColor: {r: 0.61960787, g: 0.9960785, b: 0.9450981, a: 1}
-    - _FresnelColor: {r: 0.95, g: 0.9, b: 0.5, a: 0}
+    - _FresnelColor: {r: 0.95, g: 0.9, b: 0.65, a: 0}
     - _GradientColor: {r: 1, g: 1, b: 1, a: 0}
-    - _LiquidColor: {r: 1, g: 0.95, b: 0.5, a: 0}
+    - _LiquidColor: {r: 1, g: 0.95, b: 0.65, a: 0}
     - _MetalColor: {r: 0, g: 1, b: 0, a: 0}
     - _MossColor: {r: 1, g: 1, b: 1, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}

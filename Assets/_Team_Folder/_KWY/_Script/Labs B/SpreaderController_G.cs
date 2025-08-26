@@ -12,38 +12,31 @@ public class SpreaderController_G : MonoBehaviour
     [Tooltip("멸균하는 데 필요한 시간(초)")]
     public float sterilizationDuration = 2.0f;
 
-    [Tooltip("멸균되었을 때 색상")]
-    public Color sterilizedColor = Color.red;
+    [Header("아웃라인 설정")]
+    [Tooltip("멸균되었을 때 표시할 아웃라인 색상")]
+    public Color sterilizedOutlineColor = Color.red;
 
-    [Tooltip("색상이 변하는 데 걸리는 시간(초)")]
-    public float colorChangeDuration = 1.0f;
-
-    [Tooltip("Spreader Mesh Renderer")]
-    public MeshRenderer spreaderRenderer;
+    [Tooltip("Spreader Outline")]
+    public Outline spreaderOutline;
 
     private float spreadingTimeElapsed = 0f;
     private PetriDishController_G currentDish;
-    private Color originalColor;
+    private Color originalOutlineColor;
     private bool isSterilized = false;
-    private bool isInCleanBench = false;
     private Coroutine runningColorAnimation;
 
 
     private void Start()
     {
-        if (spreaderRenderer != null)
+        if (spreaderOutline != null)
         {
-            originalColor = spreaderRenderer.material.GetColor("_Color");
+            originalOutlineColor = spreaderOutline.OutlineColor;
+            spreaderOutline.enabled = false;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<CleanBenchTrigger_G>() != null)
-        {
-            isInCleanBench = true;
-        }
-
         PetriDishController_G dish = other.GetComponent<PetriDishController_G>();
         if (dish != null)
         {
@@ -53,10 +46,7 @@ public class SpreaderController_G : MonoBehaviour
         AlcoholLampController_G lamp = other.GetComponentInParent<AlcoholLampController_G>();
         if (lamp != null && lamp.isLit && !isSterilized)
         {
-            if (runningColorAnimation != null)
-                StopCoroutine(runningColorAnimation);
-
-            runningColorAnimation = StartCoroutine(SterilizeRoutine());
+            StartCoroutine(SterilizeRoutine());
         }
     }
 
@@ -64,12 +54,6 @@ public class SpreaderController_G : MonoBehaviour
     {
         if (isSterilized && currentDish != null && other.gameObject.GetComponent<PetriDishController_G>() == currentDish && currentDish.currentState == PetriDishController_G.DishState.Inoculated)
         {
-            if (!isInCleanBench)
-            {
-                UIManager_G.Instance.ShowWarningMessage("경고! 도말 작업은 클린벤치 안에서 진행해주세요.");
-                return;
-            }
-
             spreadingTimeElapsed += Time.deltaTime;
 
             if (spreadingTimeElapsed >= spreadDuration)
@@ -79,21 +63,17 @@ public class SpreaderController_G : MonoBehaviour
                 currentDish = null;
                 isSterilized = false;
 
-                if (runningColorAnimation != null) 
-                    StopCoroutine(runningColorAnimation);
-
-                runningColorAnimation = StartCoroutine(CooldownRoutine());
+                if (spreaderOutline != null)
+                {
+                    spreaderOutline.enabled = false;
+                    spreaderOutline.OutlineColor = originalOutlineColor;
+                }
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<CleanBenchTrigger_G>() != null)
-        {
-            isInCleanBench = false;
-        }
-
         PetriDishController_G dish = other.GetComponent<PetriDishController_G>();
         if (dish == currentDish)
         {
@@ -103,48 +83,23 @@ public class SpreaderController_G : MonoBehaviour
 
         if (other.GetComponentInParent<AlcoholLampController_G>() != null)
         {
-            if (runningColorAnimation != null) 
-                StopCoroutine(runningColorAnimation);
+            StopAllCoroutines();
         }
     }
 
     private IEnumerator SterilizeRoutine()
     {
         Debug.Log("Spreader 멸균 시작...");
-        float elapsedTime = 0f;
-        Color startColor = spreaderRenderer.material.GetColor("_Color");
-        spreaderRenderer.material.EnableKeyword("_COLOR");
-
-        while (elapsedTime < colorChangeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            Color newColor = Color.Lerp(startColor, sterilizedColor, elapsedTime / colorChangeDuration);
-            spreaderRenderer.material.SetColor("_Color", newColor);
-            
-            yield return null;
-        }
-
-        spreaderRenderer.material.SetColor("_Color", sterilizedColor);
-
+      
         yield return new WaitForSeconds(sterilizationDuration);
 
         isSterilized = true;
         Debug.Log("Spreader 멸균 완료!");
-    }
 
-    private IEnumerator CooldownRoutine()
-    {
-        float elapsedTime = 0f;
-        Color startColor = spreaderRenderer.material.GetColor("_Color");
-
-        while (elapsedTime < colorChangeDuration)
+        if (spreaderOutline != null)
         {
-            elapsedTime += Time.deltaTime;
-            Color newColor = Color.Lerp(startColor, originalColor, elapsedTime / colorChangeDuration);
-            spreaderRenderer.material.SetColor("_Color", newColor);
-            yield return null;
+            spreaderOutline.OutlineColor = sterilizedOutlineColor;
+            spreaderOutline.enabled = true;
         }
-
-        spreaderRenderer.material.SetColor("_Color", originalColor);
     }
 }
