@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
 
 public class PlayerMovementController_G : MonoBehaviour
@@ -11,7 +11,10 @@ public class PlayerMovementController_G : MonoBehaviour
     public Transform xrOrigin;
 
     [Tooltip("Locomotion System 컴포넌트")]
-    public LocomotionSystem locomotionSystem;
+    public CharacterController characterController;
+
+    [Tooltip("비활성화할 이동 관련 컴포넌트")]
+    public MonoBehaviour moveProvider;
 
     [Tooltip("목표 위치")]
     public Transform snapTarget;
@@ -33,7 +36,9 @@ public class PlayerMovementController_G : MonoBehaviour
         if (!other.CompareTag(playerTag) || isLocked) return;
 
         isLocked = true;
-        locomotionSystem.enabled = false;
+
+        if (moveProvider != null) 
+            moveProvider.enabled = false;
 
         if (snappingCoroutine != null)
         {
@@ -45,6 +50,9 @@ public class PlayerMovementController_G : MonoBehaviour
 
     private IEnumerator SnapToPosition()
     {
+        if (characterController != null) 
+            characterController.enabled = false;
+
         float elapsedTime = 0f;
         Vector3 startPosition = xrOrigin.position;
         Quaternion startRotation = xrOrigin.rotation;
@@ -53,14 +61,15 @@ public class PlayerMovementController_G : MonoBehaviour
         {
             xrOrigin.position = Vector3.Lerp(startPosition, snapTarget.position, elapsedTime / snapDuration);
             xrOrigin.rotation = Quaternion.Slerp(startRotation, snapTarget.rotation, elapsedTime / snapDuration);
-
             elapsedTime += Time.deltaTime;
-
             yield return null;
         }
 
         xrOrigin.position = snapTarget.position;
         xrOrigin.rotation = snapTarget.rotation;
+
+        if (characterController != null) 
+            characterController.enabled = true;
 
         snappingCoroutine = null;
     }
@@ -68,7 +77,10 @@ public class PlayerMovementController_G : MonoBehaviour
     public void EnablePlayerMovement()
     {
         isLocked = false;
-        locomotionSystem.enabled = true;
+
+        if (moveProvider != null) 
+            moveProvider.enabled = true;
+
         Debug.Log("플레이어 이동이 활성화되었습니다.");
     }
 }
