@@ -304,6 +304,8 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
     public void ReceiveContinuousPour(LiquidData_L receivedData)
     {
+        if (IsFoiled) return;
+
         if (!liquidDatas.Contains(receivedData))
         {
             liquidDatas.Add(receivedData);
