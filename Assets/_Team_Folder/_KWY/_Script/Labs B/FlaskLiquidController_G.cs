@@ -155,6 +155,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         if (foilVisual != null) 
             foilVisual.SetActive(false);
 
+        UpdateInfoPanel();
         ClearData();
     }
 
@@ -239,7 +240,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
     private void HandlePouring()
     {
-        if (pourParticles == null || liquidDatas.Count == 0)
+        if (pourParticles == null || liquidDatas.Count == 0 || IsFoiled)
         {
             StopPouring();
             return;
@@ -277,13 +278,7 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
     }
 
     private void HandleDataTransfer()
-    {
-        if (IsFoiled)
-        {
-            Debug.Log("은박지가 있습니다");
-            return;
-        }
-        
+    {    
         RaycastHit hit;
 
         if (Physics.Raycast(pourOrigin.position, Vector3.down, out hit, pourCheckDistance))
@@ -309,6 +304,8 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
 
     public void ReceiveContinuousPour(LiquidData_L receivedData)
     {
+        if (IsFoiled) return;
+
         if (!liquidDatas.Contains(receivedData))
         {
             liquidDatas.Add(receivedData);
@@ -416,16 +413,6 @@ public class FlaskLiquidController_G : MonoBehaviour, C_ExperimentTool
         }
 
         runningColorChange = StartCoroutine(ChangeColorRoutine(targetColor));
-    }
-
-    public void RemoveFoile()
-    {
-        if (foilVisual != null)
-        {
-            IsFoiled = false;
-            foilVisual.SetActive(false);
-            Debug.Log("은박지가 제거되었습니다.");
-        }
     }
 
     private IEnumerator ChangeColorRoutine(Color targetColor)
