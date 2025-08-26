@@ -455,7 +455,7 @@ public class Pipette_O : MonoBehaviour
             return;
         }
 
-        if(flask == null)
+        if(flask == null && sample.CompareTag("Absorb") && !isAbsorb)
         {
             Debug.LogWarning("플라스크가 아닙니다");
             return;
