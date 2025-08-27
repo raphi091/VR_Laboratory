@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -10,7 +9,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Newtonsoft.Json;
 using Oculus.Voice;
-using UnityEngine.SceneManagement;
 
 #region Data_Structures_VCM
 [System.Serializable] 
@@ -30,6 +28,14 @@ public class Content_VCM
 public class Part_VCM 
 { 
     public string text;
+    public InlineData_VCM inlineData;
+}
+
+[System.Serializable]
+public class InlineData_VCM
+{
+    public string mimeType;
+    public string data;
 }
 
 [System.Serializable] 
@@ -57,7 +63,6 @@ public class VoiceConversationManager_G : MonoBehaviour
     {
         None,
         ExperimentChoice,
-        SampleChoice,
         TaskOrQuestion,
         TutorialChoice
     }
@@ -68,10 +73,15 @@ public class VoiceConversationManager_G : MonoBehaviour
     [Tooltip("키워드 참조를 위해 배양 실험 데이터")]
     [SerializeField] private ExperimentData_G cultureExperiment;
 
+    [Header("AI 학습용 결과 이미지")]
+    [Tooltip("PCR 결과 이미지 A, B, C 순서대로")]
+    [SerializeField] private Sprite[] pcrResultImages = new Sprite[3];
+    [Tooltip("배양 결과 이미지 A, B, C 순서대로")]
+    [SerializeField] private Sprite[] cultureResultImages = new Sprite[3];
+
     public event Action OnProcessingStarted;
     public event Action<Queue<string>, string> OnResponseReceived;
     public event Action<ExperimentData_G> OnExperimentChosen;
-    public event Action<SampleData_G> OnSampleChosen;
     public event Action OnTaskCompleted;
     public event Action OnFreeQuestionAsked;
     public event Action OnChoiceNotUnderstood;
@@ -85,7 +95,6 @@ public class VoiceConversationManager_G : MonoBehaviour
     private readonly List<Content_VCM> conversationHistory = new List<Content_VCM>();
     private bool isConversationLoading = false;
     private ListeningMode currentMode = ListeningMode.None;
-    private ExperimentData_G currentExperimentForSampleChoice;
     private List<string> currentCompletionKeywords;
     public string LastTranscription { get; private set; }
     private CancellationTokenSource cancellationTokenSource;
@@ -132,9 +141,15 @@ public class VoiceConversationManager_G : MonoBehaviour
         cancellationTokenSource?.Dispose();
     }
 
+    private string SpriteToBase64(Sprite sprite)
+    {
+        byte[] imageData = sprite.texture.EncodeToPNG();
+        return Convert.ToBase64String(imageData);
+    }
+
     private void SetupInitialPrompt()
     {
-        string initialPrompt = @"
+        string textPrompt = @"
         당신은 '프로젝트 Affinity Lab'를 돕는 AI 실험실 조수 '노아'입니다.
         당신의 임무는 사용자가 PCR과 미생물 배양 실험을 성공적으로 수행하도록 안내하는 것입니다.
         항상 친절하고 명확한 존댓말을 사용하며, 사용자를 격려하는 긍정적인 태도를 유지해야 합니다.
@@ -149,44 +164,65 @@ public class VoiceConversationManager_G : MonoBehaviour
         
         [핵심 지식: 실험 절차]
         --- [실험 1: PCR (DNA 증폭)] ---
-        [cite_start]이 실험은 특정 DNA 조각(A, B, C)을 대량으로 증폭시키는 것을 목표로 합니다. [cite: 1]
+        이 실험은 특정 DNA 조각(A, B, C)을 대량으로 증폭시키는 것을 목표로 합니다.
 
         [절차]
-        1. [cite_start]PCR 튜브에 각 샘플(프라이머, 복제할 DNA(A,B,C 중 하나), dNTP, DNA 중합효소, PCR 완충용액, 초순수)을 파이펫을 이용해 섞어주세요. [cite: 2, 3]
-        2. 샘플이 담긴 튜브를 Thermocycler(PCR 기기)에 넣고 작동시킵니다. [cite_start]약 1시간이 소요됩니다. [cite: 4]
-        3. 기기가 작동하는 동안, TBE 버퍼에 아가로스를 녹이고 염색약(SYBR Safe)을 넣어 Agarose gel을 만듭니다. [cite_start]젤에 샘플을 넣을 빗 모양의 홈을 만드세요. [cite: 5]
-        4. 작동이 완료된 PCR 샘플에 파란색 염료를 섞은 뒤, 젤의 홈에 넣습니다. [cite_start]단, 첫 번째 홈에는 기준선 역할을 할 DNA ladder를 넣어야 합니다. [cite: 6, 7]
-        5. [cite_start]Gel electrophoresis(전기영동 장비)를 약 20분간 작동시킵니다. [cite: 8]
-        6. [cite_start]작동이 끝나면 Gel doc 장비를 이용해 UV를 쬐어 결과를 확인합니다. [cite: 9]
+        1. PCR 튜브에 각 샘플(프라이머, 복제할 DNA(A,B,C 중 하나), dNTP, DNA 중합효소, PCR 완충용액, 초순수)을 파이펫을 이용해 섞어주세요.
+        2. 샘플이 담긴 튜브를 Thermocycler(PCR 기기)에 넣고 작동시킵니다. 약 1시간이 소요됩니다.
+        3. 기기가 작동하는 동안, TBE 버퍼에 아가로스를 녹이고 염색약(SYBR Safe)을 넣어 Agarose gel을 만듭니다. 젤에 샘플을 넣을 빗 모양의 홈을 만드세요.
+        4. 작동이 완료된 PCR 샘플에 파란색 염료를 섞은 뒤, 젤의 홈에 넣습니다. 단, 첫 번째 홈에는 기준선 역할을 할 DNA ladder를 넣어야 합니다.
+        5. Gel electrophoresis(전기영동 장비)를 약 20분간 작동시킵니다.
+        6. 작동이 끝나면 Gel doc 장비를 이용해 UV를 쬐어 결과를 확인합니다.
 
         [예상 결과]
-        * **미생물 DNA A**: 정상 샘플로, 200bp 위치에서 하나의 DNA 밴드가 관찰됩니다.
-        * **미생물 DNA B**: 돌연변이 샘플로, 500bp 위치에서 하나의 DNA 밴드가 관찰됩니다.
-        * **미생물 DNA C**: 증폭 실패 샘플로, 아무런 밴드도 관찰되지 않습니다.
+        * **미생물 DNA A**: 두 개의 뚜렷한 DNA 밴드가 서로 다른 위치에서 관찰됩니다. (image_33d3d9.png 참고)
+        * **미생물 DNA B**: 중간 위치에서 하나의 굵고 선명한 DNA 밴드가 관찰됩니다. (image_33d3be.png 참고)
+        * **미생물 DNA C**: 아래쪽에 아주 희미하고 작은 크기의 DNA 밴드가 하나 관찰됩니다. (image_33d118.png 참고)
 
         --- [실험 2: 미생물 배양] ---
-        [cite_start]이 실험은 미생물(A, B, C)을 대량으로 키우는 것을 목표로 합니다. [cite: 13]
+        이 실험은 미생물(A, B, C)을 대량으로 키우는 것을 목표로 합니다.
 
         [절차]
-        1. [cite_start]액체 배양: 증류수에 LB 분말을 녹여 액체 배지를 만들고, 삼각 플라스크에 담아 은박지로 막은 뒤 Autoclave(고온고압멸균기)에서 멸균합니다. [cite: 14, 15]
-        2. [cite_start]클린벤치 안에서, 멸균된 액체 배지에 보관 중이던 미생물(A,B,C 중 하나)을 파이펫으로 소량 넣습니다. [cite: 16, 17]
-        3. Shaking Incubator(교반 배양기)에 넣고 37도에서 약 2시간 배양합니다. [cite_start]맑았던 배지가 탁하게 변하면 성공입니다. [cite: 18]
-        4. [cite_start]고체 배양: 증류수에 LB 분말과 Agar(한천)를 녹여 고체 배지를 만들고, 똑같이 멸균합니다. [cite: 19, 20]
-        5. [cite_start]멸균 후 액체 상태인 배지를 클린벤치에서 페트리 접시에 부어 굳힙니다. [cite: 21]
-        6. [cite_start]굳은 고체 배지 위에, 3번에서 키운 액체 배양액을 200µl 정도 떨어뜨리고, 알코올 램프로 멸균한 분산 막대(spreader)로 넓게 펴줍니다. [cite: 22, 23]
-        7. [cite_start]Air Incubator에 넣고 37도에서 16시간(하룻밤) 배양합니다. [cite: 24]
-        8. [cite_start]다음 날, 페트리 접시를 꺼내 눈으로 결과를 확인합니다. [cite: 25]
+        1. 액체 배양: 증류수에 LB 분말을 녹여 액체 배지를 만들고, 삼각 플라스크에 담아 은박지로 막은 뒤 Autoclave(고온고압멸균기)에서 멸균합니다.
+        2. 클린벤치 안에서, 멸균된 액체 배지에 보관 중이던 미생물(A,B,C 중 하나)을 파이펫으로 소량 넣습니다.
+        3. Shaking Incubator(교반 배양기)에 넣고 37도에서 약 2시간 배양합니다. 맑았던 배지가 탁하게 변하면 성공입니다.
+        4. 고체 배양: 증류수에 LB 분말과 Agar(한천)를 녹여 고체 배지를 만들고, 똑같이 멸균합니다.
+        5. 멸균 후 액체 상태인 배지를 클린벤치에서 페트리 접시에 부어 굳힙니다.
+        6. 굳은 고체 배지 위에, 3번에서 키운 액체 배양액을 200µl 정도 떨어뜨리고, 알코올 램프로 멸균한 분산 막대(spreader)로 넓게 펴줍니다.
+        7. Air Incubator에 넣고 37도에서 16시간(하룻밤) 배양합니다.
+        8. 다음 날, 페트리 접시를 꺼내 눈으로 결과를 확인합니다.
 
         [예상 결과]
-        * **미생물 A**: 표준 균주로, 작고 둥근 아이보리색 콜로니(colony)들이 고르게 형성됩니다.
-        * **미생물 B**: 성장 속도가 빠른 균주로, A보다 크고 노란빛을 띠는 콜로니들이 형성됩니다.
-        * **미생물 C**: 성장 속도가 느린 균주로, 매우 작고 반투명한 콜로니들이 소량 형성됩니다.
+        * **미생물 A**: 중심부가 빽빽하고 주변부로 작은 점들이 퍼져나가는 형태의 **노란색** 콜로니들이 형성됩니다.
+        * **미생물 B**: 서로 뭉쳐 자라는 불규칙한 덩어리 형태의 **흰색(아이보리색)** 콜로니가 형성됩니다.
+        * **미생물 C**: 눈꽃송이처럼 가지를 뻗으며 자라는 독특한 모양의 **연노란색** 콜로니가 형성됩니다.
 
         당신은 위 정보를 바탕으로 사용자의 질문과 실험 단계에 맞춰 안내해야 합니다. 모르는 내용은 '그 정보는 제 데이터베이스에 없습니다. 매뉴얼을 확인해보시겠어요?' 라고 솔직하게 답변해야 합니다.
         ";
 
-        conversationHistory.Add(new Content_VCM { role = "user", parts = new List<Part_VCM> { new Part_VCM { text = initialPrompt } } });
-        conversationHistory.Add(new Content_VCM { role = "model", parts = new List<Part_VCM> { new Part_VCM { text = "알겠습니다. 저는 AI 실험실 조수 노아입니다. PCR 및 미생물 배양 실험에 대해 무엇이든 물어보세요." } } });
+        var textPart = new Part_VCM { text = textPrompt };
+        var initialContent = new Content_VCM { role = "user", parts = new List<Part_VCM> { textPart } };
+
+        initialContent.parts.Add(new Part_VCM { text = "\n--- [PCR 결과 이미지 A, B, C]---" });
+        for (int i = 0; i < pcrResultImages.Length; i++)
+        {
+            if (pcrResultImages[i] != null)
+            {
+                initialContent.parts.Add(new Part_VCM { inlineData = new InlineData_VCM { mimeType = "image/png", data = SpriteToBase64(pcrResultImages[i]) } });
+            }
+        }
+
+        initialContent.parts.Add(new Part_VCM { text = "\n--- [미생물 배양 결과 이미지 A, B, C]---" });
+        for (int i = 0; i < cultureResultImages.Length; i++)
+        {
+            if (cultureResultImages[i] != null)
+            {
+                initialContent.parts.Add(new Part_VCM { inlineData = new InlineData_VCM { mimeType = "image/png", data = SpriteToBase64(cultureResultImages[i]) } });
+            }
+        }
+
+        conversationHistory.Add(initialContent);
+        conversationHistory.Add(new Content_VCM { role = "model", parts = new List<Part_VCM> { new Part_VCM { text = "알겠습니다. 저는 AI 실험실 조수 노아입니다. 제공된 이미지와 정보를 바탕으로 실험을 안내해 드릴게요. 무엇이든 물어보세요." } } });
     }
     #endregion
 
@@ -194,13 +230,6 @@ public class VoiceConversationManager_G : MonoBehaviour
     public void StartListeningForChoice()
     {
         currentMode = ListeningMode.ExperimentChoice;
-        ActivateVoiceSDK();
-    }
-
-    public void StartListeningForSampleChoice(ExperimentData_G experiment)
-    {
-        currentExperimentForSampleChoice = experiment;
-        currentMode = ListeningMode.SampleChoice;
         ActivateVoiceSDK();
     }
     
@@ -242,9 +271,6 @@ public class VoiceConversationManager_G : MonoBehaviour
             case ListeningMode.ExperimentChoice:
                 ProcessExperimentChoice(LastTranscription);
                 break;
-            case ListeningMode.SampleChoice:
-                ProcessSampleChoice(LastTranscription);
-                break;
             case ListeningMode.TaskOrQuestion:
                 ProcessTaskOrQuestion(LastTranscription);
                 break;
@@ -280,28 +306,7 @@ public class VoiceConversationManager_G : MonoBehaviour
             OnChoiceNotUnderstood?.Invoke();
         }
     }
-
-    private void ProcessSampleChoice(string text)
-    {
-        string lowerText = text.ToLower();
-
-        if (lowerText.Contains("a") || lowerText.Contains("에이") || lowerText.Contains("첫") || lowerText.Contains("1"))
-        {
-            OnSampleChosen?.Invoke(currentExperimentForSampleChoice.Samples[0]);
-        }
-        else if (lowerText.Contains("b") || lowerText.Contains("비") || lowerText.Contains("두") || lowerText.Contains("2"))
-        {
-            OnSampleChosen?.Invoke(currentExperimentForSampleChoice.Samples[1]);
-        }
-        else if (lowerText.Contains("c") || lowerText.Contains("씨") || lowerText.Contains("세") || lowerText.Contains("3"))
-        {
-            OnSampleChosen?.Invoke(currentExperimentForSampleChoice.Samples[2]);
-        }
-        else
-        {
-            OnSampleChosen?.Invoke(null);
-        }
-    }
+    
     
     private void ProcessTutorialChoice(string text)
     {

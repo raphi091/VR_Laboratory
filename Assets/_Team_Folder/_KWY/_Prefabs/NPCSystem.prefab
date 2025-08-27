@@ -310,6 +310,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pcrExperiment: {fileID: 0}
   cultureExperiment: {fileID: 0}
+  pcrResultImages:
+  - {fileID: 21300000, guid: d8fea404825030c439f2d7773f8c80b5, type: 3}
+  - {fileID: 21300000, guid: bc261772e76f4724186f8f493dee5560, type: 3}
+  - {fileID: 21300000, guid: b050a2c8994eace4f947bdc1453bd55e, type: 3}
+  cultureResultImages:
+  - {fileID: 21300000, guid: 59cc5a95f5db367418f5a51c691d2853, type: 3}
+  - {fileID: 21300000, guid: 99f3aa1ea4d87514eb8e63bed32e11fb, type: 3}
+  - {fileID: 21300000, guid: b860d7aae81db5a4a9770d5df5e228fb, type: 3}
 --- !u!114 &3796095520978866794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,7 +334,7 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   pcrExperiment: {fileID: 0}
   cultureExperiment: {fileID: 0}
-  tutorialData: {fileID: 0}
+  tutorialExperiment: {fileID: 0}
   subtitleDisplay: {fileID: 0}
   subtitleSentenceDuration: 4
   maxCharactersPerSubtitle: 40

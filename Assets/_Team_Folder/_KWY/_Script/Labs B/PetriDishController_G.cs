@@ -4,6 +4,13 @@ using System.Linq;
 using UnityEngine;
 
 
+[System.Serializable]
+public class CulturingResult
+{
+    public string microbeName;
+    public GameObject resultModel;
+}
+
 public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
 {
     public enum DishState
@@ -40,6 +47,10 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
 
     [Tooltip("미생물이 펴지는 시간(초)")]
     public float spreadAnimationDuration = 5.0f;
+
+    [Header("최종 결과물 설정")]
+    [Tooltip("연결 가능한 결과물 목록")]
+    public CulturingResult[] possibleResults;
 
     [Header("시각 UI")]
     public DynamicInfoUI_G infoPanel;
@@ -216,6 +227,39 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         return this.liquidDatas;
     }
 
+    public void ShowResult()
+    {
+        // 1. 이 페트리 접시에 어떤 미생물이 사용되었는지 찾습니다.
+        LiquidData_L usedMicrobe = liquidDatas.Find(data => data.type == PourableType.Microbe);
+
+        // 2. 만약 미생물 데이터가 없다면, 함수를 종료합니다.
+        if (usedMicrobe == null)
+        {
+            Debug.LogWarning("결과를 표시할 미생물 데이터가 없습니다.");
+            return;
+        }
+
+        // 3. 사용된 미생물 이름과 일치하는 결과물을 목록에서 찾습니다.
+        foreach (var result in possibleResults)
+        {
+            if (result.microbeName == usedMicrobe.liquidName)
+            {
+                if (result.resultModel != null)
+                {
+                    if (solidVisual != null) 
+                        solidVisual.SetActive(false);
+
+                    if (inoculationVisual != null) 
+                        inoculationVisual.SetActive(false);
+
+                    result.resultModel.SetActive(true);
+                    Debug.Log(result.microbeName + "에 대한 결과물을 표시합니다.");
+                }
+                return;
+            }
+        }
+    }
+
     public void ClearData()
     {
         this.liquidDatas.Clear();
@@ -223,6 +267,14 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
         UpdateVisuals();
 
         UpdateInfoPanel();
+
+        foreach (var result in possibleResults)
+        {
+            if (result.resultModel != null)
+            {
+                result.resultModel.SetActive(false);
+            }
+        }
     }
 
     private IEnumerator FillRoutine()

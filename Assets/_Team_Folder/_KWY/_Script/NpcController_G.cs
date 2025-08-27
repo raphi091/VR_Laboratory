@@ -22,7 +22,6 @@ public class NpcController_G : MonoBehaviour
         None,
         Greeting,
         WaitingForExperimentChoice,
-        WaitingForSampleChoice,
         ExecutingExperiment,
         Processing,
         Finishing,
@@ -120,7 +119,6 @@ public class NpcController_G : MonoBehaviour
             voiceManager.OnProcessingStarted += OnGeminiProcessingStarted;
             voiceManager.OnResponseReceived += OnGeminiResponseReceived;
             voiceManager.OnExperimentChosen += OnExperimentChosen;
-            voiceManager.OnSampleChosen += OnSampleChosen;
             voiceManager.OnTaskCompleted += OnTaskCompleted;
             voiceManager.OnFreeQuestionAsked += OnFreeQuestionAsked;
             voiceManager.OnChoiceNotUnderstood += OnChoiceNotUnderstood;
@@ -137,7 +135,6 @@ public class NpcController_G : MonoBehaviour
             voiceManager.OnProcessingStarted -= OnGeminiProcessingStarted;
             voiceManager.OnResponseReceived -= OnGeminiResponseReceived;
             voiceManager.OnExperimentChosen -= OnExperimentChosen;
-            voiceManager.OnSampleChosen -= OnSampleChosen;
             voiceManager.OnTaskCompleted -= OnTaskCompleted;
             voiceManager.OnFreeQuestionAsked -= OnFreeQuestionAsked;
             voiceManager.OnChoiceNotUnderstood -= OnChoiceNotUnderstood;
@@ -205,9 +202,6 @@ public class NpcController_G : MonoBehaviour
                 break;
             case NPCState.WaitingForExperimentChoice:
                 currentStateCoroutine = StartCoroutine(WaitingForExperimentChoice_co());
-                break;
-            case NPCState.WaitingForSampleChoice:
-                currentStateCoroutine = StartCoroutine(WaitingForSampleChoice_co());
                 break;
             case NPCState.ExecutingExperiment:
                 currentStateCoroutine = StartCoroutine(ExecutingExperiment_co(startIndex));
@@ -281,28 +275,6 @@ public class NpcController_G : MonoBehaviour
         }
     }
 
-    private IEnumerator WaitingForSampleChoice_co()
-    {
-        SetAnimatorTrigger("Default");
-
-        string sampleListText = $"{currentExperiment.ExperimentName} 실험의 어떤 샘플로 진행하시겠어요? ";
-
-        for (int i = 0; i < currentExperiment.Samples.Length; i++)
-        {
-            sampleListText += $"{i + 1}번 {currentExperiment.Samples[i].SampleName}. ";
-        }
-
-        yield return StartCoroutine(ShowSubtitle_co(sampleListText));
- 
-        voiceManager.StartListeningForSampleChoice(currentExperiment);
-
-        while (true)
-        {
-            LookAtTarget(playerTransform);
-            yield return null;
-        }
-    }
-
     private IEnumerator RepeatChoiceRequest_co()
     {
         if (currentStateCoroutine != null)
@@ -338,6 +310,7 @@ public class NpcController_G : MonoBehaviour
                     }
                     break;
                 case ActionType.Speak:
+                    LookAtTarget(playerTransform);
                     yield return StartCoroutine(ShowSubtitle_co(currentAction.Instruction));
                     break;
                 case ActionType.WaitForPlayer:
@@ -345,6 +318,7 @@ public class NpcController_G : MonoBehaviour
                     yield return new WaitUntil(() => Vector3.Distance(transform.position, playerTransform.position) < arrivalDistance);
                     break;
                 case ActionType.ListenForCompletion:
+                    LookAtTarget(playerTransform);
                     isWaitingForTaskCompletion = true;
                     voiceManager.StartListeningForTask(currentAction.CompletionKeywords);
                     yield return new WaitUntil(() => !isWaitingForTaskCompletion);
@@ -452,10 +426,6 @@ public class NpcController_G : MonoBehaviour
                 ShowStatusIcon("Listening", 0);
                 voiceManager.StartListeningForChoice();
                 break;
-            case NPCState.WaitingForSampleChoice:
-                ShowStatusIcon("Listening", 0);
-                voiceManager.StartListeningForSampleChoice(currentExperiment);
-                break;
             case NPCState.FreeConversation:
                 voiceManager.StartListeningForTask(new List<string>());
                 break;
@@ -489,21 +459,7 @@ public class NpcController_G : MonoBehaviour
             return;
         }
         currentExperiment = chosenExperiment;
-        ChangeState(NPCState.WaitingForSampleChoice);
-    }
-
-    public void OnSampleChosen(SampleData_G chosenSample)
-    {
-        if (currentState != NPCState.WaitingForSampleChoice) return;
-
-        if (chosenSample == null)
-        {
-            StartCoroutine(ShowSubtitle_co("잘못된 샘플입니다. 다시 말씀해주세요."));
-            voiceManager.StartListeningForSampleChoice(currentExperiment);
-            return;
-        }
-
-        currentSample = chosenSample;
+        currentSample = chosenExperiment.Samples[0];
         ChangeState(NPCState.ExecutingExperiment);
     }
 
