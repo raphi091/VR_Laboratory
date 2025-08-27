@@ -71,8 +71,8 @@ public class Tube_O : MonoBehaviour
 
         if (trayGrabinteractable != null)
         {
-            trayGrabinteractable.selectEntered.AddListener(onTrayGrabbed);
-            trayGrabinteractable.selectExited.AddListener(onTrayReleased);
+            trayGrabinteractable.selectEntered.AddListener(OnTrayGrabbed);
+            trayGrabinteractable.selectExited.AddListener(OnTrayReleased);
         }
     }
 
@@ -87,8 +87,8 @@ public class Tube_O : MonoBehaviour
 
         if (trayGrabinteractable != null)
         {
-            trayGrabinteractable.selectEntered.RemoveListener(onTrayGrabbed);
-            trayGrabinteractable.selectExited.RemoveListener(onTrayReleased);
+            trayGrabinteractable.selectEntered.RemoveListener(OnTrayGrabbed);
+            trayGrabinteractable.selectExited.RemoveListener(OnTrayReleased);
         }
     }
 
@@ -211,7 +211,8 @@ public class Tube_O : MonoBehaviour
             Dam.GetComponent<Ch_VelocityInteractable>().enabled = true;    // Dam grab 활성화
 
             //부모로 부터 분리
-            gelSolid.transform.SetParent(null);
+            //Dam.transform.SetParent(null);
+            //gelSolid.transform.SetParent(null);
 
         }
     }
@@ -233,21 +234,26 @@ public class Tube_O : MonoBehaviour
         Debug.Log("gel 놓음");
     }
 
-    private void onTrayGrabbed(SelectEnterEventArgs args)
+    private void OnTrayGrabbed(SelectEnterEventArgs args)
     {
         if (tray_rb != null)
         {
-            Dam.transform.SetParent(gelTray);
-            Debug.Log("Tray 잡을 시 Dam 부모로 부터 넣기 잡기");
+            if(gelSolid.activeInHierarchy)
+            {
+                //부모로 부터 분리
+                Dam.transform.SetParent(null);
+                gelSolid.transform.SetParent(null);
+                Debug.Log("Tray 잡을 시 분리됩니다");
+
+            }
         }
     }
 
-    private void onTrayReleased(SelectExitEventArgs args)
+    private void OnTrayReleased(SelectExitEventArgs args)
     {
-        //if (tray_rb != null)
-        //{
-        //    Dam.transform.SetParent(gelTray);
-        //    Debug.Log("dam의 kinematic 해제");
-        //}
+        if (tray_rb != null)
+        {
+            Debug.Log("놓음");
+        }
     }
 }

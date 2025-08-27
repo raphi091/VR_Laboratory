@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,11 +7,13 @@ public class Pipette_O : MonoBehaviour
 {
     [Header("샘플 염색약")]
     public LiquidData_L DNA_DYE;
+    public Color SampleStartColor;    // 시작색
     public Color liquidColor;
     public Color fresnelColor;
 
     [Header("겔 염색약")]
     public LiquidData_L SYBR_DYE;
+    public Color GelStartColor; // 시작색
     public Color gelColor;
     public Color gelfresnelColor;
 
@@ -43,9 +46,18 @@ public class Pipette_O : MonoBehaviour
     public Color containColor;  // 피펫에 액체가 들어있을 때 아웃라인 색깔
     private Color originColor = Color.white;    // 원래 색깔 (흰색)
 
-    //[Header("파티클")]
-    //[SerializeField] private GameObject ParticleObj;
-    //[SerializeField] private ParticleSystem particle;
+    [Header("시각 UI")]
+    public DynamicInfoUI_G infoPanel;
+
+    [Header("입력 설정")]
+    public InputActionReference interactionAction;
+
+    [Header("Pippet 움직임")]
+    public Transform plunger;
+    public float plungerDownLocalY = 0.05f;  // 얼마나 내려가나
+    public float plungerUpLocalY = 0.13f;    // 올라갈 때
+    private float plungerAnimationDuration = 0.2f;
+    private Coroutine runningPlungerAnimation;
 
     private void Awake()
     {
@@ -62,12 +74,18 @@ public class Pipette_O : MonoBehaviour
         {
             o.enabled = false;
         }
+
+  
     }
 
     private void OnEnable()
     {
+        // 눌렀을 때
+        interactionAction.action.started += OnInteractionPress;
+        interactionAction.action.canceled += OnInteractionRelease;
+
         // 액체가 피펫으로 이동 실행
-        if(AbsorbAction != null)
+        if (AbsorbAction != null)
         {
             AbsorbAction.action.Enable();
             AbsorbAction.action.performed += OnAbsorbLiquid;
@@ -97,6 +115,10 @@ public class Pipette_O : MonoBehaviour
 
     private void OnDisable()
     {
+        // 뗐을 때
+        interactionAction.action.started -= OnInteractionPress;
+        interactionAction.action.canceled -= OnInteractionRelease;
+
         // 액체가 피펫으로 이동 이벤트 해제
         if (AbsorbAction != null)
         {
@@ -130,10 +152,16 @@ public class Pipette_O : MonoBehaviour
     {
         if(Keyboard.current.bKey.wasPressedThisFrame)
         {
+            OnInteractionPress(new InputAction.CallbackContext());
             OnAbsorbLiquid(new InputAction.CallbackContext());
         }
 
-        if(Keyboard.current.nKey.wasPressedThisFrame)
+        if (Keyboard.current.bKey.wasReleasedThisFrame)
+        {
+            OnInteractionRelease(new InputAction.CallbackContext());
+        }
+
+        if (Keyboard.current.nKey.wasPressedThisFrame)
         {
             OnReleaseLiquid(new InputAction.CallbackContext());
         }
@@ -146,20 +174,21 @@ public class Pipette_O : MonoBehaviour
             HandleOutline(other);
 
             // 색깔 변하게 하기
-            MeshRenderer[] renderers = other.GetComponentsInChildren<MeshRenderer>();
-            foreach (var r in renderers)
-            {
-                if(r.CompareTag("Liquid"))
-                {
-                    mat = r.material;
-                    break;
-                }
-            }
+            //MeshRenderer[] renderers = other.GetComponentsInChildren<MeshRenderer>();
+            //foreach (var r in renderers)
+            //{
+            //    if(r.CompareTag("Liquid"))
+            //    {
+            //        mat = r.material;
+            //        break;
+            //    }
+            //}
 
             Liquid_O findliquid = other.GetComponentInChildren<Liquid_O>();
             if(findliquid != null)
             {
                 liquid = findliquid;
+                mat = liquid.mat;
             }
 
             else
@@ -230,19 +259,8 @@ public class Pipette_O : MonoBehaviour
         Outline exitOutline = other.GetComponent<Outline>();
         if(exitOutline != null && targetOutline == exitOutline)
         {
-            Debug.Log($"1. {exitOutline.gameObject.name}");
             targetOutline.OutlineColor = originColor;
             targetOutline.enabled = false;
-
-            if (targetOutline != null)
-            {
-                Debug.Log($"Outline ] {targetOutline.gameObject.name}, OFF color {enterColor}");
-            }
-            else
-            {
-                Debug.Log("Outline OFF: targetOutline is already null");
-            }
-
             targetOutline = null;
         }
     }
@@ -271,8 +289,6 @@ public class Pipette_O : MonoBehaviour
             {
                 targetOutline.enabled = true;
                 targetOutline.OutlineColor = enterColor;
-
-                Debug.Log($"Outline ] {targetOutline.gameObject.name}, ON color {enterColor}");
             }
             return;
         }
@@ -289,8 +305,6 @@ public class Pipette_O : MonoBehaviour
             targetOutline = o;
             targetOutline.OutlineColor = enterColor;
             targetOutline.enabled = true;
-
-            Debug.Log($"Outline ] {targetOutline.gameObject.name}, ON color {enterColor}");
         }
     }
 
@@ -332,6 +346,7 @@ public class Pipette_O : MonoBehaviour
             if (mat.HasProperty("_LiquidColor"))
             {
                 mat.SetColor("_LiquidColor", gelColor);
+                
                 Debug.Log("액채 색 변경");
             }
 
@@ -342,7 +357,8 @@ public class Pipette_O : MonoBehaviour
 
             if (mat.HasProperty("_FresnelColor"))
             {
-                mat.SetColor("_FresnelColor", gelfresnelColor);
+                //mat.SetColor("_FresnelColor", gelfresnelColor);
+                liquid.ChangeLiquidColor(gelfresnelColor, 1f);
                 Debug.Log("fresnelcolor 변경됨");
             }
 
@@ -370,6 +386,7 @@ public class Pipette_O : MonoBehaviour
             if (mat.HasProperty("_FresnelColor"))
             {
                 mat.SetColor("_FresnelColor", fresnelColor);
+                liquid.ChangeLiquidColor(fresnelColor, 1f);
                 Debug.Log("fresnelcolor 변경됨");
             }
 
@@ -413,18 +430,8 @@ public class Pipette_O : MonoBehaviour
             Debug.Log($"Outline ] {selfOutline.gameObject.name}, ON color {enterColor}");
         }
 
-        // 파티클
-        //if(!ParticleObj.activeInHierarchy)
-        //{
-        //    ParticleObj.SetActive(true);
-        //}
-
-        //if(!particle.isPlaying)
-        //{
-        //    particle.Play();
-        //}
-
         liquidData = sample.liquidData;
+        UpdateInfoPanel();
 
         // 실험 Tool 정보
         parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();
@@ -440,6 +447,7 @@ public class Pipette_O : MonoBehaviour
             if (flask.Dye != null)
             {
                 liquidData = DNA_DYE;
+                UpdateInfoPanel();
             }
         }
 
@@ -481,14 +489,6 @@ public class Pipette_O : MonoBehaviour
                 {
                     flask.Dye = liquidData;
                     OnChangeColor(context);
-                    
-                    // 파티클
-                    // 플라스크 full particle 없애기
-                    //if(flask.fullParticleObj.activeInHierarchy)
-                    //{
-                    //    flask.fullParticleObj.SetActive(false);
-                    //}
-                    //flask.fullParticle.Stop();
                 }
  
                 else
@@ -515,13 +515,6 @@ public class Pipette_O : MonoBehaviour
                 {
                     flask.Dye = liquidData;
                     OnChangeColor(context);
-
-                    // 플라스크 full particle 없애기
-                    //if (flask.fullParticleObj.activeInHierarchy)
-                    //{
-                    //    flask.fullParticleObj.SetActive(false);
-                    //}
-                    //flask.fullParticle.Stop();
                 }
 
                 else
@@ -562,19 +555,14 @@ public class Pipette_O : MonoBehaviour
             Debug.Log("구멍을 채웠습니다");
         }
 
-        //if (ParticleObj.activeInHierarchy)
-        //{
-        //    ParticleObj.SetActive(false);
-        //}
-        //particle.Stop();
-
         if(selfOutline != null)
         {
             selfOutline.enabled = false;
             selfOutline.OutlineColor = originColor;
-            Debug.Log($"Outline ] {selfOutline.gameObject.name}, OFF color {originColor}");
         }
+
         liquidData = null;
+        UpdateInfoPanel();
     }
 
     // 구멍에 샘플 채우기
@@ -604,5 +592,65 @@ public class Pipette_O : MonoBehaviour
         }
 
         isAbsorb = false;
+    }
+
+    private void OnInteractionPress(InputAction.CallbackContext context)
+    {
+        AnimatePlunger(plungerDownLocalY);
+    }
+
+    private void OnInteractionRelease(InputAction.CallbackContext context)
+    {
+
+        AnimatePlunger(plungerUpLocalY);
+    }
+
+
+    // 파이펫 움직임
+    private void AnimatePlunger(float targetY)
+    {
+        if (runningPlungerAnimation != null)
+        {
+            StopCoroutine(runningPlungerAnimation);
+        }
+        runningPlungerAnimation = StartCoroutine(AnimatePlungerRoutine(targetY));
+    }
+
+    private IEnumerator AnimatePlungerRoutine(float targetY)
+    {
+        if (plunger == null) yield break;
+
+        float elapsedTime = 0f;
+        Vector3 startPosition = plunger.localPosition;
+        Vector3 targetPosition = new Vector3(startPosition.x, targetY, startPosition.z);
+
+        while (elapsedTime < plungerAnimationDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            plunger.localPosition = Vector3.Lerp(startPosition, targetPosition, elapsedTime / plungerAnimationDuration);
+            yield return null;
+        }
+
+        plunger.localPosition = targetPosition;
+        runningPlungerAnimation = null;
+    }
+
+
+    private void UpdateInfoPanel()
+    {
+        if (infoPanel == null) return;
+
+        string contentList;
+        if (liquidData != null/* && receiveddLiquids.Count > 0*/)
+        {
+
+            contentList = liquidData.ToString();
+        }
+        else
+        {
+            contentList = "없음";
+        }
+
+        infoPanel.UpdateInfo(contentList);
     }
 }

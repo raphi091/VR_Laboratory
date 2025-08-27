@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SampleFlask_O : MonoBehaviour
@@ -17,9 +18,13 @@ public class SampleFlask_O : MonoBehaviour
     [Header("플라스크 여부")]
     public bool isGel;  //겔이 든 플라스크인가?
 
-    //[Header("파티클")]
-    //public GameObject fullParticleObj;
-    //public ParticleSystem fullParticle;
+    [Header("시각 UI")]
+    public DynamicInfoUI_G infoPanel;
+
+    private void Start()
+    {
+        UpdateInfoPanel();
+    }
 
     public void ReceiveLiquid(List<LiquidData_L> liquids)
     {
@@ -41,6 +46,7 @@ public class SampleFlask_O : MonoBehaviour
             }
             receiveddLiquids.Add(liquid);
             isAddsuccess = true;
+            UpdateInfoPanel();
             Debug.Log($"{liquid.name} 플라스크 추가");
 
         }
@@ -49,17 +55,6 @@ public class SampleFlask_O : MonoBehaviour
         {
             ispossibleMix = true;
             ispossiblePour = true;
-
-            
-            //if(!fullParticleObj.activeInHierarchy)
-            //{
-            //    fullParticleObj.SetActive(true);
-            //}
-
-            //if(!fullParticle.isPlaying)
-            //{
-            //    fullParticle.Play();
-            //}
 
             Debug.Log("모두 들어있습니다");
         }
@@ -81,5 +76,23 @@ public class SampleFlask_O : MonoBehaviour
         }
 
         return requiredLiquids.TrueForAll(liquid => receiveddLiquids.Contains(liquid));
+    }
+
+    private void UpdateInfoPanel()
+    {
+        if (infoPanel == null) return;
+
+        string contentList;
+        if (receiveddLiquids != null && receiveddLiquids.Count > 0)
+        {
+            var contentNames = receiveddLiquids.Select(data => data.liquidName);
+            contentList = "- " + string.Join("\n- ", contentNames);
+        }
+        else
+        {
+            contentList = "없음";
+        }
+
+        infoPanel.UpdateInfo(contentList);
     }
 }

@@ -169,7 +169,7 @@ Material:
     - _MetalColor: {r: 0, g: 1, b: 0, a: 0}
     - _MossColor: {r: 1, g: 1, b: 1, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SurfaceColor: {r: 0, g: 0, b: 0, a: 0}
+    - _SurfaceColor: {r: 0, g: 0.292135, b: 0.9622642, a: 0}
     - _TopColor: {r: 0.61960787, g: 0.9960785, b: 0.9450981, a: 1}
     - _WoodColor: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

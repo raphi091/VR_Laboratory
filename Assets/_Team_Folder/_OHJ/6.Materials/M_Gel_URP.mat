@@ -158,12 +158,12 @@ Material:
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EdgesColor: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FresnelColor: {r: 0.5518868, g: 1, b: 0.9780749, a: 0.23529412}
+    - _FresnelColor: {r: 0.7746084, g: 0.9716981, b: 0.96132493, a: 0.23529412}
     - _GradientColor: {r: 1, g: 1, b: 1, a: 0}
-    - _LiquidColor: {r: 0.78773576, g: 0.9885605, b: 1, a: 0.44705883}
+    - _LiquidColor: {r: 0.5330188, g: 0.9740565, b: 1, a: 0.44705883}
     - _MetalColor: {r: 0, g: 1, b: 0, a: 0}
     - _MossColor: {r: 1, g: 1, b: 1, a: 0}
-    - _SurfaceColor: {r: 0.2028302, g: 1, b: 0.9729773, a: 0.20392157}
+    - _SurfaceColor: {r: 0.9622642, g: 0.61778766, b: 0.040850822, a: 0.20392157}
     - _WoodColor: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3389951534485287116
