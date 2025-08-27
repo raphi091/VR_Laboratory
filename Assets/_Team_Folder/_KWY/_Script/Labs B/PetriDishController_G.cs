@@ -139,6 +139,7 @@ public class PetriDishController_G : MonoBehaviour, C_ExperimentTool
                 bool hasAgarInoculation = receivedDatas.Exists(data => data.type == PourableType.Agar);
                 if (!hasAgarInoculation && receivedDatas.Count > 0)
                 {
+                    this.liquidDatas.AddRange(receivedDatas);
                     StartCoroutine(InoculateRoutine());
                 }
                 break;
