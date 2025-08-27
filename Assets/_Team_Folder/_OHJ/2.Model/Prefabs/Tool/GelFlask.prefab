@@ -115,6 +115,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 98eebd9a8d975434db800eed9498b9eb, type: 2}
   receiveddLiquids: []
   Dye: {fileID: 0}
+  DNA_DYE: {fileID: 11400000, guid: 3e75c36accedb58439092a3a8082f5e7, type: 2}
+  SYBR_DYE: {fileID: 11400000, guid: c6a134e4c4f75474983c3e001eac960e, type: 2}
   ispossibleMix: 0
   isFillSample: 0
   ispossiblePour: 0

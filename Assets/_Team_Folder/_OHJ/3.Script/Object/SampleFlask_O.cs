@@ -9,7 +9,10 @@ public class SampleFlask_O : MonoBehaviour
     public List<LiquidData_L> requiredLiquids = new List<LiquidData_L>();
     public List<LiquidData_L> receiveddLiquids = new List<LiquidData_L>();  //받은 액체
 
+    [Header("염색약 넣기")]
     public LiquidData_L Dye;    // 염색약
+    public LiquidData_L DNA_DYE;
+    public LiquidData_L SYBR_DYE;
     public bool ispossibleMix = false;  //염색약 섞기 가능 여부
     public bool isFillSample = false; // 샘플 채우기 가능 여부
     public bool ispossiblePour = false; // 붓기 가능 여부
@@ -34,8 +37,11 @@ public class SampleFlask_O : MonoBehaviour
             //requiredliquids에 없는 액체는 무시
             if (!requiredLiquids.Contains(liquid))
             {
-                Debug.LogWarning($". {liquid.name}는 요구되지 않는 액체입니다.");
-                continue;
+                if((isGel && liquid != SYBR_DYE) || (!isGel && liquid != DNA_DYE))
+                {
+                    Debug.LogWarning($". {liquid.name}는 요구되지 않는 액체입니다.");
+                    continue;
+                }
             }
 
             // 중복 불가

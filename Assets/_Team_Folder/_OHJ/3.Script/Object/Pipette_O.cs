@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -32,7 +33,8 @@ public class Pipette_O : MonoBehaviour
     public Sample_O sample;
     public SampleFlask_O flask; //샘플 플라스크
     public Liquid_O liquid; // 플라스크 속 액체
-    [SerializeField] private LiquidData_L liquidData;    // 피펫에 들어있는 액체
+    // [SerializeField] private LiquidData_L liquidData;    // 피펫에 들어있는 액체
+    [SerializeField] private List<LiquidData_L> liquidDatas = new List<LiquidData_L>();    //피펫이 들어있는 액체
     public bool isEnter = false;
 
     [Header("구멍에 샘플채우기")]
@@ -280,8 +282,6 @@ public class Pipette_O : MonoBehaviour
             return;
         }    
 
-        Debug.Log("Outline 있다");
-
         // 같은 오브젝트라면 enabled만 다시 켜줄지 확인
         if(targetOutline == o)
         {
@@ -323,9 +323,9 @@ public class Pipette_O : MonoBehaviour
             return;
         }    
 
-        if(liquidData == null)
+        if(liquidDatas.Count== 0)
         {
-            Debug.Log("피펫에 liquidData가 없습니다. 염료 넣기 실패");
+            Debug.Log("피펫에 liquidDatas가 없습니다. 염료 넣기 실패");
             return;
         }
 
@@ -335,12 +335,26 @@ public class Pipette_O : MonoBehaviour
             return;
         }
 
-        //피펫에 있는 용액을 Dye에 넣기
-        flask.Dye = liquidData;
+        //피펫에 염색 용액이 있다면 용액을 Dye에 넣기
+        if(liquidDatas.Contains(DNA_DYE))
+        {
+            flask.Dye = DNA_DYE;
+        }
+
+        else if (liquidDatas.Contains(SYBR_DYE))
+        {
+            flask.Dye = SYBR_DYE;
+        }
+
+        else
+        {
+            Debug.LogWarning("염색약이 없습니다");
+            return;
+        }
 
         // 플라스크에 다른 염색약 나오면 작동이 안되도록 예외처리
         // 겔이 든 플라스크 여부에 따라 색깔 다르게 만들기
-        if(flask.isGel) // 겔이 든 플라스크
+        if (flask.isGel) // 겔이 든 플라스크
         {
             //샘플 프로퍼티 들어있는지 여부
             if (mat.HasProperty("_LiquidColor"))
@@ -413,7 +427,7 @@ public class Pipette_O : MonoBehaviour
         if(flask != null && flask.isGel)
         {
             Debug.LogError("겔 플라스크에선 흡수할 수 없습니다.");
-            liquidData = null;
+            liquidDatas.Clear();
             isAbsorb = false;
             return;
         }
@@ -427,10 +441,10 @@ public class Pipette_O : MonoBehaviour
         if(selfOutline != null)
         {
             selfOutline.OutlineColor = containColor;
-            Debug.Log($"Outline ] {selfOutline.gameObject.name}, ON color {enterColor}");
         }
 
-        liquidData = sample.liquidData;
+        liquidDatas.Add(sample.liquidData);
+
         UpdateInfoPanel();
 
         // 실험 Tool 정보
@@ -443,10 +457,10 @@ public class Pipette_O : MonoBehaviour
             isAbsorb = true;
             Debug.Log("파란 염색약 흡수");
              
-            //만약 염색했다면 무조건 염색 용액이 나오도록
+            //만약 염색했다면 모두 가져온다
             if (flask.Dye != null)
             {
-                liquidData = DNA_DYE;
+                liquidDatas.AddRange(flask.receiveddLiquids);
                 UpdateInfoPanel();
             }
         }
@@ -458,7 +472,7 @@ public class Pipette_O : MonoBehaviour
     private void OnReleaseLiquid(InputAction.CallbackContext context)
     {
         Debug.Log("ReleaseLiquid");
-        if (!isEnter || liquidData == null)
+        if (!isEnter || liquidDatas.Count == 0)
         {
             return;
         }
@@ -471,7 +485,7 @@ public class Pipette_O : MonoBehaviour
 
         if(sample != null && flask != null && sample.CompareTag("Absorb"))
         {
-            if(liquidData == DNA_DYE)
+            if(liquidDatas.Contains(DNA_DYE))
             {
                 if(flask.isGel)
                 {
@@ -481,13 +495,14 @@ public class Pipette_O : MonoBehaviour
 
                 if (flask.Dye != null)
                 {
-                    Debug.LogError("이미 염색된 플라스크입니다");
-                    return;
+                    liquidDatas.Clear();
+                    Debug.LogError("이미 염색된 플라스크입니다 제거합니다");
                 }
 
                 if (flask.ispossibleMix)
                 {
-                    flask.Dye = liquidData;
+                    flask.ReceiveLiquid(liquidDatas);
+                    flask.Dye = DNA_DYE;
                     OnChangeColor(context);
                 }
  
@@ -497,7 +512,7 @@ public class Pipette_O : MonoBehaviour
                 }
             }
 
-            else if(liquidData == SYBR_DYE)
+            else if(liquidDatas.Contains(SYBR_DYE))
             {
                 if(!flask.isGel)
                 {
@@ -513,7 +528,8 @@ public class Pipette_O : MonoBehaviour
 
                 if(flask.ispossiblePour)
                 {
-                    flask.Dye = liquidData;
+                    flask.ReceiveLiquid(liquidDatas);
+                    flask.Dye = SYBR_DYE;
                     OnChangeColor(context);
                 }
 
@@ -526,12 +542,12 @@ public class Pipette_O : MonoBehaviour
             else
             {
                 // 하나만 담긴 리스트를 receiveliquid 메소드에 넘긴다.
-                flask.ReceiveLiquid(new List<LiquidData_L> {liquidData});
+                flask.ReceiveLiquid(liquidDatas);
 
                 if(flask.isAddsuccess)
                 {
                     liquid.FillLiquid();
-                    Debug.Log($"{liquidData.name}추가");
+                    Debug.Log($"{liquidDatas}추가");
                 }
 
                 else
@@ -561,7 +577,7 @@ public class Pipette_O : MonoBehaviour
             selfOutline.OutlineColor = originColor;
         }
 
-        liquidData = null;
+        liquidDatas.Clear();
         UpdateInfoPanel();
     }
 
@@ -641,10 +657,10 @@ public class Pipette_O : MonoBehaviour
         if (infoPanel == null) return;
 
         string contentList;
-        if (liquidData != null/* && receiveddLiquids.Count > 0*/)
+        if (liquidDatas != null && liquidDatas.Count > 0)
         {
-
-            contentList = liquidData.ToString();
+            var contentNames = liquidDatas.Select(data => data.liquidName);
+            contentList = "- " + string.Join("\n- ", contentNames);
         }
         else
         {
