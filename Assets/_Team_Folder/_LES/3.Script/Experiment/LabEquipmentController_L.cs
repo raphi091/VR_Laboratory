@@ -685,4 +685,9 @@ public class LabEquipmentController_L : MonoBehaviour
     {
         isLocked = lockState;
     }
+
+    public GameObject GetCompletedItem()
+    {
+        return completedItem;
+    }
 }

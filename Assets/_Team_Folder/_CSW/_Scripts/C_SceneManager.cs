@@ -22,7 +22,8 @@ public class C_SceneManager : Ch_BehaviourSingleton<C_SceneManager>
     private void OnEnable()
     {
         npc.OnExperimentEnd += OnExperimentCompleted;
-        C_DataManager.instance.LoadGameData();
+        
+        C_DataManager.I.LoadGameData();
     }
     
     private void OnDisable()
@@ -41,6 +42,6 @@ public class C_SceneManager : Ch_BehaviourSingleton<C_SceneManager>
     
     void OnApplicationQuit()
     {
-        C_DataManager.instance.SaveGameData();
+        C_DataManager.I.SaveGameData();
     }
 }

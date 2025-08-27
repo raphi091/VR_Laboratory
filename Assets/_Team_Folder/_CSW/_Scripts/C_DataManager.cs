@@ -10,7 +10,8 @@ public class GameData
     public ExperimentData_G currentExperimentData;
     public GameData()
     {
-
+        IsTutorialCompleted = false;
+        IsCulturingOvernight = false;
     }
 }
 
@@ -21,25 +22,14 @@ public class C_DataManager : Ch_BehaviourSingleton<C_DataManager>
         return true;
     }
 
-    public static C_DataManager instance;
-
     [Header("GameData")]
-    public GameData gameData;
+    public GameData gameData=new GameData();
     
     private string saveFilePath;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
+        base.Awake();
         saveFilePath = Path.Combine(Application.persistentDataPath, "MyLabData.json");
     }
 

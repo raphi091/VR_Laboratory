@@ -123,7 +123,7 @@ public class ExperimentFlowManager_L : MonoBehaviour
 
     public void OnGelElectrophoresisProcessStarted()
     {
-        Debug.Log(">> 매니저: GelElectrophoresis 작동 시작 감지. GelDoc에 분석 시작을 명령합니다.");
+        //Debug.Log(">> 매니저: GelElectrophoresis 작동 시작 감지. GelDoc에 분석 시작을 명령합니다.");
         if (gelDocScreenController != null)
         {
             // GelDoc의 잠금을 해제하고, 활성화한 뒤, 분석을 시작시킵니다.
@@ -135,10 +135,45 @@ public class ExperimentFlowManager_L : MonoBehaviour
 
     public void OnGelDocViewingStopped()
     {
-        Debug.Log(">> 매니저: GelDoc 보기 중단 감지. GelElectrophoresis에 아이템 배출을 명령합니다.");
+        //Debug.Log(">> 매니저: GelDoc 보기 중단 감지. GelElectrophoresis에 아이템 배출을 명령합니다.");
         if (gelElectrophoresisController != null)
         {
             gelElectrophoresisController.MakeItemAvailable();
+        }
+    }
+
+    // Air Incubator의 OnProcessCompleted 이벤트가 호출할 함수
+    public void OnAirIncubatorFinished()
+    {
+        Debug.Log(">> 이벤트 수신: Air Incubator 완료. 페트리 접시 결과 표시를 시도합니다.");
+
+        // airIncubatorController 변수가 연결되었는지 확인
+        if (airIncubatorController == null)
+        {
+            Debug.LogError("오류: airIncubatorController 변수가 인스펙터에 할당되지 않았습니다!");
+            return;
+        }
+
+        // 1. Air Incubator에게 방금 완료한 아이템을 직접 물어봅니다.
+        GameObject finishedPetriDish = airIncubatorController.GetCompletedItem();
+
+        if (finishedPetriDish == null)
+        {
+            Debug.LogError("오류: Air Incubator로부터 완료된 아이템 정보를 받아오지 못했습니다!");
+            return;
+        }
+
+        // 2. 받아온 아이템에서 PetriDishController_G 스크립트를 찾아옵니다.
+        PetriDishController_G petriDishController = finishedPetriDish.GetComponent<PetriDishController_G>();
+
+        // 3. 스크립트를 찾았다면, ShowResult() 함수를 호출합니다.
+        if (petriDishController != null)
+        {
+            petriDishController.ShowResult();
+        }
+        else
+        {
+            Debug.LogError($"오류: '{finishedPetriDish.name}' 오브젝트에서 PetriDishController_G 스크립트를 찾을 수 없습니다!");
         }
     }
 }
