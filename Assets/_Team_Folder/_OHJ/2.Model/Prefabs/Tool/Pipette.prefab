@@ -91,8 +91,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.326, y: 0.5802, z: 1.329}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6661114422327813111}
   - {fileID: 5817928941061511664}
@@ -163,11 +163,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DNA_DYE: {fileID: 11400000, guid: 3e75c36accedb58439092a3a8082f5e7, type: 2}
-  SampleStartColor: {r: 0, g: 0, b: 0, a: 0}
   liquidColor: {r: 0.7688679, g: 0.873104, b: 1, a: 0}
   fresnelColor: {r: 0, g: 0.19064093, b: 1, a: 0}
   SYBR_DYE: {fileID: 11400000, guid: c6a134e4c4f75474983c3e001eac960e, type: 2}
-  GelStartColor: {r: 0, g: 0, b: 0, a: 0}
   gelColor: {r: 0.9811321, g: 0.7768272, b: 0.6062656, a: 0}
   gelfresnelColor: {r: 0.7075472, g: 0.33956453, b: 0.07676221, a: 0}
   mat: {fileID: 0}

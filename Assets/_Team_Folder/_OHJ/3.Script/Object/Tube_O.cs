@@ -198,7 +198,6 @@ public class Tube_O : MonoBehaviour
     // ±ª±‚
     private IEnumerator Harden_co()
     {
-        Debug.Log("±ª∞Ì ¿÷Ω¿¥œ¥Ÿ.");
         yield return new WaitForSeconds(1f);
 
         if (gelLiquid.activeInHierarchy)

@@ -8,13 +8,13 @@ public class Pipette_O : MonoBehaviour
 {
     [Header("샘플 염색약")]
     public LiquidData_L DNA_DYE;
-    public Color SampleStartColor;    // 시작색
+    private Color SampleStartColor;    // 시작색
     public Color liquidColor;
     public Color fresnelColor;
 
     [Header("겔 염색약")]
     public LiquidData_L SYBR_DYE;
-    public Color GelStartColor; // 시작색
+    private Color GelStartColor; // 시작색
     public Color gelColor;
     public Color gelfresnelColor;
 
@@ -160,11 +160,6 @@ public class Pipette_O : MonoBehaviour
         {
             OnInteractionRelease(new InputAction.CallbackContext());
         }
-
-        //if (Keyboard.current.nKey.wasPressedThisFrame)
-        //{
-        //    OnReleaseLiquid(new InputAction.CallbackContext());
-        //}
     }
     private void OnTriggerStay(Collider other)
     {
@@ -224,8 +219,6 @@ public class Pipette_O : MonoBehaviour
             parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();
             parseEventArgs.toTool = other.GetComponent<C_ExperimentTool>();
             C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
-
-            Debug.Log($"Hole 닿음: {other.name}");
         }
 
 
