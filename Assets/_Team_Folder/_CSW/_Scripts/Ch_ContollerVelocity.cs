@@ -11,7 +11,7 @@ public class Ch_ContollerVelocity : MonoBehaviour
 
     private void FixedUpdate()
     {
-        velocity=velocityProperty.action.ReadValue<Vector3>();
-        magnitude=velocity.magnitude;
+        velocity = velocityProperty.action.ReadValue<Vector3>();
+        magnitude = velocity.magnitude;
     }
 }

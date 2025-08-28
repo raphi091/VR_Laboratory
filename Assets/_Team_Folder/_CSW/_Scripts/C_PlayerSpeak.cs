@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[Serializable]
 public class C_PlayerSpeak : MonoBehaviour
 {
     [Header("타겟 NPC 설정")]

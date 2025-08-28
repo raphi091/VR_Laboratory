@@ -1,0 +1,168 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2029aec4ce276d84ba1d799c0441c110, type: 3}
+  m_Name: SamplePCR
+  m_EditorClassIdentifier: 
+  SampleName: 
+  Actions:
+  - Type: 1
+    LocationID: 
+    Instruction: "PCR\uC2E4\uD5D8\uC744 \uC2DC\uC791\uD558\uACA0\uC2B5\uB2C8\uB2E4.
+      \uC800\uB97C \uB530\uB77C\uC640\uC8FC\uC138\uC694."
+    CompletionKeywords: []
+  - Type: 0
+    LocationID: 000
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "PCR \uC2E4\uD5D8\uC740 \uC791\uC740 DNA \uC870\uAC01\uC744 \uBCF5\uC81C\uD558\uACE0
+      \uC2F6\uC740 DNA\uC5D0 \uBD99\uC5EC\uC11C \uB300\uB7C9\uC73C\uB85C \uC591\uC744
+      \uC99D\uD3ED\uC2DC\uD0A4\uB294 \uC2E4\uD5D8\uC785\uB2C8\uB2E4."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uC6D0\uD558\uB294 DNA\uB97C \uC5BB\uC744 \uB54C \uC0AC\uC6A9\uD569\uB2C8\uB2E4.
+      \uCCAB \uBC88\uC9F8 \uB2E8\uACC4\uB97C \uC9C4\uD589\uD558\uAE30 \uC704\uD574
+      \uC808 \uB530\uB77C\uC640\uC8FC\uC138\uC694."
+    CompletionKeywords: []
+  - Type: 0
+    LocationID: 001
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uD53C\uD3AB\uC744 \uC0AC\uC6A9\uD574, \uB208 \uC55E\uC758 \uC5EC\uC12F
+      \uAC1C \uC6A9\uC561\uC744 \uBAA8\uB450 \uBE48 \uD29C\uBE0C\uC5D0 \uB123\uC5B4\uC8FC\uC138\uC694."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uADF8 \uD6C4, \uC606\uC758 Thermocycler\uC5D0 \uD29C\uBE0C\uB97C
+      \uC9D1\uC5B4\uB123\uC740 \uD6C4, \uD31D\uC5C5\uCC3D\uC758 Yes\uB97C \uB20C\uB7EC
+      \uAE30\uACC4\uB97C \uC791\uB3D9\uC2DC\uD0B5\uC2DC\uB2E4."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uC791\uC5C5\uC774 \uB05D\uB0A0 \uB54C\uAE4C\uC9C0, \uB2E4\uC74C
+      \uACFC\uC815\uC744 \uC9C4\uD589\uD574\uBCFC\uAE4C\uC694? \uD53C\uD3AB\uC744
+      \uB4E4\uACE0 \uB530\uB77C\uC640\uBCF4\uC138\uC694!"
+    CompletionKeywords: []
+  - Type: 0
+    LocationID: 002
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 0
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uB2E4\uC74C\uC740, \uC2E4\uD5D8 \uACB0\uACFC\uB97C \uBCF4\uB294
+      \uB370 \uD544\uC694\uD55C \uC544\uAC00\uB85C\uC2A4 \uAC94\uC744 \uB9CC\uB4E4\uC5B4\uBCF4\uACA0\uC2B5\uB2C8\uB2E4."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uD53C\uD3AB\uC744 \uC0AC\uC6A9\uD574\uC11C \uD50C\uB77C\uC2A4\uD06C\uC5D0
+      \uC544\uAC00\uB85C\uC2A4\uC640 \uC5FC\uC0C9\uC57D, \uBC84\uD37C\uB97C \uB123\uC5B4\uBD05\uC2DC\uB2E4."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uB2E4 \uB123\uC73C\uC168\uB2E4\uBA74, \uB0B4\uC6A9\uBB3C\uC744
+      \uC55E\uC758 \uD2C0\uC5D0 \uBD80\uC5B4\uC8FC\uC138\uC694. \uD2C0\uC5D0 \uC6A9\uC561\uC774
+      \uAD73\uC5B4\uC9C4 \uD558\uC580\uC0C9 \uD310\uC774 \uC0DD\uC131\uB418\uC5C8\uB2E4\uBA74
+      \uC131\uACF5\uC785\uB2C8\uB2E4."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uC644\uB8CC\uB418\uBA74, \uB2E4\uC2DC \uAE30\uACC4\uB97C \uBCF4\uB7EC
+      \uC800\uB97C \uB530\uB77C\uC640\uC8FC\uC138\uC694. \uD53C\uD3AB \uAC00\uC9C0\uACE0
+      \uC624\uB294 \uAC70 \uC78A\uC9C0 \uB9C8\uC2DC\uACE0\uC694!"
+    CompletionKeywords: []
+  - Type: 0
+    LocationID: 003
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uAE30\uACC4\uC5D0\uC11C \uC644\uB8CC\uB41C \uD29C\uBE0C\uB97C
+      \uAEBC\uB0B8 \uD6C4, \uD53C\uD3AB\uC73C\uB85C \uC606\uC758 \uD30C\uB780\uC0C9
+      \uC5FC\uB8CC\uB97C \uD53C\uD3AB\uC73C\uB85C \uB123\uC5B4\uC8FC\uC138\uC694."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uC5FC\uB8CC\uAE4C\uC9C0 \uC804\uBD80 \uB123\uC5C8\uB2E4\uBA74,
+      \uD53C\uD3AB\uC73C\uB85C \uD2C0 \uC704\uC758 \uD558\uC597\uAC8C \uAD73\uC5B4\uC9C4
+      \uD310\uC5D0 \uD29C\uBE0C \uC548\uC758 \uC0D8\uD50C\uC744 \uC8FC\uC785\uD574\uC8FC\uC138\uC694."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uC774\uC81C \uC2E4\uD5D8\uC758 \uACB0\uACFC\uBB3C\uC744 \uBCFC
+      \uCC28\uB840\uC785\uB2C8\uB2E4. \uAC94\uC774 \uD615\uC131\uB41C \uD2C0\uC744
+      \uB4E4\uACE0 \uC808 \uB530\uB77C\uC640\uC8FC\uC138\uC694!"
+    CompletionKeywords: []
+  - Type: 0
+    LocationID: 004
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uC774\uC81C \uC544\uAC00\uB85C\uC2A4 \uAC94\uC744 gel electrophoresis\uC5D0
+      \uB123\uC5B4\uC11C \uC2E4\uD5D8\uC758 \uACB0\uACFC\uB97C \uBCF4\uB3C4\uB85D
+      \uD558\uACA0\uC2B5\uB2C8\uB2E4."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uD2C0\uC744 \uB208 \uC55E\uC758 \uAE30\uACC4\uC5D0 \uAC00\uC838\uB2E4
+      \uB304 \uD6C4, \uD31D\uC5C5\uCC3D\uC758 Yes\uB97C \uB20C\uB7EC\uC8FC\uC138\uC694."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uC870\uAE08 \uAE30\uB2E4\uB9AC\uBA74, \uACB0\uACFC\uAC00 \uCD9C\uB825\uB420
+      \uAC83\uC785\uB2C8\uB2E4."
+    CompletionKeywords: []
+  - Type: 1
+    LocationID: 
+    Instruction: "\uCDA9\uBD84\uD788 \uACB0\uACFC\uB97C \uBCF4\uC168\uB2E4\uBA74
+      \uC800\uB97C \uB530\uB77C\uC640\uC8FC\uC138\uC694!"
+    CompletionKeywords: []
+  - Type: 0
+    LocationID: 005
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []

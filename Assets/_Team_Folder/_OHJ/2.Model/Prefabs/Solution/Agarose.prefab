@@ -263,11 +263,11 @@ GameObject:
   - component: {fileID: 5681549646051083176}
   - component: {fileID: 7527920767297122583}
   - component: {fileID: 6485789646827698800}
-  - component: {fileID: 5943774181678196569}
   - component: {fileID: 4754956362107195619}
   - component: {fileID: 2956045358769835596}
   - component: {fileID: 2401293818646630341}
   - component: {fileID: 2737536209393047298}
+  - component: {fileID: 4262209001353694191}
   m_Layer: 0
   m_Name: Agarose
   m_TagString: Absorb
@@ -314,7 +314,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.10327066, y: 0.16765231, z: 0.099586725}
-  m_Center: {x: 0.0000000037252903, y: -0.032975245, z: -0.0013555288}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &5681549646051083176
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -531,21 +531,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   liquidData: {fileID: 11400000, guid: 98eebd9a8d975434db800eed9498b9eb, type: 2}
---- !u!114 &5943774181678196569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8705264564320726023}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 238beb66635f23d498c1122d11b70c35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  liquidDatas: []
-  toolType: 1
-  isWritable: 1
 --- !u!114 &4754956362107195619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -605,6 +590,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Agarose
   objectDescription: "Agarose Gel \uB9CC\uB4DC\uB294\uB370 \uC0AC\uC6A9\uB418\uB294\nAgarose\uC785\uB2C8\uB2E4."
+--- !u!114 &4262209001353694191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8705264564320726023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238beb66635f23d498c1122d11b70c35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  liquidDatas: []
+  toolType: 1
+  isWritable: 1
 --- !u!1001 &35513710318006424
 PrefabInstance:
   m_ObjectHideFlags: 0
