@@ -180,6 +180,7 @@ public class Tube_O : MonoBehaviour
         if (ParticleObj.activeInHierarchy)
         {
             ParticleObj.SetActive(false);
+            particle.Play();
         }
 
         if(particle.isPlaying)

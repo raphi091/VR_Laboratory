@@ -424,11 +424,19 @@ public class Pipette_O : MonoBehaviour
             return;
         }
 
+        // 겔 플라스크에서 추출 금지
         if(flask != null && flask.isGel)
         {
             Debug.LogError("겔 플라스크에선 흡수할 수 없습니다.");
             liquidDatas.Clear();
             isAbsorb = false;
+            return;
+        }
+
+        // 염색되지 않은 샘플 플라스크에서 추출 방지
+        if(flask != null && !flask.isGel && flask.Dye == null)
+        {
+            Debug.LogError("염색되지 않은 샘플 플라스크에서 흡수할 수 없습니다");
             return;
         }
 
@@ -443,9 +451,18 @@ public class Pipette_O : MonoBehaviour
             selfOutline.OutlineColor = containColor;
         }
 
-        liquidDatas.Add(sample.liquidData);
+        if(!liquidDatas.Contains(sample.liquidData))
+        {
+            liquidDatas.Add(sample.liquidData);
+            UpdateInfoPanel();
+            Debug.Log("피펫에 추가");
+        }
 
-        UpdateInfoPanel();
+        else
+        {
+            Debug.LogWarning($"{sample.liquidData.liquidName}은 이미 피펫에 있습니다");
+        }
+
 
         // 실험 Tool 정보
         parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();
@@ -457,15 +474,19 @@ public class Pipette_O : MonoBehaviour
             isAbsorb = true;
             Debug.Log("파란 염색약 흡수");
              
-            //만약 염색했다면 모두 가져온다
+            //만약 염색했다면 모두 가져오되, 중복으로 가져오지 않도록 하기
             if (flask.Dye != null)
             {
-                liquidDatas.AddRange(flask.receiveddLiquids);
+                foreach(var liquid in flask.receiveddLiquids)
+                {
+                    if(!liquidDatas.Contains(liquid))
+                    {
+                        liquidDatas.Add(liquid);
+                    }
+                }
                 UpdateInfoPanel();
             }
         }
-
-
     }
 
     // 피펫에서 액체 내뱉기
@@ -480,6 +501,8 @@ public class Pipette_O : MonoBehaviour
         if(flask == null && sample.CompareTag("Absorb") && !isAbsorb)
         {
             Debug.LogWarning("플라스크가 아닙니다");
+            liquidDatas.Clear();
+            UpdateInfoPanel();
             return;
         }
 
@@ -489,6 +512,8 @@ public class Pipette_O : MonoBehaviour
             {
                 if(flask.isGel)
                 {
+                    liquidDatas.Clear();
+                    UpdateInfoPanel();
                     Debug.LogError("겔 플라스크입니다.");
                     return;
                 }
@@ -516,12 +541,16 @@ public class Pipette_O : MonoBehaviour
             {
                 if(!flask.isGel)
                 {
+                    liquidDatas.Clear();
+                    UpdateInfoPanel();
                     Debug.LogError("겔 플라스크가 아닙니다!!");
                     return;
                 }
 
                 if(flask.Dye != null)
                 {
+                    liquidDatas.Clear();
+                    UpdateInfoPanel();
                     Debug.LogError("이미 염색된 플라스크입니다");
                     return;
                 }
@@ -632,6 +661,7 @@ public class Pipette_O : MonoBehaviour
         runningPlungerAnimation = StartCoroutine(AnimatePlungerRoutine(targetY));
     }
 
+    // 파이펫 애니메이션
     private IEnumerator AnimatePlungerRoutine(float targetY)
     {
         if (plunger == null) yield break;

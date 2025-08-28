@@ -32,29 +32,39 @@ public class SampleFlask_O : MonoBehaviour
     public void ReceiveLiquid(List<LiquidData_L> liquids)
     {
         isAddsuccess = false;
-        foreach (var liquid in liquids)
+
+        int i = 0;
+        while(i < liquids.Count)
         {
-            //requiredliquids에 없는 액체는 무시
+            var liquid = liquids[i];
+
+            // 요구하지 않는 액체 거르기
+            // 샘플 플라스크는 DNA_DYE, 겔 플라스크는 SYBR_DYE는 들어갈 수 있게 허용
             if (!requiredLiquids.Contains(liquid))
             {
-                if((isGel && liquid != SYBR_DYE) || (!isGel && liquid != DNA_DYE))
+                if ((isGel && liquid != SYBR_DYE) || (!isGel && liquid != DNA_DYE))
                 {
                     Debug.LogWarning($". {liquid.name}는 요구되지 않는 액체입니다.");
-                    continue;
+                    liquids.RemoveAt(i);    // 인덱스(숫자)의 요소를 제거
+                    continue;   // i 증가하지 않고 다음 요소 체크
                 }
             }
-
+           
             // 중복 불가
             if (receiveddLiquids.Contains(liquid))
             {
                 Debug.LogWarning($"중복된 액체입니다. {liquid.name}는 이미 있습니다.");
+                liquids.RemoveAt(i);    // 인덱스(숫자)의 요소를 제거
                 continue;
             }
+
+            //유효한 액체인 경우
             receiveddLiquids.Add(liquid);
             isAddsuccess = true;
             UpdateInfoPanel();
             Debug.Log($"{liquid.name} 플라스크 추가");
 
+            i++;
         }
 
         if (IsComplete())
