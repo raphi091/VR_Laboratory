@@ -317,7 +317,7 @@ public class Pipette_O : MonoBehaviour
             return;
         }
 
-        if (!flask.ispossibleMix || !flask.ispossiblePour || flask.Dye == null)
+        if ((!flask.isGel && !flask.ispossibleMix) || (flask.isGel && !flask.ispossibleMix && !flask.ispossiblePour) || flask.Dye == null)
         {
             Debug.Log("아직 모든 액체가 들어있지 않거나 염색약 없음.");
             return;
@@ -589,7 +589,6 @@ public class Pipette_O : MonoBehaviour
             parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();
             parseEventArgs.toTool = flask.transform.GetComponent<C_ExperimentTool>();
             C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
-
         }
 
         // 구멍에 샘플 채우기
@@ -613,28 +612,30 @@ public class Pipette_O : MonoBehaviour
     // 구멍에 샘플 채우기
     private void FillHoleByDye(InputAction.CallbackContext context)
     {
-        if(!isEnter || !isAbsorb)
+        if(!isEnter || !isAbsorb || currentHole == null)
         {
+            Debug.Log("currentHole이 null이거나 absorb가 false입니다");
             return;
         }
 
-        if(currentHole == null)
+        // 부모 겔 가져오기
+        var fillHole = currentHole.GetComponentInParent<FillHole_O>();
+        if(fillHole == null)
         {
-            Debug.Log("currentHole이 null입니다");
+            Debug.LogError("fillHole 부모를 찾을 수 없습니다");
             return;
         }
 
         MeshRenderer holeRender = currentHole.GetComponent<MeshRenderer>();
-        if(holeRender != null)
+        int index = fillHole.holerenders.IndexOf(holeRender);
+        if(index == -1)
         {
-            holeRender.material.color = Color.blue;
-            Debug.Log("구멍에 파란색 염색약을 넣었습니다.");
+            Debug.LogError("구멍 인덱스 찾기 실패");
+            return;
         }
 
-        else
-        {
-            Debug.Log("Render를 찾을 수 없습니다.");
-        }
+        // 부모에게 액체 전달(색도 변경)
+        fillHole.ReceiveLiquidAtHole(index, liquidDatas);
 
         isAbsorb = false;
     }

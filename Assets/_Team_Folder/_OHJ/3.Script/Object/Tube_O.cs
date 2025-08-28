@@ -210,11 +210,6 @@ public class Tube_O : MonoBehaviour
         {
             gelSolid.SetActive(true);
             Dam.GetComponent<Ch_VelocityInteractable>().enabled = true;    // Dam grab 활성화
-
-            //부모로 부터 분리
-            //Dam.transform.SetParent(null);
-            //gelSolid.transform.SetParent(null);
-
         }
     }
 

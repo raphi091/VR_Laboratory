@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3881d5b5e624b804ebc2951f09d53158, type: 3}
   m_Name: "SYBR Safe_DNA \uC5FC\uC0C9\uC57D"
   m_EditorClassIdentifier: 
+  type: 6
   liquidName: "SYBR Safe (DNA \uC5FC\uC0C9\uC57D)"
   description: "\uC544\uAC00\uB85C\uC2A4 \uAC94\uC5D0 \uC11E\uC5B4 DNA\uC640 \uACB0\uD569
     UV \uC544\uB798\uC5D0\uC11C \uD615\uAD11\uC744 \uB0B4\uAC8C \uD558\uC5EC DNA\uB97C

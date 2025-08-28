@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3881d5b5e624b804ebc2951f09d53158, type: 3}
   m_Name: "dNTP \uD63C\uD569\uC561"
   m_EditorClassIdentifier: 
+  type: 2
   liquidName: "dNTP \uD63C\uD569\uC561"
   description: "DNA \uD569\uC131\uC758 \uC7AC\uB8CC\uAC00 \uB418\uB294 \uB274\uD074\uB808\uC624\uD0C0\uC774\uB4DC(A_T_G_C)\uC758
     \uD63C\uD569\uBB3C."

@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3881d5b5e624b804ebc2951f09d53158, type: 3}
-  m_Name: "Plasmid DNA \uC6A9\uC561"
+  m_Name: DNA_B
   m_EditorClassIdentifier: 
-  liquidName: "Plasmid DNA \uC6A9\uC561"
+  type: 5
+  liquidName: DNA_B
   description: "\uC99D\uD3ED\uD558\uACE0\uC790 \uD558\uB294 \uC6D0\uBCF8 DNA. PCR
     \uBC18\uC751\uC758 \uC8FC\uD615(template) \uC5ED\uD560\uC744 \uD55C\uB2E4."
   colorName: "\uBB34\uC0C9 \uD22C\uBA85"

@@ -265,13 +265,14 @@ GameObject:
   - component: {fileID: 692359509496049560}
   - component: {fileID: 1971704619655369844}
   - component: {fileID: 7478265227594292500}
+  - component: {fileID: 8934774870683575381}
   m_Layer: 0
   m_Name: Agarose_Gel_Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5704450287982572479
 Transform:
   m_ObjectHideFlags: 0
@@ -595,6 +596,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactor: {fileID: 0}
+--- !u!114 &8934774870683575381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057599761116064310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ac62dd5048cfd141b6bcd5de8ad7667, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holerenders: []
+  receivedLiquids: []
+  holeLiquidData: []
 --- !u!1 &1167013828003117790
 GameObject:
   m_ObjectHideFlags: 0

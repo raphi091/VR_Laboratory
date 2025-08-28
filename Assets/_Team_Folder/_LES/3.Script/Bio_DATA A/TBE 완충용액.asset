@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3881d5b5e624b804ebc2951f09d53158, type: 3}
   m_Name: "TBE \uC644\uCDA9\uC6A9\uC561"
   m_EditorClassIdentifier: 
+  type: 3
   liquidName: "TBE \uC644\uCDA9\uC6A9\uC561"
   description: "\uC544\uAC00\uB85C\uC2A4 \uAC94 \uC81C\uC791 \uBC0F \uC804\uAE30\uC601\uB3D9
     \uC2DC \uC804\uB958\uB97C \uD750\uB974\uAC8C \uD558\uACE0 pH\uB97C \uC548\uC815\uC801\uC73C\uB85C

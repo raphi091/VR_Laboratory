@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3881d5b5e624b804ebc2951f09d53158, type: 3}
   m_Name: "PCR \uC644\uCDA9\uC6A9\uC561"
   m_EditorClassIdentifier: 
+  type: 2
   liquidName: "PCR \uC644\uCDA9\uC6A9\uC561"
   description: "DNA \uC911\uD569\uD6A8\uC18C\uC758 \uD65C\uC131\uC744 \uC704\uD55C
     \uCD5C\uC801\uC758 pH\uC640 \uC5FC \uB18D\uB3C4\uB97C \uC81C\uACF5."

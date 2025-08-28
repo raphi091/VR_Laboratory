@@ -2,142 +2,70 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Linq;
 
-
-// 또다른 피펫
-// 용액 5개 + 파란 염색약 넣은 용액을 가지고 => tag가 Mix
-// 구멍에 넣는다 -> 샘플을 파란색으로 만든다. => tag가 Hole
+// 겔의 구멍
+// 어떤 데이터가 들어있는지를 저장한다
 public class FillHole_O : MonoBehaviour
 {
-    public SampleFlask_O flask;
-    //public Renderer render;
-    public GameObject currentHole;
+    [Header("구멍들")]
+    public List<MeshRenderer> holerenders = new List<MeshRenderer>();
+    
+    [Header("구멍에 들어간 액체 데이터")]
+    public List<LiquidData_L> receivedLiquids = new List<LiquidData_L>();
 
-    [Header("입력 정보")]
-    [SerializeField] private InputActionReference AbsorbDyeAction; // 염색약 빨아들이기
-    [SerializeField] private InputActionReference FillHoleAction;   // 채우기 -> 파란색으로 물들이기
+    // 구멍마다 들어간 액체 기록
+    public List<LiquidData_L> holeLiquidData = new List<LiquidData_L>();
 
-    [SerializeField] private ParseEventArgs parseEventArgs = new ParseEventArgs();
-
-    public bool isEnter = false;
-    public bool isAbsorb = false;   //염색약 넣었는가?
-
-    private void OnEnable()
+    private void Awake()
     {
-        if(AbsorbDyeAction != null)
-        {
-            AbsorbDyeAction.action.Enable();
-            AbsorbDyeAction.action.performed += OnAbsorbDye;
-        }
-
-        if(FillHoleAction != null)
-        {
-            FillHoleAction.action.Enable();
-            FillHoleAction.action.performed += FillHoleByDye;
-        }
+        // 초기화 : 구멍 수만큼 리스트 맞춰주기
+        holeLiquidData = new List<LiquidData_L>(new LiquidData_L[holerenders.Count]);
     }
 
-    private void OnDisable()
+    // 구멍에 액체 넣고 색 바꾸고 DNA가 들어있을 시 DNA 정보를 넣기
+    public void ReceiveLiquidAtHole(int index, List<LiquidData_L> liquids)
     {
-        if (AbsorbDyeAction != null)
+        if (index < 0 || index >= holerenders.Count)
         {
-            AbsorbDyeAction.action.performed -= OnAbsorbDye;
-            AbsorbDyeAction.action.Disable();
-        }
-
-        if (FillHoleAction != null)
-        {
-            FillHoleAction.action.performed -= FillHoleByDye;
-            FillHoleAction.action.Disable();
-        }
-    }
-
-    private void Update()
-    {
-        if(Keyboard.current.bKey.wasPressedThisFrame)
-        {
-            OnAbsorbDye(new InputAction.CallbackContext());
-        }
-
-        if (Keyboard.current.nKey.wasPressedThisFrame)
-        {
-            FillHoleByDye(new InputAction.CallbackContext());
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if(other.CompareTag("Mix"))
-        {
-            isEnter = true;
-            if (other.TryGetComponent<SampleFlask_O>(out var flaskCom))
-            {
-                flask = flaskCom;
-                if(flask.isFillSample)
-                {
-                    Debug.Log("염색약 채취 가능");
-                }
-
-                else
-                {
-                    Debug.Log("염색약 채취 불가능");
-                }
-            }
-
-            parseEventArgs.fromTool = other.GetComponent<C_ExperimentTool>();
-            parseEventArgs.toTool = this.GetComponent<C_ExperimentTool>();
-            C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
-            Debug.Log($"샘플 닿음: {other.name}");
-        }
-
-        if(other.CompareTag("Hole"))
-        {
-            isEnter = true;
-            currentHole = other.gameObject;
-
-            parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();
-            parseEventArgs.toTool = other.GetComponent<C_ExperimentTool>();
-            C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
-            Debug.Log($"샘플 닿음: {other.name}");
-
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        isEnter = false;
-    }
-
-    private void OnAbsorbDye(InputAction.CallbackContext context)
-    { 
-        if(!isEnter || !flask.isFillSample)
-        {
-            return;
-        }
-        isAbsorb = true;
-        Debug.Log("파란 용액 채취완료");
-    }
-
-    private void FillHoleByDye(InputAction.CallbackContext context)
-    {
-        if (!isEnter || !flask.isFillSample || !isAbsorb)
-        {
+            Debug.LogError("인덱스 구멍이 잘못되었습니다.");
             return;
         }
 
-        MeshRenderer holeRender = currentHole.GetComponent<MeshRenderer>();
-        if(holeRender != null)
+        // 데이터 저장 (DNA가 다르기 때문에 DNA 타입이 저장되도록 하기)
+        // FirstOrDefault : 첫번째 반환
+        LiquidData_L DNA = liquids.FirstOrDefault(l => l.type == PourableType.DNA);
+
+        //구멍에 데이터 저장
+        //DNA가 있으면 DNA가 저장되도록 하기
+        if (DNA != null)
         {
-            holeRender.material.color = Color.blue;
-            Debug.Log("구멍에 파란색 염색약 넣었습니다");
+            holeLiquidData[index] = DNA;
         }
 
         else
         {
-            Debug.Log("Render를 찾을 수 없습니다.");
+            holeLiquidData[index] = liquids[0];
+            Debug.Log("DNA가 없기 때문에 0번째 데이터를 추가합니다.");
         }
 
-        isAbsorb = false;
-        currentHole = null;
+        // 색 바꾸기
+        holerenders[index].material.color = Color.blue;
+
+        // 전체 received목록 갱신
+        receivedLiquids.Clear();
+        foreach (var l in holeLiquidData)
+        {
+            if (l != null && !receivedLiquids.Contains(l))
+            {
+                receivedLiquids.Add(l);
+            }
+        }
+    }
+
+
+    public void SaveLiquidData(List<LiquidData_L> liquid)
+    {
+        receivedLiquids = new List<LiquidData_L>(liquid);
     }
 }

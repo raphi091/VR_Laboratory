@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3881d5b5e624b804ebc2951f09d53158, type: 3}
   m_Name: "\uCD08\uC21C\uC218_Nuclease-free water"
   m_EditorClassIdentifier: 
+  type: 2
   liquidName: "\uCD08\uC21C\uC218 (Nuclease-free water)"
   description: "\uC2DC\uC57D \uD76C\uC11D \uBC0F \uBC18\uC751\uC561\uC758 \uCD5C\uC885
     \uBD80\uD53C\uB97C \uC870\uC808\uD558\uB294 \uC6A9\uB9E4."

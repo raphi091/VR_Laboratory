@@ -6,7 +6,6 @@ using UnityEngine;
 public class SampleFlask_O : MonoBehaviour
 {
     [Header("액체 담기")]
-    public List<LiquidData_L> requiredLiquids = new List<LiquidData_L>();
     public List<LiquidData_L> receiveddLiquids = new List<LiquidData_L>();  //받은 액체
 
     [Header("염색약 넣기")]
@@ -34,65 +33,74 @@ public class SampleFlask_O : MonoBehaviour
         isAddsuccess = false;
 
         int i = 0;
-        while(i < liquids.Count)
+        while(i <liquids.Count)
         {
             var liquid = liquids[i];
 
-            // 요구하지 않는 액체 거르기
-            // 샘플 플라스크는 DNA_DYE, 겔 플라스크는 SYBR_DYE는 들어갈 수 있게 허용
-            if (!requiredLiquids.Contains(liquid))
+            //겔 플라스크라면
+            if(isGel)
             {
-                if ((isGel && liquid != SYBR_DYE) || (!isGel && liquid != DNA_DYE))
+                if(liquid.type != PourableType.Agar && liquid != SYBR_DYE)
                 {
-                    Debug.LogWarning($". {liquid.name}는 요구되지 않는 액체입니다.");
-                    liquids.RemoveAt(i);    // 인덱스(숫자)의 요소를 제거
-                    continue;   // i 증가하지 않고 다음 요소 체크
+                    Debug.LogWarning("겔 플라스크에는 넣을 수 없습니다");
+                    liquids.RemoveAt(i);
+                    continue;
                 }
             }
-           
-            // 중복 불가
-            if (receiveddLiquids.Contains(liquid))
+
+            //샘플플라스크
+            else
             {
-                Debug.LogWarning($"중복된 액체입니다. {liquid.name}는 이미 있습니다.");
-                liquids.RemoveAt(i);    // 인덱스(숫자)의 요소를 제거
+                if(liquid.type == PourableType.Agar || liquid == SYBR_DYE)
+                {
+                    Debug.LogWarning("샘플 플라스크에는 넣을 수 없습니다.");
+                    liquids.RemoveAt(i);
+                    continue;
+                }
+            }
+
+            //중복 불가능
+            if(receiveddLiquids.Contains(liquid))
+            {
+                Debug.LogWarning($"중복된 액체입니다. {liquid.name}은 이미 있습니다");
+                liquids.RemoveAt(i);
                 continue;
             }
 
-            //유효한 액체인 경우
+            // 유효한 액체
             receiveddLiquids.Add(liquid);
             isAddsuccess = true;
             UpdateInfoPanel();
-            Debug.Log($"{liquid.name} 플라스크 추가");
+            Debug.Log($"{liquid.name} 플라스크에 추가");
 
             i++;
         }
 
-        if (IsComplete())
+        // 모든 액체 다 넣었는지 개수로 판별?
+        //샘플 플라스크 => 염색약 섞기 가능
+        if(!isGel && receiveddLiquids.Count >= 6)
+        {
+            ispossibleMix = true;
+            Debug.Log("샘플 플라스크에 염색약을 섞을 수 있습니다.");
+        }
+
+        // 겔 플라스크 => 붓기, 염색약 섞기 가능
+        else if(isGel && receiveddLiquids.Count >= 2)
         {
             ispossibleMix = true;
             ispossiblePour = true;
-
-            Debug.Log("모두 들어있습니다");
+            Debug.Log("이제 염색약 섞기랑 붓기가 가능합니다");
         }
 
         else
         {
             ispossibleMix = false;
             ispossiblePour = false;
-            Debug.Log($"충족안됨 {receiveddLiquids.Count}");
         }
 
+        UpdateInfoPanel();
     }
 
-    private bool IsComplete()
-    {
-        if (requiredLiquids == null || requiredLiquids.Count == 0)
-        {
-            return false;
-        }
-
-        return requiredLiquids.TrueForAll(liquid => receiveddLiquids.Contains(liquid));
-    }
 
     private void UpdateInfoPanel()
     {
