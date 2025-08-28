@@ -20,11 +20,12 @@ public class Pipette_O : MonoBehaviour
 
     public Material mat;
 
-    [Header("입력 정보")]
-    [SerializeField] private InputActionReference AbsorbAction;    // Absorb Event
-    [SerializeField] private InputActionReference ReleaseAction;    // Release Event
+    [Header("입력 설정")]
+    public InputActionReference interactionAction;
 
-
+    [Header("Action 이벤트")]
+    private InputActionReference AbsorbAction;    // Absorb Event
+    private InputActionReference ReleaseAction;    // Release Event
     private InputActionReference MixAction;    // Mix Event
     private InputActionReference FillHoleAction;    // 채우기 -> 파란색으로 물들이기
     [SerializeField] private ParseEventArgs parseEventArgs = new ParseEventArgs();
@@ -51,8 +52,6 @@ public class Pipette_O : MonoBehaviour
     [Header("시각 UI")]
     public DynamicInfoUI_G infoPanel;
 
-    [Header("입력 설정")]
-    public InputActionReference interactionAction;
 
     [Header("Pippet 움직임")]
     public Transform plunger;
@@ -155,7 +154,6 @@ public class Pipette_O : MonoBehaviour
         if(Keyboard.current.bKey.wasPressedThisFrame)
         {
             OnInteractionPress(new InputAction.CallbackContext());
-            OnAbsorbLiquid(new InputAction.CallbackContext());
         }
 
         if (Keyboard.current.bKey.wasReleasedThisFrame)
@@ -163,10 +161,10 @@ public class Pipette_O : MonoBehaviour
             OnInteractionRelease(new InputAction.CallbackContext());
         }
 
-        if (Keyboard.current.nKey.wasPressedThisFrame)
-        {
-            OnReleaseLiquid(new InputAction.CallbackContext());
-        }
+        //if (Keyboard.current.nKey.wasPressedThisFrame)
+        //{
+        //    OnReleaseLiquid(new InputAction.CallbackContext());
+        //}
     }
     private void OnTriggerStay(Collider other)
     {
@@ -174,17 +172,6 @@ public class Pipette_O : MonoBehaviour
         {
             isEnter = true;
             HandleOutline(other);
-
-            // 색깔 변하게 하기
-            //MeshRenderer[] renderers = other.GetComponentsInChildren<MeshRenderer>();
-            //foreach (var r in renderers)
-            //{
-            //    if(r.CompareTag("Liquid"))
-            //    {
-            //        mat = r.material;
-            //        break;
-            //    }
-            //}
 
             Liquid_O findliquid = other.GetComponentInChildren<Liquid_O>();
             if(findliquid != null)
@@ -643,11 +630,19 @@ public class Pipette_O : MonoBehaviour
     private void OnInteractionPress(InputAction.CallbackContext context)
     {
         AnimatePlunger(plungerDownLocalY);
+        if (liquidDatas.Count > 0)
+        {
+            OnReleaseLiquid(context);
+        }
+
+        else
+        {
+            OnAbsorbLiquid(context);
+        }
     }
 
     private void OnInteractionRelease(InputAction.CallbackContext context)
     {
-
         AnimatePlunger(plungerUpLocalY);
     }
 
