@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 6661484540346437660}
   - component: {fileID: 3729571028897499616}
   - component: {fileID: 3438853081603005321}
+  - component: {fileID: 1095109521057687613}
+  - component: {fileID: 5639985771817979362}
   m_Layer: 0
   m_Name: Primer
   m_TagString: Absorb
@@ -407,6 +409,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Primer
   objectDescription: "PCR \uC2E4\uD5D8\uC5D0 \uC0AC\uC6A9\uB418\uB294 Primer \uC785\uB2C8\uB2E4."
+--- !u!114 &1095109521057687613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218071988204862071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45386f7445b5dcd4a8936cab227ff61f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5639985771817979362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218071988204862071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be0b547b5a6207049b870b41226aa803, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 5
 --- !u!1 &2264443240153091754
 GameObject:
   m_ObjectHideFlags: 0

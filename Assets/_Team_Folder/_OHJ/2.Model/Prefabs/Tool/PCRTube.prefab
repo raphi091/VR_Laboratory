@@ -140,6 +140,8 @@ GameObject:
   - component: {fileID: 5767904991112307581}
   - component: {fileID: 3080794352843200467}
   - component: {fileID: 8466820715204691992}
+  - component: {fileID: 289261971278171376}
+  - component: {fileID: 5944794766257772608}
   m_Layer: 0
   m_Name: PCRTube
   m_TagString: Mix
@@ -227,13 +229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172adb91dc3d39a47aeabda6e0c3124e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredLiquids:
-  - {fileID: 11400000, guid: fb0517687115c5a4285a6ca4670004df, type: 2}
-  - {fileID: 11400000, guid: 04f63a064ac58ac4685faac9d2868843, type: 2}
-  - {fileID: 11400000, guid: dbea0bc52a162d34c94b7091431cba5f, type: 2}
-  - {fileID: 11400000, guid: 3f27aa631f9c0344c8b756823d37de1a, type: 2}
-  - {fileID: 11400000, guid: cae19d6ba4474924e959c59a10362a81, type: 2}
-  - {fileID: 11400000, guid: 1e1dcb0c81a8c904f8d4575975023c37, type: 2}
   receiveddLiquids: []
   Dye: {fileID: 0}
   DNA_DYE: {fileID: 11400000, guid: 3e75c36accedb58439092a3a8082f5e7, type: 2}
@@ -566,6 +561,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: PCR Tube
   objectDescription: "DNA \uC99D\uD3ED \uACFC\uC815\uC744 \uC704\uD55C \uC18C\uBAA8\uD488\uC785\uB2C8\uB2E4."
+--- !u!114 &289261971278171376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3129036513053330947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45386f7445b5dcd4a8936cab227ff61f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5944794766257772608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3129036513053330947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be0b547b5a6207049b870b41226aa803, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 1
 --- !u!1001 &5515790351714751799
 PrefabInstance:
   m_ObjectHideFlags: 0

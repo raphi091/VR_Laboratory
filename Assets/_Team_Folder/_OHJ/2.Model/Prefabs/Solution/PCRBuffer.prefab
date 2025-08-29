@@ -155,6 +155,8 @@ GameObject:
   - component: {fileID: 8042553637110792537}
   - component: {fileID: 6715502011051207573}
   - component: {fileID: 4590459663554175147}
+  - component: {fileID: 3770351779948812215}
+  - component: {fileID: 7594101643556123363}
   m_Layer: 0
   m_Name: PCRBuffer
   m_TagString: Absorb
@@ -542,6 +544,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: "PCR \uC644\uCDA9\uC6A9\uC561"
   objectDescription: "PCR \uC2E4\uD5D8\uC5D0 \uC0AC\uC6A9\uB418\uB294 PCR \uC644\uCDA9\uC6A9\uC561\uC785\uB2C8\uB2E4."
+--- !u!114 &3770351779948812215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7850429878269405501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45386f7445b5dcd4a8936cab227ff61f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7594101643556123363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7850429878269405501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be0b547b5a6207049b870b41226aa803, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 5
 --- !u!1001 &3218592935869227267
 PrefabInstance:
   m_ObjectHideFlags: 0
