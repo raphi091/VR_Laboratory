@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8278648477663734797
 Transform:
@@ -98,6 +98,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Files 3
       objectReference: {fileID: 0}
+    - target: {fileID: 855057017117357610, guid: 772c9a5856d6e7d4ba0868d9e7dfd9c6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1022911909236712181, guid: 772c9a5856d6e7d4ba0868d9e7dfd9c6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1605386985847813786, guid: 772c9a5856d6e7d4ba0868d9e7dfd9c6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3031390025391385078, guid: 772c9a5856d6e7d4ba0868d9e7dfd9c6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137830103561172177, guid: 772c9a5856d6e7d4ba0868d9e7dfd9c6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -163,6 +183,10 @@ PrefabInstance:
     - target: {fileID: 4391146546868232246, guid: ce11e606a7dd2124480646618639d978, type: 3}
       propertyPath: m_Name
       value: Paper (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391146546868232246, guid: ce11e606a7dd2124480646618639d978, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -230,6 +254,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Paper 2 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5381618415050425187, guid: 4f4c3352d30d4c345ac44749eea832df, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -295,6 +323,10 @@ PrefabInstance:
     - target: {fileID: 7735783792744578321, guid: 8e1e8c321908acd41bf7a26f37ebe0c9, type: 3}
       propertyPath: m_Name
       value: Tray
+      objectReference: {fileID: 0}
+    - target: {fileID: 7735783792744578321, guid: 8e1e8c321908acd41bf7a26f37ebe0c9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -362,6 +394,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Paper 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5381618415050425187, guid: 4f4c3352d30d4c345ac44749eea832df, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -383,6 +419,10 @@ PrefabInstance:
     - target: {fileID: 5799522307551592185, guid: f0933313d12d881489a5e08b61e4ffd3, type: 3}
       propertyPath: m_Name
       value: Towel (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5799522307551592185, guid: f0933313d12d881489a5e08b61e4ffd3, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6572962301419234371, guid: f0933313d12d881489a5e08b61e4ffd3, type: 3}
       propertyPath: m_RootOrder
@@ -449,6 +489,10 @@ PrefabInstance:
     - target: {fileID: 5864814611815251138, guid: 46a07c84a8b87e849b363f88e5ec75ef, type: 3}
       propertyPath: m_Name
       value: Latex gloves (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5864814611815251138, guid: 46a07c84a8b87e849b363f88e5ec75ef, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6498643119443338872, guid: 46a07c84a8b87e849b363f88e5ec75ef, type: 3}
       propertyPath: m_RootOrder
@@ -560,6 +604,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Files 1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1114080928434449200, guid: 8264e3f7c132791458e16bbc27fe9df0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -651,6 +699,10 @@ PrefabInstance:
     - target: {fileID: 5864814611815251138, guid: 46a07c84a8b87e849b363f88e5ec75ef, type: 3}
       propertyPath: m_Name
       value: Latex gloves (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5864814611815251138, guid: 46a07c84a8b87e849b363f88e5ec75ef, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6498643119443338872, guid: 46a07c84a8b87e849b363f88e5ec75ef, type: 3}
       propertyPath: m_RootOrder
@@ -761,6 +813,10 @@ PrefabInstance:
     - target: {fileID: 4391146546868232246, guid: ce11e606a7dd2124480646618639d978, type: 3}
       propertyPath: m_Name
       value: Paper
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391146546868232246, guid: ce11e606a7dd2124480646618639d978, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
