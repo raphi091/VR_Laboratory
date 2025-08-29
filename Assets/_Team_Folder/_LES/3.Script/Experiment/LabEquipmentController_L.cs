@@ -129,8 +129,7 @@ public class LabEquipmentController_L : MonoBehaviour
         // Start에서도 한 번 더 확인 (Awake 이후 Inspector 설정이 적용될 수 있음)
         SetUIVisible(false, false);
 
-        // 디버그 로그
-        Debug.Log($"{gameObject.name}: UI 초기화 완료 - Canvas Alpha: {interactionCanvasGroup?.alpha}");
+//        Debug.Log($"{gameObject.name}: UI 초기화 완료 - Canvas Alpha: {interactionCanvasGroup?.alpha}");
 
         if (idleModelObject != null) idleModelObject.SetActive(true);
         if (processingModelObject != null) processingModelObject.SetActive(false);
@@ -184,13 +183,10 @@ public class LabEquipmentController_L : MonoBehaviour
         }
         else if (experimentItem != null)
         {
-            // '특정 아이템 요구'가 체크되어 있을 때만 이 로직이 작동합니다.
             if (requireSpecificItemType)
             {
-                // 들어온 아이템의 종류가 이 기계가 요구하는 종류와 다르면,
                 if (experimentItem.itemType != requiredItemType)
                 {
-                    // 유효하지 않은 아이템으로 간주하고 무시합니다.
                     statusText.text = "올바른 샘플을 넣어주세요!";
                     Debug.LogWarning($"{gameObject.name}은(는) '{requiredItemType}' 타입의 아이템이 필요하지만, '{experimentItem.itemType}'이(가) 들어왔습니다. 무시합니다.");
                     return;
@@ -441,7 +437,7 @@ public class LabEquipmentController_L : MonoBehaviour
         }
 
         uiVisible = visible;
-        Debug.Log($"{gameObject.name}: UI 상태 변경 - Visible: {visible}, Buttons: {showButtons}");
+//        Debug.Log($"{gameObject.name}: UI 상태 변경 - Visible: {visible}, Buttons: {showButtons}");
     }
 
     private void UpdateStatusText(bool isItemInteraction)
