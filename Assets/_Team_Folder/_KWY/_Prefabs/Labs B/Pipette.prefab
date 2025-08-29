@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 1051845735239039352}
   - component: {fileID: 6839026782850857638}
   - component: {fileID: 7851836171560046923}
+  - component: {fileID: 5922032723442469528}
+  - component: {fileID: 6630392065660002138}
   m_Layer: 0
   m_Name: Pipette
   m_TagString: Untagged
@@ -445,6 +447,32 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &5922032723442469528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901488570272009426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be0b547b5a6207049b870b41226aa803, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 8
+  uniqueId: 
+--- !u!114 &6630392065660002138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901488570272009426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45386f7445b5dcd4a8936cab227ff61f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &903711196497414215
 GameObject:
   m_ObjectHideFlags: 0

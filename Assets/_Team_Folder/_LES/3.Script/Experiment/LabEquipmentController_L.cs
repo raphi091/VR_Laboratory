@@ -594,20 +594,14 @@ public class LabEquipmentController_L : MonoBehaviour
         if (flaskController == null || flaskController.liquidRenderer == null)
         {
             Debug.LogError("오류: 플라스크에서 FlaskLiquidController_G 또는 liquidRenderer를 찾을 수 없습니다. 일반 타이머로 대체 실행합니다.");
-            // 문제가 생겼으니, 색상 변경 없이 일반 타이머로만 작동시킵니다.
-            yield return StartCoroutine(ProcessTimer(targetItem, debugProcessingTime));
-            yield break; // 코루틴을 여기서 종료합니다.
+            yield return StartCoroutine(ProcessTimer(targetItem, processingTime));
+            yield break;
         }
 
         // 2. 플라스크 스크립트에서 필요한 정보(머티리얼, 색상)를 가져옵니다.
         Material liquidMaterial = flaskController.liquidRenderer.material;
         Color startLiquidColor = liquidMaterial.GetColor("_LiquidColor");
-        Color startFresnelColor = liquidMaterial.GetColor("_FresnelColor");
-
-        // 목표 색상은 플라스크 스크립트의 cloudyLiquidColor 변수에서 가져옵니다.
         Color targetLiquidColor = flaskController.cloudyLiquidColor;
-        // 팀원의 스크립트와 동일한 시각적 효과를 위해 Fresnel 색상도 계산합니다.
-        Color targetFresnelColor = new Color(targetLiquidColor.r - 0.05f, targetLiquidColor.g - 0.05f, targetLiquidColor.b);
 
         Debug.Log("Shaking Incubator: 플라스크 액체 색상 변경을 시작합니다.");
 
@@ -616,17 +610,12 @@ public class LabEquipmentController_L : MonoBehaviour
         while (elapsedTime < processingTime)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / processingTime; // 0에서 1까지의 진행률
-
-            // Lerp 함수를 이용해 시작 색상에서 목표 색상으로 점진적으로 변경
+            float t = elapsedTime / processingTime;
             liquidMaterial.SetColor("_LiquidColor", Color.Lerp(startLiquidColor, targetLiquidColor, t));
-            liquidMaterial.SetColor("_FresnelColor", Color.Lerp(startFresnelColor, targetFresnelColor, t));
-
-            yield return null; // 다음 프레임까지 대기
+            yield return null;
         }
 
         // 4. 색상 변경이 끝나면, 기계의 처리를 완료합니다.
-        Debug.Log("Shaking Incubator: 색상 변경 완료. 기기 처리를 종료합니다.");
         ProcessComplete(targetItem);
     }
 
