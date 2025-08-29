@@ -159,7 +159,7 @@ Transform:
   m_GameObject: {fileID: 1057599761116064310}
   serializedVersion: 2
   m_LocalRotation: {x: 0.50000006, y: 0.50000006, z: -0.49999997, w: 0.49999997}
-  m_LocalPosition: {x: 0.003921, y: -0.00022, z: -0}
+  m_LocalPosition: {x: 0.003921, y: -0.00022, z: 0}
   m_LocalScale: {x: 0.81253016, y: 0.45965603, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1003,7 +1003,7 @@ Transform:
   m_GameObject: {fileID: 2773763754915262079}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.70710677, z: -0.70710677, w: 0}
-  m_LocalPosition: {x: -0.0092, y: 0, z: 0.00571}
+  m_LocalPosition: {x: -0.0092, y: 0, z: -0.00004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1647,8 +1647,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 547813435356727546}
-  - component: {fileID: 6576875742635027109}
   - component: {fileID: 4441109924791283107}
+  - component: {fileID: 6576875742635027109}
   - component: {fileID: 3829149104047655060}
   - component: {fileID: 9221595817617169425}
   - component: {fileID: 404686896862184645}
@@ -1679,7 +1679,7 @@ Transform:
   - {fileID: 2252909529126600168}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6576875742635027109
+--- !u!65 &4441109924791283107
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1694,13 +1694,13 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.019933293, y: 0.00021081005, z: 0.019906681}
   m_Center: {x: 0.000004184743, y: -0.00090080564, z: 0.0000054604475}
---- !u!65 &4441109924791283107
+--- !u!65 &6576875742635027109
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

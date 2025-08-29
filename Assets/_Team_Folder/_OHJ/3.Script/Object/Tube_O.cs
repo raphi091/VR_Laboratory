@@ -150,11 +150,13 @@ public class Tube_O : MonoBehaviour
                         C_ExperimentDataParser.I.DataParsed.Invoke(parseEventArgs);
 
                         fill.isfilling = true;
+                        tray_rb.isKinematic = true;
                     }
 
                     else
                     {
                         fill.isfilling = false;
+                        tray_rb.isKinematic = false;
                     }
                 }
             }
