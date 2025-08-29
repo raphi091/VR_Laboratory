@@ -124,13 +124,15 @@ GameObject:
   - component: {fileID: 4700886054721840601}
   - component: {fileID: 4372454317904408957}
   - component: {fileID: 6710076055576466002}
+  - component: {fileID: 4714939768781522628}
+  - component: {fileID: 8425400540968177278}
   m_Layer: 0
   m_Name: DNA_A
   m_TagString: Absorb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7061994921981029506
 Transform:
   m_ObjectHideFlags: 0
@@ -511,6 +513,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: DNA Sample_A
   objectDescription: "PCR \uC2E4\uD5D8\uC5D0 \uC0AC\uC6A9\uB418\uB294 Sample_A\uC785\uB2C8\uB2E4"
+--- !u!114 &4714939768781522628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039738564997002300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45386f7445b5dcd4a8936cab227ff61f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8425400540968177278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039738564997002300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be0b547b5a6207049b870b41226aa803, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 5
 --- !u!1 &7563170913151980227
 GameObject:
   m_ObjectHideFlags: 0

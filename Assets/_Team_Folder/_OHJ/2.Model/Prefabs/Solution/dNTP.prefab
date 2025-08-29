@@ -155,6 +155,8 @@ GameObject:
   - component: {fileID: 1394964111102338176}
   - component: {fileID: 1342519117261596199}
   - component: {fileID: 2050218332484552543}
+  - component: {fileID: 2551095618153524282}
+  - component: {fileID: 574234726194996640}
   m_Layer: 0
   m_Name: dNTP
   m_TagString: Absorb
@@ -542,6 +544,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: "dNTP \uD63C\uD569\uC561"
   objectDescription: "PCR \uC2E4\uD5D8\uC5D0 \uC0AC\uC6A9\uB418\uB294 dNTP \uD63C\uD569\uC561\uC785\uB2C8\uB2E4."
+--- !u!114 &2551095618153524282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7504733036218546393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45386f7445b5dcd4a8936cab227ff61f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &574234726194996640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7504733036218546393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be0b547b5a6207049b870b41226aa803, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 5
 --- !u!1001 &2259889652797717835
 PrefabInstance:
   m_ObjectHideFlags: 0
