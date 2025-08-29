@@ -404,10 +404,10 @@ public class NpcController_G : MonoBehaviour
         {
             float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
 
-            if (distanceToPlayer > followDistance) 
+            if (distanceToPlayer > followDistance)
                 navMeshAgent.SetDestination(playerTransform.position);
 
-            else 
+            else
                 navMeshAgent.ResetPath();
 
             LookAtTarget(playerTransform);

@@ -335,7 +335,7 @@ MonoBehaviour:
   pcrExperiment: {fileID: 0}
   cultureExperiment: {fileID: 0}
   tutorialExperiment: {fileID: 0}
-  subtitleDisplay: {fileID: 0}
+  subtitleDisplay: {fileID: 5615198147066620828}
   subtitleSentenceDuration: 4
   maxCharactersPerSubtitle: 40
   choiceUIPanel: {fileID: 0}
@@ -941,6 +941,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3802056980053147905, guid: 4917d217f9089d84f9f8ad6b50c2d561, type: 3}
   m_PrefabInstance: {fileID: 16882818772745715}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5615198147066620828 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5608892639162652271, guid: 4917d217f9089d84f9f8ad6b50c2d561, type: 3}
+  m_PrefabInstance: {fileID: 16882818772745715}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6908364361649621155 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6909799587143857488, guid: 4917d217f9089d84f9f8ad6b50c2d561, type: 3}

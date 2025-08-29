@@ -1529,7 +1529,7 @@ GameObject:
   - component: {fileID: 123782858784664023}
   - component: {fileID: 382053594197971518}
   - component: {fileID: 54728318177825795}
-  - component: {fileID: 7177478506497408451}
+  - component: {fileID: 8975334282870622036}
   m_Layer: 0
   m_Name: Direct Interactor
   m_TagString: Untagged
@@ -1663,7 +1663,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7177478506497408451
+--- !u!114 &8975334282870622036
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1681,7 +1681,7 @@ MonoBehaviour:
       m_Name: Velocity Property
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: bc7d3c9c-8e8f-415e-8675-b903ef1e047f
+      m_Id: c60cce60-ae10-44d8-aac4-288b85e2c9e0
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -1902,7 +1902,7 @@ GameObject:
   - component: {fileID: 4475313397814329514}
   - component: {fileID: 825569199349886525}
   - component: {fileID: 8230302919349036634}
-  - component: {fileID: 1074111522324526171}
+  - component: {fileID: 664699803265904216}
   m_Layer: 0
   m_Name: Direct Interactor
   m_TagString: Untagged
@@ -2036,7 +2036,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1074111522324526171
+--- !u!114 &664699803265904216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2054,7 +2054,7 @@ MonoBehaviour:
       m_Name: Velocity Property
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: af2dcbcf-fec6-41c4-ac1d-4f4d2507b188
+      m_Id: 3bd14824-9c90-418d-ae07-9896d4eb8a9d
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -4130,7 +4130,7 @@ GameObject:
   - component: {fileID: 438196613660386882}
   - component: {fileID: 7286806217627302573}
   - component: {fileID: 8374177953068778760}
-  - component: {fileID: 8712842642186054810}
+  - component: {fileID: 7043536711040028005}
   m_Layer: 0
   m_Name: Ray Interactor
   m_TagString: Untagged
@@ -4554,7 +4554,7 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 30005
   m_SortAtRoot: 0
---- !u!114 &8712842642186054810
+--- !u!114 &7043536711040028005
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4572,7 +4572,7 @@ MonoBehaviour:
       m_Name: Velocity Property
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: f2a905ce-b83e-432e-a69e-f2afcbdb5217
+      m_Id: 4d6133c9-7b16-4969-9290-0144e79eb143
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -4848,7 +4848,7 @@ GameObject:
   - component: {fileID: 1373887145526301290}
   - component: {fileID: 7087255805877839613}
   - component: {fileID: 2170428236933740560}
-  - component: {fileID: 6767263943457450109}
+  - component: {fileID: 506062648227805722}
   m_Layer: 0
   m_Name: Ray Interactor
   m_TagString: Untagged
@@ -5272,7 +5272,7 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 30005
   m_SortAtRoot: 0
---- !u!114 &6767263943457450109
+--- !u!114 &506062648227805722
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5290,7 +5290,7 @@ MonoBehaviour:
       m_Name: Velocity Property
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 96b9f5d6-2ac6-4f05-8895-6aba47cda12d
+      m_Id: c72032b6-654e-42a8-ab59-4340326bf00e
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -5388,7 +5388,8 @@ GameObject:
   - component: {fileID: 6737907479556635813}
   - component: {fileID: 8291959256816621605}
   - component: {fileID: 4150839685739033521}
-  - component: {fileID: 7869104319963907311}
+  - component: {fileID: 4031201403502042255}
+  - component: {fileID: 4528127141734243835}
   m_Layer: 2
   m_Name: XR Origin
   m_TagString: Untagged
@@ -5527,7 +5528,7 @@ MonoBehaviour:
   m_AimAssistRequiredSpeed: 0.25
   m_AimAssistPercent: 0.8
   m_AimAssistMaxSpeedPercent: 10
---- !u!114 &7869104319963907311
+--- !u!114 &4031201403502042255
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5541,6 +5542,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetNpc: {fileID: 0}
   interactionAction: {fileID: -5867158752056224167, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+--- !u!114 &4528127141734243835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7729059135691971195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a20ef262e9fd94e934ce84bb3a6b64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPrefab: {fileID: 9029881517566227386, guid: 57c837adb33af7f449d9b4780fc81ad9, type: 3}
+  head: {fileID: 6268691904117044039}
+  distance: 1.2
+  localOffset: {x: 0, y: -0.05, z: 0}
+  pauseAction: {fileID: -7835874364050799200, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  uiActionMapName: XRI UI
+  mapsToDisableWhilePaused:
+  - XRI LeftHand
+  - XRI RightHand
+  - XRI LeftHand Interaction
+  - XRI RightHand Interaction
+  - XRI LeftHand Locomotion
+  - XRI RightHand Locomotion
+  uiClickSfx: {fileID: 8300000, guid: 70b5427226b11ba4eb56d4c469da4281, type: 3}
 --- !u!1 &8196344986079315435
 GameObject:
   m_ObjectHideFlags: 0
