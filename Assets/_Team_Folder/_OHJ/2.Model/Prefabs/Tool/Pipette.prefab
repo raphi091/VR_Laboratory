@@ -510,7 +510,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Pipette
-  objectDescription: "PCR \uC2E4\uD5D8\uC5D0 \uC0AC\uC6A9\uB418\uB294 Pipette\uC785\uB2C8\uB2E4."
+  objectDescription: "\uC18C\uB7C9\uC758 \uC561\uCCB4 \uC2DC\uB8CC\uB97C \uC815\uBC00\uD558\uAC8C
+    \uC62E\uAE30\uB294 \uC2E4\uD5D8 \uB3C4\uAD6C"
 --- !u!114 &6221609058669909371
 MonoBehaviour:
   m_ObjectHideFlags: 0
