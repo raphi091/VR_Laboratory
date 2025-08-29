@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7121737410403022742
 Transform:
@@ -54,6 +54,10 @@ PrefabInstance:
     - target: {fileID: 4768026921309817074, guid: 953da18d73c66de498eb49130d222c3f, type: 3}
       propertyPath: m_Name
       value: Box 1 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4768026921309817074, guid: 953da18d73c66de498eb49130d222c3f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 5287436611730772552, guid: 953da18d73c66de498eb49130d222c3f, type: 3}
       propertyPath: m_RootOrder
@@ -165,6 +169,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Medicine 1 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 7950418068981609102, guid: b40ae76c45820e94295f003a15dd8114, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -231,6 +239,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Poster 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8046565190790509879, guid: e70e6af66a601db4ba55fb85480f8d27, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -252,6 +264,10 @@ PrefabInstance:
     - target: {fileID: 3497915162850785289, guid: a16025f13e5f31e48b08f7ca86dc837f, type: 3}
       propertyPath: m_Name
       value: Container 4 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497915162850785289, guid: a16025f13e5f31e48b08f7ca86dc837f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 4305661018494476979, guid: a16025f13e5f31e48b08f7ca86dc837f, type: 3}
       propertyPath: m_RootOrder
@@ -318,6 +334,10 @@ PrefabInstance:
     - target: {fileID: 4768026921309817074, guid: 953da18d73c66de498eb49130d222c3f, type: 3}
       propertyPath: m_Name
       value: Box 1 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4768026921309817074, guid: 953da18d73c66de498eb49130d222c3f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 5287436611730772552, guid: 953da18d73c66de498eb49130d222c3f, type: 3}
       propertyPath: m_RootOrder
@@ -428,6 +448,10 @@ PrefabInstance:
     - target: {fileID: 7809236368711516804, guid: 9acd5cc2a996ba74a8e3fc77ae58fc0a, type: 3}
       propertyPath: m_Name
       value: Container 1 (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809236368711516804, guid: 9acd5cc2a996ba74a8e3fc77ae58fc0a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -577,6 +601,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Container 1 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7809236368711516804, guid: 9acd5cc2a996ba74a8e3fc77ae58fc0a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -643,6 +671,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Container 1 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 7809236368711516804, guid: 9acd5cc2a996ba74a8e3fc77ae58fc0a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -664,6 +696,10 @@ PrefabInstance:
     - target: {fileID: 3497915162850785289, guid: a16025f13e5f31e48b08f7ca86dc837f, type: 3}
       propertyPath: m_Name
       value: Container 4 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497915162850785289, guid: a16025f13e5f31e48b08f7ca86dc837f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 4305661018494476979, guid: a16025f13e5f31e48b08f7ca86dc837f, type: 3}
       propertyPath: m_RootOrder
@@ -775,6 +811,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Medicine 1 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 7950418068981609102, guid: b40ae76c45820e94295f003a15dd8114, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -796,6 +836,10 @@ PrefabInstance:
     - target: {fileID: 4768026921309817074, guid: 953da18d73c66de498eb49130d222c3f, type: 3}
       propertyPath: m_Name
       value: Box 1 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4768026921309817074, guid: 953da18d73c66de498eb49130d222c3f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 5287436611730772552, guid: 953da18d73c66de498eb49130d222c3f, type: 3}
       propertyPath: m_RootOrder

@@ -13,20 +13,17 @@ public class ExperimentFlowManager_L : MonoBehaviour
     public LabEquipmentController_L shakingIncubatorController;
     public LabEquipmentController_L airIncubatorController;
 
-    [Header("Result Objects")]
-    public GameObject finalPetriDish;
-
     private FlaskLiquidController_G _G;
 
     void Start()
     {
         Debug.Log("--- ExperimentFlowManager: 시작 ---");
 
-        if (C_DataManager.I.gameData != null && C_DataManager.I.gameData.IsCulturingOvernight)
+        if (GameStateManager_L.Instance != null && GameStateManager_L.Instance.IsCulturingOvernight)
         {
             Debug.Log("GameStateManager에서 '밤샘 배양' 상태 확인. 결과 표시를 시도합니다.");
-            ShowPetriDishResult();
-            C_DataManager.I.gameData.IsCulturingOvernight = false;
+            ShowPetriDishResult(); // 수정된 함수 호출
+            GameStateManager_L.Instance.IsCulturingOvernight = false;
         }
 
         Debug.Log("초기 장비 상태를 설정합니다.");
@@ -82,21 +79,43 @@ public class ExperimentFlowManager_L : MonoBehaviour
 
     private void ShowPetriDishResult()
     {
-        if (finalPetriDish == null)
+        if (GameStateManager_L.Instance == null || string.IsNullOrEmpty(GameStateManager_L.Instance.IncubatedPetriDishID))
         {
-            Debug.LogError("오류: finalPetriDish 변수가 인스펙터에 할당되지 않았습니다!");
+            Debug.LogError("오류: GameStateManager에 저장된 페트리 접시 ID가 없습니다!");
             return;
         }
 
-        Renderer renderer = finalPetriDish.GetComponentInChildren<Renderer>();
-        if (renderer != null && ResultManager_L.Instance != null)
+        // 1. 씬에 있는 모든 ExperimentItem_L 컴포넌트를 찾습니다.
+        ExperimentItem_L[] allItems = FindObjectsOfType<ExperimentItem_L>();
+        GameObject foundPetriDish = null;
+
+        // 2. 저장된 ID와 일치하는 아이템을 찾습니다.
+        foreach (var item in allItems)
         {
-            renderer.material.mainTexture = ResultManager_L.Instance.GetRandomCulturingResult();
-            Debug.Log("성공: 밤샘 배양된 페트리 접시 결과 이미지를 적용했습니다.");
+            if (item.uniqueId == GameStateManager_L.Instance.IncubatedPetriDishID)
+            {
+                foundPetriDish = item.gameObject;
+                break;
+            }
+        }
+
+        // 3. 페트리 접시를 찾았다면, 결과 표시를 요청합니다.
+        if (foundPetriDish != null)
+        {
+            PetriDishController_G petriDishController = foundPetriDish.GetComponent<PetriDishController_G>();
+            if (petriDishController != null)
+            {
+                petriDishController.ShowResult();
+                Debug.Log($"성공: ID({GameStateManager_L.Instance.IncubatedPetriDishID})로 찾은 페트리 접시의 결과 표시를 요청했습니다.");
+            }
+            else
+            {
+                Debug.LogError($"오류: 찾은 페트리 접시 '{foundPetriDish.name}'에서 PetriDishController_G를 찾지 못했습니다.");
+            }
         }
         else
         {
-            Debug.LogError("오류: finalPetriDish에서 Renderer 컴포넌트를 찾지 못했거나 ResultManager가 없습니다.");
+            Debug.LogError($"오류: 저장된 ID({GameStateManager_L.Instance.IncubatedPetriDishID})와 일치하는 페트리 접시를 씬에서 찾지 못했습니다.");
         }
     }
 
@@ -147,7 +166,6 @@ public class ExperimentFlowManager_L : MonoBehaviour
     {
         Debug.Log(">> 이벤트 수신: Air Incubator 완료. 페트리 접시 결과 표시를 시도합니다.");
 
-        // airIncubatorController 변수가 연결되었는지 확인
         if (airIncubatorController == null)
         {
             Debug.LogError("오류: airIncubatorController 변수가 인스펙터에 할당되지 않았습니다!");
@@ -156,7 +174,6 @@ public class ExperimentFlowManager_L : MonoBehaviour
 
         // 1. Air Incubator에게 방금 완료한 아이템을 직접 물어봅니다.
         GameObject finishedPetriDish = airIncubatorController.GetCompletedItem();
-
         if (finishedPetriDish == null)
         {
             Debug.LogError("오류: Air Incubator로부터 완료된 아이템 정보를 받아오지 못했습니다!");
@@ -165,10 +182,9 @@ public class ExperimentFlowManager_L : MonoBehaviour
 
         // 2. 받아온 아이템에서 PetriDishController_G 스크립트를 찾아옵니다.
         PetriDishController_G petriDishController = finishedPetriDish.GetComponent<PetriDishController_G>();
-
-        // 3. 스크립트를 찾았다면, ShowResult() 함수를 호출합니다.
         if (petriDishController != null)
         {
+            // 3. 스크립트를 찾았다면, ShowResult() 함수를 호출합니다.
             petriDishController.ShowResult();
         }
         else
