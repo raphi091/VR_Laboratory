@@ -8,7 +8,9 @@ public class Liquid_O : MonoBehaviour
     public Material mat;
     public float fillAmount  = 1f;
     public float currentAmount;
+    public float targetAmount = 0.5f;
 
+    private Coroutine fillCoroutine;
     private Coroutine ChangecolorCoroutine;
 
     private void Awake()
@@ -26,17 +28,55 @@ public class Liquid_O : MonoBehaviour
 
     public void FillLiquid()
     {
-        currentAmount += fillAmount;
+        float newAmount = currentAmount + fillAmount;
 
-        if (currentAmount > 1f)
+        if(newAmount > targetAmount)
         {
-            currentAmount = 1f;
+            newAmount = targetAmount;
         }
 
-        if(mat.HasProperty("_Fill"))
+        if(fillCoroutine != null)
         {
-            mat.SetFloat("_Fill", currentAmount);
+            StopCoroutine(fillCoroutine);
         }
+
+        fillCoroutine = StartCoroutine(FillAnimation(currentAmount, newAmount, 0.5f));
+        //if(currentAmount != targetAmount)
+        //{
+        //    currentAmount = Mathf.Lerp(currentAmount, targetAmount, fillAmount * Time.deltaTime);
+        //}
+
+        //currentAmount += fillAmount;
+
+        //if (currentAmount > 0.8f)
+        //{
+        //    currentAmount = 0.8f;
+        //}
+
+        //if(mat.HasProperty("_Fill"))
+        //{
+        //    mat.SetFloat("_Fill", currentAmount);
+        //}
+    }
+
+    private IEnumerator FillAnimation(float from, float to, float duration)
+    {
+        float elapsed = 0f;
+
+        while(elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            currentAmount = Mathf.Lerp(from, to, elapsed / duration);
+
+            if (mat.HasProperty("_Fill"))
+            {
+                mat.SetFloat("_Fill", currentAmount);
+            }
+
+            yield return null;
+        }
+        currentAmount = to;
+        mat.SetFloat("_Fill", currentAmount);
     }
 
     public void ChangeLiquidColor(Color targetColor, float duration)

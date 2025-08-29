@@ -118,8 +118,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mat: {fileID: 0}
-  fillAmount: 0.01
-  currentAmount: -0.08
+  fillAmount: 0.015
+  currentAmount: -0.099
+  targetAmount: 0.06
 --- !u!1 &3129036513053330947
 GameObject:
   m_ObjectHideFlags: 0

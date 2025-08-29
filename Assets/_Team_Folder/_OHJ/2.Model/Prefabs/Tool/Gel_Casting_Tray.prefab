@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 1971704619655369844}
   - component: {fileID: 7478265227594292500}
   - component: {fileID: 8934774870683575381}
+  - component: {fileID: 296372130862744966}
   m_Layer: 0
   m_Name: Agarose_Gel_Up
   m_TagString: Untagged
@@ -484,6 +485,19 @@ MonoBehaviour:
   - {fileID: 1804547986864526255}
   receivedLiquids: []
   holeLiquidData: []
+--- !u!114 &296372130862744966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057599761116064310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be0b547b5a6207049b870b41226aa803, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 2
 --- !u!1 &1167013828003117790
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,8 +1465,8 @@ GameObject:
   - component: {fileID: 6442756126307487970}
   - component: {fileID: 8889052316671406717}
   - component: {fileID: 5679470616380871127}
-  - component: {fileID: 2336353076099872468}
   - component: {fileID: 4612394180372045295}
+  - component: {fileID: 3307478664486092811}
   m_Layer: 0
   m_Name: Gel
   m_TagString: Untagged
@@ -1525,8 +1539,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2336353076099872468
-MeshCollider:
+--- !u!114 &4612394180372045295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4517615504759509283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a0ad4ac0232d4a46a1bbbfa33070938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filling: 0.001
+  stopPos: 0.0002
+  pos: {x: 0, y: 0, z: 0}
+  isfilling: 0
+  isfull: 0
+--- !u!65 &3307478664486092811
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1543,27 +1574,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &4612394180372045295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4517615504759509283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a0ad4ac0232d4a46a1bbbfa33070938, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  filling: 0.004
-  stopPos: 0.013
-  pos: {x: 0, y: 0, z: 0}
-  isfilling: 0
-  isfull: 0
+  serializedVersion: 3
+  m_Size: {x: 10.000001, y: 2.220446e-16, z: 10.000001}
+  m_Center: {x: 0, y: -0.000000044703484, z: 0.0000076293945}
 --- !u!1 &6325782025342384528
 GameObject:
   m_ObjectHideFlags: 0
