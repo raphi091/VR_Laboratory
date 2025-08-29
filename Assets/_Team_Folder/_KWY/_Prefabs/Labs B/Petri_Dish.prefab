@@ -546,7 +546,7 @@ GameObject:
   - component: {fileID: 840643668143282635}
   - component: {fileID: 4864472278701861921}
   - component: {fileID: 622663513729531988}
-  - component: {fileID: 6485547701823482155}
+  - component: {fileID: 2935824763815328974}
   m_Layer: 0
   m_Name: Petri_Dish
   m_TagString: ExperimentSample
@@ -963,7 +963,7 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!114 &6485547701823482155
+--- !u!114 &2935824763815328974
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -972,10 +972,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4494647040659437618}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd136c66d90de89468dcfb0c378f8cfe, type: 3}
+  m_Script: {fileID: 11500000, guid: be0b547b5a6207049b870b41226aa803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 3
+  uniqueId: 
 --- !u!1 &4744671137938580659
 GameObject:
   m_ObjectHideFlags: 0

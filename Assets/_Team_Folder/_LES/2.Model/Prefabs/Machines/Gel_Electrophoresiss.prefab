@@ -792,12 +792,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   requireSpecificItemType: 0
-  requiredItemType: 1
+  requiredItemType: 2
   idleModelObject: {fileID: 3594503332732453994}
   processingModelObject: {fileID: 9065220587385148576}
   maxUsageCount: 1
   processingTime: 5
-  processInfinitely: 0
+  processInfinitely: 1
   itemPlacementPoint: {fileID: 4346851181802436478}
   processingLight: {fileID: 0}
   debugMode: 0

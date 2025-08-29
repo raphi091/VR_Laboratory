@@ -66,6 +66,8 @@ public class LabEquipmentController_L : MonoBehaviour
     public AudioClip processingLoopSound;
     [Tooltip("기기 작동 완료 시 재생할 사운드")]
     public AudioClip completeSound;
+    [Tooltip("완료 알림음이 반복되는 간격(초)")]
+    public float completeSoundInterval = 3.0f;
 
     [Header("완료 효과 설정")]
     [Tooltip("완료 시 모델이 깜빡이는 횟수")]
@@ -229,18 +231,25 @@ public class LabEquipmentController_L : MonoBehaviour
 
     private void UpdateInteractionUI()
     {
-        // 1. 완료 상태: 깜빡이면서 사용자 확인을 기다립니다.
         if (currentState == MachineState.Complete)
         {
-            UpdateStatusText(false);
+            UpdateStatusText(false); // "완료. 샘플을 회수하세요." 등의 텍스트 설정
             SetUIVisible(true, false);
 
+            // 사용자가 손을 뺐다가 다시 가져와서 확인했을 때
             if (handInRange && !isJustCompleted && completedItem != null)
             {
-                Debug.Log("사용자 확인 완료. 아이템을 배출합니다.");
+                Debug.Log("사용자 확인 완료. 아이템을 배출하고 모든 효과를 중지합니다.");
+
+                // 1. 모든 코루틴(깜빡임, 사운드 루프)을 중지합니다.
                 StopAllCoroutines();
+                if (audioSource != null) audioSource.Stop(); // 혹시 모르니 사운드도 정지
+
+                // 2. 모델을 최종 '대기' 상태로 고정합니다.
                 if (idleModelObject != null) idleModelObject.SetActive(true);
                 if (processingModelObject != null) processingModelObject.SetActive(false);
+
+                // 3. 아이템을 완료 위치로 이동시킵니다.
                 if (completedItemPlacementPoint != null)
                 {
                     completedItem.transform.position = completedItemPlacementPoint.position;
@@ -258,6 +267,7 @@ public class LabEquipmentController_L : MonoBehaviour
                     }
                 }
 
+                // 4. 아이템 잠금을 해제하고 상태를 초기화합니다.
                 UnlockItem(completedItem);
                 completedItem = null;
             }
@@ -313,21 +323,19 @@ public class LabEquipmentController_L : MonoBehaviour
 
         if (!readyToProcess || itemToProcess == null || currentState != MachineState.Idle)
         {
-            //Debug.LogWarning($"{gameObject.name}: 처리 시작 실패 - 조건 미충족");
-            //Debug.LogWarning($"  실패 이유: readyToProcess={readyToProcess}, itemToProcess={(itemToProcess != null ? "있음" : "NULL")}, currentState={currentState}");
+            Debug.LogWarning($"{gameObject.name}: 처리 시작 실패 - 조건 미충족");
             return;
         }
 
-        usageCount++; // 사용 횟수 증가
+        usageCount++;
         Debug.Log($"{gameObject.name}: 사용 시작 ({usageCount}/{maxUsageCount})");
 
         currentlyProcessingItem = itemToProcess;
         OnProcessStarted.Invoke();
 
-        //Debug.Log($"{gameObject.name}: 처리 시작 - 아이템: {itemToProcess.name}");
         currentState = MachineState.Processing;
 
-        // --- 사운드 및 모델 변경 로직 (기존과 동일) ---
+        // 사운드 및 모델 변경
         if (audioSource != null)
         {
             audioSource.loop = false;
@@ -348,51 +356,23 @@ public class LabEquipmentController_L : MonoBehaviour
         readyToProcess = false;
         itemToProcess = null;
 
-        // 1. '무한 작동'이 체크된 경우
-        if (processInfinitely)
-        {
-            Debug.Log($"{gameObject.name}: 무한 작동을 시작합니다. (외부에서 MakeItemAvailable() 호출 필요)");
-            // 타이머 코루틴을 시작하지 않고, Processing 상태를 유지합니다.
-        }
-        // 2. 처리 시간이 0초 이하인 경우 (즉시 완료)
-        else if (processingTime <= 0)
-        {
-            Debug.Log($"{gameObject.name}: 처리 시간이 0이므로 즉시 완료합니다.");
-            ProcessComplete(processingItem);
-        }
-        // 3. 일반적인 시간제 작동
-        else
-        {
-            if (type == EquipmentType.ShakingIncubator)
-            {
-                StartCoroutine(AnimateLiquidChange(processingItem));
-            }
-            else
-            {
-                StartCoroutine(ProcessTimer(processingItem, debugProcessingTime));
-            }
-        }
-
+        // 처리 시간 유형에 따라 분기
         if (type == EquipmentType.AirIncubator && debugMode)
         {
             Debug.Log($"{gameObject.name}: 디버그 모드로 {debugProcessingTime}초 작동을 시작합니다.");
-            if (processingLight != null) processingLight.enabled = true; // 조명 켜기
-            StartCoroutine(ProcessTimer(processingItem, debugProcessingTime)); // 디버그 시간으로 타이머 시작
+            if (processingLight != null) processingLight.enabled = true;
+            StartCoroutine(ProcessTimer(processingItem, debugProcessingTime));
         }
-        // 2. '무한 작동' 모드 (Air Incubator의 기본 모드)
         else if (processInfinitely)
         {
-            Debug.Log($"{gameObject.name}: 무한 작동을 시작합니다. (씬 재시작 또는 외부 호출 필요)");
-            if (type == EquipmentType.AirIncubator && processingLight != null) processingLight.enabled = true; // 조명 켜기
-            // 타이머 코루틴을 시작하지 않고, Processing 상태를 유지합니다.
+            Debug.Log($"{gameObject.name}: 무한 작동을 시작합니다.");
+            if (type == EquipmentType.AirIncubator && processingLight != null) processingLight.enabled = true;
         }
-        // 3. 처리 시간이 0초 이하인 경우 (즉시 완료)
         else if (processingTime <= 0)
         {
             Debug.Log($"{gameObject.name}: 처리 시간이 0이므로 즉시 완료합니다.");
             ProcessComplete(processingItem);
         }
-        // 4. 일반적인 시간제 작동
         else
         {
             if (type == EquipmentType.ShakingIncubator)
@@ -401,7 +381,7 @@ public class LabEquipmentController_L : MonoBehaviour
             }
             else
             {
-                StartCoroutine(ProcessTimer(processingItem, processingTime)); // 일반 시간으로 타이머 시작
+                StartCoroutine(ProcessTimer(processingItem, processingTime));
             }
         }
     }
@@ -430,28 +410,14 @@ public class LabEquipmentController_L : MonoBehaviour
 
         Debug.Log($"{gameObject.name}: 처리 완료. 사용자 확인 대기 중...");
         currentState = MachineState.Complete;
-        isJustCompleted = true; // '방금 완료됨' 상태로 설정
-        completedItem = targetItem; // 완료된 아이템 저장
+        isJustCompleted = true;
+        completedItem = targetItem;
 
-        // 완료 알림 사운드 재생
-        if (audioSource != null)
-        {
-            audioSource.Stop();
-            audioSource.loop = false;
-            if (completeSound != null)
-            {
-                audioSource.PlayOneShot(completeSound);
-            }
-        }
-
-        // 아이템 이동 및 잠금 해제 로직은 여기서 제거하고,
-        // 대신 깜빡임 효과를 시작합니다.
+        // 깜빡임 효과와 '반복 알림음' 효과를 시작합니다.
         StartCoroutine(BlinkEffectCoroutine());
+        StartCoroutine(PlayCompleteSoundLoop()); // <--- 수정된 부분
 
-        // 시각적 결과 처리 (예: GelDoc 스크린)
         HandleVisualResult(targetItem);
-
-        // 실험 흐름 관리 이벤트 호출
         OnProcessCompleted.Invoke();
     }
 
@@ -678,5 +644,19 @@ public class LabEquipmentController_L : MonoBehaviour
     public GameObject GetCompletedItem()
     {
         return completedItem;
+    }
+
+    private IEnumerator PlayCompleteSoundLoop()
+    {
+        // 사용자가 확인할 때까지 무한 반복
+        while (true)
+        {
+            if (audioSource != null && completeSound != null)
+            {
+                audioSource.PlayOneShot(completeSound);
+            }
+            // 설정된 간격만큼 대기
+            yield return new WaitForSeconds(completeSoundInterval);
+        }
     }
 }
