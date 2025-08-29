@@ -12,7 +12,7 @@ public class Fill_O : MonoBehaviour
 
     private void Start()
     {
-        pos = transform.position;
+        pos = transform.localPosition;
         StartCoroutine(Fill_co());
     }
 
@@ -29,9 +29,10 @@ public class Fill_O : MonoBehaviour
                     pos.y = stopPos;
                     isfilling = false;
                     isfull = true;
+                    transform.localPosition = pos;
                     yield break;
                 }
-                transform.position = pos;
+                transform.localPosition = pos;
             }
 
             yield return null;
