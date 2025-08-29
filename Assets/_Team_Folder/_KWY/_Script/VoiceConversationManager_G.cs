@@ -141,11 +141,11 @@ public class VoiceConversationManager_G : MonoBehaviour
         cancellationTokenSource?.Dispose();
     }
 
-    private string SpriteToBase64(Sprite sprite)
-    {
-        byte[] imageData = sprite.texture.EncodeToPNG();
-        return Convert.ToBase64String(imageData);
-    }
+    // private string SpriteToBase64(Sprite sprite)
+    // {
+    //     byte[] imageData = sprite.texture.EncodeToPNG();
+    //     return Convert.ToBase64String(imageData);
+    // }
 
     private void SetupInitialPrompt()
     {
@@ -203,23 +203,23 @@ public class VoiceConversationManager_G : MonoBehaviour
         var textPart = new Part_VCM { text = textPrompt };
         var initialContent = new Content_VCM { role = "user", parts = new List<Part_VCM> { textPart } };
 
-        initialContent.parts.Add(new Part_VCM { text = "\n--- [PCR 결과 이미지 A, B, C]---" });
-        for (int i = 0; i < pcrResultImages.Length; i++)
-        {
-            if (pcrResultImages[i] != null)
-            {
-                initialContent.parts.Add(new Part_VCM { inlineData = new InlineData_VCM { mimeType = "image/png", data = SpriteToBase64(pcrResultImages[i]) } });
-            }
-        }
-
-        initialContent.parts.Add(new Part_VCM { text = "\n--- [미생물 배양 결과 이미지 A, B, C]---" });
-        for (int i = 0; i < cultureResultImages.Length; i++)
-        {
-            if (cultureResultImages[i] != null)
-            {
-                initialContent.parts.Add(new Part_VCM { inlineData = new InlineData_VCM { mimeType = "image/png", data = SpriteToBase64(cultureResultImages[i]) } });
-            }
-        }
+        // initialContent.parts.Add(new Part_VCM { text = "\n--- [PCR 결과 이미지 A, B, C]---" });
+        // for (int i = 0; i < pcrResultImages.Length; i++)
+        // {
+        //     if (pcrResultImages[i] != null)
+        //     {
+        //         initialContent.parts.Add(new Part_VCM { inlineData = new InlineData_VCM { mimeType = "image/png", data = SpriteToBase64(pcrResultImages[i]) } });
+        //     }
+        // }
+        //
+        // initialContent.parts.Add(new Part_VCM { text = "\n--- [미생물 배양 결과 이미지 A, B, C]---" });
+        // for (int i = 0; i < cultureResultImages.Length; i++)
+        // {
+        //     if (cultureResultImages[i] != null)
+        //     {
+        //         initialContent.parts.Add(new Part_VCM { inlineData = new InlineData_VCM { mimeType = "image/png", data = SpriteToBase64(cultureResultImages[i]) } });
+        //     }
+        // }
 
         conversationHistory.Add(initialContent);
         conversationHistory.Add(new Content_VCM { role = "model", parts = new List<Part_VCM> { new Part_VCM { text = "알겠습니다. 저는 AI 실험실 조수 노아입니다. 제공된 이미지와 정보를 바탕으로 실험을 안내해 드릴게요. 무엇이든 물어보세요." } } });
