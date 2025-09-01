@@ -10,21 +10,14 @@ using UnityEngine.EventSystems;
 
 public class PauseUI_G : MonoBehaviour
 {
-    [Header("Input Action Asset")]
-    public InputActionAsset actions;
-
     [Header("UI Panels")]
     public GameObject basePanel;
     public GameObject settingPanel;
     public GameObject exitPanel;
 
-    [Header("Default Selected Buttons")]
-    public GameObject resumeButton;
-    public GameObject settingDefaultButton;
-    public GameObject exitDefaultButton;
-
     [Header("Input Settings")]
     public InputActionReference menuAction;
+    public InputActionAsset actions;
 
     [Header("VR Settings")]
     public Transform mainCameraTransform;
@@ -34,19 +27,8 @@ public class PauseUI_G : MonoBehaviour
     public AudioClip clickbtn;
 
     private bool isPaused = false;
+    public bool IsPaused => isPaused;
 
-
-    private void Start()
-    {
-        if (basePanel != null) 
-            basePanel.SetActive(false);
-
-        if (settingPanel != null) 
-            settingPanel.SetActive(false);
-
-        if (exitPanel != null) 
-            exitPanel.SetActive(false);
-    }
 
     private void OnEnable()
     {
@@ -55,12 +37,6 @@ public class PauseUI_G : MonoBehaviour
             menuAction.action.performed += OnMenuButtonPressed;
             menuAction.action.Enable();
         }
-
-        actions.FindActionMap("XRI LeftHand Interaction").Enable();
-        actions.FindActionMap("XRI LeftHand Locomotion").Enable();
-        actions.FindActionMap("XRI RightHand Interaction").Enable();
-        actions.FindActionMap("XRI RightHand Locomotion").Enable();
-        actions.FindActionMap("XRI UI").Disable();
     }
 
     private void OnDisable()
@@ -70,69 +46,22 @@ public class PauseUI_G : MonoBehaviour
             menuAction.action.performed -= OnMenuButtonPressed;
             menuAction.action.Disable();
         }
-
-        actions.FindActionMap("XRI LeftHand Interaction").Disable();
-        actions.FindActionMap("XRI LeftHand Locomotion").Disable();
-        actions.FindActionMap("XRI RightHand Interaction").Disable();
-        actions.FindActionMap("XRI RightHand Locomotion").Disable();
-        actions.FindActionMap("XRI UI").Disable();
     }
 
     private void OnMenuButtonPressed(InputAction.CallbackContext ctx)
     {
         if (ctx.phase != InputActionPhase.Performed) return;
 
-        if (isPaused)
-        {
+        if (isPaused) 
             CloseAllMenus();
-        }
-        else
-        {
+        else 
             OpenMenu();
-        }
     }
 
-    public void OpenMenu()
+    public void OnClick_Resume()
     {
         SoundManager_K.Instance.PlaySFX(clickbtn);
-
-        if (mainCameraTransform != null)
-        {
-            Vector3 forward = mainCameraTransform.forward;
-            forward.y = 0;
-            transform.position = mainCameraTransform.position + forward.normalized * spawnDistance;
-            float cameraYRotation = mainCameraTransform.eulerAngles.y;
-            transform.rotation = Quaternion.Euler(0f, cameraYRotation, 0f);
-        }
-
-        basePanel.SetActive(true);
-        settingPanel.SetActive(false);
-        exitPanel.SetActive(false);
-
-        Time.timeScale = 0f;
-        isPaused = true;
-        actions.FindActionMap("XRI LeftHand Interaction").Disable();
-        actions.FindActionMap("XRI LeftHand Locomotion").Disable();
-        actions.FindActionMap("XRI RightHand Interaction").Disable();
-        actions.FindActionMap("XRI RightHand Locomotion").Disable();
-        actions.FindActionMap("XRI UI").Enable();
-
-        SetSelectedUIElement(resumeButton);
-    }
-
-    public void CloseAllMenus()
-    {
-        basePanel.SetActive(false);
-        settingPanel.SetActive(false);
-        exitPanel.SetActive(false);
-
-        Time.timeScale = 1f;
-        isPaused = false;
-        actions.FindActionMap("XRI UI").Disable();
-        actions.FindActionMap("XRI LeftHand Interaction").Enable();
-        actions.FindActionMap("XRI LeftHand Locomotion").Enable();
-        actions.FindActionMap("XRI RightHand Interaction").Enable();
-        actions.FindActionMap("XRI RightHand Locomotion").Enable();
+        CloseAllMenus();
     }
 
     public void OnClick_OpenSettings()
@@ -140,8 +69,6 @@ public class PauseUI_G : MonoBehaviour
         SoundManager_K.Instance.PlaySFX(clickbtn);
         basePanel.SetActive(false);
         settingPanel.SetActive(true);
-
-        SetSelectedUIElement(settingDefaultButton);
     }
 
     public void OnClick_CloseSettings()
@@ -156,8 +83,6 @@ public class PauseUI_G : MonoBehaviour
         SoundManager_K.Instance.PlaySFX(clickbtn);
         basePanel.SetActive(false);
         exitPanel.SetActive(true);
-
-        SetSelectedUIElement(exitDefaultButton);
     }
 
     public void OnClick_CloseExitConfirm()
@@ -179,11 +104,30 @@ public class PauseUI_G : MonoBehaviour
 #endif
     }
 
-    private void SetSelectedUIElement(GameObject element)
+    private void OpenMenu()
     {
-        if (element != null && EventSystem.current != null)
+        if (mainCameraTransform != null)
         {
-            EventSystem.current.SetSelectedGameObject(element);
+            Vector3 forward = mainCameraTransform.forward;
+            forward.y = 0;
+            transform.position = mainCameraTransform.position + forward.normalized * spawnDistance;
+            float cameraYRotation = mainCameraTransform.eulerAngles.y;
+            transform.rotation = Quaternion.Euler(0f, cameraYRotation, 0f);
         }
+
+        basePanel.SetActive(true);
+        settingPanel.SetActive(false);
+        exitPanel.SetActive(false);
+
+        isPaused = true;
+    }
+
+    private void CloseAllMenus()
+    {
+        basePanel.SetActive(false);
+        settingPanel.SetActive(false);
+        exitPanel.SetActive(false);
+
+        isPaused = false;
     }
 }
