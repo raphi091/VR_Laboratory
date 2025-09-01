@@ -13,6 +13,8 @@ TagManager:
   - Hole
   - ExperimentSample
   - Liquid
+  - Hand
+  - NPC
   layers:
   - Default
   - TransparentFX
