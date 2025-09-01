@@ -5,21 +5,17 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
 
-public class PauseUI_G : MonoBehaviour
+public class PauseUI_BasePanel_G : MonoBehaviour
 {
     [Header("UI Panels")]
-    public GameObject basePanel;
     public GameObject settingPanel;
     public GameObject exitPanel;
-    public GameObject baseBtn;
+    public GameObject settingSilder;
+    public GameObject exitBtn;
 
     [Header("Input Settings")]
     public InputActionReference menuAction;
     public InputActionAsset actions;
-
-    [Header("VR Settings")]
-    public Transform mainCameraTransform;
-    public float spawnDistance = 1.5f;
 
     [Header("Sound")]
     public AudioClip clickbtn;
@@ -54,27 +50,40 @@ public class PauseUI_G : MonoBehaviour
     {
         if (ctx.phase != InputActionPhase.Performed) return;
 
-        OpenMenu();
+        CloseAllMenus();
     }
 
-    private void OpenMenu()
+    public void OnClick_Resume()
     {
-        if (mainCameraTransform != null)
-        {
-            Vector3 forward = mainCameraTransform.forward;
-            forward.y = 0;
-            transform.position = mainCameraTransform.position + forward.normalized * spawnDistance;
-            float cameraYRotation = mainCameraTransform.eulerAngles.y;
-            transform.rotation = Quaternion.Euler(0f, cameraYRotation, 0f);
-        }
+        SoundManager_K.Instance.PlaySFX(clickbtn);
+        CloseAllMenus();
+    }
 
-        Time.timeScale = 0f;
-        basePanel.SetActive(true);
+    public void OnClick_OpenSettings()
+    {
+        SoundManager_K.Instance.PlaySFX(clickbtn);
+        gameObject.SetActive(false);
+        settingPanel.SetActive(true);
+
+        SetSelectedUIElement(settingSilder);
+    }
+
+    public void OnClick_OpenExitConfirm()
+    {
+        SoundManager_K.Instance.PlaySFX(clickbtn);
+        gameObject.SetActive(false);
+        exitPanel.SetActive(true);
+
+        SetSelectedUIElement(exitBtn);
+    }
+
+    private void CloseAllMenus()
+    {
+        Time.timeScale = 1f;
+        gameObject.SetActive(false);
         settingPanel.SetActive(false);
         exitPanel.SetActive(false);
-        input.XRIUI.Enable();
-
-        SetSelectedUIElement(baseBtn);
+        input.XRIUI.Disable();
     }
 
     private void SetSelectedUIElement(GameObject element)
