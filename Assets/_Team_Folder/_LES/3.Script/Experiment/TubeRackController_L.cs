@@ -53,7 +53,7 @@ public class TubeRackController_L : MonoBehaviour
                     // 2. Tube에게 자신이 랙에 꽂혔다고 알려줘서 물리 상태 등을 고정시킵니다.
                     rackableTube.PlaceInRack(this, i);
 
-                    Debug.Log($"미리 배치된 Tube '{prePlacedTube.name}'를 {i}번 슬롯에 등록했습니다.");
+//                    Debug.Log($"미리 배치된 Tube '{prePlacedTube.name}'를 {i}번 슬롯에 등록했습니다.");
                 }
             }
         }
@@ -142,6 +142,9 @@ public class TubeRackController_L : MonoBehaviour
         RackableTube_L rackableTube = tubeObject.GetComponent<RackableTube_L>();
         if (rackableTube != null)
         {
+            // Tube에게 원래 크기를 물어보고, 그 크기로 되돌립니다.
+            tubeObject.transform.localScale = rackableTube.GetOriginalScale();
+
             rackableTube.PlaceInRack(this, slotIndex);
         }
         

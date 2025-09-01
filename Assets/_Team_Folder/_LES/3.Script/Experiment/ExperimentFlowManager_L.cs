@@ -17,7 +17,7 @@ public class ExperimentFlowManager_L : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("--- ExperimentFlowManager: 시작 ---");
+//        Debug.Log("--- ExperimentFlowManager: 시작 ---");
 
         if (GameStateManager_L.Instance != null && GameStateManager_L.Instance.IsCulturingOvernight)
         {
@@ -26,7 +26,7 @@ public class ExperimentFlowManager_L : MonoBehaviour
             GameStateManager_L.Instance.IsCulturingOvernight = false;
         }
 
-        Debug.Log("초기 장비 상태를 설정합니다.");
+//        Debug.Log("초기 장비 상태를 설정합니다.");
         SetEquipmentLockState(thermocyclerController, false); // false = 잠금 해제
         SetEquipmentLockState(gelElectrophoresisController, true); // true = 잠김
 
@@ -137,7 +137,7 @@ public class ExperimentFlowManager_L : MonoBehaviour
             canvasGroup.interactable = !isLocked;
             canvasGroup.alpha = isLocked ? 0.3f : 1.0f;
         }
-        Debug.Log($"장비 '{controller.name}' 상태 변경: {(isLocked ? "잠김" : "활성화")}");
+//        Debug.Log($"장비 '{controller.name}' 상태 변경: {(isLocked ? "잠김" : "활성화")}");
     }
 
     public void OnGelElectrophoresisProcessStarted()
