@@ -129,7 +129,7 @@ public class LabEquipmentController_L : MonoBehaviour
         // Start에서도 한 번 더 확인 (Awake 이후 Inspector 설정이 적용될 수 있음)
         SetUIVisible(false, false);
 
-//        Debug.Log($"{gameObject.name}: UI 초기화 완료 - Canvas Alpha: {interactionCanvasGroup?.alpha}");
+        //        Debug.Log($"{gameObject.name}: UI 초기화 완료 - Canvas Alpha: {interactionCanvasGroup?.alpha}");
 
         if (idleModelObject != null) idleModelObject.SetActive(true);
         if (processingModelObject != null) processingModelObject.SetActive(false);
@@ -437,7 +437,7 @@ public class LabEquipmentController_L : MonoBehaviour
         }
 
         uiVisible = visible;
-//        Debug.Log($"{gameObject.name}: UI 상태 변경 - Visible: {visible}, Buttons: {showButtons}");
+        //        Debug.Log($"{gameObject.name}: UI 상태 변경 - Visible: {visible}, Buttons: {showButtons}");
     }
 
     private void UpdateStatusText(bool isItemInteraction)
@@ -528,25 +528,25 @@ public class LabEquipmentController_L : MonoBehaviour
 
     private void HandleVisualResult(GameObject targetItem)
     {
-        // 장비 타입이 GelDoc일 경우 특별한 로직을 실행합니다.
-        if (type == EquipmentType.GelDoc)
-        {
-            // RawImage와 ResultManager가 모두 정상적으로 연결되었는지 확인합니다.
-            if (resultRawImage != null && ResultManager_L.Instance != null)
-            {
-                // ResultManager에서 랜덤 PCR 결과 텍스처를 가져와
-                // resultRawImage의 텍스처에 적용합니다.
-                resultRawImage.texture = ResultManager_L.Instance.GetRandomPcrResult();
+        // // 장비 타입이 GelDoc일 경우 특별한 로직을 실행합니다.
+        // if (type == EquipmentType.GelDoc)
+        // {
+        //     // RawImage와 ResultManager가 모두 정상적으로 연결되었는지 확인합니다.
+        //     if (resultRawImage != null && ResultManager_L.Instance != null)
+        //     {
+        //         // ResultManager에서 랜덤 PCR 결과 텍스처를 가져와
+        //         // resultRawImage의 텍스처에 적용합니다.
+        //         resultRawImage.texture = ResultManager_L.Instance.GetPcrResultForGroup();
 
-                // 이미지가 확실히 보이도록 RawImage를 활성화합니다.
-                resultRawImage.gameObject.SetActive(true);
-                Debug.Log("성공: GelDoc RawImage에 결과 이미지를 적용했습니다.");
-            }
-            else
-            {
-                Debug.LogError("오류: resultRawImage 또는 ResultManager_L.Instance가 연결되지 않았습니다!");
-            }
-        }
+        //         // 이미지가 확실히 보이도록 RawImage를 활성화합니다.
+        //         resultRawImage.gameObject.SetActive(true);
+        //         Debug.Log("성공: GelDoc RawImage에 결과 이미지를 적용했습니다.");
+        //     }
+        //     else
+        //     {
+        //         Debug.LogError("오류: resultRawImage 또는 ResultManager_L.Instance가 연결되지 않았습니다!");
+        //     }
+        // }
     }
 
     private IEnumerator AnimateLiquidChange(GameObject targetItem)
@@ -654,5 +654,10 @@ public class LabEquipmentController_L : MonoBehaviour
             // 설정된 간격만큼 대기
             yield return new WaitForSeconds(completeSoundInterval);
         }
+    }
+
+    public GameObject GetCurrentlyProcessingItem()
+    {
+        return currentlyProcessingItem;
     }
 }
