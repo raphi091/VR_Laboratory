@@ -67,6 +67,14 @@ public class SampleFlask_O : MonoBehaviour
                 continue;
             }
 
+            // DNA 타입은 하나만 허용
+            if(liquid.type == PourableType.DNA && receiveddLiquids.Any(ld => ld.type == PourableType.DNA))
+            {
+                Debug.LogWarning("DNA는 한 종류만 넣을 수 있습니다");
+                liquids.RemoveAt(i);
+                continue;
+            }
+
             // 유효한 액체
             receiveddLiquids.Add(liquid);
             isAddsuccess = true;

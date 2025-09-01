@@ -19,7 +19,7 @@ public class MusicTrack
 
 public class SoundManager_K : MonoBehaviour
 {
-    public static SoundManager_K Instance;
+    public static SoundManager_K Instance = null;
 
     [Header("BGM")]
     [SerializeField] private List<MusicTrack> musicTracks;
