@@ -1988,7 +1988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1316ceaf889a12248b3d92c3b30b4ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pausePanel: {fileID: 3309704640785929275}
+  pausePanel: {fileID: 5928956346619030878}
   soundPanel: {fileID: 2743324946110214992}
   exitPanel: {fileID: 6986402986943955516}
   firstOnPause: {fileID: 3309704640785929275}
@@ -2000,7 +2000,6 @@ MonoBehaviour:
   btnCloseSound: {fileID: 1358569737833885355}
   btnExitYes: {fileID: 8514344153426357764}
   btnExitNo: {fileID: 287157126383128933}
-  btnCloseExit: {fileID: 0}
 --- !u!1 &4575303501783336380
 GameObject:
   m_ObjectHideFlags: 0

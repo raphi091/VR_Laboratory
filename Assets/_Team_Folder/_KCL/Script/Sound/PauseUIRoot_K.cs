@@ -19,12 +19,12 @@ public class PauseUIRoot_K : MonoBehaviour
     public Button btnExitAsk;     // 종료 확인
 
     [Header("Buttons (Sound / Setting)")]
-    public Button btnCloseSound;  // ← SettingPanel 상단 X (필수)
+    public Button btnCloseSound;  // ← SettingPanel 상단 X
 
     [Header("Buttons (Exit)")]
     public Button btnExitYes;
     public Button btnExitNo;
-    public Button btnCloseExit;   // ← ExitPanel 상단 X가 있다면 여기에
+    //  Btn Close Exit 제거
 
     // PauseUIManager_Spawn_K에서 ui.Wire(this)로 호출됨
     public void Wire(PauseUIManager_Spawn_K mgr)
@@ -44,7 +44,6 @@ public class PauseUIRoot_K : MonoBehaviour
         Hook(btnExitYes, mgr.OnClickExitYes);
         Hook(btnExitNo,  mgr.OnClickExitNo);
 
-        // Exit에도 X가 있으면 동일 동작
-        Hook(btnCloseExit, mgr.OnClickCloseSound);
+        //  ExitPanel X 버튼은 제거했으므로 Hook 없음
     }
 }
