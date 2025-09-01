@@ -221,6 +221,7 @@ MonoBehaviour:
   mat: {fileID: 0}
   fillAmount: 1
   currentAmount: -0.3
+  targetAmount: 0.5
 --- !u!114 &1260772969 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7415484288189993491, guid: 4c7df76d84c87a44ba57f3ccbebc5de4, type: 3}
@@ -1726,7 +1727,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8891339765657917688, guid: 55477b3901ac97445a5a2f192e4fb1c1, type: 3}
       propertyPath: fillAmount
-      value: 1
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891339765657917688, guid: 55477b3901ac97445a5a2f192e4fb1c1, type: 3}
+      propertyPath: targetAmount
+      value: 0.515
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891339765657917688, guid: 55477b3901ac97445a5a2f192e4fb1c1, type: 3}
+      propertyPath: currentAmount
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

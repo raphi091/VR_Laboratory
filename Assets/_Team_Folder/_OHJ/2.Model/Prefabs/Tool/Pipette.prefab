@@ -171,7 +171,7 @@ MonoBehaviour:
   gelColor: {r: 0.9811321, g: 0.7768272, b: 0.6062656, a: 0}
   gelfresnelColor: {r: 0.7075472, g: 0.33956453, b: 0.07676221, a: 0}
   mat: {fileID: 0}
-  interactionAction: {fileID: -5867158752056224167, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  interactionAction: {fileID: -1302233565920093163, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   sample: {fileID: 0}
   flask: {fileID: 0}
   liquid: {fileID: 0}
@@ -525,6 +525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 8
+  uniqueId: 
 --- !u!114 &3285393768397456371
 MonoBehaviour:
   m_ObjectHideFlags: 0

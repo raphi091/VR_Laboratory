@@ -13,6 +13,21 @@ public class TorchController_G : MonoBehaviour
     [Tooltip("상호작용에 사용할 컨트롤러 버튼")]
     public InputActionReference interactionAction;
 
+    [Header("사운드 설정")]
+    [Tooltip("불을 켤 때 나는 '딸깍' 소리 (한 번 재생)")]
+    public AudioClip ignitionClickSound;
+
+    [Tooltip("불이 켜져 있는 동안 나는 '타오르는' 소리 (반복 재생)")]
+    public AudioClip burningLoopSound;
+
+    [Header("오디오 소스 연결")]
+    [Tooltip("한 번만 재생되는 효과음용 AudioSource")]
+    public AudioSource effectsAudioSource; // 효과음용
+
+    [Tooltip("계속 반복 재생되는 배경음용 AudioSource")]
+    public AudioSource loopAudioSource; // 반복음용
+
+
     [Header("상태")]
     [Tooltip("현재 토치가 켜져 있는지 여부")]
     public bool isLit = false;
@@ -45,6 +60,19 @@ public class TorchController_G : MonoBehaviour
     private void LightTorch(InputAction.CallbackContext context)
     {
         if (!isHeld) return;
+
+        // 1. '딸깍' 소리를 효과음용 AudioSource에서 한 번 재생합니다.
+        if (effectsAudioSource != null && ignitionClickSound != null)
+        {
+            effectsAudioSource.PlayOneShot(ignitionClickSound);
+        }
+
+        // 2. '타오르는' 소리를 반복음용 AudioSource에서 재생 시작합니다.
+        if (loopAudioSource != null && burningLoopSound != null)
+        {
+            loopAudioSource.clip = burningLoopSound;
+            loopAudioSource.Play();
+        }
 
         if (flameVFX != null)
         {
