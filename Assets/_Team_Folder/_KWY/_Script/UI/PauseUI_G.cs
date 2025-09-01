@@ -14,6 +14,9 @@ public class PauseUI_G : MonoBehaviour
     public GameObject basePanel;
     public GameObject settingPanel;
     public GameObject exitPanel;
+    public GameObject baseBtn;
+    public GameObject settingSilder;
+    public GameObject exitBtn;
 
     [Header("Input Settings")]
     public InputActionReference menuAction;
@@ -26,9 +29,16 @@ public class PauseUI_G : MonoBehaviour
     [Header("Sound")]
     public AudioClip clickbtn;
 
+    private XRInput input;
     private bool isPaused = false;
+
     public bool IsPaused => isPaused;
 
+
+    private void Awake()
+    {
+        input = new XRInput();
+    }
 
     private void OnEnable()
     {
@@ -69,6 +79,8 @@ public class PauseUI_G : MonoBehaviour
         SoundManager_K.Instance.PlaySFX(clickbtn);
         basePanel.SetActive(false);
         settingPanel.SetActive(true);
+
+        SetSelectedUIElement(settingSilder);
     }
 
     public void OnClick_CloseSettings()
@@ -83,6 +95,8 @@ public class PauseUI_G : MonoBehaviour
         SoundManager_K.Instance.PlaySFX(clickbtn);
         basePanel.SetActive(false);
         exitPanel.SetActive(true);
+
+        SetSelectedUIElement(exitBtn);
     }
 
     public void OnClick_CloseExitConfirm()
@@ -115,19 +129,30 @@ public class PauseUI_G : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, cameraYRotation, 0f);
         }
 
+        Time.timeScale = 0f;
         basePanel.SetActive(true);
         settingPanel.SetActive(false);
         exitPanel.SetActive(false);
+        input.XRIUI.Enable();
 
         isPaused = true;
+
+        SetSelectedUIElement(baseBtn);
     }
 
     private void CloseAllMenus()
     {
+        Time.timeScale = 1f;
         basePanel.SetActive(false);
         settingPanel.SetActive(false);
         exitPanel.SetActive(false);
+        input.XRIUI.Disable();
 
         isPaused = false;
+    }
+
+    private void SetSelectedUIElement(GameObject element)
+    {
+        EventSystem.current.SetSelectedGameObject(element);
     }
 }
