@@ -9,9 +9,7 @@ public class PauseUI_ver2_G : MonoBehaviour
 {
     [Header("UI Panels")]
     public GameObject basePanel;
-    public GameObject settingPanel;
     public GameObject baseBtn;
-    public GameObject settingSilder;
 
     [Header("Input Settings")]
     public InputActionReference menuAction;
@@ -52,12 +50,6 @@ public class PauseUI_ver2_G : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        basePanel.SetActive(false);
-        settingPanel.SetActive(false);
-    }
-
     private void OnMenuButtonPressed(InputAction.CallbackContext ctx)
     {
         if (ctx.phase != InputActionPhase.Performed) return;
@@ -79,9 +71,7 @@ public class PauseUI_ver2_G : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, cameraYRotation, 0f);
         }
 
-        // Time.timeScale = 0f;
         basePanel.SetActive(true);
-        settingPanel.SetActive(false);
         input.XRIUI.Enable();
         isPasued = true;
 
@@ -90,28 +80,10 @@ public class PauseUI_ver2_G : MonoBehaviour
 
     private void CloseAllMenus()
     {
-        Time.timeScale = 1f;
         basePanel.SetActive(false);
-        settingPanel.SetActive(false);
         input.XRIUI.Disable();
 
         isPasued = false;
-    }
-
-    public void OnClick_OpenSettings()
-    {
-        SoundManager_K.Instance.PlaySFX(clickbtn);
-        settingPanel.SetActive(true);
-
-        SetSelectedUIElement(settingSilder);
-    }
-
-    public void OnClick_CloseSettings()
-    {
-        SoundManager_K.Instance.PlaySFX(clickbtn);
-        settingPanel.SetActive(false);
-
-        SetSelectedUIElement(baseBtn);
     }
 
     public void OnClick_ExitGame()

@@ -381,6 +381,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2282c7e32cacb0b4e85febd5228670f7, type: 3}
+--- !u!114 &394318976 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4307664745218851151, guid: 39c2d282e4a474440aee07a890795593, type: 3}
+  m_PrefabInstance: {fileID: 9039945636840254509}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b432e1e861099d49a7be360a1c7eae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &432357058
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2331,17 +2342,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1502774403598799448, guid: 39c2d282e4a474440aee07a890795593, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2580974018305712203, guid: 39c2d282e4a474440aee07a890795593, type: 3}
       propertyPath: m_Name
       value: UI
-      objectReference: {fileID: 0}
-    - target: {fileID: 2608705973653339196, guid: 39c2d282e4a474440aee07a890795593, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3459083437376873958, guid: 39c2d282e4a474440aee07a890795593, type: 3}
       propertyPath: m_Pivot.x
@@ -2369,7 +2372,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3459083437376873958, guid: 39c2d282e4a474440aee07a890795593, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1200
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 3459083437376873958, guid: 39c2d282e4a474440aee07a890795593, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2423,21 +2426,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4915066836228068620, guid: 39c2d282e4a474440aee07a890795593, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
+    - target: {fileID: 4998692035759381548, guid: 39c2d282e4a474440aee07a890795593, type: 3}
+      propertyPath: m_Name
+      value: YES_Btn
       objectReference: {fileID: 0}
-    - target: {fileID: 4966530561593770470, guid: 39c2d282e4a474440aee07a890795593, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5985000559644051663, guid: 39c2d282e4a474440aee07a890795593, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497339264340659423, guid: 39c2d282e4a474440aee07a890795593, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
+    - target: {fileID: 7163785426788987018, guid: 39c2d282e4a474440aee07a890795593, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 394318976}
+    - target: {fileID: 7163785426788987018, guid: 39c2d282e4a474440aee07a890795593, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClick_ExitGame
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
