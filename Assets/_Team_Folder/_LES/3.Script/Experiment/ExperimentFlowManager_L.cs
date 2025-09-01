@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class ExperimentFlowManager_L : MonoBehaviour
@@ -17,15 +18,16 @@ public class ExperimentFlowManager_L : MonoBehaviour
 
     void Start()
     {
-//        Debug.Log("--- ExperimentFlowManager: 시작 ---");
+        //        Debug.Log("--- ExperimentFlowManager: 시작 ---");
 
         if (GameStateManager_L.Instance != null && GameStateManager_L.Instance.IsCulturingOvernight)
         {
             Debug.Log("GameStateManager에서 '밤샘 배양' 상태 확인. 결과 표시를 시도합니다.");
             ShowPetriDishResult(); // 수정된 함수 호출
+            GameStateManager_L.Instance.IsCulturingOvernight = false;
         }
 
-//        Debug.Log("초기 장비 상태를 설정합니다.");
+        //        Debug.Log("초기 장비 상태를 설정합니다.");
         SetEquipmentLockState(thermocyclerController, false); // false = 잠금 해제
         SetEquipmentLockState(gelElectrophoresisController, true); // true = 잠김
 
@@ -70,19 +72,9 @@ public class ExperimentFlowManager_L : MonoBehaviour
     public void OnAirIncubatorStarted()
     {
         Debug.Log(">> 이벤트 수신: Air Incubator 시작. '밤샘 배양' 상태를 GameStateManager에 저장합니다.");
-        if (GameStateManager_L.Instance != null && airIncubatorController != null)
+        if (C_DataManager.I.gameData != null)
         {
-            GameObject processingItem = airIncubatorController.GetCurrentlyProcessingItem();
-
-            if (processingItem != null)
-            {
-                ExperimentItem_L itemInfo = processingItem.GetComponent<ExperimentItem_L>();
-                if (itemInfo != null)
-                {
-                    GameStateManager_L.Instance.IsCulturingOvernight = true;
-                    GameStateManager_L.Instance.IncubatedPetriDishID = itemInfo.uniqueId;
-                }
-            }
+            C_DataManager.I.gameData.IsCulturingOvernight = true;
         }
     }
 
@@ -146,7 +138,7 @@ public class ExperimentFlowManager_L : MonoBehaviour
             canvasGroup.interactable = !isLocked;
             canvasGroup.alpha = isLocked ? 0.3f : 1.0f;
         }
-//        Debug.Log($"장비 '{controller.name}' 상태 변경: {(isLocked ? "잠김" : "활성화")}");
+        //        Debug.Log($"장비 '{controller.name}' 상태 변경: {(isLocked ? "잠김" : "활성화")}");
     }
 
     public void OnGelElectrophoresisProcessStarted()
@@ -157,13 +149,22 @@ public class ExperimentFlowManager_L : MonoBehaviour
             GameObject processingItem = gelElectrophoresisController.GetCurrentlyProcessingItem();
             if (processingItem != null)
             {
-                ExperimentItem_L itemInfo = processingItem.GetComponent<ExperimentItem_L>();
-                if (itemInfo != null)
+                FillHole_O fillHoleController = processingItem.GetComponent<FillHole_O>();
+                if (fillHoleController != null)
                 {
-                    // GelDoc의 잠금을 해제하고, 활성화한 뒤, 분석을 시작시킵니다.
-                    //gelDocScreenController.gameObject.SetActive(true); // 혹시 모르니 활성화
-                    gelDocScreenController.SetLockState(false); // << 잠금 해제 (핵심 수정!)
-                    gelDocScreenController.StartAnalysis(itemInfo.experimentGroup); // 분석 시작
+                    LiquidData_L dnaData = fillHoleController.holeLiquidData.FirstOrDefault(data => data != null && data.type == PourableType.DNA);
+
+                    if (dnaData != null)
+                    {
+                        // GelDoc의 잠금을 해제하고, 활성화한 뒤, 분석을 시작시킵니다.
+                        //gelDocScreenController.gameObject.SetActive(true); // 혹시 모르니 활성화
+                        gelDocScreenController.SetLockState(false); // << 잠금 해제 (핵심 수정!)
+                        gelDocScreenController.StartAnalysis(dnaData.liquidName); // 분석 시작
+                    }
+                    else
+                    {
+                        Debug.LogWarning("매니저 : Gel 안에 DNA 데이터가 없어 GelDoc을 시작할 수 없습니다.");
+                    }
                 }
             }
         }
@@ -181,32 +182,23 @@ public class ExperimentFlowManager_L : MonoBehaviour
     // Air Incubator의 OnProcessCompleted 이벤트가 호출할 함수
     public void OnAirIncubatorFinished()
     {
-        Debug.Log(">> 이벤트 수신: Air Incubator 완료. 페트리 접시 결과 표시를 시도합니다.");
-
-        if (airIncubatorController == null)
+        Debug.Log(">> 이벤트 수신: Air Incubator 시작.");
+        if (GameStateManager_L.Instance != null && airIncubatorController != null)
         {
-            Debug.LogError("오류: airIncubatorController 변수가 인스펙터에 할당되지 않았습니다!");
-            return;
-        }
-
-        // 1. Air Incubator에게 방금 완료한 아이템을 직접 물어봅니다.
-        GameObject finishedPetriDish = airIncubatorController.GetCompletedItem();
-        if (finishedPetriDish == null)
-        {
-            Debug.LogError("오류: Air Incubator로부터 완료된 아이템 정보를 받아오지 못했습니다!");
-            return;
-        }
-
-        // 2. 받아온 아이템에서 PetriDishController_G 스크립트를 찾아옵니다.
-        PetriDishController_G petriDishController = finishedPetriDish.GetComponent<PetriDishController_G>();
-        if (petriDishController != null)
-        {
-            // 3. 스크립트를 찾았다면, ShowResult() 함수를 호출합니다.
-            petriDishController.ShowResult();
-        }
-        else
-        {
-            Debug.LogError($"오류: '{finishedPetriDish.name}' 오브젝트에서 PetriDishController_G 스크립트를 찾을 수 없습니다!");
+            // 1. Air Incubator가 현재 작업 중인 아이템을 가져옵니다.
+            GameObject processingItem = airIncubatorController.GetCurrentlyProcessingItem();
+            if (processingItem != null)
+            {
+                // 2. 아이템에서 ExperimentItem_L 스크립트를 찾아 ID를 가져옵니다.
+                ExperimentItem_L itemInfo = processingItem.GetComponent<ExperimentItem_L>();
+                if (itemInfo != null)
+                {
+                    // 3. GameStateManager에 '밤샘 배양' 상태와 '아이템 ID'를 저장합니다.
+                    GameStateManager_L.Instance.IsCulturingOvernight = true;
+                    GameStateManager_L.Instance.IncubatedPetriDishID = itemInfo.uniqueId;
+                    Debug.Log($"'밤샘 배양' 상태와 페트리 접시 ID({itemInfo.uniqueId})를 저장했습니다.");
+                }
+            }
         }
     }
 }

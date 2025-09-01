@@ -150,7 +150,7 @@ public class TubeRackController_L : MonoBehaviour
         
         // d. 내부 배열에 Tube를 기록합니다.
         tubesInSlots[slotIndex] = tubeObject;
-        Debug.Log($"Tube '{tubeObject.name}'가 {slotIndex}번 슬롯에 배치되었습니다.");
+        //Debug.Log($"Tube '{tubeObject.name}'가 {slotIndex}번 슬롯에 배치되었습니다.");
     }
 
     public void RemoveTubeFromSlot(int slotIndex)
@@ -159,7 +159,7 @@ public class TubeRackController_L : MonoBehaviour
         {
             if (tubesInSlots[slotIndex] != null)
             {
-                Debug.Log($"Tube '{tubesInSlots[slotIndex].name}'가 {slotIndex}번 슬롯에서 제거되었습니다.");
+//                Debug.Log($"Tube '{tubesInSlots[slotIndex].name}'가 {slotIndex}번 슬롯에서 제거되었습니다.");
                 tubesInSlots[slotIndex] = null;
             }
         }

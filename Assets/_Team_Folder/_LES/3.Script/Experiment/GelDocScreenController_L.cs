@@ -3,7 +3,6 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
-using System.Text.RegularExpressions;
 
 public class GelDocScreenController_L : MonoBehaviour
 {
@@ -36,7 +35,8 @@ public class GelDocScreenController_L : MonoBehaviour
     private bool isHandInRange = false;
     private Texture pendingResultTexture;
     private bool isLocked = true;
-    private ExperimentGroup currentGroupToAnalyze;
+
+    private string dnaNameToAnalyze;
 
     void Awake()
     {
@@ -67,10 +67,10 @@ public class GelDocScreenController_L : MonoBehaviour
     }
 
     // 1. 분석 시작
-    public void StartAnalysis(ExperimentGroup group)
+    public void StartAnalysis(string dnaName)
     {
         currentState = GelDocState.Analyzing;
-        currentGroupToAnalyze = group;
+        dnaNameToAnalyze = dnaName;
         StartCoroutine(AnalysisCoroutine());
     }
 
@@ -81,7 +81,7 @@ public class GelDocScreenController_L : MonoBehaviour
         
         if (ResultManager_L.Instance != null)
         {
-            pendingResultTexture = ResultManager_L.Instance.GetPcrResultForGroup(currentGroupToAnalyze);
+            pendingResultTexture = ResultManager_L.Instance.GetResultForDna(dnaNameToAnalyze);
         }
 
         currentState = GelDocState.ReadyToShow;

@@ -1,21 +1,23 @@
 using System.Linq;
 using UnityEngine;
 
+// PCR 실험의 시각적 결과물(텍스처)을 관리하고 제공합니다.
+
 [System.Serializable]
-public class PcrResultMapping
+public class DnaResultMapping
 {
-    public ExperimentGroup group;
+    [Tooltip("LiqudData에 정의된 DNA의 이름(liquidName)")]
+    public string dnaName;
     public Texture resultTexture;
 }
 
-// PCR 실험의 시각적 결과물(텍스처)을 관리하고 제공합니다.
 public class ResultManager_L : MonoBehaviour
 {
     public static ResultManager_L Instance { get; private set; }
 
     [Header("PCR 결과")]
     [Tooltip("Gel Doc에 표시될 랜덤 결과 텍스처 배열")]
-    public PcrResultMapping[] pcrResults;
+    public DnaResultMapping[] dnaResults;
 
     void Awake()
     {
@@ -30,18 +32,16 @@ public class ResultManager_L : MonoBehaviour
     }
 
     // PCR 결과 텍스처 중 하나를 무작위로 반환합니다.    
-    public Texture GetPcrResultForGroup(ExperimentGroup group)
+    public Texture GetResultForDna(string dnaName)
     {
-        if (pcrResults == null || pcrResults.Length == 0) return null;
+        if (string.IsNullOrEmpty(dnaName) || dnaResults == null || dnaResults.Length == 0) return null;
 
-        PcrResultMapping resultMapping = pcrResults.FirstOrDefault(r => r.group == group);
+        DnaResultMapping resultMapping = dnaResults.FirstOrDefault(r => r.dnaName == dnaName);
 
         if (resultMapping != null)
         {
             return resultMapping.resultTexture;
         }
-
-        Debug.LogWarning($"'{group}' 해당회는 PCR 결과가 ResultManager에 설정되어 있지 않습니다.");
         return null;
     }
 }

@@ -536,7 +536,7 @@ public class LabEquipmentController_L : MonoBehaviour
         //     {
         //         // ResultManager에서 랜덤 PCR 결과 텍스처를 가져와
         //         // resultRawImage의 텍스처에 적용합니다.
-        //         resultRawImage.texture = ResultManager_L.Instance.GetPcrResultForGroup();
+        //         resultRawImage.texture = ResultManager_L.Instance.GetResultForDna();
 
         //         // 이미지가 확실히 보이도록 RawImage를 활성화합니다.
         //         resultRawImage.gameObject.SetActive(true);
@@ -655,7 +655,7 @@ public class LabEquipmentController_L : MonoBehaviour
             yield return new WaitForSeconds(completeSoundInterval);
         }
     }
-
+    
     public GameObject GetCurrentlyProcessingItem()
     {
         return currentlyProcessingItem;
