@@ -23,7 +23,6 @@ public class ExperimentFlowManager_L : MonoBehaviour
         {
             Debug.Log("GameStateManager에서 '밤샘 배양' 상태 확인. 결과 표시를 시도합니다.");
             ShowPetriDishResult(); // 수정된 함수 호출
-            GameStateManager_L.Instance.IsCulturingOvernight = false;
         }
 
 //        Debug.Log("초기 장비 상태를 설정합니다.");
@@ -71,9 +70,19 @@ public class ExperimentFlowManager_L : MonoBehaviour
     public void OnAirIncubatorStarted()
     {
         Debug.Log(">> 이벤트 수신: Air Incubator 시작. '밤샘 배양' 상태를 GameStateManager에 저장합니다.");
-        if (C_DataManager.I.gameData != null)
+        if (GameStateManager_L.Instance != null && airIncubatorController != null)
         {
-            C_DataManager.I.gameData.IsCulturingOvernight = true;
+            GameObject processingItem = airIncubatorController.GetCurrentlyProcessingItem();
+
+            if (processingItem != null)
+            {
+                ExperimentItem_L itemInfo = processingItem.GetComponent<ExperimentItem_L>();
+                if (itemInfo != null)
+                {
+                    GameStateManager_L.Instance.IsCulturingOvernight = true;
+                    GameStateManager_L.Instance.IncubatedPetriDishID = itemInfo.uniqueId;
+                }
+            }
         }
     }
 
@@ -143,12 +152,20 @@ public class ExperimentFlowManager_L : MonoBehaviour
     public void OnGelElectrophoresisProcessStarted()
     {
         //Debug.Log(">> 매니저: GelElectrophoresis 작동 시작 감지. GelDoc에 분석 시작을 명령합니다.");
-        if (gelDocScreenController != null)
+        if (gelDocScreenController != null && gelElectrophoresisController != null)
         {
-            // GelDoc의 잠금을 해제하고, 활성화한 뒤, 분석을 시작시킵니다.
-            gelDocScreenController.gameObject.SetActive(true); // 혹시 모르니 활성화
-            gelDocScreenController.SetLockState(false);      // << 잠금 해제 (핵심 수정!)
-            gelDocScreenController.StartAnalysis();          // 분석 시작
+            GameObject processingItem = gelElectrophoresisController.GetCurrentlyProcessingItem();
+            if (processingItem != null)
+            {
+                ExperimentItem_L itemInfo = processingItem.GetComponent<ExperimentItem_L>();
+                if (itemInfo != null)
+                {
+                    // GelDoc의 잠금을 해제하고, 활성화한 뒤, 분석을 시작시킵니다.
+                    //gelDocScreenController.gameObject.SetActive(true); // 혹시 모르니 활성화
+                    gelDocScreenController.SetLockState(false); // << 잠금 해제 (핵심 수정!)
+                    gelDocScreenController.StartAnalysis(itemInfo.experimentGroup); // 분석 시작
+                }
+            }
         }
     }
 
