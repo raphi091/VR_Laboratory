@@ -18,19 +18,20 @@ public class PauseUI_ver2_G : MonoBehaviour
     public InputActionAsset actions;
 
     [Header("VR Settings")]
-    public Transform mainCameraTransform;
     public float spawnDistance = 1.5f;
 
     [Header("Sound")]
     public AudioClip clickbtn;
 
     private XRInput input;
+    private Transform mainCameraTransform;
     private bool isPasued = false;
 
 
     private void Awake()
     {
         input = new XRInput();
+        mainCameraTransform = Camera.main.transform;
     }
 
     private void OnEnable()
@@ -49,6 +50,12 @@ public class PauseUI_ver2_G : MonoBehaviour
             menuAction.action.performed -= OnMenuButtonPressed;
             menuAction.action.Disable();
         }
+    }
+
+    private void Start()
+    {
+        basePanel.SetActive(false);
+        settingPanel.SetActive(false);
     }
 
     private void OnMenuButtonPressed(InputAction.CallbackContext ctx)
@@ -72,10 +79,11 @@ public class PauseUI_ver2_G : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, cameraYRotation, 0f);
         }
 
-        Time.timeScale = 0f;
+        // Time.timeScale = 0f;
         basePanel.SetActive(true);
         settingPanel.SetActive(false);
         input.XRIUI.Enable();
+        isPasued = true;
 
         SetSelectedUIElement(baseBtn);
     }
@@ -83,9 +91,11 @@ public class PauseUI_ver2_G : MonoBehaviour
     private void CloseAllMenus()
     {
         Time.timeScale = 1f;
-        gameObject.SetActive(false);
+        basePanel.SetActive(false);
         settingPanel.SetActive(false);
         input.XRIUI.Disable();
+
+        isPasued = false;
     }
 
     public void OnClick_OpenSettings()
@@ -99,7 +109,7 @@ public class PauseUI_ver2_G : MonoBehaviour
     public void OnClick_CloseSettings()
     {
         SoundManager_K.Instance.PlaySFX(clickbtn);
-        gameObject.SetActive(false);
+        settingPanel.SetActive(false);
 
         SetSelectedUIElement(baseBtn);
     }
@@ -107,7 +117,7 @@ public class PauseUI_ver2_G : MonoBehaviour
     public void OnClick_ExitGame()
     {
         SoundManager_K.Instance.PlaySFX(clickbtn);
-        Time.timeScale = 1f;
+        // Time.timeScale = 1f;
 
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
