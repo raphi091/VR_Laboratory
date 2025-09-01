@@ -137,6 +137,7 @@ public class PauseUI_G : MonoBehaviour
 
         if (settingPanel != null)
         {
+            basePanel.SetActive(false);
             settingPanel.SetActive(true);
             SetSelectedUIElement(settingSlider);
         } 
@@ -148,6 +149,7 @@ public class PauseUI_G : MonoBehaviour
 
         if (exitPanel != null)
         {
+            basePanel.SetActive(false);
             exitPanel.SetActive(true);
             SetSelectedUIElement(exitBtn);
         }
@@ -182,6 +184,7 @@ public class PauseUI_G : MonoBehaviour
 
     private void SetSelectedUIElement(GameObject element)
     {
+        EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(element);
     }
 }
