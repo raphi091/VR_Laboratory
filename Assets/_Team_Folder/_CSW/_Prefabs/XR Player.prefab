@@ -5569,6 +5569,17 @@ MonoBehaviour:
   - XRI LeftHand Locomotion
   - XRI RightHand Locomotion
   uiClickSfx: {fileID: 8300000, guid: 70b5427226b11ba4eb56d4c469da4281, type: 3}
+  openOnPlay: 0
+  followHeadWhilePaused: 0
+  escHotkeyInEditor: 1
+  autoFitToView: 1
+  fitViewportPercent: 0.75
+  scaleClamp: {x: 0.05, y: 2}
+  onlyShrink: 1
+  nearClipPadding: 0.25
+  disableScreenSpaceCanvasesWhilePaused: 1
+  overlayCamerasToDisableWhilePaused: []
+  keepScreenSpaceCanvases: []
 --- !u!1 &8196344986079315435
 GameObject:
   m_ObjectHideFlags: 0
