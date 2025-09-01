@@ -36,6 +36,8 @@ public class GelDocScreenController_L : MonoBehaviour
     private Texture pendingResultTexture;
     private bool isLocked = true;
 
+    private string dnaNameToAnalyze;
+
     void Awake()
     {
         if (interactionUI != null)
@@ -61,13 +63,14 @@ public class GelDocScreenController_L : MonoBehaviour
     public void SetLockState(bool lockState)
     {
         isLocked = lockState;
-        Debug.Log($"장비 '{name}' 상태 변경: {(isLocked ? "잠김" : "활성화")}");
+//        Debug.Log($"장비 '{name}' 상태 변경: {(isLocked ? "잠김" : "활성화")}");
     }
 
     // 1. 분석 시작
-    public void StartAnalysis()
+    public void StartAnalysis(string dnaName)
     {
         currentState = GelDocState.Analyzing;
+        dnaNameToAnalyze = dnaName;
         StartCoroutine(AnalysisCoroutine());
     }
 
@@ -78,7 +81,7 @@ public class GelDocScreenController_L : MonoBehaviour
         
         if (ResultManager_L.Instance != null)
         {
-            pendingResultTexture = ResultManager_L.Instance.GetRandomPcrResult();
+            pendingResultTexture = ResultManager_L.Instance.GetResultForDna(dnaNameToAnalyze);
         }
 
         currentState = GelDocState.ReadyToShow;
@@ -120,7 +123,7 @@ public class GelDocScreenController_L : MonoBehaviour
         SetInteractionUIVisible(false);
         currentState = GelDocState.Inactive;
         OnViewingStopped.Invoke();
-        Debug.Log("GelDoc: 결과 보기 중단.");
+        //Debug.Log("GelDoc: 결과 보기 중단.");
     }
 
     // 상태에 맞는 UI를 설정하고 보여주는 로직
@@ -186,7 +189,7 @@ public class GelDocScreenController_L : MonoBehaviour
             // 기계가 잠겨있다면, 안내 문구만 표시하고 더 이상 진행하지 않습니다.
             if (isLocked)
             {
-                interactionText.text = "Gel Electrophoresis를 먼저 사용해주세요.";
+                interactionText.text = "Gel Electrophoresis에 샘플을 넣어주세요.";
                 yesButton.gameObject.SetActive(false);
                 SetInteractionUIVisible(true);
                 return;

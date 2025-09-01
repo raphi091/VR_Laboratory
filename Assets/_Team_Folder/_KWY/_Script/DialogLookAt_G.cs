@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DialogLookAt_G : MonoBehaviour
 {
-    void Update()
+    private void Update()
     {
         transform.LookAt(Camera.main.transform);
     }

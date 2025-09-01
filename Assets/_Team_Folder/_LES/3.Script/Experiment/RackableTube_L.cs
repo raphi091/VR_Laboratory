@@ -9,10 +9,19 @@ public class RackableTube_L : MonoBehaviour
     private XRGrabInteractable grabInteractable;
     private Rigidbody rb;
 
+    private Vector3 originalScale; // 자신의 원래 크기를 저장할 변수
+
+    public Vector3 GetOriginalScale()
+    {
+        return originalScale;
+    }
+
     void Awake()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
         rb = GetComponent<Rigidbody>();
+
+        originalScale = transform.localScale; // 시작할 때 자신의 크기를 저장
 
         // 아이템을 잡았을 때와 놓았을 때(랙에서 뽑았을 때)의 이벤트를 구독합니다.
         grabInteractable.selectEntered.AddListener(OnGrabbed);

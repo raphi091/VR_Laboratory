@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
@@ -22,10 +20,10 @@ public class TorchController_G : MonoBehaviour
 
     [Header("오디오 소스 연결")]
     [Tooltip("한 번만 재생되는 효과음용 AudioSource")]
-    public AudioSource effectsAudioSource; // 효과음용
+    public AudioSource effectsAudioSource;
 
     [Tooltip("계속 반복 재생되는 배경음용 AudioSource")]
-    public AudioSource loopAudioSource; // 반복음용
+    public AudioSource loopAudioSource;
 
 
     [Header("상태")]
@@ -53,8 +51,14 @@ public class TorchController_G : MonoBehaviour
             flameVFX.Stop();
             flameVFX.gameObject.SetActive(false);
         }
-
         isLit = false;
+        
+        // 반복 오디오 소스 설정
+        if(loopAudioSource != null && burningLoopSound != null)
+        {
+            loopAudioSource.clip = burningLoopSound;
+            loopAudioSource.loop = true;
+        }
     }
 
     private void LightTorch(InputAction.CallbackContext context)
@@ -68,9 +72,8 @@ public class TorchController_G : MonoBehaviour
         }
 
         // 2. '타오르는' 소리를 반복음용 AudioSource에서 재생 시작합니다.
-        if (loopAudioSource != null && burningLoopSound != null)
+        if (loopAudioSource != null)
         {
-            loopAudioSource.clip = burningLoopSound;
             loopAudioSource.Play();
         }
 
@@ -86,6 +89,12 @@ public class TorchController_G : MonoBehaviour
     private void ExtinguishTorch(InputAction.CallbackContext context)
     {
         if (!isHeld) return;
+
+        // '타오르는' 소리를 멈춥니다.
+        if (loopAudioSource != null)
+        {
+            loopAudioSource.Stop();
+        }
 
         if (flameVFX != null)
         {
@@ -103,5 +112,16 @@ public class TorchController_G : MonoBehaviour
     public void OnRelease()
     {
         isHeld = false;
+        
+        // 토치를 놓으면 무조건 불과 소리를 끕니다.
+        if (isLit)
+        {
+            if (loopAudioSource != null) loopAudioSource.Stop();
+            if (flameVFX != null)
+            {
+                flameVFX.SendEvent("OnStop");
+            }
+            isLit = false;
+        }
     }
 }

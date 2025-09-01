@@ -4,31 +4,46 @@ using UnityEngine.UI;
 public class PauseUIRoot_K : MonoBehaviour
 {
     [Header("Panels")]
-    public GameObject pausePanel;
-    public GameObject soundPanel;
-    public GameObject exitPanel;
+    public GameObject pausePanel;   // BasePanel
+    public GameObject soundPanel;   // SettingPanel
+    public GameObject exitPanel;    // ExitPanel
 
     [Header("First Select")]
     public GameObject firstOnPause;
     public GameObject firstOnSound;
     public GameObject firstOnExit;
 
-    [Header("Buttons")]
-    public Button btnOpenSound;  // BasePanel: 사운드
-    public Button btnResume;     // BasePanel: 게임 재개
-    public Button btnExitAsk;    // BasePanel: 게임 종료
-    public Button btnCloseSound; // SettingPanel: X
-    public Button btnExitYes;    // ExitPanel: 체크
-    public Button btnExitNo;     // ExitPanel: X
+    [Header("Buttons (Base)")]
+    public Button btnOpenSound;   // 사운드
+    public Button btnResume;      // 재개
+    public Button btnExitAsk;     // 종료 확인
 
-    // 매니저가 런타임에 이벤트를 연결할 때 호출
+    [Header("Buttons (Sound / Setting)")]
+    public Button btnCloseSound;  // ← SettingPanel 상단 X
+
+    [Header("Buttons (Exit)")]
+    public Button btnExitYes;
+    public Button btnExitNo;
+    //  Btn Close Exit 제거
+
+    // PauseUIManager_Spawn_K에서 ui.Wire(this)로 호출됨
     public void Wire(PauseUIManager_Spawn_K mgr)
     {
-        btnOpenSound.onClick.AddListener(mgr.OnClickOpenSound);
-        btnResume   .onClick.AddListener(mgr.OnClickResume);
-        btnExitAsk  .onClick.AddListener(mgr.OnClickExitAsk);
-        btnCloseSound.onClick.AddListener(mgr.OnClickCloseSound);
-        btnExitYes  .onClick.AddListener(mgr.OnClickExitYes);
-        btnExitNo   .onClick.AddListener(mgr.OnClickExitNo);
+        void Hook(Button b, UnityEngine.Events.UnityAction a)
+        { if (b){ b.onClick.RemoveAllListeners(); b.onClick.AddListener(a); } }
+
+        // Base
+        Hook(btnOpenSound, mgr.OnClickOpenSound);
+        Hook(btnResume,    mgr.OnClickResume);
+        Hook(btnExitAsk,   mgr.OnClickExitAsk);
+
+        // Setting (뒤로가기 = BasePanel)
+        Hook(btnCloseSound, mgr.OnClickCloseSound);
+
+        // Exit
+        Hook(btnExitYes, mgr.OnClickExitYes);
+        Hook(btnExitNo,  mgr.OnClickExitNo);
+
+        //  ExitPanel X 버튼은 제거했으므로 Hook 없음
     }
 }
