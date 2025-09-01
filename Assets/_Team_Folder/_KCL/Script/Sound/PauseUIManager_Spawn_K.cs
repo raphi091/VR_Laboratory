@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit.UI;
 #if UNITY_RENDER_PIPELINE_UNIVERSAL
 using UnityEngine.Rendering.Universal;
 #endif
@@ -24,14 +27,14 @@ public class PauseUIManager_Spawn_K : MonoBehaviour
     [SerializeField] private string uiActionMapName = "XRI UI";
     [SerializeField] private string[] mapsToDisableWhilePaused =
     {
-        "XRI LeftHand Locomotion","XRI RightHand Locomotion" // 이동만 잠그는 것을 권장
+        "XRI LeftHand Locomotion","XRI RightHand Locomotion"
     };
 
     [Header("SFX")] [SerializeField] private AudioClip uiClickSfx;
 
     [Header("Dev/Test")]
     [SerializeField] private bool openOnPlay = false;
-    [SerializeField] private bool followHeadWhilePaused = false; // 시선 고정(기본 false)
+    [SerializeField] private bool followHeadWhilePaused = false;
 #if UNITY_EDITOR
     [SerializeField] private bool escHotkeyInEditor = true;
 #endif
@@ -80,7 +83,7 @@ public class PauseUIManager_Spawn_K : MonoBehaviour
     private void Awake()
     {
         ResolveHead(true);
-        BindBButtonToUIClickIfNeeded(); // ★ XR Player/에셋 수정 없이 B 버튼을 UI 클릭으로 바인딩
+        BindBButtonToUIClickIfNeeded(); // XR 컨트롤러 B/Y를 UI 클릭에 바인딩
     }
 
     private void OnEnable()
@@ -140,9 +143,10 @@ public class PauseUIManager_Spawn_K : MonoBehaviour
         {
             if (!uiPrefab) { Debug.LogWarning("[PauseUI] uiPrefab 미지정"); return; }
             ui = Instantiate(uiPrefab);
-            PrepareUIForVR(ui.transform); // WorldSpace/레이어/알파 교정
-            BindCanvasWorldCamera();      // XR 카메라로 worldCamera 지정
-            ui.Wire(this);
+            PrepareUIForVR(ui.transform);   // WorldSpace/레이어/알파 교정
+            BindCanvasWorldCamera();        // XR 카메라로 worldCamera 지정
+            EnsureXRRaycaster(ui.transform);// XR 레이캐스터 보장
+            // Wire()는 사용하지 않습니다 (모든 버튼은 인스펙터에서 직접 OnClick 연결)
         }
 
         // 3) 외부 Screen-Space/Overlay 차단
@@ -165,7 +169,6 @@ public class PauseUIManager_Spawn_K : MonoBehaviour
         if (!paused) return;
         paused = false;
 
-        // 복구
         Time.timeScale = _savedTimeScale;
         if (ui) ui.gameObject.SetActive(false);
         RestoreForeignScreenSpaceCanvases();
@@ -329,7 +332,7 @@ public class PauseUIManager_Spawn_K : MonoBehaviour
         _disabledScreenSpaceCanvases.Clear();
     }
 
-    // Overlay 카메라 임시 비활성/복구(URP 카메라 스택 등) — 메인/베이스 보호
+    // Overlay 카메라 임시 비활성/복구
     private void DisableOverlayCameras()
     {
         _disabledOverlayBehaviours.Clear();
@@ -353,18 +356,68 @@ public class PauseUIManager_Spawn_K : MonoBehaviour
     }
 
     // ─────────────────────────────────────────────────────────────────────────────
-    // 패널 전환 & 클릭 SFX
+    // 패널 전환 & 클릭 SFX (포커스/포인터 초기화 포함)
+    private readonly List<CanvasGroup> _uiGroups = new();
+    private void CacheCanvasGroupsIfNeeded()
+    {
+        if (ui == null || _uiGroups.Count > 0) return;
+        ui.GetComponentsInChildren(true, _uiGroups);
+    }
+    private void SetAllCanvasGroupsBlocksRaycasts(bool on)
+    {
+        CacheCanvasGroupsIfNeeded();
+        foreach (var g in _uiGroups) if (g) g.blocksRaycasts = on;
+    }
+
+    private IEnumerator SwitchPanelRoutine(Action doToggle, GameObject firstSelect)
+    {
+        var es = EventSystem.current;
+        if (es != null) es.SetSelectedGameObject(null);
+
+        SetAllCanvasGroupsBlocksRaycasts(false); // 포인터 캡처 해제
+        doToggle?.Invoke();
+        Canvas.ForceUpdateCanvases();
+
+        yield return null; // 다음 프레임
+
+        SetAllCanvasGroupsBlocksRaycasts(true);
+        if (es != null && firstSelect != null) es.SetSelectedGameObject(firstSelect);
+    }
+
     private void ShowPauseOnly()
     {
-        ui.pausePanel.SetActive(true);
-        ui.soundPanel.SetActive(false);
-        ui.exitPanel .SetActive(false);
-        EventSystem.current?.SetSelectedGameObject(ui.firstOnPause);
+        StartCoroutine(SwitchPanelRoutine(() =>
+        {
+            ui.pausePanel.SetActive(true);
+            ui.soundPanel.SetActive(false);
+            ui.exitPanel .SetActive(false);
+        }, ui.firstOnPause));
     }
-    public void OnClickOpenSound(){PlayClick();ui.pausePanel.SetActive(false);ui.soundPanel.SetActive(true);ui.exitPanel.SetActive(false);EventSystem.current?.SetSelectedGameObject(ui.firstOnSound);}
-    public void OnClickExitAsk(){PlayClick();ui.pausePanel.SetActive(false);ui.soundPanel.SetActive(false);ui.exitPanel.SetActive(true);EventSystem.current?.SetSelectedGameObject(ui.firstOnExit);}
-    public void OnClickCloseSound(){PlayClick();ShowPauseOnly();}
-    public void OnClickResume(){PlayClick();ResumeGame();}
+
+    public void OnClickOpenSound()
+    {
+        PlayClick();
+        StartCoroutine(SwitchPanelRoutine(() =>
+        {
+            ui.pausePanel.SetActive(false);
+            ui.soundPanel.SetActive(true);
+            ui.exitPanel .SetActive(false);
+        }, ui.firstOnSound));
+    }
+
+    public void OnClickExitAsk()
+    {
+        PlayClick();
+        StartCoroutine(SwitchPanelRoutine(() =>
+        {
+            ui.pausePanel.SetActive(false);
+            ui.soundPanel.SetActive(false);
+            ui.exitPanel .SetActive(true);
+        }, ui.firstOnExit));
+    }
+
+    public void OnClickCloseSound(){ PlayClick(); ShowPauseOnly(); }
+    public void OnClickResume(){ PlayClick(); ResumeGame(); }
     public void OnClickExitYes(){
         PlayClick();
 #if UNITY_EDITOR
@@ -373,7 +426,7 @@ public class PauseUIManager_Spawn_K : MonoBehaviour
         Application.Quit();
 #endif
     }
-    public void OnClickExitNo(){PlayClick();ShowPauseOnly();}
+    public void OnClickExitNo(){ PlayClick(); ShowPauseOnly(); }
 
     // 클릭 사운드 재생(없으면 조용히 무시)
     private void PlayClick()
@@ -405,8 +458,7 @@ public class PauseUIManager_Spawn_K : MonoBehaviour
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────────
-    // 런타임에 B 버튼을 UI Click/Submit에 추가 (에셋/프리팹은 변경되지 않음)
+    // 런타임에 B 버튼을 UI Click/Submit에 추가
     private void BindBButtonToUIClickIfNeeded()
     {
         if (!inputActions) return;
@@ -439,8 +491,18 @@ public class PauseUIManager_Spawn_K : MonoBehaviour
         }
 
         AddIfMissing("<XRController>{RightHand}/secondaryButton"); // B
-        AddIfMissing("<XRController>{LeftHand}/secondaryButton");  // Y (필요 없으면 이 줄 제거)
+        AddIfMissing("<XRController>{LeftHand}/secondaryButton");  // Y
 
         if (wasEnabled) action.Enable();
+    }
+
+    // 월드 스페이스 캔버스에 XR 레이캐스터 자동 부착(필요 시)
+    private void EnsureXRRaycaster(Transform root)
+    {
+        foreach (var c in root.GetComponentsInChildren<Canvas>(true))
+        {
+            if (!c.TryGetComponent<TrackedDeviceGraphicRaycaster>(out _))
+                c.gameObject.AddComponent<TrackedDeviceGraphicRaycaster>();
+        }
     }
 }
