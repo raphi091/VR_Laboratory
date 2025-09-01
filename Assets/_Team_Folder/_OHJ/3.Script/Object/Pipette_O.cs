@@ -623,14 +623,37 @@ public class Pipette_O : MonoBehaviour
     private void OnInteractionPress(InputAction.CallbackContext context)
     {
         AnimatePlunger(plungerDownLocalY);
-        if (liquidDatas.Count > 0)
+        
+        // 1. 염색된 샘플 플라스크인 경우 흡수
+        if(flask != null && flask.isFillSample && !flask.isGel && flask.Dye != null)
         {
-            OnReleaseLiquid(context);
+            Debug.Log("염색된 플라스크 흡수");
+            OnAbsorbLiquid(context);
+            return;
         }
 
-        else
+        // 2. 용액 sample에 닿았다면 흡수
+        else if((sample != null && sample.CompareTag("Absorb")) && liquidDatas.Count == 0)
         {
+            Debug.Log("용액 흡수");
             OnAbsorbLiquid(context);
+            return;
+        }
+
+        // 3. 플라스크에서 용액 방출
+        else if (flask != null && liquidDatas.Count > 0)
+        {
+            Debug.Log("용액 방출");
+            OnReleaseLiquid(context);
+            return;
+        }
+
+        // 4. 구멍 염색
+        else if(currentHole != null)
+        {
+            Debug.Log("구멍 채우기");
+            OnReleaseLiquid(context);
+            return;
         }
     }
 
