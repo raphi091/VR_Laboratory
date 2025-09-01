@@ -52,13 +52,17 @@ MonoBehaviour:
   inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   uiActionMapName: XRI UI
   mapsToDisableWhilePaused:
-  - XRI LeftHand
-  - XRI RightHand
-  - XRI LeftHand Interaction
-  - XRI RightHand Interaction
   - XRI LeftHand Locomotion
   - XRI RightHand Locomotion
   uiClickSfx: {fileID: 8300000, guid: 70b5427226b11ba4eb56d4c469da4281, type: 3}
   openOnPlay: 0
   followHeadWhilePaused: 1
   escHotkeyInEditor: 1
+  autoFitToView: 1
+  fitViewportPercent: 0.75
+  scaleClamp: {x: 0.05, y: 2}
+  onlyShrink: 1
+  nearClipPadding: 0.25
+  disableScreenSpaceCanvasesWhilePaused: 1
+  overlayCamerasToDisableWhilePaused: []
+  keepScreenSpaceCanvases: []
