@@ -296,7 +296,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &4620253321649108758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,8 +330,6 @@ MonoBehaviour:
   settingPanel: {fileID: 7028615908910928011}
   exitPanel: {fileID: 7089226049706684348}
   baseBtn: {fileID: 7101900652795466649}
-  settingSilder: {fileID: 446576242175198112}
-  exitBtn: {fileID: 5116286107887419514}
   menuAction: {fileID: -7835874364050799200, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   actions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   mainCameraTransform: {fileID: 0}
@@ -2709,6 +2707,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f255b10dee0a69a44ba1b6a08775cbcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settingPanel: {fileID: 7028615908910928011}
+  exitPanel: {fileID: 7089226049706684348}
+  settingSilder: {fileID: 446576242175198112}
+  exitBtn: {fileID: 5116286107887419514}
+  menuAction: {fileID: -7835874364050799200, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  actions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  clickbtn: {fileID: 8300000, guid: 81f2cc0e2dba2c3469b44a5f841de09d, type: 3}
 --- !u!1 &6009477013907349860
 GameObject:
   m_ObjectHideFlags: 0
@@ -3505,6 +3510,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffb94b744ed38d945bebc035b000b24f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  basePanel: {fileID: 5389970667436217739}
+  baseBtn: {fileID: 7101900652795466649}
+  clickbtn: {fileID: 8300000, guid: 81f2cc0e2dba2c3469b44a5f841de09d, type: 3}
 --- !u!1 &7089226049706684348
 GameObject:
   m_ObjectHideFlags: 0
@@ -3597,6 +3605,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c60c35ab0463bc84080aff8be478c8e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  basePanel: {fileID: 5389970667436217739}
+  baseBtn: {fileID: 7101900652795466649}
+  clickbtn: {fileID: 8300000, guid: 81f2cc0e2dba2c3469b44a5f841de09d, type: 3}
 --- !u!1 &7101900652795466649
 GameObject:
   m_ObjectHideFlags: 0

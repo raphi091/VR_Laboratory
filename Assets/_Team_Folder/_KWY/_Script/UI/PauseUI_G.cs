@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
-using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
@@ -15,8 +12,6 @@ public class PauseUI_G : MonoBehaviour
     public GameObject settingPanel;
     public GameObject exitPanel;
     public GameObject baseBtn;
-    public GameObject settingSilder;
-    public GameObject exitBtn;
 
     [Header("Input Settings")]
     public InputActionReference menuAction;
@@ -30,9 +25,6 @@ public class PauseUI_G : MonoBehaviour
     public AudioClip clickbtn;
 
     private XRInput input;
-    private bool isPaused = false;
-
-    public bool IsPaused => isPaused;
 
 
     private void Awake()
@@ -62,60 +54,7 @@ public class PauseUI_G : MonoBehaviour
     {
         if (ctx.phase != InputActionPhase.Performed) return;
 
-        if (isPaused) 
-            CloseAllMenus();
-        else 
-            OpenMenu();
-    }
-
-    public void OnClick_Resume()
-    {
-        SoundManager_K.Instance.PlaySFX(clickbtn);
-        CloseAllMenus();
-    }
-
-    public void OnClick_OpenSettings()
-    {
-        SoundManager_K.Instance.PlaySFX(clickbtn);
-        basePanel.SetActive(false);
-        settingPanel.SetActive(true);
-
-        SetSelectedUIElement(settingSilder);
-    }
-
-    public void OnClick_CloseSettings()
-    {
-        SoundManager_K.Instance.PlaySFX(clickbtn);
-        settingPanel.SetActive(false);
-        basePanel.SetActive(true);
-    }
-
-    public void OnClick_OpenExitConfirm()
-    {
-        SoundManager_K.Instance.PlaySFX(clickbtn);
-        basePanel.SetActive(false);
-        exitPanel.SetActive(true);
-
-        SetSelectedUIElement(exitBtn);
-    }
-
-    public void OnClick_CloseExitConfirm()
-    {
-        SoundManager_K.Instance.PlaySFX(clickbtn);
-        exitPanel.SetActive(false);
-        basePanel.SetActive(true);
-    }
-
-    public void OnClick_ExitGame()
-    {
-        SoundManager_K.Instance.PlaySFX(clickbtn);
-        Time.timeScale = 1f;
-
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        OpenMenu();
     }
 
     private void OpenMenu()
@@ -135,20 +74,7 @@ public class PauseUI_G : MonoBehaviour
         exitPanel.SetActive(false);
         input.XRIUI.Enable();
 
-        isPaused = true;
-
         SetSelectedUIElement(baseBtn);
-    }
-
-    private void CloseAllMenus()
-    {
-        Time.timeScale = 1f;
-        basePanel.SetActive(false);
-        settingPanel.SetActive(false);
-        exitPanel.SetActive(false);
-        input.XRIUI.Disable();
-
-        isPaused = false;
     }
 
     private void SetSelectedUIElement(GameObject element)

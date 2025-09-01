@@ -1,19 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
 
 public class PauseUI_SettingPanel_G : MonoBehaviour
 {
-    private PauseUI_G pause;
+    [Header("UI Panels")]
+    public GameObject basePanel;
+    public GameObject baseBtn;
 
+    [Header("Sound")]
+    public AudioClip clickbtn;
 
-    private void OnEnable()
-    {
-        pause = GetComponentInParent<PauseUI_G>();
-    }
 
     public void OnClick_CloseSettings()
     {
-        pause.OnClick_CloseSettings();
+        SoundManager_K.Instance.PlaySFX(clickbtn);
+        gameObject.SetActive(false);
+        basePanel.SetActive(true);
+
+        SetSelectedUIElement(baseBtn);
+    }
+
+    private void SetSelectedUIElement(GameObject element)
+    {
+        EventSystem.current.SetSelectedGameObject(element);
     }
 }
