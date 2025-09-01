@@ -102,6 +102,12 @@ public class PauseUI_G : MonoBehaviour
         if (basePanel != null)
             basePanel.SetActive(true);
 
+        if (settingPanel != null)
+            settingPanel.SetActive(false);
+
+        if (exitPanel != null)
+            exitPanel.SetActive(false);
+
         Time.timeScale = 0f;
         isPaused = true;
         input.XRIUI.Enable();
@@ -114,8 +120,11 @@ public class PauseUI_G : MonoBehaviour
         if (basePanel != null)
             basePanel.SetActive(false);
 
-        if (basePanel != null)
-            basePanel.SetActive(false);
+        if (settingPanel != null)
+            settingPanel.SetActive(false);
+
+        if (exitPanel != null)
+            exitPanel.SetActive(false);
 
         Time.timeScale = 1f;
         isPaused = false;
@@ -163,11 +172,12 @@ public class PauseUI_G : MonoBehaviour
 
         if (basePanel != null)
         {
+            basePanel.SetActive(true);
             settingPanel.SetActive(false);
             exitPanel.SetActive(false);
-            basePanel.SetActive(true);
-            SetSelectedUIElement(baseBtn);
         }
+
+        SetSelectedUIElement(baseBtn);
     }
 
     private void SetSelectedUIElement(GameObject element)
