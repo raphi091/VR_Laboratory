@@ -56,7 +56,10 @@ public class PauseUI_G : MonoBehaviour
             menuAction.action.Enable();
         }
 
+        actions.FindActionMap("XRI LeftHand Interaction").Enable();
         actions.FindActionMap("XRI LeftHand Locomotion").Enable();
+        actions.FindActionMap("XRI RightHand Interaction").Enable();
+        actions.FindActionMap("XRI RightHand Locomotion").Enable();
         actions.FindActionMap("XRI UI").Disable();
     }
 
@@ -68,7 +71,10 @@ public class PauseUI_G : MonoBehaviour
             menuAction.action.Disable();
         }
 
+        actions.FindActionMap("XRI LeftHand Interaction").Disable();
         actions.FindActionMap("XRI LeftHand Locomotion").Disable();
+        actions.FindActionMap("XRI RightHand Interaction").Disable();
+        actions.FindActionMap("XRI RightHand Locomotion").Disable();
         actions.FindActionMap("XRI UI").Disable();
     }
 
@@ -105,7 +111,10 @@ public class PauseUI_G : MonoBehaviour
 
         Time.timeScale = 0f;
         isPaused = true;
+        actions.FindActionMap("XRI LeftHand Interaction").Disable();
         actions.FindActionMap("XRI LeftHand Locomotion").Disable();
+        actions.FindActionMap("XRI RightHand Interaction").Disable();
+        actions.FindActionMap("XRI RightHand Locomotion").Disable();
         actions.FindActionMap("XRI UI").Enable();
 
         SetSelectedUIElement(resumeButton);
@@ -120,7 +129,10 @@ public class PauseUI_G : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;
         actions.FindActionMap("XRI UI").Disable();
+        actions.FindActionMap("XRI LeftHand Interaction").Enable();
         actions.FindActionMap("XRI LeftHand Locomotion").Enable();
+        actions.FindActionMap("XRI RightHand Interaction").Enable();
+        actions.FindActionMap("XRI RightHand Locomotion").Enable();
     }
 
     public void OnClick_OpenSettings()
