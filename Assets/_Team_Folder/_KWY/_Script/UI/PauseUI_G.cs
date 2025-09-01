@@ -112,6 +112,12 @@ public class PauseUI_G : MonoBehaviour
         isPaused = true;
         input.XRIUI.Enable();
 
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.enabled = false;
+            EventSystem.current.enabled = true;
+        }
+
         SetSelectedUIElement(baseBtn);
     }
 
@@ -170,13 +176,18 @@ public class PauseUI_G : MonoBehaviour
 
     public void OnBack()
     {
+        Debug.Log("OnBack() 메소드가 호출되었습니다!");
+
         SoundManager_K.Instance.PlaySFX(clickbtn);
+
+        if(settingPanel.activeSelf)
+            settingPanel.SetActive(false);
+        else
+            exitPanel.SetActive(false);
 
         if (basePanel != null)
         {
             basePanel.SetActive(true);
-            settingPanel.SetActive(false);
-            exitPanel.SetActive(false);
         }
 
         SetSelectedUIElement(baseBtn);
