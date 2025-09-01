@@ -428,7 +428,7 @@ GameObject:
   - component: {fileID: 319830941763893174}
   m_Layer: 0
   m_Name: Right Controller
-  m_TagString: Untagged
+  m_TagString: Hand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5701,7 +5701,7 @@ GameObject:
   - component: {fileID: 2409920387550422263}
   m_Layer: 0
   m_Name: Left Controller
-  m_TagString: Untagged
+  m_TagString: Hand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5781,7 +5781,7 @@ MonoBehaviour:
   m_UpdateTrackingType: 0
   m_EnableInputTracking: 1
   m_EnableInputActions: 1
-  m_ModelPrefab: {fileID: 7200028109908480551, guid: 86e9cbce845fe2c4cae62d0343e08b75, type: 3}
+  m_ModelPrefab: {fileID: 7200028109908480551, guid: 43d3784fbba56d74091648fec91038b0, type: 3}
   m_ModelParent: {fileID: 6531328207464462717}
   m_Model: {fileID: 0}
   m_AnimateModel: 0

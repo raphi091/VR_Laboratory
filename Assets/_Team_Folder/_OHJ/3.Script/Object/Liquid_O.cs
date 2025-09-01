@@ -10,12 +10,18 @@ public class Liquid_O : MonoBehaviour
     public float currentAmount;
     public float targetAmount = 0.5f;
 
+    [Header("플라스크")]
+    private SampleFlask_O flask;
+    public LiquidData_L TBE;
+    public LiquidData_L Agarose;
+
     private Coroutine fillCoroutine;
     private Coroutine ChangecolorCoroutine;
 
     private void Awake()
     {
-        mat = GetComponent<MeshRenderer>().material;   
+        mat = GetComponent<MeshRenderer>().material;
+        flask = GetComponentInParent<SampleFlask_O>();
     }
 
     private void Start()
@@ -28,35 +34,32 @@ public class Liquid_O : MonoBehaviour
 
     public void FillLiquid()
     {
-        float newAmount = currentAmount + fillAmount;
+        float gelFillAmount = fillAmount;   // 채우기 기본값을 저장
+        // 겔 플라스크라면
+        // TBE랑 아가로스의 양이 서로 다르게 나오도록 한다
+        if (flask.isGel)
+        {
+            if (flask.receiveddLiquids.Contains(TBE))
+            {
+                gelFillAmount = 0.51f;
+            }
+        }
 
-        if(newAmount > targetAmount)
+        float newAmount = currentAmount + gelFillAmount;
+        Debug.LogWarning($"{gelFillAmount}만큼 채웠습니다");
+
+        if (newAmount > targetAmount)
         {
             newAmount = targetAmount;
         }
 
-        if(fillCoroutine != null)
+        if (fillCoroutine != null)
         {
             StopCoroutine(fillCoroutine);
         }
 
         fillCoroutine = StartCoroutine(FillAnimation(currentAmount, newAmount, 0.5f));
-        //if(currentAmount != targetAmount)
-        //{
-        //    currentAmount = Mathf.Lerp(currentAmount, targetAmount, fillAmount * Time.deltaTime);
-        //}
 
-        //currentAmount += fillAmount;
-
-        //if (currentAmount > 0.8f)
-        //{
-        //    currentAmount = 0.8f;
-        //}
-
-        //if(mat.HasProperty("_Fill"))
-        //{
-        //    mat.SetFloat("_Fill", currentAmount);
-        //}
     }
 
     private IEnumerator FillAnimation(float from, float to, float duration)
