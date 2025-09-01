@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3089277690673207546}
   - component: {fileID: 9059503617173368671}
   - component: {fileID: 1044465575762144405}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 2161322327984672511}
   - component: {fileID: 4632775244300427760}
   - component: {fileID: 7038713845045801039}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ RectTransform:
   m_Father: {fileID: 4179418970237247732}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 5059021070688923507}
   - component: {fileID: 4620253321649108758}
   - component: {fileID: 6154506771476988965}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Pause_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +236,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 355653656119830054}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.005, y: 0.005, z: 0.005}
   m_ConstrainProportionsScale: 1
@@ -248,7 +248,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -99.983, y: 0.65301514}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 300, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4137548239196578158
@@ -329,11 +329,10 @@ MonoBehaviour:
   basePanel: {fileID: 5389970667436217739}
   settingPanel: {fileID: 7028615908910928011}
   exitPanel: {fileID: 7089226049706684348}
-  baseBtn: {fileID: 7101900652795466649}
-  settingSlider: {fileID: 446576242175198112}
-  exitBtn: {fileID: 5116286107887419514}
-  offset: 2
   menuAction: {fileID: -7835874364050799200, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  actions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  mainCameraTransform: {fileID: 0}
+  spawnDistance: 2.5
   clickbtn: {fileID: 8300000, guid: 81f2cc0e2dba2c3469b44a5f841de09d, type: 3}
 --- !u!1 &446576242175198112
 GameObject:
@@ -345,7 +344,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6152538534351071008}
   - component: {fileID: 2031377434731565414}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Master
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,7 +395,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.64705884, b: 0, a: 1}
     m_PressedColor: {r: 1, g: 0.64705884, b: 0, a: 1}
     m_SelectedColor: {r: 1, g: 0.64705884, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -436,7 +435,7 @@ GameObject:
   - component: {fileID: 6200602741149197497}
   - component: {fileID: 3614087395581824465}
   - component: {fileID: 4168334147068848508}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -484,7 +483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -571,7 +570,7 @@ GameObject:
   - component: {fileID: 5343059089824640650}
   - component: {fileID: 4203286601753965200}
   - component: {fileID: 771802202812931809}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Resume_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -658,7 +657,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 1}
     m_PressedColor: {r: 1, g: 0, b: 0, a: 1}
     m_SelectedColor: {r: 1, g: 0, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -682,7 +681,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6154506771476988965}
         m_TargetAssemblyTypeName: PauseUI_G, Assembly-CSharp
-        m_MethodName: OnCloseMenu
+        m_MethodName: CloseAllMenus
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -702,7 +701,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4687525914196977256}
   - component: {fileID: 4953161520600623638}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: SFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -753,7 +752,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.64705884, b: 0, a: 1}
     m_PressedColor: {r: 1, g: 0.64705884, b: 0, a: 1}
     m_SelectedColor: {r: 1, g: 0.64705884, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -793,7 +792,7 @@ GameObject:
   - component: {fileID: 8014766091041847900}
   - component: {fileID: 4471329465653448003}
   - component: {fileID: 4962070942331479078}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -815,7 +814,7 @@ RectTransform:
   m_Father: {fileID: 4084998823789054570}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -857,81 +856,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &1589278780292198078
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3705288803966195518}
-  - component: {fileID: 4813310075861684986}
-  - component: {fileID: 8946686387874034050}
-  m_Layer: 5
-  m_Name: Image
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &3705288803966195518
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589278780292198078}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4994695016623313279}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &4813310075861684986
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589278780292198078}
-  m_CullTransparentMesh: 1
---- !u!114 &8946686387874034050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589278780292198078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 5248415023898783801, guid: cbf58c37249d82a4e97598dfc07d9058, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1734549424543642315
 GameObject:
   m_ObjectHideFlags: 0
@@ -943,7 +867,7 @@ GameObject:
   - component: {fileID: 4922699527413043042}
   - component: {fileID: 8157291907427086146}
   - component: {fileID: 343988139791352710}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -965,7 +889,7 @@ RectTransform:
   m_Father: {fileID: 5862647638378342834}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1018,7 +942,7 @@ GameObject:
   - component: {fileID: 3014401382098984559}
   - component: {fileID: 3796800596744824606}
   - component: {fileID: 4670554458868288859}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Image_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1092,7 +1016,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 186677015458966420}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1130,7 +1054,7 @@ GameObject:
   - component: {fileID: 2484303630044235577}
   - component: {fileID: 4806307238677745488}
   - component: {fileID: 642080816354543346}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1152,7 +1076,7 @@ RectTransform:
   m_Father: {fileID: 1228061849923903603}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1203,7 +1127,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4084998823789054570}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1242,7 +1166,7 @@ GameObject:
   - component: {fileID: 8792993778121647387}
   - component: {fileID: 7023342646167061676}
   - component: {fileID: 2702933885989894234}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Yes_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1329,7 +1253,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.81568635, b: 0.2784314, a: 1}
     m_PressedColor: {r: 1, g: 0.81568635, b: 0.2784314, a: 1}
     m_SelectedColor: {r: 1, g: 0.81568635, b: 0.2784314, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -1353,7 +1277,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6154506771476988965}
         m_TargetAssemblyTypeName: PauseUI_G, Assembly-CSharp
-        m_MethodName: OnExit
+        m_MethodName: OnClick_ExitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1374,7 +1298,7 @@ GameObject:
   - component: {fileID: 3477263310778967866}
   - component: {fileID: 7194993872895254822}
   - component: {fileID: 4481358711103410058}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1422,7 +1346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1509,7 +1433,7 @@ GameObject:
   - component: {fileID: 3658725557712121595}
   - component: {fileID: 7342432226816898090}
   - component: {fileID: 6608665795076225597}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Exit_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1596,7 +1520,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 1}
     m_PressedColor: {r: 1, g: 0, b: 0, a: 1}
     m_SelectedColor: {r: 1, g: 0, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -1620,7 +1544,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6154506771476988965}
         m_TargetAssemblyTypeName: PauseUI_G, Assembly-CSharp
-        m_MethodName: OnExitBtn
+        m_MethodName: OnClick_OpenExitConfirm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1641,7 +1565,7 @@ GameObject:
   - component: {fileID: 8558167404389685379}
   - component: {fileID: 6642432241469090885}
   - component: {fileID: 7382929179580309493}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1716,7 +1640,7 @@ GameObject:
   - component: {fileID: 5495651097216171254}
   - component: {fileID: 4881356972915504442}
   - component: {fileID: 569328964296625195}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Text (TMP)_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1764,7 +1688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1850,7 +1774,7 @@ GameObject:
   - component: {fileID: 4847141409992064945}
   - component: {fileID: 6206020903834299756}
   - component: {fileID: 8509975655702523008}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1898,7 +1822,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1983,7 +1907,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3683542510729849832}
   - component: {fileID: 8652190488997296631}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: BGM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2034,7 +1958,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.64705884, b: 0, a: 1}
     m_PressedColor: {r: 1, g: 0.64705884, b: 0, a: 1}
     m_SelectedColor: {r: 1, g: 0.64705884, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -2074,7 +1998,7 @@ GameObject:
   - component: {fileID: 3739702333835185051}
   - component: {fileID: 5938955972768616941}
   - component: {fileID: 5066597506773376532}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2122,7 +2046,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2208,7 +2132,7 @@ GameObject:
   - component: {fileID: 6929972111134478527}
   - component: {fileID: 3081040337963775403}
   - component: {fileID: 247718266348779402}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2285,7 +2209,7 @@ GameObject:
   - component: {fileID: 1337077567385110402}
   - component: {fileID: 2190210053596259809}
   - component: {fileID: 7273678866992748911}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2360,7 +2284,7 @@ GameObject:
   - component: {fileID: 4657463691952284237}
   - component: {fileID: 6373553793542625925}
   - component: {fileID: 5300988945711561769}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Image_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2437,7 +2361,7 @@ GameObject:
   - component: {fileID: 556558726809870828}
   - component: {fileID: 6372707612352262487}
   - component: {fileID: 9079869207190636738}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: X_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2455,8 +2379,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3705288803966195518}
+  m_Children: []
   m_Father: {fileID: 8017270478464214296}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
@@ -2485,7 +2408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2524,7 +2447,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.5176471, g: 0.18431373, b: 0.18431373, a: 1}
     m_PressedColor: {r: 0.5176471, g: 0.18431373, b: 0.18431373, a: 1}
     m_SelectedColor: {r: 0.5176471, g: 0.18431373, b: 0.18431373, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -2542,13 +2465,13 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 8946686387874034050}
+  m_TargetGraphic: {fileID: 6372707612352262487}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6154506771476988965}
         m_TargetAssemblyTypeName: PauseUI_G, Assembly-CSharp
-        m_MethodName: OnBack
+        m_MethodName: OnClick_CloseSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2570,7 +2493,7 @@ GameObject:
   - component: {fileID: 8944599076875333654}
   - component: {fileID: 5521783228304820497}
   - component: {fileID: 6470334602198619237}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: No_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2657,8 +2580,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 1, g: 0.8156863, b: 0.2784314, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.81568635, b: 0.2784314, a: 1}
+    m_PressedColor: {r: 1, g: 0.81568635, b: 0.2784314, a: 1}
     m_SelectedColor: {r: 1, g: 0.81568635, b: 0.2784314, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -2681,7 +2604,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6154506771476988965}
         m_TargetAssemblyTypeName: PauseUI_G, Assembly-CSharp
-        m_MethodName: OnBack
+        m_MethodName: OnClick_CloseExitConfirm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2702,7 +2625,8 @@ GameObject:
   - component: {fileID: 6494240541626987600}
   - component: {fileID: 8925010473901174912}
   - component: {fileID: 1915357126853525342}
-  m_Layer: 5
+  - component: {fileID: 1658152934674257961}
+  m_Layer: 3
   m_Name: BasePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2770,6 +2694,108 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1658152934674257961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5389970667436217739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a35f6cfbfba9b548aaa00d52cfe8a50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractionManager: {fileID: 0}
+  m_Colliders: []
+  m_InteractionLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_InteractionLayers:
+    m_Bits: 1
+  m_DistanceCalculationMode: 1
+  m_SelectMode: 0
+  m_FocusMode: 1
+  m_CustomReticle: {fileID: 0}
+  m_AllowGazeInteraction: 0
+  m_AllowGazeSelect: 0
+  m_OverrideGazeTimeToSelect: 0
+  m_GazeTimeToSelect: 0.5
+  m_OverrideTimeToAutoDeselectGaze: 0
+  m_TimeToAutoDeselectGaze: 3
+  m_AllowGazeAssistance: 0
+  m_FirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstFocusEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastFocusExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FocusEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FocusExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Activated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Deactivated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_StartingHoverFilters: []
+  m_StartingSelectFilters: []
+  m_StartingInteractionStrengthFilters: []
+  m_OnFirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnLastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectCanceled:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6009477013907349860
 GameObject:
   m_ObjectHideFlags: 0
@@ -2781,7 +2807,7 @@ GameObject:
   - component: {fileID: 7128694576661028897}
   - component: {fileID: 5667626334453511470}
   - component: {fileID: 7139013968157247562}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2829,7 +2855,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2917,7 +2943,7 @@ GameObject:
   - component: {fileID: 8510549263525506412}
   - component: {fileID: 3341183082299940539}
   - component: {fileID: 3810667848192471242}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2992,7 +3018,7 @@ GameObject:
   - component: {fileID: 6389101747991023891}
   - component: {fileID: 5645595263744311962}
   - component: {fileID: 2057368430602021540}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3065,7 +3091,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4179418970237247732}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3103,7 +3129,7 @@ GameObject:
   - component: {fileID: 1847716992881837609}
   - component: {fileID: 3742788946181473982}
   - component: {fileID: 6647242999165765738}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3125,7 +3151,7 @@ RectTransform:
   m_Father: {fileID: 7613442161613859551}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3178,7 +3204,7 @@ GameObject:
   - component: {fileID: 3151275499115720566}
   - component: {fileID: 9107952902392343339}
   - component: {fileID: 6195548271744434949}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3200,7 +3226,7 @@ RectTransform:
   m_Father: {fileID: 186677015458966420}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3253,7 +3279,7 @@ GameObject:
   - component: {fileID: 751251484480321950}
   - component: {fileID: 170516353917352870}
   - component: {fileID: 178956958509605503}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3301,7 +3327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3387,7 +3413,7 @@ GameObject:
   - component: {fileID: 9154293106997283065}
   - component: {fileID: 1396736932895740997}
   - component: {fileID: 3666704539219816572}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3463,13 +3489,14 @@ GameObject:
   - component: {fileID: 7920964284101620210}
   - component: {fileID: 6292117756231353620}
   - component: {fileID: 3109522995439315783}
-  m_Layer: 5
+  - component: {fileID: 8276329927345012094}
+  m_Layer: 3
   m_Name: SettingPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8017270478464214296
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3519,7 +3546,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3553,6 +3580,108 @@ MonoBehaviour:
   defaultMaster: 1
   defaultBGM: 1
   defaultSFX: 1
+--- !u!114 &8276329927345012094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7028615908910928011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a35f6cfbfba9b548aaa00d52cfe8a50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractionManager: {fileID: 0}
+  m_Colliders: []
+  m_InteractionLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_InteractionLayers:
+    m_Bits: 1
+  m_DistanceCalculationMode: 1
+  m_SelectMode: 0
+  m_FocusMode: 1
+  m_CustomReticle: {fileID: 0}
+  m_AllowGazeInteraction: 0
+  m_AllowGazeSelect: 0
+  m_OverrideGazeTimeToSelect: 0
+  m_GazeTimeToSelect: 0.5
+  m_OverrideTimeToAutoDeselectGaze: 0
+  m_TimeToAutoDeselectGaze: 3
+  m_AllowGazeAssistance: 0
+  m_FirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstFocusEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastFocusExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FocusEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FocusExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Activated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Deactivated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_StartingHoverFilters: []
+  m_StartingSelectFilters: []
+  m_StartingInteractionStrengthFilters: []
+  m_OnFirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnLastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectCanceled:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7089226049706684348
 GameObject:
   m_ObjectHideFlags: 0
@@ -3564,13 +3693,14 @@ GameObject:
   - component: {fileID: 2104780502683209074}
   - component: {fileID: 6735691059254801608}
   - component: {fileID: 8599758301201488728}
-  m_Layer: 5
+  - component: {fileID: 1431439697580370448}
+  m_Layer: 3
   m_Name: ExitPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2104780502683209074
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3632,6 +3762,108 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1431439697580370448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7089226049706684348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a35f6cfbfba9b548aaa00d52cfe8a50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractionManager: {fileID: 0}
+  m_Colliders: []
+  m_InteractionLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_InteractionLayers:
+    m_Bits: 1
+  m_DistanceCalculationMode: 1
+  m_SelectMode: 0
+  m_FocusMode: 1
+  m_CustomReticle: {fileID: 0}
+  m_AllowGazeInteraction: 0
+  m_AllowGazeSelect: 0
+  m_OverrideGazeTimeToSelect: 0
+  m_GazeTimeToSelect: 0.5
+  m_OverrideTimeToAutoDeselectGaze: 0
+  m_TimeToAutoDeselectGaze: 3
+  m_AllowGazeAssistance: 0
+  m_FirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstFocusEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastFocusExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FocusEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FocusExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Activated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Deactivated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_StartingHoverFilters: []
+  m_StartingSelectFilters: []
+  m_StartingInteractionStrengthFilters: []
+  m_OnFirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnLastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectCanceled:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7101900652795466649
 GameObject:
   m_ObjectHideFlags: 0
@@ -3644,7 +3876,7 @@ GameObject:
   - component: {fileID: 8398874549082418996}
   - component: {fileID: 9019790479814521686}
   - component: {fileID: 835506223107921907}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Sound_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3731,7 +3963,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 1}
     m_PressedColor: {r: 1, g: 0, b: 0, a: 1}
     m_SelectedColor: {r: 1, g: 0, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -3755,7 +3987,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6154506771476988965}
         m_TargetAssemblyTypeName: PauseUI_G, Assembly-CSharp
-        m_MethodName: OnSettingBtn
+        m_MethodName: OnClick_OpenSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3776,7 +4008,7 @@ GameObject:
   - component: {fileID: 6848545400292499751}
   - component: {fileID: 6930763279687958564}
   - component: {fileID: 7224893677711177715}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3849,7 +4081,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7613442161613859551}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3885,7 +4117,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5862647638378342834}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3923,7 +4155,7 @@ GameObject:
   - component: {fileID: 3472313901341194255}
   - component: {fileID: 8563463535687043966}
   - component: {fileID: 6537781840421245289}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Text (TMP)_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3971,7 +4203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4055,7 +4287,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1228061849923903603}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4093,7 +4325,7 @@ GameObject:
   - component: {fileID: 3945382518701026106}
   - component: {fileID: 3283655999763755849}
   - component: {fileID: 5047627883921901841}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4141,7 +4373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

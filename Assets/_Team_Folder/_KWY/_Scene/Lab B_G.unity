@@ -737,6 +737,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10, y: 3.972191, z: 10}
   m_Center: {x: 0, y: -1.9860955, z: 0}
+--- !u!4 &944960174 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3924557435612905715, guid: 922214bad48a45b44af62c922346f4b9, type: 3}
+  m_PrefabInstance: {fileID: 1963557176}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1001077464
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2108,11 +2113,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2817533499713800297, guid: c1c873b5458da994690ad0b520d1e79e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -99.983
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2817533499713800297, guid: c1c873b5458da994690ad0b520d1e79e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.653
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2817533499713800297, guid: c1c873b5458da994690ad0b520d1e79e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2138,20 +2143,12 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5389970667436217739, guid: c1c873b5458da994690ad0b520d1e79e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7028615908910928011, guid: c1c873b5458da994690ad0b520d1e79e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 6154506771476988965, guid: c1c873b5458da994690ad0b520d1e79e, type: 3}
+      propertyPath: mainCameraTransform
+      value: 
+      objectReference: {fileID: 944960174}
     - target: {fileID: 8014766091041847900, guid: c1c873b5458da994690ad0b520d1e79e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8946686387874034050, guid: c1c873b5458da994690ad0b520d1e79e, type: 3}
-      propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

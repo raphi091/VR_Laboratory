@@ -7,34 +7,28 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+
 public class PauseUI_G : MonoBehaviour
 {
-    [Header("UI 연결")]
+    [Header("UI Panels")]
     public GameObject basePanel;
     public GameObject settingPanel;
     public GameObject exitPanel;
-    public GameObject baseBtn;
-    public GameObject settingSlider;
-    public GameObject exitBtn;
 
-    [Header("위치")]
-    public float offset = 2f;
-
-    [Header("Input")]
+    [Header("Input Settings")]
     public InputActionReference menuAction;
+    public InputActionAsset actions;
 
-    [Header("버튼 클릭 사운드")]
+    [Header("VR Settings")]
+    public Transform mainCameraTransform;
+    public float spawnDistance = 1.5f;
+
+    [Header("Sound")]
     public AudioClip clickbtn;
 
-    private XRInput input;
     private bool isPaused = false;
     public bool IsPaused => isPaused;
 
-
-    private void Awake()
-    {
-        input = new XRInput();
-    }
 
     private void OnEnable()
     {
@@ -50,122 +44,58 @@ public class PauseUI_G : MonoBehaviour
         if (menuAction != null)
         {
             menuAction.action.performed -= OnMenuButtonPressed;
-            menuAction?.action.Disable();
+            menuAction.action.Disable();
         }
-    }
-
-    private void Start()
-    {
-        SetUpMenu();
-    }
-
-    private void SetUpMenu()
-    {
-        if (basePanel != null)
-            basePanel.SetActive(false);
-
-        if (settingPanel != null)
-            settingPanel.SetActive(false);
-
-        if (exitPanel != null)
-            exitPanel.SetActive(false);
-
-        Time.timeScale = 1f;
-        isPaused = false;
     }
 
     private void OnMenuButtonPressed(InputAction.CallbackContext ctx)
     {
         if (ctx.phase != InputActionPhase.Performed) return;
 
-        if (isPaused)
-        {
-            OnCloseMenu();
-        }
-        else
-        {
-            Transform cameraTransform = Camera.main.transform;
-
-            transform.position = cameraTransform.position + (cameraTransform.forward * offset);
-            Vector3 targetDirection = transform.position - cameraTransform.position;
-            targetDirection.y = 0;
-            transform.rotation = Quaternion.LookRotation(targetDirection);
-
-            OnOpenMenu();
-        }
+        if (isPaused) 
+            CloseAllMenus();
+        else 
+            OpenMenu();
     }
 
-    public void OnOpenMenu()
+    public void OnClick_Resume()
     {
         SoundManager_K.Instance.PlaySFX(clickbtn);
-
-        if (basePanel != null)
-            basePanel.SetActive(true);
-
-        if (settingPanel != null)
-            settingPanel.SetActive(false);
-
-        if (exitPanel != null)
-            exitPanel.SetActive(false);
-
-        Time.timeScale = 0f;
-        isPaused = true;
-        input.XRIUI.Enable();
-
-        if (EventSystem.current != null)
-        {
-            EventSystem.current.enabled = false;
-            EventSystem.current.enabled = true;
-        }
-
-        SetSelectedUIElement(baseBtn);
+        CloseAllMenus();
     }
 
-    public void OnCloseMenu()
+    public void OnClick_OpenSettings()
     {
-        if (basePanel != null)
-            basePanel.SetActive(false);
+        SoundManager_K.Instance.PlaySFX(clickbtn);
+        basePanel.SetActive(false);
+        settingPanel.SetActive(true);
+    }
 
-        if (settingPanel != null)
-            settingPanel.SetActive(false);
+    public void OnClick_CloseSettings()
+    {
+        SoundManager_K.Instance.PlaySFX(clickbtn);
+        settingPanel.SetActive(false);
+        basePanel.SetActive(true);
+    }
 
-        if (exitPanel != null)
-            exitPanel.SetActive(false);
+    public void OnClick_OpenExitConfirm()
+    {
+        SoundManager_K.Instance.PlaySFX(clickbtn);
+        basePanel.SetActive(false);
+        exitPanel.SetActive(true);
+    }
 
+    public void OnClick_CloseExitConfirm()
+    {
+        SoundManager_K.Instance.PlaySFX(clickbtn);
+        exitPanel.SetActive(false);
+        basePanel.SetActive(true);
+    }
+
+    public void OnClick_ExitGame()
+    {
+        SoundManager_K.Instance.PlaySFX(clickbtn);
         Time.timeScale = 1f;
-        isPaused = false;
-        input.XRIUI.Disable();
-    }
-
-    public void OnSettingBtn()
-    {
-        SoundManager_K.Instance.PlaySFX(clickbtn);
-
-        if (settingPanel != null)
-        {
-            basePanel.SetActive(false);
-            settingPanel.SetActive(true);
-            SetSelectedUIElement(settingSlider);
-        } 
-    }
-
-    public void OnExitBtn()
-    {
-        SoundManager_K.Instance.PlaySFX(clickbtn);
-
-        if (exitPanel != null)
-        {
-            basePanel.SetActive(false);
-            exitPanel.SetActive(true);
-            SetSelectedUIElement(exitBtn);
-        }
-    }
-
-    public void OnExit()
-    {
-        SoundManager_K.Instance.PlaySFX(clickbtn);
-
-        SetUpMenu();
 
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -174,28 +104,30 @@ public class PauseUI_G : MonoBehaviour
 #endif
     }
 
-    public void OnBack()
+    private void OpenMenu()
     {
-        Debug.Log("OnBack() 메소드가 호출되었습니다!");
-
-        SoundManager_K.Instance.PlaySFX(clickbtn);
-
-        if(settingPanel.activeSelf)
-            settingPanel.SetActive(false);
-        else
-            exitPanel.SetActive(false);
-
-        if (basePanel != null)
+        if (mainCameraTransform != null)
         {
-            basePanel.SetActive(true);
+            Vector3 forward = mainCameraTransform.forward;
+            forward.y = 0;
+            transform.position = mainCameraTransform.position + forward.normalized * spawnDistance;
+            float cameraYRotation = mainCameraTransform.eulerAngles.y;
+            transform.rotation = Quaternion.Euler(0f, cameraYRotation, 0f);
         }
 
-        SetSelectedUIElement(baseBtn);
+        basePanel.SetActive(true);
+        settingPanel.SetActive(false);
+        exitPanel.SetActive(false);
+
+        isPaused = true;
     }
 
-    private void SetSelectedUIElement(GameObject element)
+    private void CloseAllMenus()
     {
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(element);
+        basePanel.SetActive(false);
+        settingPanel.SetActive(false);
+        exitPanel.SetActive(false);
+
+        isPaused = false;
     }
 }
