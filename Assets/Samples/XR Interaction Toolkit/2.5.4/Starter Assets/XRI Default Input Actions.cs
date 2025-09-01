@@ -2020,6 +2020,7 @@ public partial class @XRInput: IInputActionCollection2, IDisposable
         {
             ""name"": ""XRI UI"",
             ""id"": ""edd65a7c-601c-4915-8307-025a081d8790"",
+            ""updateMode"": 1,
             ""actions"": [
                 {
                     ""name"": ""Navigate"",

@@ -7,33 +7,45 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+
 public class PauseUI_G : MonoBehaviour
 {
-    [Header("UI 연결")]
+    [Header("Input Action Asset")]
+    public InputActionAsset actions;
+
+    [Header("UI Panels")]
     public GameObject basePanel;
     public GameObject settingPanel;
     public GameObject exitPanel;
-    public GameObject baseBtn;
-    public GameObject settingSlider;
-    public GameObject exitBtn;
 
-    [Header("위치")]
-    public float offset = 2f;
+    [Header("Default Selected Buttons")]
+    public GameObject resumeButton;
+    public GameObject settingDefaultButton;
+    public GameObject exitDefaultButton;
 
-    [Header("Input")]
+    [Header("Input Settings")]
     public InputActionReference menuAction;
 
-    [Header("버튼 클릭 사운드")]
+    [Header("VR Settings")]
+    public Transform mainCameraTransform;
+    public float spawnDistance = 1.5f;
+
+    [Header("Sound")]
     public AudioClip clickbtn;
 
-    private XRInput input;
     private bool isPaused = false;
-    public bool IsPaused => isPaused;
 
 
-    private void Awake()
+    private void Start()
     {
-        input = new XRInput();
+        if (basePanel != null) 
+            basePanel.SetActive(false);
+
+        if (settingPanel != null) 
+            settingPanel.SetActive(false);
+
+        if (exitPanel != null) 
+            exitPanel.SetActive(false);
     }
 
     private void OnEnable()
@@ -43,6 +55,9 @@ public class PauseUI_G : MonoBehaviour
             menuAction.action.performed += OnMenuButtonPressed;
             menuAction.action.Enable();
         }
+
+        actions.FindActionMap("XRI LeftHand Locomotion").Enable();
+        actions.FindActionMap("XRI UI").Disable();
     }
 
     private void OnDisable()
@@ -50,28 +65,11 @@ public class PauseUI_G : MonoBehaviour
         if (menuAction != null)
         {
             menuAction.action.performed -= OnMenuButtonPressed;
-            menuAction?.action.Disable();
+            menuAction.action.Disable();
         }
-    }
 
-    private void Start()
-    {
-        SetUpMenu();
-    }
-
-    private void SetUpMenu()
-    {
-        if (basePanel != null)
-            basePanel.SetActive(false);
-
-        if (settingPanel != null)
-            settingPanel.SetActive(false);
-
-        if (exitPanel != null)
-            exitPanel.SetActive(false);
-
-        Time.timeScale = 1f;
-        isPaused = false;
+        actions.FindActionMap("XRI LeftHand Locomotion").Disable();
+        actions.FindActionMap("XRI UI").Disable();
     }
 
     private void OnMenuButtonPressed(InputAction.CallbackContext ctx)
@@ -80,92 +78,87 @@ public class PauseUI_G : MonoBehaviour
 
         if (isPaused)
         {
-            OnCloseMenu();
+            CloseAllMenus();
         }
         else
         {
-            Transform cameraTransform = Camera.main.transform;
-
-            transform.position = cameraTransform.position + (cameraTransform.forward * offset);
-            Vector3 targetDirection = transform.position - cameraTransform.position;
-            targetDirection.y = 0;
-            transform.rotation = Quaternion.LookRotation(targetDirection);
-
-            OnOpenMenu();
+            OpenMenu();
         }
     }
 
-    public void OnOpenMenu()
+    public void OpenMenu()
     {
         SoundManager_K.Instance.PlaySFX(clickbtn);
 
-        if (basePanel != null)
-            basePanel.SetActive(true);
+        if (mainCameraTransform != null)
+        {
+            Vector3 forward = mainCameraTransform.forward;
+            forward.y = 0;
+            transform.position = mainCameraTransform.position + forward.normalized * spawnDistance;
+            float cameraYRotation = mainCameraTransform.eulerAngles.y;
+            transform.rotation = Quaternion.Euler(0f, cameraYRotation, 0f);
+        }
 
-        if (settingPanel != null)
-            settingPanel.SetActive(false);
-
-        if (exitPanel != null)
-            exitPanel.SetActive(false);
+        basePanel.SetActive(true);
+        settingPanel.SetActive(false);
+        exitPanel.SetActive(false);
 
         Time.timeScale = 0f;
         isPaused = true;
-        input.XRIUI.Enable();
+        actions.FindActionMap("XRI LeftHand Locomotion").Disable();
+        actions.FindActionMap("XRI UI").Enable();
 
-        if (EventSystem.current != null)
-        {
-            EventSystem.current.enabled = false;
-            EventSystem.current.enabled = true;
-        }
-
-        SetSelectedUIElement(baseBtn);
+        SetSelectedUIElement(resumeButton);
     }
 
-    public void OnCloseMenu()
+    public void CloseAllMenus()
     {
-        if (basePanel != null)
-            basePanel.SetActive(false);
-
-        if (settingPanel != null)
-            settingPanel.SetActive(false);
-
-        if (exitPanel != null)
-            exitPanel.SetActive(false);
+        basePanel.SetActive(false);
+        settingPanel.SetActive(false);
+        exitPanel.SetActive(false);
 
         Time.timeScale = 1f;
         isPaused = false;
-        input.XRIUI.Disable();
+        actions.FindActionMap("XRI UI").Disable();
+        actions.FindActionMap("XRI LeftHand Locomotion").Enable();
     }
 
-    public void OnSettingBtn()
+    public void OnClick_OpenSettings()
     {
         SoundManager_K.Instance.PlaySFX(clickbtn);
+        basePanel.SetActive(false);
+        settingPanel.SetActive(true);
 
-        if (settingPanel != null)
-        {
-            basePanel.SetActive(false);
-            settingPanel.SetActive(true);
-            SetSelectedUIElement(settingSlider);
-        } 
+        SetSelectedUIElement(settingDefaultButton);
     }
 
-    public void OnExitBtn()
+    public void OnClick_CloseSettings()
     {
         SoundManager_K.Instance.PlaySFX(clickbtn);
-
-        if (exitPanel != null)
-        {
-            basePanel.SetActive(false);
-            exitPanel.SetActive(true);
-            SetSelectedUIElement(exitBtn);
-        }
+        settingPanel.SetActive(false);
+        basePanel.SetActive(true);
     }
 
-    public void OnExit()
+    public void OnClick_OpenExitConfirm()
     {
         SoundManager_K.Instance.PlaySFX(clickbtn);
+        basePanel.SetActive(false);
+        exitPanel.SetActive(true);
 
-        SetUpMenu();
+        SetSelectedUIElement(exitDefaultButton);
+    }
+
+    public void OnClick_CloseExitConfirm()
+    {
+        SoundManager_K.Instance.PlaySFX(clickbtn);
+        exitPanel.SetActive(false);
+        basePanel.SetActive(true);
+    }
+
+    public void OnClick_ExitGame()
+    {
+        SoundManager_K.Instance.PlaySFX(clickbtn);
+        Time.timeScale = 1f;
 
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -174,28 +167,11 @@ public class PauseUI_G : MonoBehaviour
 #endif
     }
 
-    public void OnBack()
-    {
-        Debug.Log("OnBack() 메소드가 호출되었습니다!");
-
-        SoundManager_K.Instance.PlaySFX(clickbtn);
-
-        if(settingPanel.activeSelf)
-            settingPanel.SetActive(false);
-        else
-            exitPanel.SetActive(false);
-
-        if (basePanel != null)
-        {
-            basePanel.SetActive(true);
-        }
-
-        SetSelectedUIElement(baseBtn);
-    }
-
     private void SetSelectedUIElement(GameObject element)
     {
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(element);
+        if (element != null && EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(element);
+        }
     }
 }

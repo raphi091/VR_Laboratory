@@ -329,11 +329,12 @@ MonoBehaviour:
   basePanel: {fileID: 5389970667436217739}
   settingPanel: {fileID: 7028615908910928011}
   exitPanel: {fileID: 7089226049706684348}
-  baseBtn: {fileID: 7101900652795466649}
-  settingSlider: {fileID: 446576242175198112}
-  exitBtn: {fileID: 5116286107887419514}
-  offset: 2
+  resumeButton: {fileID: 835879774019532285}
+  settingDefaultButton: {fileID: 446576242175198112}
+  exitDefaultButton: {fileID: 5116286107887419514}
   menuAction: {fileID: -7835874364050799200, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  mainCameraTransform: {fileID: 0}
+  spawnDistance: 1.5
   clickbtn: {fileID: 8300000, guid: 81f2cc0e2dba2c3469b44a5f841de09d, type: 3}
 --- !u!1 &446576242175198112
 GameObject:
@@ -682,7 +683,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6154506771476988965}
         m_TargetAssemblyTypeName: PauseUI_G, Assembly-CSharp
-        m_MethodName: OnCloseMenu
+        m_MethodName: CloseAllMenus
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1353,7 +1354,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6154506771476988965}
         m_TargetAssemblyTypeName: PauseUI_G, Assembly-CSharp
-        m_MethodName: OnExit
+        m_MethodName: OnClick_ExitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1620,7 +1621,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6154506771476988965}
         m_TargetAssemblyTypeName: PauseUI_G, Assembly-CSharp
-        m_MethodName: OnExitBtn
+        m_MethodName: OnClick_OpenExitConfirm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2548,7 +2549,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6154506771476988965}
         m_TargetAssemblyTypeName: PauseUI_G, Assembly-CSharp
-        m_MethodName: OnBack
+        m_MethodName: OnClick_CloseSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2681,7 +2682,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6154506771476988965}
         m_TargetAssemblyTypeName: PauseUI_G, Assembly-CSharp
-        m_MethodName: OnBack
+        m_MethodName: OnClick_CloseExitConfirm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2708,7 +2709,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6494240541626987600
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3570,7 +3571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2104780502683209074
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3755,7 +3756,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6154506771476988965}
         m_TargetAssemblyTypeName: PauseUI_G, Assembly-CSharp
-        m_MethodName: OnSettingBtn
+        m_MethodName: OnClick_OpenSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
