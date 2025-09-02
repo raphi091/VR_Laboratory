@@ -45,7 +45,7 @@ public class AutomaticDoor_L : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player"))
+        if (!other.CompareTag("Player, NPC"))
         {
             return;
         }
@@ -74,7 +74,7 @@ public class AutomaticDoor_L : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Player"))
+        if (!other.CompareTag("Player, NPC"))
         {
             return;
         }

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7200028109908480551}
   - component: {fileID: 5941432108369661647}
   - component: {fileID: 1062119819913215728}
-  - component: {fileID: 2864701290224653320}
-  - component: {fileID: 7309942737350191754}
+  - component: {fileID: 2410058913341193279}
+  - component: {fileID: 2027818485883430497}
   m_Layer: 0
   m_Name: RightHand
   m_TagString: Right_Hand
@@ -71,28 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handType: 1
   thumbMoveSpeed: 0.1
---- !u!135 &2864701290224653320
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7626699269273966345}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.06
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &7309942737350191754
+--- !u!54 &2410058913341193279
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,6 +98,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!135 &2027818485883430497
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626699269273966345}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.001
+  m_Center: {x: -0.15, y: 0, z: 0.05}
 --- !u!1001 &7303406628944057951
 PrefabInstance:
   m_ObjectHideFlags: 0

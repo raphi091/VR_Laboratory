@@ -16,6 +16,7 @@ public class PauseUI_ExitPanel_G : MonoBehaviour
 
     public void OnClick_CloseExitConfirm()
     {
+        Debug.Log(5);
         SoundManager_K.Instance.PlaySFX(clickbtn);
         gameObject.SetActive(false);
         basePanel.SetActive(true);
@@ -25,6 +26,7 @@ public class PauseUI_ExitPanel_G : MonoBehaviour
 
     public void OnClick_ExitGame()
     {
+        Debug.Log(6);
         SoundManager_K.Instance.PlaySFX(clickbtn);
         Time.timeScale = 1f;
 

@@ -24,6 +24,8 @@ public class PauseUI_G : MonoBehaviour
     [Header("Sound")]
     public AudioClip clickbtn;
 
+    public bool isPaused = false;
+
     private XRInput input;
 
 
@@ -54,11 +56,13 @@ public class PauseUI_G : MonoBehaviour
     {
         if (ctx.phase != InputActionPhase.Performed) return;
 
-        OpenMenu();
+        if (!isPaused)
+            OpenMenu();
     }
 
     private void OpenMenu()
     {
+        Debug.Log(8);
         if (mainCameraTransform != null)
         {
             Vector3 forward = mainCameraTransform.forward;
@@ -73,6 +77,7 @@ public class PauseUI_G : MonoBehaviour
         settingPanel.SetActive(false);
         exitPanel.SetActive(false);
         input.XRIUI.Enable();
+        isPaused = true;
 
         SetSelectedUIElement(baseBtn);
     }
