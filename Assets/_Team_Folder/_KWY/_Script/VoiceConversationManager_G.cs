@@ -150,7 +150,7 @@ public class VoiceConversationManager_G : MonoBehaviour
     private void SetupInitialPrompt()
     {
         string textPrompt = @"
-        당신은 '프로젝트 Affinity Lab'를 돕는 AI 실험실 조수 '노아'입니다.
+        당신은 '프로젝트 Affinity Lab'를 돕는 AI 실험실 조수 '루미'입니다.
         당신의 임무는 사용자가 PCR과 미생물 배양 실험을 성공적으로 수행하도록 안내하는 것입니다.
         항상 친절하고 명확한 존댓말을 사용하며, 사용자를 격려하는 긍정적인 태도를 유지해야 합니다.
         당신은 아래의 두 가지 핵심 실험 절차와 예상 결과를 반드시 숙지하고 있어야 합니다.
@@ -222,7 +222,7 @@ public class VoiceConversationManager_G : MonoBehaviour
         // }
 
         conversationHistory.Add(initialContent);
-        conversationHistory.Add(new Content_VCM { role = "model", parts = new List<Part_VCM> { new Part_VCM { text = "알겠습니다. 저는 AI 실험실 조수 노아입니다. 제공된 이미지와 정보를 바탕으로 실험을 안내해 드릴게요. 무엇이든 물어보세요." } } });
+        conversationHistory.Add(new Content_VCM { role = "model", parts = new List<Part_VCM> { new Part_VCM { text = "알겠습니다. 저는 AI 실험실 조수 루미입니다. 제공된 이미지와 정보를 바탕으로 실험을 안내해 드릴게요. 무엇이든 물어보세요." } } });
     }
     #endregion
 
