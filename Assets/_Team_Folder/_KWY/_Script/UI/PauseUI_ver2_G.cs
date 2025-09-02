@@ -78,7 +78,7 @@ public class PauseUI_ver2_G : MonoBehaviour
         SetSelectedUIElement(baseBtn);
     }
 
-    private void CloseAllMenus()
+    public void CloseAllMenus()
     {
         basePanel.SetActive(false);
         input.XRIUI.Disable();

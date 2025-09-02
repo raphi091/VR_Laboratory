@@ -296,7 +296,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &4620253321649108758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +335,7 @@ MonoBehaviour:
   mainCameraTransform: {fileID: 0}
   spawnDistance: 2.5
   clickbtn: {fileID: 8300000, guid: 81f2cc0e2dba2c3469b44a5f841de09d, type: 3}
+  isPaused: 0
 --- !u!1 &446576242175198112
 GameObject:
   m_ObjectHideFlags: 0
