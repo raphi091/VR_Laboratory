@@ -254,6 +254,15 @@ public class VoiceConversationManager_G : MonoBehaviour
             Debug.Log($"[VoiceManager] 듣기 시작... (모드: {currentMode})");
         }
     }
+
+    public void KillVoiceSDK()
+    {
+        if (appVoiceExperience.Active && !isConversationLoading)
+        {
+            currentMode = ListeningMode.None;
+            appVoiceExperience.Deactivate();
+        }
+    }
     #endregion
 
     #region Core Conversation Logic

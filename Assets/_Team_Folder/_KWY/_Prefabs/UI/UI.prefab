@@ -250,9 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basePanel: {fileID: 6723196139895007867}
-  settingPanel: {fileID: 0}
   baseBtn: {fileID: 4998692035759381548}
-  settingSilder: {fileID: 0}
   menuAction: {fileID: -7835874364050799200, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   actions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   spawnDistance: 1.5
