@@ -795,6 +795,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 2580974018305712203, guid: 39c2d282e4a474440aee07a890795593, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3459083437376873958, guid: 39c2d282e4a474440aee07a890795593, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -873,6 +877,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3459083437376873958, guid: 39c2d282e4a474440aee07a890795593, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723196139895007867, guid: 39c2d282e4a474440aee07a890795593, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
