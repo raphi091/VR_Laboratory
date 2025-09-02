@@ -16,6 +16,7 @@ public class PauseUI_SettingPanel_G : MonoBehaviour
 
     public void OnClick_CloseSettings()
     {
+        Debug.Log(7);
         SoundManager_K.Instance.PlaySFX(clickbtn);
         gameObject.SetActive(false);
         basePanel.SetActive(true);

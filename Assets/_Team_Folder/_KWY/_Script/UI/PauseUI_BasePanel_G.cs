@@ -50,17 +50,20 @@ public class PauseUI_BasePanel_G : MonoBehaviour
     {
         if (ctx.phase != InputActionPhase.Performed) return;
 
-        CloseAllMenus();
+        if (GetComponentInParent<PauseUI_G>().isPaused)
+            CloseAllMenus();
     }
 
     public void OnClick_Resume()
     {
+        Debug.Log(1);
         SoundManager_K.Instance.PlaySFX(clickbtn);
         CloseAllMenus();
     }
 
     public void OnClick_OpenSettings()
     {
+        Debug.Log(2);
         SoundManager_K.Instance.PlaySFX(clickbtn);
         gameObject.SetActive(false);
         settingPanel.SetActive(true);
@@ -70,6 +73,7 @@ public class PauseUI_BasePanel_G : MonoBehaviour
 
     public void OnClick_OpenExitConfirm()
     {
+        Debug.Log(3);
         SoundManager_K.Instance.PlaySFX(clickbtn);
         gameObject.SetActive(false);
         exitPanel.SetActive(true);
@@ -79,11 +83,14 @@ public class PauseUI_BasePanel_G : MonoBehaviour
 
     private void CloseAllMenus()
     {
+        Debug.Log(4);
         Time.timeScale = 1f;
         gameObject.SetActive(false);
         settingPanel.SetActive(false);
         exitPanel.SetActive(false);
         input.XRIUI.Disable();
+
+        GetComponentInParent<PauseUI_G>().isPaused = false;
     }
 
     private void SetSelectedUIElement(GameObject element)
