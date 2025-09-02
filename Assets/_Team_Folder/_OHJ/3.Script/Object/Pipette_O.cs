@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class Pipette_O : MonoBehaviour
 {
+    private bool isGrab = false;    // 잡혔는지 여부
+
     [Header("샘플 염색약")]
     public LiquidData_L DNA_DYE;
     private Color SampleStartColor;    // 시작색
@@ -163,6 +165,8 @@ public class Pipette_O : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
+        if (!isGrab) return;
+
         if (other.CompareTag("Mix"))
         {
             isEnter = true;
@@ -666,6 +670,8 @@ public class Pipette_O : MonoBehaviour
     // 파이펫 움직임
     private void AnimatePlunger(float targetY)
     {
+        if (!isGrab) return;
+
         if (runningPlungerAnimation != null)
         {
             StopCoroutine(runningPlungerAnimation);
@@ -676,7 +682,10 @@ public class Pipette_O : MonoBehaviour
     // 파이펫 애니메이션
     private IEnumerator AnimatePlungerRoutine(float targetY)
     {
+        if (!isGrab) yield break;
+
         if (plunger == null) yield break;
+
 
         float elapsedTime = 0f;
         Vector3 startPosition = plunger.localPosition;
@@ -710,5 +719,15 @@ public class Pipette_O : MonoBehaviour
         }
 
         infoPanel.UpdateInfo(contentList);
+    }
+
+    public void OnGrab()
+    {
+        isGrab = true;
+    }
+
+    public void OnDisgrab()
+    {
+        isGrab = false;
     }
 }
