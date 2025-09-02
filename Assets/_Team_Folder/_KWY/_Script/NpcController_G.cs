@@ -366,7 +366,7 @@ public class NpcController_G : MonoBehaviour
 
     private IEnumerator Finishing_co()
     {
-        bool isSuccess = !currentExperiment.ExperimentName.Contains("C");
+        bool isSuccess = !currentExperiment.ExperimentName.Contains("E");
 
         if (currentMode == NpcMode.Tutorial)
         {
@@ -445,6 +445,8 @@ public class NpcController_G : MonoBehaviour
 
         if (choiceUIPanel != null)
             choiceUIPanel.SetActive(false);
+        
+        voiceManager.KillVoiceSDK();
 
         if (chosenExperiment == null)
         {
