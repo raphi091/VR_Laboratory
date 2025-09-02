@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
+using Random = System.Random;
 
 
 [System.Serializable]
@@ -67,6 +68,12 @@ public class NpcController_G : MonoBehaviour
     [SerializeField] private float arrivalDistance = 3.0f;
     [SerializeField] private float lookAtThreshold = 0.8f;
     [SerializeField] private float boredTimeout = 120f;
+    
+    [Header("소리")]
+    [SerializeField] private AudioSource npcAudioSource;
+    [SerializeField] private AudioClip[] npcTalkingClips;
+    [SerializeField] private AudioClip npcErrorClip;
+    
 
     private VoiceConversationManager_G voiceManager;
     private LocationManager_G locationManager;
@@ -97,6 +104,8 @@ public class NpcController_G : MonoBehaviour
 
         if (!TryGetComponent(out navMeshAgent)) 
             Debug.LogWarning("NpcController ] NavMeshAgent 없음");
+        if(!TryGetComponent(out npcAudioSource))
+            Debug.LogWarning("NpcController ] AudioSource 없음");
 
         if (subtitleDisplay != null)
         {
@@ -281,6 +290,8 @@ public class NpcController_G : MonoBehaviour
             StopCoroutine(currentStateCoroutine);
 
         ShowStatusIcon("Question", 2f);
+        npcAudioSource.clip = npcErrorClip;
+        npcAudioSource.Play();
         yield return StartCoroutine(ShowSubtitle_co("죄송합니다. 잘 이해하지 못했어요. 다시 말씀해주시겠어요?"));
         
 
@@ -567,7 +578,11 @@ public class NpcController_G : MonoBehaviour
         {
             subtitleDisplay.text = processedQueue.Dequeue();
             subtitleDisplay.gameObject.SetActive(true);
-
+            if (!npcAudioSource.isPlaying)
+            {
+                npcAudioSource.clip=npcTalkingClips[UnityEngine.Random.Range(0, npcTalkingClips.Length)];
+                npcAudioSource.Play();
+            }
             yield return new WaitForSeconds(subtitleSentenceDuration);
         }
 
