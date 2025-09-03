@@ -78,6 +78,10 @@ MonoBehaviour:
     Instruction: "\uAE30\uACC4\uC5D0 \uD50C\uB77C\uC2A4\uD06C\uB97C \uB123\uC740
       \uD6C4, Yes \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC8FC\uC138\uC694."
     CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
   - Type: 1
     LocationID: 
     Instruction: "\uC644\uB8CC\uB418\uBA74 \uAE30\uACC4\uC5D0 \uC190\uC744 \uB450\uC5B4
@@ -118,10 +122,19 @@ MonoBehaviour:
     Instruction: "\uD50C\uB77C\uC2A4\uD06C\uB97C \uD074\uB9B0\uBCA4\uCE58 \uC704\uC5D0
       \uB193\uC544\uC8FC\uC138\uC694."
     CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
   - Type: 1
     LocationID: 
     Instruction: "\uC624\uB978\uCABD\uC73C\uB85C \uBAB8\uC744 \uB3CC\uB824\uC11C
-      \uD53C\uD3AB\uACFC \uBBF8\uC0DD\uBB3C \uC0D8\uD50C \uC6A9\uAE30\uB97C \uC9D1\uC5B4\uC90D\uB2C8\uB2E4."
+      \uD30C\uC774\uD3AB\uACFC \uBBF8\uC0DD\uBB3C \uC0D8\uD50C \uC6A9\uAE30\uB97C
+      \uC9D1\uC5B4\uC90D\uB2C8\uB2E4."
+    CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
     CompletionKeywords: []
   - Type: 1
     LocationID: 
@@ -168,6 +181,10 @@ MonoBehaviour:
     Instruction: "\uACE0\uCCB4 \uBC30\uC9C0\uB294 \uCD08\uC21C\uC218, LB \uD30C\uC6B0\uB354\uC640
       agar\uB97C \uC11E\uC5B4\uC11C \uB9CC\uB4ED\uB2C8\uB2E4."
     CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
   - Type: 1
     LocationID: 
     Instruction: "\uB458\uC744 \uD50C\uB77C\uC2A4\uD06C\uC5D0 \uB123\uC740 \uD6C4
@@ -210,6 +227,10 @@ MonoBehaviour:
       \uB0B4\uC6A9\uBB3C\uC744 \uBD80\uC5B4\uC8FC\uC138\uC694. \uD770\uC0C9 \uC824\uC774
       \uC811\uC2DC \uC548\uC5D0 \uCC28\uC624\uB97C \uAC83\uC785\uB2C8\uB2E4."
     CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
   - Type: 1
     LocationID: 
     Instruction: "\uB05D\uB0AC\uB2E4\uBA74 \uC800\uB97C \uB530\uB77C\uC640\uC8FC\uC138\uC694.
@@ -238,26 +259,18 @@ MonoBehaviour:
     Instruction: "\uBBF8\uC0DD\uBB3C\uC774 \uBC30\uC591\uB41C \uD50C\uB77C\uC2A4\uD06C\uC5D0
       \uD30C\uC774\uD3AB\uC744 \uB123\uC5B4 \uCD94\uCD9C\uD574\uC8FC\uC138\uC694."
     CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
   - Type: 1
     LocationID: 
     Instruction: "\uCD94\uCD9C\uD55C \uBBF8\uC0DD\uBB3C\uC744 \uD398\uD2B8\uB9AC\uC811\uC2DC\uC5D0
       \uD22C\uC785\uD574\uC8FC\uC138\uC694."
     CompletionKeywords: []
-  - Type: 1
+  - Type: 2
     LocationID: 
-    Instruction: ...
-    CompletionKeywords: []
-  - Type: 1
-    LocationID: 
-    Instruction: ...
-    CompletionKeywords: []
-  - Type: 1
-    LocationID: 
-    Instruction: ...
-    CompletionKeywords: []
-  - Type: 1
-    LocationID: 
-    Instruction: ...
+    Instruction: 
     CompletionKeywords: []
   - Type: 1
     LocationID: 
@@ -308,9 +321,13 @@ MonoBehaviour:
     CompletionKeywords: []
   - Type: 1
     LocationID: 
-    Instruction: "\uD1A0\uCE58\uB97C \uC7A1\uACE0, \uBC29\uC544\uC1E0\uB97C \uB2F9\uACA8
-      \uC791\uB3D9\uC2DC\uD0A8 \uD6C4, \uB7A8\uD504 \uC2EC\uC9C0\uC5D0 \uBD88\uC744
-      \uBD99\uC5EC\uC8FC\uC138\uC694."
+    Instruction: "\uD1A0\uCE58\uB97C \uC7A1\uACE0, \uC624\uB978\uCABD \uCEE8\uD2B8\uB864\uB7EC
+      \uD2B8\uB9AC\uAC70\uB97C \uB2F9\uACA8 \uC791\uB3D9\uC2DC\uD0A8 \uD6C4, \uB7A8\uD504
+      \uC2EC\uC9C0\uC5D0 \uBD88\uC744 \uBD99\uC5EC\uC8FC\uC138\uC694."
+    CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
     CompletionKeywords: []
   - Type: 1
     LocationID: 
@@ -318,6 +335,10 @@ MonoBehaviour:
       \uBD88\uC5D0 \uAC00\uC838\uB2E4\uB300\uACE0 \uD14C\uB450\uB9AC\uAC00 \uBE68\uAC1B\uAC8C
       \uB420 \uB54C\uAE4C\uC9C0 \uAE30\uB2E4\uB824\uC8FC\uC138\uC694. \uBE68\uAC1B\uAC8C
       \uBCC0\uD558\uBA74 \uC18C\uB3C5\uC774 \uC644\uB8CC\uB41C \uAC83\uC785\uB2C8\uB2E4."
+    CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
     CompletionKeywords: []
   - Type: 1
     LocationID: 
@@ -348,6 +369,10 @@ MonoBehaviour:
       \uD6C4 \uBB38\uC9C8\uB7EC\uBCF4\uC138\uC694. \uBBF8\uC0DD\uBB3C\uC774 \uD37C\uC9C0\uB294
       \uAC8C \uBCF4\uC77C \uAC81\uB2C8\uB2E4."
     CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
+    CompletionKeywords: []
   - Type: 1
     LocationID: 
     Instruction: "\uB05D\uB098\uC168\uB2E4\uBA74, \uD398\uD2B8\uB9AC\uC811\uC2DC\uB97C
@@ -375,4 +400,12 @@ MonoBehaviour:
     LocationID: 
     Instruction: "\uBC30\uC591\uC774 \uB05D\uB098\uBA74 \uC2E4\uD5D8 \uACB0\uACFC\uB97C
       \uC9C1\uC811 \uD655\uC778\uD574\uBCF4\uC138\uC694!"
+    CompletionKeywords: []
+  - Type: 0
+    LocationID: 013
+    Instruction: 
+    CompletionKeywords: []
+  - Type: 2
+    LocationID: 
+    Instruction: 
     CompletionKeywords: []
