@@ -22,7 +22,6 @@ public class C_SceneManager : Ch_BehaviourSingleton<C_SceneManager>
     private void OnEnable()
     {
         npc.OnExperimentEnd += OnExperimentCompleted;
-        
         C_DataManager.I.LoadGameData();
     }
     
@@ -35,6 +34,7 @@ public class C_SceneManager : Ch_BehaviourSingleton<C_SceneManager>
     {
         if (mode.Equals(NpcController_G.NpcMode.Tutorial))
         {
+            Debug.Log("Tutorial Completed");
             C_DataManager.I.gameData.IsTutorialCompleted = true;
             SceneManager.LoadScene("Main");
         }
