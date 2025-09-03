@@ -5389,7 +5389,6 @@ GameObject:
   - component: {fileID: 8291959256816621605}
   - component: {fileID: 4150839685739033521}
   - component: {fileID: 4031201403502042255}
-  - component: {fileID: 4528127141734243835}
   m_Layer: 2
   m_Name: XR Origin
   m_TagString: Untagged
@@ -5542,44 +5541,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetNpc: {fileID: 0}
   interactionAction: {fileID: -5867158752056224167, guid: c348712bda248c246b8c49b3db54643f, type: 3}
---- !u!114 &4528127141734243835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7729059135691971195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a20ef262e9fd94e934ce84bb3a6b64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiPrefab: {fileID: 9029881517566227386, guid: 57c837adb33af7f449d9b4780fc81ad9, type: 3}
-  head: {fileID: 6268691904117044039}
-  distance: 1.2
-  localOffset: {x: 0, y: -0.05, z: 0}
-  pauseAction: {fileID: -7835874364050799200, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  uiActionMapName: XRI UI
-  mapsToDisableWhilePaused:
-  - XRI LeftHand
-  - XRI RightHand
-  - XRI LeftHand Interaction
-  - XRI RightHand Interaction
-  - XRI LeftHand Locomotion
-  - XRI RightHand Locomotion
-  uiClickSfx: {fileID: 8300000, guid: 70b5427226b11ba4eb56d4c469da4281, type: 3}
-  openOnPlay: 0
-  followHeadWhilePaused: 0
-  escHotkeyInEditor: 1
-  autoFitToView: 1
-  fitViewportPercent: 0.75
-  scaleClamp: {x: 0.05, y: 2}
-  onlyShrink: 1
-  nearClipPadding: 0.25
-  disableScreenSpaceCanvasesWhilePaused: 1
-  overlayCamerasToDisableWhilePaused: []
-  keepScreenSpaceCanvases: []
 --- !u!1 &8196344986079315435
 GameObject:
   m_ObjectHideFlags: 0
