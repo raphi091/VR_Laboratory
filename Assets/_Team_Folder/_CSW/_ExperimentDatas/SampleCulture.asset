@@ -98,11 +98,11 @@ MonoBehaviour:
     Instruction: 
     CompletionKeywords: []
   - Type: 0
-    LocationID: 
+    LocationID: 009
     Instruction: 
     CompletionKeywords: []
-  - Type: 2
-    LocationID: 
+  - Type: 0
+    LocationID: 009
     Instruction: 
     CompletionKeywords: []
   - Type: 0
@@ -125,7 +125,7 @@ MonoBehaviour:
     CompletionKeywords: []
   - Type: 1
     LocationID: 
-    Instruction: "\uD53C\uD3AB\uC73C\uB85C \uBBF8\uC0DD\uBB3C\uC744 \uCD94\uCD9C\uD574
+    Instruction: "\uD30C\uC774\uD3AB\uC73C\uB85C \uBBF8\uC0DD\uBB3C\uC744 \uCD94\uCD9C\uD574
       \uD50C\uB77C\uC2A4\uD06C \uC548\uC5D0 \uB123\uC5B4\uC90D\uB2C8\uB2E4"
     CompletionKeywords: []
   - Type: 1
