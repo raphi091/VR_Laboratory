@@ -29,9 +29,10 @@ public class C_SceneManager : Ch_BehaviourSingleton<C_SceneManager>
     {
         npc.OnExperimentEnd -= OnExperimentCompleted;
     }
-    
+
     private void OnExperimentCompleted(NpcController_G.NpcMode mode)
     {
+        Debug.Log("Experiment Completed");
         if (mode.Equals(NpcController_G.NpcMode.Tutorial))
         {
             Debug.Log("Tutorial Completed");
