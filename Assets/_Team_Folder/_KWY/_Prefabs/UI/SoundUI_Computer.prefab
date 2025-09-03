@@ -1154,7 +1154,7 @@ GameObject:
   - component: {fileID: 7873420511923791865}
   - component: {fileID: 283377090639480222}
   - component: {fileID: 2599834174654586428}
-  - component: {fileID: 3612316113289774514}
+  - component: {fileID: 4025909015832505359}
   - component: {fileID: 4190047828423030730}
   m_Layer: 0
   m_Name: SoundUI_Computer
@@ -1229,8 +1229,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3612316113289774514
-MeshCollider:
+--- !u!65 &4025909015832505359
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1246,11 +1246,10 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 1800101309574323383, guid: 9bd243045d5cc034794ed619cf92a395, type: 3}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9339161, y: 0.87644583, z: 1.1785132}
+  m_Center: {x: 0.00000017881393, y: 0.43857083, z: 0.46121925}
 --- !u!114 &4190047828423030730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1264,6 +1263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeText: {fileID: 363224202413170530}
+  slider: {fileID: 5407506306936093647}
 --- !u!1 &2364396165873746829
 GameObject:
   m_ObjectHideFlags: 0
