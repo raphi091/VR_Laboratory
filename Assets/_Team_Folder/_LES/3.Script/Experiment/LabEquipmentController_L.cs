@@ -129,7 +129,7 @@ public class LabEquipmentController_L : MonoBehaviour
         // Start에서도 한 번 더 확인 (Awake 이후 Inspector 설정이 적용될 수 있음)
         SetUIVisible(false, false);
 
-        //        Debug.Log($"{gameObject.name}: UI 초기화 완료 - Canvas Alpha: {interactionCanvasGroup?.alpha}");
+        // Debug.Log($"{gameObject.name}: UI 초기화 완료 - Canvas Alpha: {interactionCanvasGroup?.alpha}");
 
         if (idleModelObject != null) idleModelObject.SetActive(true);
         if (processingModelObject != null) processingModelObject.SetActive(false);
