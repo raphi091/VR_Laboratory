@@ -180,7 +180,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5704450287982572479
 Transform:
   m_ObjectHideFlags: 0
@@ -1621,6 +1621,9 @@ GameObject:
   - component: {fileID: 3829149104047655060}
   - component: {fileID: 9221595817617169425}
   - component: {fileID: 404686896862184645}
+  - component: {fileID: 4718614334122501097}
+  - component: {fileID: 2625160931037378899}
+  - component: {fileID: 6541229399150695073}
   m_Layer: 0
   m_Name: Gel_Casting_Tray
   m_TagString: Untagged
@@ -1886,6 +1889,51 @@ MonoBehaviour:
   - {fileID: 3004033221225820128}
   acceptedItemType: 9
   placementMode: 0
+--- !u!114 &4718614334122501097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6325782025342384528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 7
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &2625160931037378899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6325782025342384528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14aba672bd3c09a40b03e008bb351b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventHandler: {fileID: 0}
+  outline: {fileID: 0}
+--- !u!114 &6541229399150695073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6325782025342384528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee50af702d727504da63646107b952e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactor: {fileID: 0}
 --- !u!1 &6452471776207028989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1911,7 +1959,7 @@ Transform:
   m_GameObject: {fileID: 6452471776207028989}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -0.0098, y: 0, z: -0.00004}
+  m_LocalPosition: {x: 0.00939, y: 0, z: -0.00004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
