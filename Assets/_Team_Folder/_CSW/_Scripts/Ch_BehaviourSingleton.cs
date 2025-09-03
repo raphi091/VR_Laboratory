@@ -6,14 +6,11 @@ using UnityEngine;
 public abstract class Ch_BehaviourSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _instance;
-    private static bool isapplicationQuitting = false;
 
     public static T I
     {
         get
         {
-            if(isapplicationQuitting)
-                return null;
             if (_instance == null)
             {
                 _instance = FindFirstObjectByType<T>();
@@ -41,11 +38,6 @@ public abstract class Ch_BehaviourSingleton<T> : MonoBehaviour where T : MonoBeh
 
         if (IsDontdestroy())
             DontDestroyOnLoad(gameObject);
-    }
-    
-    protected virtual void OnDestroy()
-    {
-        isapplicationQuitting = true;
     }
 
 }
