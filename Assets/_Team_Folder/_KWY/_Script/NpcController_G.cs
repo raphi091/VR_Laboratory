@@ -56,6 +56,7 @@ public class NpcController_G : MonoBehaviour
     [SerializeField] private float subtitleSentenceDuration = 4f;
     [SerializeField] private int maxCharactersPerSubtitle = 40;
     [SerializeField] private GameObject choiceUIPanel;
+    [SerializeField] private GameObject NextUIPanel;
 
     [Header("상태 표시 UI")]
     [Tooltip("상태 아이콘")]
@@ -89,6 +90,8 @@ public class NpcController_G : MonoBehaviour
     private int savedActionIndex;
     private float timeInCurrentState = 0f;
     private bool isWaitingForTaskCompletion = false;
+    private bool isNext = false;
+    private bool isLook = false;
     
     public event Action<NpcMode> OnExperimentEnd;
     
@@ -116,6 +119,11 @@ public class NpcController_G : MonoBehaviour
         if (choiceUIPanel != null)
         {
             choiceUIPanel.SetActive(false);
+        }
+
+        if (NextUIPanel != null)
+        {
+            NextUIPanel.SetActive(false);
         }
 
         previousStateBeforeQuestion = NPCState.Greeting;
@@ -188,12 +196,17 @@ public class NpcController_G : MonoBehaviour
     private void Update()
     {
         timeInCurrentState += Time.deltaTime;
+
+        if (isLook)
+        {
+            LookAtTarget(playerTransform);
+        }
     }
 
     public void ChangeState(NPCState newState, int startIndex = 0)
     {
         if (currentState == newState && currentStateCoroutine != null) return;
-
+        
         if (currentStateCoroutine != null) 
             StopCoroutine(currentStateCoroutine);
 
@@ -237,7 +250,7 @@ public class NpcController_G : MonoBehaviour
         navMeshAgent.SetDestination(destination);
         yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
 
-        yield return StartCoroutine(ShowSubtitle_co("안녕하세요, 여러분의 AI 비서 노아입니다. 실험실 튜토리얼에 오신 걸 환영합니다."));
+        yield return StartCoroutine(ShowSubtitle_co("안녕하세요, 여러분의 AI 비서 루미입니다. 실험실 튜토리얼에 오신 걸 환영합니다."));
         if (C_DataManager.I.gameData.IsTutorialCompleted)
         {
             yield return StartCoroutine(ShowSubtitle_co("튜토리얼을 이미 완료하신 상태입니다. 다시 튜토리얼을 진행하시겠나요?"));
@@ -257,7 +270,7 @@ public class NpcController_G : MonoBehaviour
         navMeshAgent.SetDestination(destination);
         yield return new WaitUntil(() => IsNavMeshAgentAtDestination());
 
-        yield return StartCoroutine(ShowSubtitle_co("안녕하세요, 노아입니다. 실험은 1번 PCR, 2번 배양이 준비되어 있습니다."));
+        yield return StartCoroutine(ShowSubtitle_co("안녕하세요, 루미입니다. 실험은 1번 PCR, 2번 배양이 준비되어 있습니다."));
         yield return StartCoroutine(ShowSubtitle_co("오늘은 무슨 실험을 하시겠습니까? 자유로운 대화를 원하시면 '자유 대화'라고 말씀해주세요."));
 
         ChangeState(NPCState.WaitingForExperimentChoice);
@@ -321,18 +334,22 @@ public class NpcController_G : MonoBehaviour
                     }
                     break;
                 case ActionType.Speak:
-                    LookAtTarget(playerTransform);
                     yield return StartCoroutine(ShowSubtitle_co(currentAction.Instruction));
                     break;
                 case ActionType.WaitForPlayer:
-                    LookAtTarget(playerTransform);
+                    isLook = true;
                     yield return new WaitUntil(() => Vector3.Distance(transform.position, playerTransform.position) < arrivalDistance);
+                    NextUIPanel.SetActive(true);
+                    yield return new WaitUntil(()=> isNext);
+                    isLook = false;
+                    isNext = false;
                     break;
                 case ActionType.ListenForCompletion:
-                    LookAtTarget(playerTransform);
                     isWaitingForTaskCompletion = true;
+                    isLook = true;
                     voiceManager.StartListeningForTask(currentAction.CompletionKeywords);
                     yield return new WaitUntil(() => !isWaitingForTaskCompletion);
+                    isLook = false;
                     break;
             }
 
@@ -533,6 +550,12 @@ public class NpcController_G : MonoBehaviour
     {
         StartCoroutine(RespondToFreeQuestion_co(sentences, rawResponse));
     }
+
+    public void OnNextPressed()
+    {
+        isNext = true;
+        NextUIPanel.SetActive(false);
+    }
     #endregion
 
     #region Helpers
@@ -555,6 +578,7 @@ public class NpcController_G : MonoBehaviour
 
     private IEnumerator ProcessSubtitleQueue_co(Queue<string> sentences)
     {
+        isLook = true;
         if (subtitleDisplay == null) yield break;
 
         Queue<string> processedQueue = new Queue<string>();
@@ -573,7 +597,7 @@ public class NpcController_G : MonoBehaviour
                 processedQueue.Enqueue(sentence);
             }
         }
-
+        
         while (processedQueue.Count > 0)
         {
             subtitleDisplay.text = processedQueue.Dequeue();
@@ -585,7 +609,9 @@ public class NpcController_G : MonoBehaviour
             }
             yield return new WaitForSeconds(subtitleSentenceDuration);
         }
-
+        
+        isLook = false;
+        
         subtitleDisplay.gameObject.SetActive(false);
         subtitleDisplay.text = "";
     }
@@ -625,7 +651,7 @@ public class NpcController_G : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(lookPosition - transform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
     }
-
+    
     private void SetAnimatorTrigger(string triggerName)
     {
         if (npcAnimator == null) return;
