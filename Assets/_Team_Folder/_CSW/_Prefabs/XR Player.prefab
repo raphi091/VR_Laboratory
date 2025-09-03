@@ -3037,7 +3037,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_InteractionLayers:
-    m_Bits: 4294967295
+    m_Bits: 0
   m_AttachTransform: {fileID: 6451601080196335389}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
@@ -3076,7 +3076,7 @@ MonoBehaviour:
   m_PokeInteractionOffset: 0.005
   m_PhysicsLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_PhysicsTriggerInteraction: 1
   m_RequirePokeFilter: 1
   m_EnableUIInteraction: 1
@@ -3271,7 +3271,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_InteractionLayers:
-    m_Bits: 4294967295
+    m_Bits: 0
   m_AttachTransform: {fileID: 1754320057047765491}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
@@ -3310,7 +3310,7 @@ MonoBehaviour:
   m_PokeInteractionOffset: 0.005
   m_PhysicsLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_PhysicsTriggerInteraction: 1
   m_RequirePokeFilter: 1
   m_EnableUIInteraction: 1
