@@ -100,22 +100,48 @@ public class VoiceConversationManager_G : MonoBehaviour
     private CancellationTokenSource cancellationTokenSource;
 
     #region Unity Lifecycle
-    private void Awake()
+    private async void Awake()
     {
         if (!TryGetComponent(out appVoiceExperience))
             Debug.LogWarning("VoiceConversationManager_G ] AppVoiceExperience 없음");
 
-        string path = System.IO.Path.Combine(Application.streamingAssetsPath, "secrets.json");
-        if (System.IO.File.Exists(path))
-        {
-            string json = System.IO.File.ReadAllText(path);
-            Secrets_VCM secrets = JsonConvert.DeserializeObject<Secrets_VCM>(json);
-            apiKey = secrets.apiKey;
-        }
-        else Debug.LogError("secrets.json 파일을 찾을 수 없습니다!");
+        await LoadApiKeyAsync();
 
-        httpClient = new HttpClient { Timeout = System.TimeSpan.FromMinutes(5) };
-        SetupInitialPrompt();
+        if (!string.IsNullOrEmpty(apiKey))
+        {
+            httpClient = new HttpClient { Timeout = System.TimeSpan.FromMinutes(5) };
+            SetupInitialPrompt();
+        }
+        else
+        {
+            Debug.LogError("API 키 로드에 실패했습니다! secrets.json 파일이 StreamingAssets 폴더에 있는지, 내용은 올바른지 확인하세요.");
+        }
+    }
+
+    private async System.Threading.Tasks.Task LoadApiKeyAsync()
+    {
+        string path = System.IO.Path.Combine(Application.streamingAssetsPath, "secrets.json");
+
+        using (UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get(path))
+        {
+            var operation = www.SendWebRequest();
+            while (!operation.isDone)
+            {
+                await System.Threading.Tasks.Task.Yield();
+            }
+
+            if (www.result == UnityEngine.Networking.UnityWebRequest.Result.Success)
+            {
+                string json = www.downloadHandler.text;
+                Secrets_VCM secrets = JsonConvert.DeserializeObject<Secrets_VCM>(json);
+                apiKey = secrets.apiKey;
+                Debug.Log("secrets.json 파일 로드 및 API 키 설정 완료!");
+            }
+            else
+            {
+                Debug.LogError($"secrets.json 파일 로드 실패: {www.error}");
+            }
+        }
     }
 
     private void OnEnable()
