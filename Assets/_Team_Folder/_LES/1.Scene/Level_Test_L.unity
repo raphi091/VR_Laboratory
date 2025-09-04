@@ -3025,14 +3025,46 @@ PrefabInstance:
       propertyPath: OnProcessCompleted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2061014802}
+    - target: {fileID: 1060796891784359958, guid: 6fa0c1961d7638743bd88ae5b700bdea, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110909282076507967, guid: 6fa0c1961d7638743bd88ae5b700bdea, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2676761371453065569, guid: 6fa0c1961d7638743bd88ae5b700bdea, type: 3}
       propertyPath: m_Name
       value: Level
+      objectReference: {fileID: 0}
+    - target: {fileID: 2826516359743319046, guid: 6fa0c1961d7638743bd88ae5b700bdea, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253317164690581354, guid: 6fa0c1961d7638743bd88ae5b700bdea, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3613330009036121251, guid: 6fa0c1961d7638743bd88ae5b700bdea, type: 3}
+      propertyPath: m_Intensity
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3613330009036121251, guid: 6fa0c1961d7638743bd88ae5b700bdea, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3854348033303992803, guid: 6fa0c1961d7638743bd88ae5b700bdea, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4704395267583469244, guid: 6fa0c1961d7638743bd88ae5b700bdea, type: 3}
       propertyPath: OnProcessCompleted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2061014802}
+    - target: {fileID: 5908071103522939957, guid: 6fa0c1961d7638743bd88ae5b700bdea, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6056086530045345319, guid: 6fa0c1961d7638743bd88ae5b700bdea, type: 3}
       propertyPath: OnProcessCompleted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -3085,6 +3117,14 @@ PrefabInstance:
       propertyPath: OnProcessStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2061014802}
+    - target: {fileID: 7857506276471850583, guid: 6fa0c1961d7638743bd88ae5b700bdea, type: 3}
+      propertyPath: m_Intensity
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7857506276471850583, guid: 6fa0c1961d7638743bd88ae5b700bdea, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7880149853246877417, guid: 6fa0c1961d7638743bd88ae5b700bdea, type: 3}
       propertyPath: OnProcessCompleted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
