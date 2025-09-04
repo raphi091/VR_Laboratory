@@ -26,12 +26,6 @@ public class PauseUI_ver2_G : MonoBehaviour
     private bool isPasued = false;
 
 
-    private void Awake()
-    {
-        input = new XRInput();
-        mainCameraTransform = Camera.main.transform;
-    }
-
     private void OnEnable()
     {
         if (menuAction != null)
@@ -48,6 +42,12 @@ public class PauseUI_ver2_G : MonoBehaviour
             menuAction.action.performed -= OnMenuButtonPressed;
             menuAction.action.Disable();
         }
+    }
+
+    private void Start()
+    {
+        input = InputSystem_G.instence.input;
+        mainCameraTransform = Camera.main.transform;
     }
 
     private void OnMenuButtonPressed(InputAction.CallbackContext ctx)
@@ -72,6 +72,8 @@ public class PauseUI_ver2_G : MonoBehaviour
         }
 
         basePanel.SetActive(true);
+        input.XRILeftHand.Disable();
+        input.XRILeftHandInteraction.Disable();
         input.XRILeftHandLocomotion.Disable();
         input.XRIUI.Enable();
         isPasued = true;
@@ -82,7 +84,9 @@ public class PauseUI_ver2_G : MonoBehaviour
     public void CloseAllMenus()
     {
         basePanel.SetActive(false);
-        input.XRILeftHandLocomotion.Enable();
+        input.XRILeftHand.Disable();
+        input.XRILeftHandInteraction.Disable();
+        input.XRILeftHandLocomotion.Disable();
         input.XRIUI.Disable();
 
         isPasued = false;

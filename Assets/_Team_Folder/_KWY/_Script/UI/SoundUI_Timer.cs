@@ -16,13 +16,9 @@ public class SoundUI_Timer : MonoBehaviour
     private XRInput input;
 
 
-    private void Awake()
-    {
-        input = new XRInput();
-    }
-
     private void Start()
     {
+        input = InputSystem_G.instence.input;
         StartCoroutine(UpdateTimeRoutine());
     }
 
@@ -32,6 +28,8 @@ public class SoundUI_Timer : MonoBehaviour
         {
             if (input.XRIUI.enabled) return;
 
+            input.XRILeftHand.Disable();
+            input.XRILeftHandInteraction.Disable();
             input.XRILeftHandLocomotion.Disable();
             input.XRIUI.Enable();
 
@@ -45,7 +43,9 @@ public class SoundUI_Timer : MonoBehaviour
         {
             if (!input.XRIUI.enabled) return;
 
-            input.XRILeftHandLocomotion.Enable();
+            input.XRILeftHand.Disable();
+            input.XRILeftHandInteraction.Disable();
+            input.XRILeftHandLocomotion.Disable();
             input.XRIUI.Disable();
         }
     }
