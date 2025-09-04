@@ -28,8 +28,10 @@ public class SoundUI_Timer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Right_Hand"))
+        if (other.CompareTag("Right_Hand") || other.CompareTag("Left_Hand"))
         {
+            if (input.XRIUI.enabled) return;
+
             input.XRIUI.Enable();
 
             SetSelectedUIElement(slider);
@@ -38,8 +40,10 @@ public class SoundUI_Timer : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Right_Hand"))
+        if (other.CompareTag("Right_Hand") || other.CompareTag("Left_Hand"))
         {
+            if (!input.XRIUI.enabled) return;
+
             input.XRIUI.Disable();
         }
     }
