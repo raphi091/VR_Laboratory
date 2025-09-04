@@ -32,6 +32,7 @@ public class SoundUI_Timer : MonoBehaviour
         {
             if (input.XRIUI.enabled) return;
 
+            input.XRILeftHandLocomotion.Disable();
             input.XRIUI.Enable();
 
             SetSelectedUIElement(slider);
@@ -44,6 +45,7 @@ public class SoundUI_Timer : MonoBehaviour
         {
             if (!input.XRIUI.enabled) return;
 
+            input.XRILeftHandLocomotion.Enable();
             input.XRIUI.Disable();
         }
     }

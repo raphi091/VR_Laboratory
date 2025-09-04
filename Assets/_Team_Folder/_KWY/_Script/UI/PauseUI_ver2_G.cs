@@ -72,6 +72,7 @@ public class PauseUI_ver2_G : MonoBehaviour
         }
 
         basePanel.SetActive(true);
+        input.XRILeftHandLocomotion.Disable();
         input.XRIUI.Enable();
         isPasued = true;
 
@@ -81,6 +82,7 @@ public class PauseUI_ver2_G : MonoBehaviour
     public void CloseAllMenus()
     {
         basePanel.SetActive(false);
+        input.XRILeftHandLocomotion.Enable();
         input.XRIUI.Disable();
 
         isPasued = false;
