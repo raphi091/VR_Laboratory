@@ -21,7 +21,6 @@ public abstract class Ch_BehaviourSingleton<T> : MonoBehaviour where T : MonoBeh
                     _instance = o.AddComponent<T>();
                 }
             }
-
             return _instance;
         }
     }

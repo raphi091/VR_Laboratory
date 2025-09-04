@@ -7,8 +7,8 @@ public class Fill_O : MonoBehaviour
     public float filling = 0.01f;
     public float stopPos = 0.1f;
     public Vector3 pos;
-    public bool isfilling = false;  // Ã¤¿öÁö´Â Áß
-    public bool isfull = false; //°¡µæÃ¤¿öÁü
+    public bool isfilling = false;  // ì±„ì›Œì§€ëŠ” ì¤‘
+    public bool isfull = false; //ê°€ë“ì±„ì›Œì§
 
     private void Start()
     {

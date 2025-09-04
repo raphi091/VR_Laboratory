@@ -36,5 +36,6 @@ public interface C_ExperimentTool
 public class ParseEventArgs : EventArgs
 {
     public C_ExperimentTool fromTool;
+    
     public C_ExperimentTool toTool;
 }

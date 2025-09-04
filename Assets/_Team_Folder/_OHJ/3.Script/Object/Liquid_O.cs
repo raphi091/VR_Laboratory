@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ÇÃ¶ó½ºÅ©¿¡ sampleÀ» ³ÖÀ» ½Ã Á¶±Ý¾¿ Â÷¿À¸£µµ·Ï ±¸Çö
+// í”Œë¼ìŠ¤í¬ì— sampleì„ ë„£ì„ ì‹œ ì¡°ê¸ˆì”© ì°¨ì˜¤ë¥´ë„ë¡ êµ¬í˜„
 public class Liquid_O : MonoBehaviour
 {
     public Material mat;
@@ -10,7 +10,7 @@ public class Liquid_O : MonoBehaviour
     public float currentAmount;
     public float targetAmount = 0.5f;
 
-    [Header("ÇÃ¶ó½ºÅ©")]
+    [Header("í”Œë¼ìŠ¤í¬")]
     private SampleFlask_O flask;
     public LiquidData_L TBE;
     public LiquidData_L Agarose;
@@ -34,9 +34,9 @@ public class Liquid_O : MonoBehaviour
 
     public void FillLiquid()
     {
-        float gelFillAmount = fillAmount;   // Ã¤¿ì±â ±âº»°ªÀ» ÀúÀå
-        // °Ö ÇÃ¶ó½ºÅ©¶ó¸é
-        // TBE¶û ¾Æ°¡·Î½ºÀÇ ¾çÀÌ ¼­·Î ´Ù¸£°Ô ³ª¿Àµµ·Ï ÇÑ´Ù
+        float gelFillAmount = fillAmount;   // ì±„ìš°ê¸° ê¸°ë³¸ê°’ì„ ì €ìž¥
+        // ê²” í”Œë¼ìŠ¤í¬ë¼ë©´
+        // TBEëž‘ ì•„ê°€ë¡œìŠ¤ì˜ ì–‘ì´ ì„œë¡œ ë‹¤ë¥´ê²Œ ë‚˜ì˜¤ë„ë¡ í•œë‹¤
         if (flask.isGel)
         {
             if (flask.receiveddLiquids.Contains(TBE))
@@ -46,7 +46,7 @@ public class Liquid_O : MonoBehaviour
         }
 
         float newAmount = currentAmount + gelFillAmount;
-        Debug.LogWarning($"{gelFillAmount}¸¸Å­ Ã¤¿ü½À´Ï´Ù");
+        Debug.LogWarning($"{gelFillAmount}ë§Œí¼ ì±„ì› ìŠµë‹ˆë‹¤");
 
         if (newAmount > targetAmount)
         {
@@ -89,7 +89,7 @@ public class Liquid_O : MonoBehaviour
             StopCoroutine(ChangecolorCoroutine);
         }
         ChangecolorCoroutine = StartCoroutine(ChangeLiquidColor_co(targetColor, duration));
-        Debug.Log("»ö±ò¹Ù²Ù±â ÄÚ·çÆ¾ ½ÃÀÛ");
+        Debug.Log("ìƒ‰ê¹”ë°”ê¾¸ê¸° ì½”ë£¨í‹´ ì‹œìž‘");
     }
 
     private IEnumerator ChangeLiquidColor_co(Color targetColor, float duration)

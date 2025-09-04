@@ -17,7 +17,6 @@ public class C_Tray : MonoBehaviour, C_ExperimentTool
     private bool combineFailed = false;
     private bool isStirred = false;
     public bool IsWritable { get => isWritable; set => isWritable = value; }
-    
     void OnEnable()
     {
         C_ExperimentDataParser.I.DataParsed.AddListener(OnDataParsed);

@@ -19,6 +19,7 @@ public class C_PlayerSpeak : MonoBehaviour
     {
         if (interactionAction != null)
         {
+            
             interactionAction.action.Enable();
             interactionAction.action.performed += OnInteractionPressed;
         }

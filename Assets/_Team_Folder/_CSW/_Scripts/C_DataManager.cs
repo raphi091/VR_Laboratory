@@ -39,6 +39,7 @@ public class C_DataManager : Ch_BehaviourSingleton<C_DataManager>
         {
             string jsonData = File.ReadAllText(saveFilePath);
             gameData = JsonUtility.FromJson<GameData>(jsonData);
+            
             if (gameData == null)
             {
                 gameData = new GameData();

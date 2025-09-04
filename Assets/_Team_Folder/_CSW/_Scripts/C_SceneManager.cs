@@ -16,6 +16,7 @@ public class C_SceneManager : Ch_BehaviourSingleton<C_SceneManager>
     protected override void Awake()
     {
         base.Awake();
+        
         npc = FindObjectOfType<NpcController_G>();
     }
 

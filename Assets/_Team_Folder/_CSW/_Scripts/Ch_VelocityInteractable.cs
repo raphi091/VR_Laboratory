@@ -18,7 +18,6 @@ public class Ch_VelocityInteractable : XRGrabInteractable
         controllerVelocity = null;
         velocity = Vector3.zero;
     }
-
     public override void ProcessInteractable(XRInteractionUpdateOrder.UpdatePhase updatePhase)
     {
         base.ProcessInteractable(updatePhase);

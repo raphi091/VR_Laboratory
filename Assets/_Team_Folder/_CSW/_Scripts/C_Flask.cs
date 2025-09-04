@@ -34,6 +34,7 @@ public class C_Flask : MonoBehaviour, C_ExperimentTool
         {
             if (IsWritable)
             {
+                
                 ImportLiquidData(e.fromTool.ExportLiquidDatas());
                 if (e.fromTool.ToolType == ToolType.Pippet)
                 {

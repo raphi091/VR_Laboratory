@@ -5,19 +5,19 @@ using UnityEngine.Events;
 
 public class TubeEvent : MonoBehaviour
 {
-    [Header("ÀÌº¥Æ®")]
+    [Header("ì´ë²¤íŠ¸")]
     public UnityEvent PourintoTray;
 
-    [Header("ÇÊ¿äÇÑ ¿ÀºêÁ§Æ®")]
+    [Header("í•„ìš”í•œ ì˜¤ë¸Œì íŠ¸")]
     public Transform gelTray;
 
-    [Header("ÆÄÆ¼Å¬")]
+    [Header("íŒŒí‹°í´")]
     public GameObject ParticleObj;
     public ParticleSystem particle;
     public Transform childParticle;
     public Material mat;
 
-    [Header("¼öÄ¡")]
+    [Header("ìˆ˜ì¹˜")]
     public float MinThreshold = 120f;
     public float MaxThreshold = 240f;
     public float fillValue;
@@ -31,7 +31,7 @@ public class TubeEvent : MonoBehaviour
 
         if (mat == null)
         {
-            Debug.Log("¸ÓÅÍ¸®¾ó Ã£À» ¼ö ¾øÀ½");
+            Debug.Log("ë¨¸í„°ë¦¬ì–¼ ì°¾ì„ ìˆ˜ ì—†ìŒ");
         }
 
         ParticleObj = transform.Find("WaterPoint").GetChild(0).gameObject;

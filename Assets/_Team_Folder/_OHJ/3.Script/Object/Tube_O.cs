@@ -12,7 +12,7 @@ public class Tube_O : MonoBehaviour
     public ParticleSystem particle;
     public Transform childParticle;
 
-    [Header("Tray ±¸Á¶")]
+    [Header("Tray êµ¬ì¡°")]
     public Transform gelTray;
     public GameObject Dam;
     public GameObject gelLiquid;
@@ -39,19 +39,19 @@ public class Tube_O : MonoBehaviour
 
         if(mat == null)
         {
-            Debug.Log("¸ÓÅÍ¸®¾óÀÌ ¾ø½À´Ï´Ù");
+            Debug.Log("ë¨¸í„°ë¦¬ì–¼ì´ ì—†ìŠµë‹ˆë‹¤");
         }
 
         if(fill == null)
         {
-            Debug.Log("fillÀÌ ¾ø½À´Ï´Ù");
+            Debug.Log("fillì´ ì—†ìŠµë‹ˆë‹¤");
         }
 
         ParticleObj = transform.Find("WaterPoint").GetChild(0).gameObject;
         ParticleObj.TryGetComponent(out particle);
         childParticle = ParticleObj.transform.GetChild(0);
 
-        // Rigidbody Á¢±Ù
+        // Rigidbody ì ‘ê·¼
         gel_rb = gelSolid.GetComponent<Rigidbody>();
         tray_rb = gelTray.GetComponent<Rigidbody>();
     }
@@ -62,7 +62,7 @@ public class Tube_O : MonoBehaviour
 
     private void OnEnable()
     {
-        // ÀÌº¥Æ® µî·Ï
+        // ì´ë²¤íŠ¸ ë“±ë¡
         if (gelGrabinteractable != null)
         {
             gelGrabinteractable.selectEntered.AddListener(OnGelGrabbed);
@@ -78,7 +78,7 @@ public class Tube_O : MonoBehaviour
 
     private void OnDisable()
     {
-        // ÀÌº¥Æ® µî·Ï ÇØÁ¦
+        // ì´ë²¤íŠ¸ ë“±ë¡ í•´ì œ
         if (gelGrabinteractable != null)
         {
             gelGrabinteractable.selectEntered.RemoveListener(OnGelGrabbed);
@@ -98,7 +98,7 @@ public class Tube_O : MonoBehaviour
         {
             float angle = transform.rotation.eulerAngles.z;
 
-            // ÀÏÁ¤ °¢µµ µµ´Ş ½Ã º×±â
+            // ì¼ì • ê°ë„ ë„ë‹¬ ì‹œ ë¶“ê¸°
             if ((angle > MinThreshold && angle < MaxThreshold) || (angle < -MinThreshold && angle > -MaxThreshold))
             {
                 isPour = true;
@@ -142,7 +142,7 @@ public class Tube_O : MonoBehaviour
 
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                 {
-                    Debug.Log($"{hit.transform.name}ÀÌ ÂïÇû½À´Ï´Ù.");
+                    Debug.Log($"{hit.transform.name}ì´ ì°í˜”ìŠµë‹ˆë‹¤.");
                     if (hit.transform == gelTray)
                     {
                         parseEventArgs.fromTool = this.GetComponent<C_ExperimentTool>();
@@ -169,7 +169,7 @@ public class Tube_O : MonoBehaviour
         }
     }
 
-    // º×±â ¸ØÃß±â
+    // ë¶“ê¸° ë©ˆì¶”ê¸°
     private void StopPouring()
     {
         isPour = false;
@@ -190,14 +190,14 @@ public class Tube_O : MonoBehaviour
             particle.Stop();
         }
 
-        // °¡µæ Ã¤¿öÁ³´Ù¸é ±»±â ½ÃÀÛ
+        // ê°€ë“ ì±„ì›Œì¡Œë‹¤ë©´ êµ³ê¸° ì‹œì‘
         if(fill.isfull)
         {
             StartCoroutine(Harden_co());
         }
     }
 
-    // ±»±â
+    // êµ³ê¸°
     private IEnumerator Harden_co()
     {
         yield return new WaitForSeconds(1f);
@@ -210,7 +210,7 @@ public class Tube_O : MonoBehaviour
         if(!gelSolid.activeInHierarchy)
         {
             gelSolid.SetActive(true);
-            Dam.GetComponent<Ch_VelocityInteractable>().enabled = true;    // Dam grab È°¼ºÈ­
+            Dam.GetComponent<XRGrabInteractable>().enabled = true;    // Dam grab í™œì„±í™”
         }
     }
 
@@ -220,7 +220,7 @@ public class Tube_O : MonoBehaviour
         {
             gel_rb.isKinematic = true;
             gel_rb.useGravity = false;
-            Debug.Log("gel Àâ±â");
+            Debug.Log("gel ì¡ê¸°");
         }
     }
     
@@ -228,7 +228,7 @@ public class Tube_O : MonoBehaviour
     {
         gel_rb.isKinematic = false;
         gel_rb.useGravity = true;
-        Debug.Log("gel ³õÀ½");
+        Debug.Log("gel ë†“ìŒ");
     }
 
     private void OnTrayGrabbed(SelectEnterEventArgs args)
@@ -237,10 +237,10 @@ public class Tube_O : MonoBehaviour
         {
             if(gelSolid.activeInHierarchy)
             {
-                //ºÎ¸ğ·Î ºÎÅÍ ºĞ¸®
+                //ë¶€ëª¨ë¡œ ë¶€í„° ë¶„ë¦¬
                 Dam.transform.SetParent(null);
                 gelSolid.transform.SetParent(null);
-                Debug.Log("Tray ÀâÀ» ½Ã ºĞ¸®µË´Ï´Ù");
+                Debug.Log("Tray ì¡ì„ ì‹œ ë¶„ë¦¬ë©ë‹ˆë‹¤");
 
             }
         }
@@ -250,7 +250,8 @@ public class Tube_O : MonoBehaviour
     {
         if (tray_rb != null)
         {
-            Debug.Log("³õÀ½");
+            tray_rb.isKinematic = false;
+            Debug.Log("ë†“ìŒ");
         }
     }
 }

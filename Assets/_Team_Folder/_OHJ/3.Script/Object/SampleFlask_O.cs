@@ -5,22 +5,22 @@ using UnityEngine;
 
 public class SampleFlask_O : MonoBehaviour
 {
-    [Header("¾×Ã¼ ´ã±â")]
-    public List<LiquidData_L> receiveddLiquids = new List<LiquidData_L>();  //¹ŞÀº ¾×Ã¼
+    [Header("ì•¡ì²´ ë‹´ê¸°")]
+    public List<LiquidData_L> receiveddLiquids = new List<LiquidData_L>();  //ë°›ì€ ì•¡ì²´
 
-    [Header("¿°»ö¾à ³Ö±â")]
-    public LiquidData_L Dye;    // ¿°»ö¾à
+    [Header("ì—¼ìƒ‰ì•½ ë„£ê¸°")]
+    public LiquidData_L Dye;    // ì—¼ìƒ‰ì•½
     public LiquidData_L DNA_DYE;
     public LiquidData_L SYBR_DYE;
-    public bool ispossibleMix = false;  //¿°»ö¾à ¼¯±â °¡´É ¿©ºÎ
-    public bool isFillSample = false; // »ùÇÃ Ã¤¿ì±â °¡´É ¿©ºÎ
-    public bool ispossiblePour = false; // º×±â °¡´É ¿©ºÎ
-    public bool isAddsuccess;  // ¾×Ã¼ Ãß°¡ ¼º°ø ¿©ºÎ
+    public bool ispossibleMix = false;  //ì—¼ìƒ‰ì•½ ì„ê¸° ê°€ëŠ¥ ì—¬ë¶€
+    public bool isFillSample = false; // ìƒ˜í”Œ ì±„ìš°ê¸° ê°€ëŠ¥ ì—¬ë¶€
+    public bool ispossiblePour = false; // ë¶“ê¸° ê°€ëŠ¥ ì—¬ë¶€
+    public bool isAddsuccess;  // ì•¡ì²´ ì¶”ê°€ ì„±ê³µ ì—¬ë¶€
 
-    [Header("ÇÃ¶ó½ºÅ© ¿©ºÎ")]
-    public bool isGel;  //°ÖÀÌ µç ÇÃ¶ó½ºÅ©ÀÎ°¡?
+    [Header("í”Œë¼ìŠ¤í¬ ì—¬ë¶€")]
+    public bool isGel;  //ê²”ì´ ë“  í”Œë¼ìŠ¤í¬ì¸ê°€?
 
-    [Header("½Ã°¢ UI")]
+    [Header("ì‹œê° UI")]
     public DynamicInfoUI_G infoPanel;
 
     private void Start()
@@ -37,67 +37,67 @@ public class SampleFlask_O : MonoBehaviour
         {
             var liquid = liquids[i];
 
-            //°Ö ÇÃ¶ó½ºÅ©¶ó¸é
+            //ê²” í”Œë¼ìŠ¤í¬ë¼ë©´
             if(isGel)
             {
                 if(liquid.type != PourableType.Agar && liquid != SYBR_DYE)
                 {
-                    Debug.LogWarning("°Ö ÇÃ¶ó½ºÅ©¿¡´Â ³ÖÀ» ¼ö ¾ø½À´Ï´Ù");
+                    Debug.LogWarning("ê²” í”Œë¼ìŠ¤í¬ì—ëŠ” ë„£ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤");
                     liquids.RemoveAt(i);
                     continue;
                 }
             }
 
-            //»ùÇÃÇÃ¶ó½ºÅ©
+            //ìƒ˜í”Œí”Œë¼ìŠ¤í¬
             else
             {
                 if(liquid.type == PourableType.Agar || liquid == SYBR_DYE)
                 {
-                    Debug.LogWarning("»ùÇÃ ÇÃ¶ó½ºÅ©¿¡´Â ³ÖÀ» ¼ö ¾ø½À´Ï´Ù.");
+                    Debug.LogWarning("ìƒ˜í”Œ í”Œë¼ìŠ¤í¬ì—ëŠ” ë„£ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                     liquids.RemoveAt(i);
                     continue;
                 }
             }
 
-            //Áßº¹ ºÒ°¡´É
+            //ì¤‘ë³µ ë¶ˆê°€ëŠ¥
             if(receiveddLiquids.Contains(liquid))
             {
-                Debug.LogWarning($"Áßº¹µÈ ¾×Ã¼ÀÔ´Ï´Ù. {liquid.name}Àº ÀÌ¹Ì ÀÖ½À´Ï´Ù");
+                Debug.LogWarning($"ì¤‘ë³µëœ ì•¡ì²´ì…ë‹ˆë‹¤. {liquid.name}ì€ ì´ë¯¸ ìˆìŠµë‹ˆë‹¤");
                 liquids.RemoveAt(i);
                 continue;
             }
 
-            // DNA Å¸ÀÔÀº ÇÏ³ª¸¸ Çã¿ë
+            // DNA íƒ€ì…ì€ í•˜ë‚˜ë§Œ í—ˆìš©
             if(liquid.type == PourableType.DNA && receiveddLiquids.Any(ld => ld.type == PourableType.DNA))
             {
-                Debug.LogWarning("DNA´Â ÇÑ Á¾·ù¸¸ ³ÖÀ» ¼ö ÀÖ½À´Ï´Ù");
+                Debug.LogWarning("DNAëŠ” í•œ ì¢…ë¥˜ë§Œ ë„£ì„ ìˆ˜ ìˆìŠµë‹ˆë‹¤");
                 liquids.RemoveAt(i);
                 continue;
             }
 
-            // À¯È¿ÇÑ ¾×Ã¼
+            // ìœ íš¨í•œ ì•¡ì²´
             receiveddLiquids.Add(liquid);
             isAddsuccess = true;
             UpdateInfoPanel();
-            Debug.Log($"{liquid.name} ÇÃ¶ó½ºÅ©¿¡ Ãß°¡");
+            Debug.Log($"{liquid.name} í”Œë¼ìŠ¤í¬ì— ì¶”ê°€");
 
             i++;
         }
 
-        // ¸ğµç ¾×Ã¼ ´Ù ³Ö¾ú´ÂÁö °³¼ö·Î ÆÇº°?
-        //»ùÇÃ ÇÃ¶ó½ºÅ© => ¿°»ö¾à ¼¯±â °¡´É
+        // ëª¨ë“  ì•¡ì²´ ë‹¤ ë„£ì—ˆëŠ”ì§€ ê°œìˆ˜ë¡œ íŒë³„?
+        //ìƒ˜í”Œ í”Œë¼ìŠ¤í¬ => ì—¼ìƒ‰ì•½ ì„ê¸° ê°€ëŠ¥
         if(!isGel && receiveddLiquids.Count >= 6)
         {
             ispossibleMix = true;
-            Debug.Log("»ùÇÃ ÇÃ¶ó½ºÅ©¿¡ ¿°»ö¾àÀ» ¼¯À» ¼ö ÀÖ½À´Ï´Ù.");
+            Debug.Log("ìƒ˜í”Œ í”Œë¼ìŠ¤í¬ì— ì—¼ìƒ‰ì•½ì„ ì„ì„ ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
         }
 
-        // °Ö ÇÃ¶ó½ºÅ© => º×±â, ¿°»ö¾à ¼¯±â °¡´É
+        // ê²” í”Œë¼ìŠ¤í¬ => ë¶“ê¸°, ì—¼ìƒ‰ì•½ ì„ê¸° ê°€ëŠ¥
         else if(isGel && receiveddLiquids.Count >= 2)
         {
             ispossibleMix = true;
             ispossiblePour = true;
-            Debug.Log("ÀÌÁ¦ ¿°»ö¾à ¼¯±â¶û º×±â°¡ °¡´ÉÇÕ´Ï´Ù");
+            Debug.Log("ì´ì œ ì—¼ìƒ‰ì•½ ì„ê¸°ë‘ ë¶“ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤");
         }
 
         else
@@ -122,7 +122,7 @@ public class SampleFlask_O : MonoBehaviour
         }
         else
         {
-            contentList = "¾øÀ½";
+            contentList = "ì—†ìŒ";
         }
 
         infoPanel.UpdateInfo(contentList);

@@ -48,7 +48,7 @@ MonoBehaviour:
     CompletionKeywords: []
   - Type: 1
     LocationID: 
-    Instruction: "LB \uD30C\uC6B0\uB354\uC640 \uCD08\uC21C\uC218\uB97C \uD50C\uB77C\uC2A4\uD06C\uC5D0
+    Instruction: "LB \uD30C\uC6B0\uB354\uC640 \uC99D\uB958\uC218\uB97C \uD50C\uB77C\uC2A4\uD06C\uC5D0
       \uBD80\uC5B4\uC11C \uCC44\uC6B4 \uD6C4 \uD754\uB4E4\uC5B4\uBCF4\uC138\uC694.
       \uD50C\uB77C\uC2A4\uD06C \uBA38\uB9AC\uC5D0 \uC740\uBC15\uC9C0\uAC00 \uC50C\uC6CC\uC9C0\uBA74
       \uC131\uACF5\uC785\uB2C8\uB2E4."
@@ -178,7 +178,7 @@ MonoBehaviour:
     CompletionKeywords: []
   - Type: 1
     LocationID: 
-    Instruction: "\uACE0\uCCB4 \uBC30\uC9C0\uB294 \uCD08\uC21C\uC218, LB \uD30C\uC6B0\uB354\uC640
+    Instruction: "\uACE0\uCCB4 \uBC30\uC9C0\uB294 \uC99D\uB958\uC218, LB \uD30C\uC6B0\uB354\uC640
       agar\uB97C \uC11E\uC5B4\uC11C \uB9CC\uB4ED\uB2C8\uB2E4."
     CompletionKeywords: []
   - Type: 2

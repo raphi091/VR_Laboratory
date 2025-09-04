@@ -43,7 +43,6 @@ public class C_Pipette : MonoBehaviour, C_ExperimentTool
     {
         this.liquidDatas.AddRange(liquidDatas);
     }
-
     public List<LiquidData_L> ExportLiquidDatas()
     {
         return liquidDatas;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ÀÌº¥Æ® ±¸µ¶ÀÚ
+// ì´ë²¤íŠ¸ êµ¬ë…ì
 public class FillEvent : MonoBehaviour
 {
     public float filling = 0.1f;
@@ -16,7 +16,7 @@ public class FillEvent : MonoBehaviour
 
     private void StartFilling()
     {
-        StopAllCoroutines();    // Áßº¹Á¦°Å
+        StopAllCoroutines();    // ì¤‘ë³µì œê±°
         StartCoroutine(Fill_co());
     }
 

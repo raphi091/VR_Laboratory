@@ -9,6 +9,7 @@ public class C_Gloves : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Hand"))
         {
+            
             other.GetComponent<Renderer>().material = glovesMaterial;
         }
     }
