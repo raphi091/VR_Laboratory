@@ -8733,6 +8733,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 8338893339748640785, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 3178894849265022996, guid: 2ffacf3a0235beb4f804909925212e85, type: 2}
     - target: {fileID: 9006111523539892052, guid: 1ce078e15af9a474e892aa3a478f972f, type: 3}
       propertyPath: m_AgentTypeID
       value: -1372625422
