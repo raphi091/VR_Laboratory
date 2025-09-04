@@ -28,9 +28,7 @@ public class SoundUI_Timer : MonoBehaviour
         {
             if (input.XRIUI.enabled) return;
 
-            input.XRILeftHand.Disable();
-            input.XRILeftHandInteraction.Disable();
-            input.XRILeftHandLocomotion.Disable();
+            InputSystem_G.instence.SetLocomotionEnabled(false);
             input.XRIUI.Enable();
 
             SetSelectedUIElement(slider);
@@ -41,11 +39,7 @@ public class SoundUI_Timer : MonoBehaviour
     {
         if (other.CompareTag("Right_Hand") || other.CompareTag("Left_Hand"))
         {
-            if (!input.XRIUI.enabled) return;
-
-            input.XRILeftHand.Disable();
-            input.XRILeftHandInteraction.Disable();
-            input.XRILeftHandLocomotion.Disable();
+            InputSystem_G.instence.SetLocomotionEnabled(true);
             input.XRIUI.Disable();
         }
     }
