@@ -120,27 +120,26 @@ public class VoiceConversationManager_G : MonoBehaviour
 
     private async System.Threading.Tasks.Task LoadApiKeyAsync()
     {
-        string path = System.IO.Path.Combine(Application.streamingAssetsPath, "secrets.json");
+        string path = System.IO.Path.Combine(Application.persistentDataPath, "secrets.json");
 
-        using (UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get(path))
+        if (!System.IO.File.Exists(path))
         {
-            var operation = www.SendWebRequest();
-            while (!operation.isDone)
-            {
-                await System.Threading.Tasks.Task.Yield();
-            }
+            await System.IO.File.WriteAllTextAsync(path, "{}"); 
+            Debug.Log($"비어있는 secrets.json 파일을 생성했습니다. 이 파일에 API 키를 직접 입력해주세요. 경로: {path}");
+        }
 
-            if (www.result == UnityEngine.Networking.UnityWebRequest.Result.Success)
-            {
-                string json = www.downloadHandler.text;
-                Secrets_VCM secrets = JsonConvert.DeserializeObject<Secrets_VCM>(json);
-                apiKey = secrets.apiKey;
-                Debug.Log("secrets.json 파일 로드 및 API 키 설정 완료!");
-            }
-            else
-            {
-                Debug.LogError($"secrets.json 파일 로드 실패: {www.error}");
-            }
+        string json = await System.IO.File.ReadAllTextAsync(path);
+        Secrets_VCM secrets = JsonConvert.DeserializeObject<Secrets_VCM>(json);
+
+        if (secrets == null || string.IsNullOrEmpty(secrets.apiKey))
+        {
+            Debug.LogWarning($"API 키가 비어있습니다. 생성된 secrets.json 파일에 API 키를 직접 입력해야 합니다. 경로: {path}");
+            apiKey = "";
+        }
+        else
+        {
+            apiKey = secrets.apiKey;
+            Debug.Log("API 키 로드 성공!");
         }
     }
 
