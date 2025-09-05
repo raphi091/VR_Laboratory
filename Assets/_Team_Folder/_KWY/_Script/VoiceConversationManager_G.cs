@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
 using Oculus.Voice;
@@ -120,15 +121,15 @@ public class VoiceConversationManager_G : MonoBehaviour
 
     private async System.Threading.Tasks.Task LoadApiKeyAsync()
     {
-        string path = System.IO.Path.Combine(Application.persistentDataPath, "secrets.json");
+        string path = Path.Combine(Application.persistentDataPath, "secrets.json");
 
-        if (!System.IO.File.Exists(path))
+        if (!File.Exists(path))
         {
-            await System.IO.File.WriteAllTextAsync(path, "{}"); 
+            await File.WriteAllTextAsync(path, "{}"); 
             Debug.Log($"비어있는 secrets.json 파일을 생성했습니다. 이 파일에 API 키를 직접 입력해주세요. 경로: {path}");
         }
 
-        string json = await System.IO.File.ReadAllTextAsync(path);
+        string json = await File.ReadAllTextAsync(path);
         Secrets_VCM secrets = JsonConvert.DeserializeObject<Secrets_VCM>(json);
 
         if (secrets == null || string.IsNullOrEmpty(secrets.apiKey))
