@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 7624750207993434719}
   - component: {fileID: 827416706100399618}
   - component: {fileID: 6362715371443800953}
-  - component: {fileID: 7247503997100337321}
+  - component: {fileID: 6693332727785660390}
   m_Layer: 0
   m_Name: LB Powder
   m_TagString: Untagged
@@ -223,7 +223,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 7247503997100337321}
+      - m_Target: {fileID: 6693332727785660390}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
@@ -250,7 +250,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7247503997100337321}
+      - m_Target: {fileID: 6693332727785660390}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
@@ -406,7 +406,7 @@ MonoBehaviour:
   objectName: "LB \uD30C\uC6B0\uB354"
   objectDescription: "\uBBF8\uC0DD\uBB3C \uC131\uC7A5 \uBC30\uC9C0(LB \uBC30\uC9C0)\uB97C
     \uC81C\uC870\uD558\uAE30 \uC704\uD55C\n\uBD84\uB9D0 \uD615\uD0DC\uC758 \uC2DC\uC57D\uC785\uB2C8\uB2E4."
---- !u!114 &7247503997100337321
+--- !u!114 &6693332727785660390
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -415,7 +415,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5414917661073236721}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 41c487f02a3e7414f94cf5de6998133a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0

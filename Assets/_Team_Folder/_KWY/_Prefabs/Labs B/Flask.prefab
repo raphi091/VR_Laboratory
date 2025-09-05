@@ -16,8 +16,7 @@ GameObject:
   - component: {fileID: 3732978302333287458}
   - component: {fileID: 5766239956403681040}
   - component: {fileID: 6912547543950403285}
-  - component: {fileID: 5985461937525890487}
-  - component: {fileID: 7097238597726258031}
+  - component: {fileID: 4501514786919888457}
   m_Layer: 0
   m_Name: Flask
   m_TagString: ExperimentSample
@@ -195,7 +194,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 5985461937525890487}
+      - m_Target: {fileID: 4501514786919888457}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
@@ -222,7 +221,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5985461937525890487}
+      - m_Target: {fileID: 4501514786919888457}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
@@ -423,7 +422,7 @@ MonoBehaviour:
   objectDescription: "\uC6A9\uC561\uC744 \uD63C\uD569\uD558\uAC70\uB098, \uAC00\uC5F4,
     \uC99D\uBC1C, \uB0C9\uAC01\uD558\uB294 \uB4F1\n\uB2E4\uC591\uD55C \uC2E4\uD5D8\uC5D0
     \uC0AC\uC6A9\uB429\uB2C8\uB2E4."
---- !u!114 &5985461937525890487
+--- !u!114 &4501514786919888457
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -432,7 +431,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2486323805737695547}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 41c487f02a3e7414f94cf5de6998133a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
@@ -441,19 +440,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!114 &7097238597726258031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2486323805737695547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd136c66d90de89468dcfb0c378f8cfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemType: 4
 --- !u!1 &2786747689886962897
 GameObject:
   m_ObjectHideFlags: 0
