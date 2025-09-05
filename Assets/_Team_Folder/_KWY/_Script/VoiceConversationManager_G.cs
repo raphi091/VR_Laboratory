@@ -106,28 +106,28 @@ public class VoiceConversationManager_G : MonoBehaviour
         if (!TryGetComponent(out appVoiceExperience))
         Debug.LogWarning("VoiceConversationManager_G ] AppVoiceExperience 없음");
 
-    string path = System.IO.Path.Combine(Application.persistentDataPath, "secrets.json");
+        string path = System.IO.Path.Combine(Application.persistentDataPath, "secrets.json");
 
-    if (!System.IO.File.Exists(path))
-    {
-        System.IO.File.WriteAllText(path, "{}");
-        Debug.Log($"비어있는 secrets.json 파일을 생성했습니다. 경로: {path}");
-    }
+        if (!System.IO.File.Exists(path))
+        {
+            System.IO.File.WriteAllText(path, "{}");
+            Debug.Log($"비어있는 secrets.json 파일을 생성했습니다. 경로: {path}");
+        }
 
-    string json = System.IO.File.ReadAllText(path);
-    Secrets_VCM secrets = JsonConvert.DeserializeObject<Secrets_VCM>(json);
+        string json = System.IO.File.ReadAllText(path);
+        Secrets_VCM secrets = JsonConvert.DeserializeObject<Secrets_VCM>(json);
 
-    if (secrets == null || string.IsNullOrEmpty(secrets.apiKey))
-    {
-        Debug.LogWarning($"API 키가 비어있습니다. 생성된 secrets.json 파일에 키를 직접 입력해야 합니다. 경로: {path}");
-        return; 
-    }
+        if (secrets == null || string.IsNullOrEmpty(secrets.apiKey))
+        {
+            Debug.LogWarning($"API 키가 비어있습니다. 생성된 secrets.json 파일에 키를 직접 입력해야 합니다. 경로: {path}");
+            return; 
+        }
     
-    apiKey = secrets.apiKey;
-    Debug.Log("API 키 로드 성공!");
-    
-    httpClient = new HttpClient { Timeout = System.TimeSpan.FromMinutes(5) };
-    SetupInitialPrompt();
+        apiKey = secrets.apiKey;
+        Debug.Log("API 키 로드 성공!");
+        
+        httpClient = new HttpClient { Timeout = System.TimeSpan.FromMinutes(5) };
+        SetupInitialPrompt();
     }
 
     private void OnEnable()
