@@ -101,47 +101,33 @@ public class VoiceConversationManager_G : MonoBehaviour
     private CancellationTokenSource cancellationTokenSource;
 
     #region Unity Lifecycle
-    private async void Awake()
+    private void Awake()
     {
         if (!TryGetComponent(out appVoiceExperience))
-            Debug.LogWarning("VoiceConversationManager_G ] AppVoiceExperience 없음");
+        Debug.LogWarning("VoiceConversationManager_G ] AppVoiceExperience 없음");
 
-        await LoadApiKeyAsync();
+    string path = System.IO.Path.Combine(Application.persistentDataPath, "secrets.json");
 
-        if (!string.IsNullOrEmpty(apiKey))
-        {
-            httpClient = new HttpClient { Timeout = System.TimeSpan.FromMinutes(5) };
-            SetupInitialPrompt();
-        }
-        else
-        {
-            Debug.LogError("API 키 로드에 실패했습니다! secrets.json 파일이 StreamingAssets 폴더에 있는지, 내용은 올바른지 확인하세요.");
-        }
+    if (!System.IO.File.Exists(path))
+    {
+        System.IO.File.WriteAllText(path, "{}");
+        Debug.Log($"비어있는 secrets.json 파일을 생성했습니다. 경로: {path}");
     }
 
-    private async System.Threading.Tasks.Task LoadApiKeyAsync()
+    string json = System.IO.File.ReadAllText(path);
+    Secrets_VCM secrets = JsonConvert.DeserializeObject<Secrets_VCM>(json);
+
+    if (secrets == null || string.IsNullOrEmpty(secrets.apiKey))
     {
-        string path = Path.Combine(Application.persistentDataPath, "secrets.json");
-
-        if (!File.Exists(path))
-        {
-            await File.WriteAllTextAsync(path, "{}"); 
-            Debug.Log($"비어있는 secrets.json 파일을 생성했습니다. 이 파일에 API 키를 직접 입력해주세요. 경로: {path}");
-        }
-
-        string json = await File.ReadAllTextAsync(path);
-        Secrets_VCM secrets = JsonConvert.DeserializeObject<Secrets_VCM>(json);
-
-        if (secrets == null || string.IsNullOrEmpty(secrets.apiKey))
-        {
-            Debug.LogWarning($"API 키가 비어있습니다. 생성된 secrets.json 파일에 API 키를 직접 입력해야 합니다. 경로: {path}");
-            apiKey = "";
-        }
-        else
-        {
-            apiKey = secrets.apiKey;
-            Debug.Log("API 키 로드 성공!");
-        }
+        Debug.LogWarning($"API 키가 비어있습니다. 생성된 secrets.json 파일에 키를 직접 입력해야 합니다. 경로: {path}");
+        return; 
+    }
+    
+    apiKey = secrets.apiKey;
+    Debug.Log("API 키 로드 성공!");
+    
+    httpClient = new HttpClient { Timeout = System.TimeSpan.FromMinutes(5) };
+    SetupInitialPrompt();
     }
 
     private void OnEnable()
