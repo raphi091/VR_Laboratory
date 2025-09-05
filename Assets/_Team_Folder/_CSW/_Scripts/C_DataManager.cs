@@ -7,7 +7,6 @@ public class GameData
 {
     public bool IsTutorialCompleted;
     public bool IsCulturingOvernight;
-    public ExperimentData_G currentExperimentData;
     
     public GameData()
     {

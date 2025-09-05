@@ -42,8 +42,11 @@ public class C_SceneManager : Ch_BehaviourSingleton<C_SceneManager>
         }
     }
     
-    void OnApplicationQuit()
+    private void OnApplicationPause(bool pauseStatus)
     {
-        C_DataManager.I.SaveGameData();
+        if (pauseStatus)
+        {
+            C_DataManager.I.SaveGameData();
+        }
     }
 }
