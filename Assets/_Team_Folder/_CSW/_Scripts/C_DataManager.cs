@@ -5,9 +5,10 @@ using UnityEngine;
 [Serializable]
 public class GameData
 {
-    public bool IsTutorialCompleted { get; set; }
-    public bool IsCulturingOvernight { get; set; }
+    public bool IsTutorialCompleted;
+    public bool IsCulturingOvernight;
     public ExperimentData_G currentExperimentData;
+    
     public GameData()
     {
         IsTutorialCompleted = false;
@@ -22,8 +23,8 @@ public class C_DataManager : Ch_BehaviourSingleton<C_DataManager>
         return true;
     }
 
-    [Header("GameData")]
-    public GameData gameData=new GameData();
+    [Header("GameData")] 
+    public GameData gameData;
     
     private string saveFilePath;
 
